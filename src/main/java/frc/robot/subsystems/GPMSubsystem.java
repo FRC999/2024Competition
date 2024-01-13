@@ -4,17 +4,33 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+
+
 
 public class GPMSubsystem extends SubsystemBase {
   /** Creates a new GPMSubsystem. */
-  private WPI_TalonSRX intakeMotor;
-  private WPI_TalonSRX leftArm;
-  private WPI_TalonSRX rightArm;
+  private PWMTalonSRX intakeMotor;
+  private PWMTalonSRX leftArm;
+  private PWMTalonSRX rightArm;
 
   public GPMSubsystem() {
-
+    intakeMotor = new PWMTalonSRX;
+    leftArm = new PWMTalonSRX;
+    rightArm = new PWMTalonSRX;
+        
+    intakeMotor.setNeutralMode(NeutralMode.Brake);
+    leftArm.setNeutralMode(NeutralMode.Brake);
+    leftArm.configOpenloopRamp(0.25);
+    rightArm.setNeutralMode(NeutralMode.Brake);
+    rightArm.configOpenloopRamp(0.25);
   }
+
+
 
   @Override
   public void periodic() {
