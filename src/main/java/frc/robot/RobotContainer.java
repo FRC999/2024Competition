@@ -9,6 +9,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.GPMSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
 import frc.robot.subsystems.SmartDashboardSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,8 +26,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final DriveSubsystem driveSubsystem = new DriveSubsystem();
-  public final IMUSubsystem imuSubsystem = new IMUSubsystem();
+  public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
+  public final GPMSubsystem gpmSubsystem = new GPMSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -38,6 +40,7 @@ public class RobotContainer {
     configureBindings();
   }
 
+  
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
