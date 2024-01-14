@@ -13,7 +13,7 @@ import frc.robot.RobotContainer;
 
 public class IMUSubsystem extends SubsystemBase {
 
-  private static WPI_Pigeon2 imu;
+  private static WPIPigeon2 pigeon2;
 
   private double trajectoryAdjustmentIMU; // This is the value we need to adjust the IMU by after Trajectory
                                           // is completed
@@ -41,11 +41,12 @@ public class IMUSubsystem extends SubsystemBase {
      * IMUInterface
      */
     
-      imu = new WPI_Pigeon2(Constants.IMUConstants.PIGEON2_CHANNEL);   
+      imu = new IMUPigeon2();
+    
    
     }
 
-    imu.zeroYaw(); // TODO: At the start of game, robot must be pointed towards opposite team's side
+    imu.zeroYaw(); // TODO : At the start of game, robot must be pointed towards opposite team's side
                    // (This is our zero value). We do not know which side red/blue is on
 
   }
