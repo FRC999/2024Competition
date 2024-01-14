@@ -13,7 +13,7 @@ import frc.robot.RobotContainer;
 
 public class IMUSubsystem extends SubsystemBase {
 
-  private static WPIPigeon2 pigeon2;
+  private static WPI_Pigeon2 imu;
 
   private double trajectoryAdjustmentIMU; // This is the value we need to adjust the IMU by after Trajectory
                                           // is completed
@@ -41,12 +41,11 @@ public class IMUSubsystem extends SubsystemBase {
      * IMUInterface
      */
     
-      imu = new IMUPigeon2();
+      imu = new WPI_Pigeon2(Constants.IMUConstants.PIGEON2_CHANNEL);
     
-   
     }
 
-    imu.zeroYaw(); // TODO : At the start of game, robot must be pointed towards opposite team's side
+    imu.zeroGyroBiasNow(); // TODO : At the start of game, robot must be pointed towards opposite team's side
                    // (This is our zero value). We do not know which side red/blue is on
 
   }
@@ -67,8 +66,8 @@ public class IMUSubsystem extends SubsystemBase {
     return imu.getYaw();
   }
 
-  public Rotation2d getYawRotation2d() {
-    return imu.getYawRotation2d();
+  public Rotation2d getRotation2d() {
+    return imu.getRotation2d();
   }
 
   public void zeroYaw() {
@@ -87,9 +86,9 @@ public class IMUSubsystem extends SubsystemBase {
    * @param y - starting Yaw of the trajectory
    * @return - old value of the Yaw (we do not currently use it)
    */
-  public double setYawForTrajectory(double y) {
+  public void setYawForTrajectory(double y) {
     trajectoryAdjustmentIMU = RobotContainer.imuSubsystem.getYaw() - y;
-    return imu.setYaw(y);
+    imu.setYaw(y);
   }
 
   /**
@@ -101,12 +100,14 @@ public class IMUSubsystem extends SubsystemBase {
     imu.setYaw(RobotContainer.imuSubsystem.getYaw() + trajectoryAdjustmentIMU);
   }
 
+/*
   public double getTurnRate() {
     return imu.getTurnRate();
   }
+*/
 
-  public Rotation2d getHeading() {
-    return imu.getHeading();
+  public double getCompassHeading() {
+    return imu.getCompassHeading();
   }
 
 }

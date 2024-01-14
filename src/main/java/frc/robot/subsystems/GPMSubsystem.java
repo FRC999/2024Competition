@@ -19,15 +19,12 @@ import frc.robot.Constants;
 
 public class GPMSubsystem extends SubsystemBase {
   /** Creates a new GPMSubsystem. */
-  private PWMTalonSRX intakeMotor;
-  private PWMTalonSRX leftArm;
-  private PWMTalonSRX rightArm;
+  private WPI_TalonSRX intakeMotor;
+  private WPI_TalonSRX leftArm;
+  private WPI_TalonSRX rightArm;
   private Encoder armEncoder;
 
   public GPMSubsystem() {
-    intakeMotor = new PWMTalonSRX(Constants.GPMConstants.intakeArmMotorChannel);
-    leftArm = new PWMTalonSRX(Constants.GPMConstants.leftArmMotorChannel);
-    rightArm = new PWMTalonSRX(Constants.GPMConstants.rightArmMotorChannel);
     
     //TODO : fix errors on .configOpenloopRamp and .setNeutralMode
     //intakeMotor.setNeutralMode(NeutralMode.Brake);
