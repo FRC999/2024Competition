@@ -4,13 +4,16 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class IMUSubsystem extends SubsystemBase {
 
-  private static WPIPigeon2 pigeon2;
+  private static WPI_Pigeon2 imu;
 
   private double trajectoryAdjustmentIMU; // This is the value we need to adjust the IMU by after Trajectory
                                           // is completed
@@ -38,8 +41,7 @@ public class IMUSubsystem extends SubsystemBase {
      * IMUInterface
      */
     
-      imu = new IMUPigeon2();
-    
+      imu = new WPI_Pigeon2(Constants.IMUConstants.PIGEON2_CHANNEL);   
    
     }
 
@@ -68,12 +70,12 @@ public class IMUSubsystem extends SubsystemBase {
     return imu.getYawRotation2d();
   }
 
-  public double zeroYaw() {
-    return imu.zeroYaw();
+  public void zeroYaw() {
+    imu.setYaw(0);
   }
 
-  public double setYaw(double y) {
-    return imu.setYaw(y);
+  public void setYaw(double y) {
+    imu.setYaw(y);
   }
 
   /**

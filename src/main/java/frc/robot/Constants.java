@@ -18,6 +18,11 @@ public final class Constants {
   }
 
   public static class GPMConstants {
-    public static final int intakeArmChannel = 0;
+    public static final int INTAKE_MOTOR_CHANNEL = 0;
+    public static final int LEFT_ARM_CHANNEL = 0;
+    public static final int RIGHT_ARM_CHANNEL = 0;    
+  }
+  public static class IMUConstants {
+    public static final int PIGEON2_CHANNEL = 0;    
   }
 }
