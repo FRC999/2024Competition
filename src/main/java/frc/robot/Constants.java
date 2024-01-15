@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -21,6 +23,11 @@ public final class Constants {
     public static final int INTAKE_MOTOR_CHANNEL = 0;
     public static final int LEFT_ARM_CHANNEL = 0;
     public static final int RIGHT_ARM_CHANNEL = 0;    
+
+    public static final int SHOOTER_A_CHANNEL = 0;    
+    public static final int SHOOTER_B_CHANNEL = 0;
+
+    public static final int NOTE_DETECTION_CHANNEL = 0;
   }
   public static class IMUConstants {
     public static final int PIGEON2_CHANNEL = 0;    
