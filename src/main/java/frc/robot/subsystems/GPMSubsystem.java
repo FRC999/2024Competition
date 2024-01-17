@@ -9,6 +9,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkLimitSwitch;
+import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -16,50 +21,61 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants;
+
 
 
 public class GPMSubsystem extends SubsystemBase {
   /** Creates a new GPMSubsystem. */
-  private WPI_TalonSRX intakeMotor;
-  private WPI_TalonSRX leftArm;
-  private WPI_TalonSRX rightArm;
-  private AnalogEncoder armEncoder;
+  private WPI_TalonSRX intakeMotor; //TalonSRX
   
-  private WPI_VictorSPX shooterA;
-  private WPI_VictorSPX shooterB;
+  private CANSparkMax leftArm;  //NEOS
+  private CANSparkMax rightArm;
+  
+  private RelativeEncoder armEncoder;
+  
+  private CANSparkMax shooterA; //NEOS
+  private CANSparkMax shooterB;
 
-  private DigitalInput noteSensor;
+  private SparkLimitSwitch noteSensor;  //limit switch
 
   public GPMSubsystem() {
 
+    //create intake motor variables
+    intakeMotor = new WPI_TalonSRX(Constants.GPMConstants.INTAKE_MOTOR_CAN_ID);
+    
     //create arm motor variables
-    intakeMotor = new WPI_TalonSRX(Constants.GPMConstants.INTAKE_MOTOR_CHANNEL);
-    leftArm = new WPI_TalonSRX(Constants.GPMConstants.LEFT_ARM_CHANNEL);
-    rightArm = new WPI_TalonSRX(Constants.GPMConstants.RIGHT_ARM_CHANNEL);
+    leftArm = new CANSparkMax(Constants.GPMConstants.LEFT_ARM_CAN_ID, MotorType.kBrushless);
+    rightArm = new CANSparkMax(Constants.GPMConstants.RIGHT_ARM_CAN_ID, MotorType.kBrushless);
+    
     //create shooter motor variables
-    shooterA = new WPI_VictorSPX(Constants.GPMConstants.SHOOTER_A_CHANNEL);
-    shooterB = new WPI_VictorSPX(Constants.GPMConstants.SHOOTER_B_CHANNEL);
+    shooterA = new CANSparkMax(Constants.GPMConstants.SHOOTER_A_CAN_ID, MotorType.kBrushless);
+    shooterB = new CANSparkMax(Constants.GPMConstants.SHOOTER_B_CAN_ID, MotorType.kBrushless);
+
 
     //motor setups    
     intakeMotor.setNeutralMode(NeutralMode.Brake);
-    leftArm.setNeutralMode(NeutralMode.Brake);
-    leftArm.configOpenloopRamp(0.25);
-    rightArm.setNeutralMode(NeutralMode.Brake);
-    rightArm.configOpenloopRamp(0.25);
-  }
+    leftArm.setIdleMode(IdleMode.kBrake);
+    //leftArm.configOpenloopRamp(0.25);
+    rightArm.setIdleMode(IdleMode.kBrake);
+    //rightArm.configOpenloopRamp(0.25);
 
-  //TODO : figure out .getAbsolutePosition error for type Encoder
+    leftArm.setInverted(true); 
+    rightArm.setInverted(false); 
+    leftArm.follow(rightArm);
+
+    shooterB.follow(shooterA);
+  }
   
   public double getArmEnc() {
-    return this.armEncoder.getAbsolutePosition();
+    return this.armEncoder.getPosition();
   }
   
 
   public void armToPos(double pos) {
-    double Kp = -15.0;
+    double Kp = -0.57;
     double error = pos - this.getArmEnc();
     double power = Kp * error;
+    
     this.moveArm(power);
   }
 
@@ -73,8 +89,7 @@ public class GPMSubsystem extends SubsystemBase {
       power = -maxPower;
     }
 
-    this.leftArm.set(-power); //their motors are pointing in opposite directions
-    this.rightArm.set(-power);
+    this.rightArm.set(power); //their motors are pointing in opposite directions
 
   }
 
@@ -84,11 +99,10 @@ public class GPMSubsystem extends SubsystemBase {
 
   public void shootGamePiece(double power) {
     this.shooterA.set(-power);
-    this.shooterB.set(-power);
   }
 
   public void getNoteSensor() {
-    this.noteSensor.get();
+    this.noteSensor.isPressed();
   }
 
   @Override
