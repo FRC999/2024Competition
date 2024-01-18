@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -10,10 +11,11 @@ import frc.robot.Constants.SwerveChassis;
 import frc.robot.Constants.SwerveChassis.SwerveModuleConstantsEnum;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 
-public class SwerveModule {
+@SuppressWarnings( {"deprecation" , "removal"} )
+public class SwerveRobotModule {
 
-    private WPI_TalonSRX driveMotor;
-    private WPI_TalonSRX angleMotor;
+    private WPI_TalonFX driveMotor;
+    private WPI_TalonFX angleMotor;
 
     private int moduleNumber;
     private double angleOffset;
@@ -25,21 +27,18 @@ public class SwerveModule {
             Constants.SwerveChassis.DRIVE_KV, Constants.SwerveChassis.DRIVE_KA);
 
  
-    public SwerveModule(int moduleNumber, SwerveModuleConstantsEnum moduleConstants) {
+    public SwerveRobotModule(int moduleNumber, SwerveModuleConstantsEnum moduleConstants) {
         this.moduleNumber = moduleNumber;
         angleOffset = moduleConstants.getAngleOffset();
 
-        driveMotor = new TalonSRXMotor(moduleConstants.getDriveMotorID());
-        angleMotor = new TalonSRXMotor(moduleConstants.getAngleMotorID());
+        driveMotor = new WPI_TalonFX(moduleConstants.getDriveMotorID());
+        angleMotor = new WPI_TalonFX(moduleConstants.getAngleMotorID());
 
         driveMotor.configureDriveMotor(moduleConstants);
         angleMotor.configureAngleMotor(moduleConstants);
 
         lastAngle = getState().angle.getDegrees();
     }
-
-   
-    
 
     public SwerveModuleState getState() {
         double velocity = driveMotor.getDriveEncoderVelocitySI();

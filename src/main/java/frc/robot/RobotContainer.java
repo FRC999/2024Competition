@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
@@ -33,8 +34,7 @@ public class RobotContainer {
   public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
   public final GPMSubsystem gpmSubsystem = new GPMSubsystem();
-  public Controller driveStick = new Controller(); //axis numbers are inside of Controller.java
-  public Controller turnStick = new Controller();
+  public static Controller xboxController;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(
@@ -82,16 +82,30 @@ public class RobotContainer {
   }
 
   private double getDriverXAxis() {
-    return -driveStick.getLeftStickY();
-}
+    return -xboxController.getLeftStickY();
+  }
 
-private double getDriverYAxis() {
-    return -driveStick.getLeftStickX();
-}
+  private double getDriverYAxis() {
+    return -xboxController.getLeftStickX();
+  }
 
-private double getDriverOmegaAxis() {
-    return -turnStick.getLeftStickOmega();
-}
+  private double getDriverOmegaAxis() {
+    return -xboxController.getLeftStickOmega();
+  }
+
+    /**
+   * If the button is pressed, use robot-centric swerve
+   * Otherwise use field-centric swerve (default).
+   * Currently it's set to a numbered button on a joystick, but if you use Xbox or
+   * similar controller, you may need to modify this
+   * On Logitech joystick button #2 seemed to be the most convenient, though we
+   * may consider moving it to the drivestick.
+   * 
+   * @return - true if robot-centric swerve should be used
+   */
+  private boolean getDriverFieldCentric() {
+      return !xboxController.getRawButton(OIConstants.robotCentricButton);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -16,20 +14,21 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveChassis.SwerveModuleConstantsEnum;
 import frc.robot.RobotContainer;
+import frc.robot.SwerveRobotModule;
 import frc.robot.Constants.SwerveChassis;
 import frc.robot.Constants.SwerveChassis.*;
 
 public class DriveSubsystem extends SubsystemBase {
 
-  public SwerveModule[] swerveMods;
+  public SwerveRobotModule[] swerveMods;
 
   public DriveSubsystem() {
 
-    swerveMods = new SwerveModule[] {
-        new SwerveModule(0, SwerveModuleConstantsEnum.MOD0), // front left
-        new SwerveModule(1, SwerveModuleConstantsEnum.MOD1), // front right
-        new SwerveModule(2, SwerveModuleConstantsEnum.MOD2), // rear left
-        new SwerveModule(3, SwerveModuleConstantsEnum.MOD3) // rear right
+    swerveMods = new SwerveRobotModule[] {
+        new SwerveRobotModule(0, SwerveModuleConstantsEnum.MOD0), // front left
+        new SwerveRobotModule(1, SwerveModuleConstantsEnum.MOD1), // front right
+        new SwerveRobotModule(2, SwerveModuleConstantsEnum.MOD2), // rear left
+        new SwerveRobotModule(3, SwerveModuleConstantsEnum.MOD3) // rear right
     };
 
   }
@@ -78,7 +77,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveChassis.MAX_VELOCITY);
 
-    for (SwerveModule mod : swerveMods) {
+    for (SwerveRobotModule mod : swerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()]);
     }
 
@@ -88,7 +87,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveChassis.MAX_VELOCITY);
 
-    for (SwerveModule mod : swerveMods) {
+    for (SwerveRobotModule mod : swerveMods) {
       mod.setDesiredStateCalibration(swerveModuleStates[mod.getModuleNumber()]);
     }
 
@@ -98,7 +97,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveChassis.MAX_VELOCITY);
 
-    for (SwerveModule mod : swerveMods) {
+    for (SwerveRobotModule mod : swerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.getModuleNumber()]);
     }
 
