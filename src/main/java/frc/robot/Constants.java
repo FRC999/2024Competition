@@ -150,8 +150,8 @@ public final class Constants {
 		public static final double MAX_ACCELERATION = 2.0;
 
 		/**
-		 * Parameters for BaseMotorTalonSRX class
-		 * This class is specific to the motors controlled by TalonSRX controller.
+		 * Parameters for BaseMotorTalonFX class
+		 * This class is specific to the motors controlled by TalonFX controller.
 		 * Parameters specified here are primarily used in the motor configuration
 		 * methods, as well as
 		 * getters that translate encoder outputs from encoder-specific units to the SI
@@ -159,9 +159,9 @@ public final class Constants {
 		 * Other motor controller implementations will likely have a different set of
 		 * constants.
 		 */
-		public static final class TalonSRXSwerveConfiguration {
+		public static final class TalonFXSwerveConfiguration {
 
-			// We assume that all TalonSRX controlers need the same PID and some other
+			// We assume that all TalonFX controlers need the same PID and some other
 			// hardware configuration parameters
 			public static final int kPIDLoopIdx = 0; // Talon Loop ID
 			public static final int configureTimeoutMs = 30; // Hardware Talon Configuration TimeoutMs (probably need to
@@ -185,7 +185,7 @@ public final class Constants {
 			/**
 			 * Current limiters
 			 * 
-			 * In TalonSRX the limiters limit the input current (not the stator current)
+			 * In TalonFX the limiters limit the input current (not the stator current)
 			 * and work in the following way:
 			 * If the current demand exceeds peak current for more than a specified
 			 * duration,
@@ -259,15 +259,14 @@ public final class Constants {
 		 * under the "Motor" folder
 		 */
 		public static enum BaseMotorControllerTypes {
-			TALON_SRX,
-			SPARKMAX;
+			TALON_FX,
 		}
 
 		/**
 		 * Swerve Module Constants for each module including
-		 * driveMotorType - type of the motor controller (e.g. TalonSRX vs NEO vs
+		 * driveMotorType - type of the motor controller (e.g. TalonFX vs NEO vs
 		 * simulations)
-		 * angleMotorType - type of the motor controller (e.g. TalonSRX vs NEO vs
+		 * angleMotorType - type of the motor controller (e.g. TalonFX vs NEO vs
 		 * simulations)
 		 * driveMotorID - CAN ID of the drive motors
 		 * angleMotorID - CAN ID of the rotation motors
@@ -291,8 +290,8 @@ public final class Constants {
 		 */
 		public static enum SwerveModuleConstantsEnum {
 			MOD0( // Front Left
-					BaseMotorControllerTypes.TALON_SRX, // Drive motor type
-					BaseMotorControllerTypes.TALON_SRX, // Angle motor type
+					BaseMotorControllerTypes.TALON_FX, // Drive motor type
+					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					7, // driveMotorID
 					8, // angleMotorID
 					(3268.0 * 360.0) / 4096.0, // angleOffset
@@ -302,8 +301,8 @@ public final class Constants {
 					false // Sensor phase for angle motor
 			),
 			MOD1( // Front Right
-					BaseMotorControllerTypes.TALON_SRX, // Drive motor type
-					BaseMotorControllerTypes.TALON_SRX, // Angle motor type
+					BaseMotorControllerTypes.TALON_FX, // Drive motor type
+					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					5, // driveMotorID
 					6, // angleMotorID
 					(433.0 * 360.0) / 4096.0, // angleOffset
@@ -314,8 +313,8 @@ public final class Constants {
 
 			),
 			MOD2( // Back Left
-					BaseMotorControllerTypes.TALON_SRX, // Drive motor type
-					BaseMotorControllerTypes.TALON_SRX, // Angle motor type
+					BaseMotorControllerTypes.TALON_FX, // Drive motor type
+					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					1, // driveMotorID
 					2, // angleMotorID
 					(3489.0 * 360.0) / 4096.0, // angleOffset
@@ -326,8 +325,8 @@ public final class Constants {
 
 			),
 			MOD3( // Back Right
-					BaseMotorControllerTypes.TALON_SRX, // Drive motor type
-					BaseMotorControllerTypes.TALON_SRX, // Angle motor type
+					BaseMotorControllerTypes.TALON_FX, // Drive motor type
+					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					3, // driveMotorID
 					4, // angleMotorID
 					(3307.0 * 360.0) / 4096.0, // angleOffset
@@ -410,7 +409,7 @@ public final class Constants {
 	 */
 	public static final class PIDConstantsForSwerveModules {
 
-		// Hardware PID-related constants for angle motors controlled by TalonSRX
+		// Hardware PID-related constants for angle motors controlled by TalonFX
 		public static final class SRXAngle {
 
 			public static final int SLOT_0 = 0;
@@ -428,7 +427,7 @@ public final class Constants {
 			public static final double NeutralDeadband = 0.001;
 			public static final int periodMs = 10; // status frame period
 			public static final int timeoutMs = 30; // status frame timeout
-			public static final int closedLoopPeriod = 1; // 1ms for TalonSRX and locally connected encoder
+			public static final int closedLoopPeriod = 1; // 1ms for TalonFX and locally connected encoder
 
 		}
 
