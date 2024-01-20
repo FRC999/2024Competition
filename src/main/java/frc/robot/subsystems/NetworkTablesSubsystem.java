@@ -18,14 +18,14 @@ public class NetworkTablesSubsystem extends SubsystemBase {
   /** Creates a new NetworkTablesSystem. */
   private NetworkTableInstance ntInst;
   private String botpose = getAllianceKey();
-  
+
   public NetworkTablesSubsystem() {
     ntInst = NetworkTableInstance.getDefault();
   }
 
   public String getAllianceKey() {
-     Optional<Alliance> alliance = DriverStation.getAlliance();
-    
+    Optional<Alliance> alliance = DriverStation.getAlliance();
+
     /*
      * Get your current alliance and depending on what alliance you are you have to
      * set the
@@ -33,19 +33,15 @@ public class NetworkTablesSubsystem extends SubsystemBase {
      */
 
     if (alliance.isPresent()) {
-     if(alliance.get() == DriverStation.Alliance.Blue){
+      if (alliance.get() == DriverStation.Alliance.Blue) {
 
-  
-      botpose = "botpose_wpiblue";
-    } else {
-      botpose = "botpose_wpired";
+        botpose = "botpose_wpiblue";
+      } else {
+        botpose = "botpose_wpired";
+      }
     }
-  }
-    System.out.println(botpose);
     return botpose;
   }
-
-  
 
   public Pose2d getLimelightBackRobotPose() {
     double[] robotPoseArray = ntInst.getTable("limelight-back").getEntry(botpose).getDoubleArray(new double[6]);
