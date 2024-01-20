@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.SwerveRobotModule;
 import frc.robot.Constants.SwerveChassis;
@@ -24,6 +25,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   public SwerveDriveOdometry swerveOdometry;
   public SwerveDrivePoseEstimator swervePoseEstimator;
+
+
   
 
   public DriveSubsystem() {
@@ -205,6 +208,17 @@ public class DriveSubsystem extends SubsystemBase {
       Rotation2d.fromDegrees(10),
       getPositions());
     odometryTelemetry();
+  }
+
+  /*This the start of the Chassis related methods that are related to the Autonomous!! */
+
+  public void setChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+    setDesiredStates(SwerveChassis.SWERVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds));
+  }
+
+  public ChassisSpeeds getChassisSpeeds() {
+    ChassisSpeeds chassisSpeeds = new ChassisSpeeds(SwerveChassis.MAX_VELOCITY, SwerveChassis.MAX_VELOCITY, SwerveChassis.MAX_ANGULAR_VELOCITY);
+    return chassisSpeeds;
   }
 
   @Override
