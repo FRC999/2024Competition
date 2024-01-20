@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OIConstants.ControllerDevice;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.ExampleCommand;
@@ -15,6 +16,9 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.GPMSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
 import frc.robot.subsystems.SmartDashboardSubsystem;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.StringLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -28,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
+
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -37,6 +42,9 @@ public class RobotContainer {
   public final GPMSubsystem gpmSubsystem = new GPMSubsystem();
   public static Controller xboxController;
 
+  // A Data Log Manager file handle
+  public static StringLogEntry myStringLog;
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.kDriverControllerPort);
@@ -45,6 +53,14 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+    if (SwerveTelemetry.saveDataUsingDataLogManager) {
+      DataLogManager.start();
+      DataLog log = DataLogManager.getLog();
+      myStringLog = new StringLogEntry(log, SwerveTelemetry.logFileName);
+    }
+
+
 
     // Configure driver interface - binding joystick objects to port numbers
     configureDriverInterface();
@@ -58,6 +74,8 @@ public class RobotContainer {
             () -> getDriverYAxis(),
             () -> getDriverOmegaAxis(),
             () -> getDriverFieldCentric()));
+
+      
   }
 
   /**
