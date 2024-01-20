@@ -4,41 +4,50 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
-  }
+	public static class OperatorConstants {
+		public static final int kDriverControllerPort = 0;
+	}
 
-  public static class GPMConstants {
-    public static final int INTAKE_MOTOR_CAN_ID = 0;
-    public static final int LEFT_ARM_CAN_ID = 0;
-    public static final int RIGHT_ARM_CAN_ID = 0;    
+	public static class GPMConstants {
+		public static final int INTAKE_MOTOR_CAN_ID = 0;
+		public static final int LEFT_ARM_CAN_ID = 0;
+		public static final int RIGHT_ARM_CAN_ID = 0;
 
-    public static final int SHOOTER_A_CAN_ID = 0;    
-    public static final int SHOOTER_B_CAN_ID = 0;
+		public static final int SHOOTER_A_CAN_ID = 0;
+		public static final int SHOOTER_B_CAN_ID = 0;
 
-    public static final int NOTE_DETECTION_CAN_ID = 0;
-  }
-  public static class IMUConstants {
-    public static final int PIGEON2_CAN_ID = 0;    
-  }
+		public static final int NOTE_DETECTION_CAN_ID = 0;
+	}
 
-  public static final class SwerveChassis {
+	public static class IMUConstants {
+		public static final int PIGEON2_CAN_ID = 0;
+	}
 
-    
+	public static final class SwerveChassis {
+
 		// TRAJECTORY PARAMETERS 3039
 		/* Drive Feedforward */
 		public static final double DRIVE_KS = 0.11937 / 12;
@@ -179,19 +188,21 @@ public final class Constants {
 																// in that time; otherwise assume the error
 
 			// Customize the following values to your prototype
-			public static final double metersPerTickFX = 1.0 / 1462.25; // TODO: measure this number on the robot - drive motor only
-			public static final double degreePerTickFX = 360.0 / 4096.0; 	// Angle motor only
-																		// On our swerve prototype 1 angular rotation of
-																		// the wheel = 1 full rotation of the encoder
-			public static final double degreePerTickCancoder = 360.0 / 4096.0 ; // degrees per tick for cancoder to track absolute wheel position
+			public static final double metersPerTickFX = 1.0 / 1462.25; // TODO: measure this number on the robot -
+																		// drive motor only
+			public static final double degreePerTickFX = 360.0 / 4096.0; // Angle motor only
+			// On our swerve prototype 1 angular rotation of
+			// the wheel = 1 full rotation of the encoder
+			public static final double degreePerTickCancoder = 360.0 / 4096.0; // degrees per tick for cancoder to track
+																				// absolute wheel position
 
 			// Absolute encoder setup
 			public static final boolean kDiscontinuityPresent = true;
 			public static final int kBookEnd_0 = 910; /* 80 deg */
 			public static final int kBookEnd_1 = 1137; /* 100 deg */
 			public static final int clicksFXPerFullRotation = 4096; // rollover on 999 swerve encoder - we use Falcon FX
-																		// relative encoders for angle with x:x ratio
-																		//TODO: find out and fix that ratio
+																	// relative encoders for angle with x:x ratio
+																	// TODO: find out and fix that ratio
 
 			/**
 			 * Current limiters
@@ -229,7 +240,8 @@ public final class Constants {
 			public static final double drivePeakCurrentLimit = 60; // amperes
 			public static final double drivePeakCurrentDuration = 0.5; // Milliseconds
 			public static final boolean driveEnableCurrentLimit = true;
-			public static final double driveSecondsFromNeutralToFull = 0.1; //TODO: - check if needed - ramp-up limit to avoid peaks
+			public static final double driveSecondsFromNeutralToFull = 0.1; // TODO: - check if needed - ramp-up limit
+																			// to avoid peaks
 
 		}
 
@@ -258,15 +270,16 @@ public final class Constants {
 			}
 
 			/**
-			 *  Specify whether telemetry will be printed and/or the robot will apply power to the motors
+			 * Specify whether telemetry will be printed and/or the robot will apply power
+			 * to the motors
 			 */
 			public static final SwerveDriveOrTelemetry swerveDriveOrTelemetry = SwerveDriveOrTelemetry.DRIVE_ONLY;
-			
+
 			/**
-			 *  Print odometry telemetry every 20 milliseconds.
+			 * Print odometry telemetry every 20 milliseconds.
 			 */
 			public static final boolean odometryTelemetryPrint = false;
-			
+
 		}
 
 		/*
@@ -428,8 +441,6 @@ public final class Constants {
 
 	} // End Swerve
 
-	
-
 	/**
 	 * These Hardware PID constants are used by the individual swerve modules, and
 	 * are used only by turn motors.
@@ -463,7 +474,8 @@ public final class Constants {
 
 	/**
 	 * Controller-related constants.
-	 * Here we define port numbers, axis, deadbands, button numbers and various ability flags, such as use of the cube driving
+	 * Here we define port numbers, axis, deadbands, button numbers and various
+	 * ability flags, such as use of the cube driving
 	 */
 	public static final class OIConstants {
 		public static final int driverControllerPort = 0;
@@ -480,36 +492,36 @@ public final class Constants {
 		public static enum ControllerDeviceType {
 			LOGITECH,
 			PS5,
-			XBOX,			// RightJ F/B, LeftJ L/R, L2/R2 - rotation
-			XBOX_ONEDRIVE	// RIghtJ F/B/L/R, LeftJ - rotation
-		} 
+			XBOX, // RightJ F/B, LeftJ L/R, L2/R2 - rotation
+			XBOX_ONEDRIVE // RIghtJ F/B/L/R, LeftJ - rotation
+		}
 
 		public static enum ControllerDevice {
 			DRIVESTICK(
-				0, // Port Number
-				ControllerDeviceType.LOGITECH,
-				0.02, // deadband X
-				0.02, // deadband Y
-				0.02,  // deadband Omega
-				true, // cubeControllerLeft
-				true // cubeControllerRight
+					0, // Port Number
+					ControllerDeviceType.LOGITECH,
+					0.02, // deadband X
+					0.02, // deadband Y
+					0.02, // deadband Omega
+					true, // cubeControllerLeft
+					true // cubeControllerRight
 			),
 
-			TURNSTICK(	//Controls the rotation of the swervebot
-				1, // Port Number
-				ControllerDeviceType.LOGITECH,
-				0.02, // deadband X
-				0.02, // deadband Y
-				0.02,  // deadband Omega
-				true, // cubeControllerLeft
-				true // cubeControllerRight
+			TURNSTICK( // Controls the rotation of the swervebot
+					1, // Port Number
+					ControllerDeviceType.LOGITECH,
+					0.02, // deadband X
+					0.02, // deadband Y
+					0.02, // deadband Omega
+					true, // cubeControllerLeft
+					true // cubeControllerRight
 			),
 
 			XBOX_CONTROLLER(
 					5, // Port Number for Xbox controller
 					ControllerDeviceType.XBOX,
 					0.03, // deadband X for Xbox
-					0.03, // deadband Y for Xbox       //TODO: ALL DEADBAND FOR XBOX IS PLACEHOLDER
+					0.03, // deadband Y for Xbox //TODO: ALL DEADBAND FOR XBOX IS PLACEHOLDER
 					0.03, // deadband Omega for Xbox
 					false, // No cube controller configuration for Xbox yet
 					false);
@@ -522,7 +534,8 @@ public final class Constants {
 			private boolean cubeControllerLeftStick;
 			private boolean cubeControllerRightStick;
 
-			ControllerDevice(int pn, ControllerDeviceType cdt, double dx, double dy, double dm, boolean ccL, boolean ccR) {
+			ControllerDevice(int pn, ControllerDeviceType cdt, double dx, double dy, double dm, boolean ccL,
+					boolean ccR) {
 				this.portNumber = pn;
 				this.controllerDeviceType = cdt;
 				this.deadbandX = dx;
@@ -560,11 +573,68 @@ public final class Constants {
 				return cubeControllerRightStick;
 			}
 
-			
-
 		}
-				
+
 	}
 
+	public static final class NavigationConstants {
+		public static final int numberOfMeasurements = 10; // Number of robot pose measurements to collect in order to
+															// make robot pose determination
+		public static final int numberOfMaxPoseMeasurements = 50; // Max number of pose measurements - in case we do not
+																	// see anything
+		public static final Pose2d dummyPose = new Pose2d(-1, -1, new Rotation2d(Units.degreesToRadians(-1)));
 
+		// Camera poses relative to the Turret/Arm
+		// public static final Pose2d leftCameraPose = new Pose2d(0.07,0.135,new
+		// Rotation2d(Units.degreesToRadians(-21.2)));
+		public static final Pose2d leftCameraPose = new Pose2d(0.07, 0.135,
+				new Rotation2d(Units.degreesToRadians(-24.5)));
+		public static final Pose2d rightCameraPose = new Pose2d(0.07, 0.135,
+				new Rotation2d(Units.degreesToRadians(21.9)));
+
+		// public static final double BLUE_X_ERROR = -0.45604;
+		public static final double BLUE_X_ERROR = 0;
+		public static final double BLUE_Y_ERROR = -0.06521;
+		// public static final double RED_X_ERROR = 0.46169;
+		public static final double RED_X_ERROR = 0;
+		public static final double RED_Y_ERROR = 0.03884;
+		public static final double[] fieldCenter = { 8.27, 4.043 }; // {8.725, 4.043};
+		// X,Y coordinates of the tags from 0,0 in the blue/lower-left
+		public static final double tags[][] = {
+				{}, // 0
+				{ 7.24310 + fieldCenter[0] + RED_X_ERROR, -2.93659 + fieldCenter[1] + RED_Y_ERROR }, // id 1 Y: 1.14525
+				{ 7.24310 + fieldCenter[0] + RED_X_ERROR, -1.26019 + fieldCenter[1] + RED_Y_ERROR }, // id 2 Y: 2.7176
+				{ 7.24310 + fieldCenter[0] + RED_X_ERROR, 0.41621 + fieldCenter[1] + RED_Y_ERROR }, // id 3 Y: 4.394
+				{ 7.90832 + fieldCenter[0] + RED_X_ERROR, 2.74161 + fieldCenter[1] + RED_Y_ERROR }, // id 4
+				{ -7.90832 + fieldCenter[0] + BLUE_X_ERROR, 2.74161 + fieldCenter[1] + BLUE_Y_ERROR }, // id 5
+				{ -7.24310 + fieldCenter[0] + BLUE_X_ERROR, 0.41621 + fieldCenter[1] + BLUE_Y_ERROR }, // id 6
+				{ -7.24310 + fieldCenter[0] + BLUE_X_ERROR, -1.26019 + fieldCenter[1] + BLUE_Y_ERROR }, // id 7
+				{ -7.24310 + fieldCenter[0] + BLUE_X_ERROR, -2.93659 + fieldCenter[1] + BLUE_Y_ERROR } // id 8
+		};
+		public static List<Pose2d> leftTargets = new ArrayList<Pose2d>();
+		public static List<Pose2d> rightTargets = new ArrayList<Pose2d>();
+
+		public static final double yTargetOffset = tags[8][1] - 0.512;
+
+		public static final double xTargetOffset[] = {
+				1.1955 - tags[8][0], // front/bottom offset
+				0.903 - tags[8][0], // middle offset
+				0.358 - tags[8][0] // top offset
+		};
+
+		public static final double autoMidConeLengthBackwards = 1.034;
+
+		public static final int POSE_QUEUE_MAXSIZE = 10;
+		public static final double MEAN_DEV = 0.2;
+
+		public static double xOffsetOfCameraFromTurret = -0.1; // Offset of camera lens from the turret center of
+																// rotation
+		public static double yOffsetOfCameraFromTurret = 0.2; // Offset of camera lens from the turret center of
+																// rotation
+		public static double angleOffsetOfCameraFromTurretDirection = 30; // degrees; offset of camera direction from
+																			// the arm direction
+
+	}
+
+	
 }

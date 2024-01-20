@@ -15,7 +15,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.GPMSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
-import frc.robot.subsystems.NetworkTableSubsystem;
+import frc.robot.subsystems.NetworkTablesSubsystem;
 import frc.robot.subsystems.SmartDashboardSubsystem;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.StringLogEntry;
@@ -41,7 +41,7 @@ public class RobotContainer {
   public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
   public final GPMSubsystem gpmSubsystem = new GPMSubsystem();
-  public final NetworkTableSubsystem networkTableSubsystem = new NetworkTableSubsystem();
+  public final NetworkTablesSubsystem networkTableSubsystem = new NetworkTablesSubsystem();
   public static Controller xboxController;
 
   // A Data Log Manager file handle
