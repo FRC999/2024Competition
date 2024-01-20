@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.OIConstants.ControllerDevice;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
@@ -44,6 +45,10 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+    // Configure driver interface - binding joystick objects to port numbers
+    configureDriverInterface();
+
     // Configure the trigger bindings
     configureBindings();
 
@@ -55,6 +60,27 @@ public class RobotContainer {
             () -> getDriverFieldCentric()));
   }
 
+  /**
+   * Use this method to define your controllers depending on the
+   * {@link DriveInterface}
+   */
+  private void configureDriverInterface() {
+
+      /**
+       * We tried driving with a single Logitech joystick that has X,Y and turn axis.
+       * However, the team decided to move the turn to the second joystick for now.
+       * Note that Controller objects are only used to provide DoubleSupplier methods
+       * to the
+       * commands that need manual control input (e.g. DriveManuallyCommand)
+       */
+      //driveStick = new Controller(ControllerDevice.DRIVESTICK);  // disable joysticks for driver practice code
+      //turnStick = new Controller(ControllerDevice.TURNSTICK);   // disable joysticks for driver practice code
+      xboxController = new Controller(ControllerDevice.XBOX_CONTROLLER);
+      // bbl = new Joystick(OIConstants.bblPort);
+      // bbr = new Joystick(OIConstants.bbrPort);
+
+      System.out.println("Driver interface configured");
+  }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be

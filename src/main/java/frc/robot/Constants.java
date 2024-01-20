@@ -449,20 +449,108 @@ public final class Constants {
 
 	/**
 	 * Controller-related constants.
-	 * Here we define port numbers, axis, deadbands, button numbers and various
-	 * ability flags, such as use of the cube driving
+	 * Here we define port numbers, axis, deadbands, button numbers and various ability flags, such as use of the cube driving
 	 */
-	public class OIConstants {
-    public static final int driverControllerPort = 0;
-    public static final int robotCentricButton = 2;
+	public static final class OIConstants {
+		public static final int driverControllerPort = 0;
 
-    public static final int XBOX_CONTROLLER_PORT = 4;
-    public static final double XBOX_DEADBAND_X = 0.03;
-    public static final double XBOX_DEADBAND_Y = 0.03;
-    public static final double XBOX_DEADBAND_OMEGA = 0.03;
-    public static final boolean XBOX_CUBE_CONTROLLER_LEFT_STICK = false;
-    public static final boolean XBOX_CUBE_CONTROLLER_RIGHT_STICK = false;
-}
+		public static final int bblPort = 4;
+		public static final int bbrPort = 3;
+
+		public static final int driverInterfaceSwitchButton = 1;
+
+		public static final int robotCentricButton = 5; // XBOX L1 button
+
+		public static ControllerDeviceType driverInterfaceType = ControllerDeviceType.XBOX_ONEDRIVE;
+
+		public static enum ControllerDeviceType {
+			LOGITECH,
+			PS5,
+			XBOX,			// RightJ F/B, LeftJ L/R, L2/R2 - rotation
+			XBOX_ONEDRIVE	// RIghtJ F/B/L/R, LeftJ - rotation
+		} 
+
+		public static enum ControllerDevice {
+			DRIVESTICK(
+				0, // Port Number
+				ControllerDeviceType.LOGITECH,
+				0.02, // deadband X
+				0.02, // deadband Y
+				0.02,  // deadband Omega
+				true, // cubeControllerLeft
+				true // cubeControllerRight
+			),
+
+			TURNSTICK(	//Controls the rotation of the swervebot
+				1, // Port Number
+				ControllerDeviceType.LOGITECH,
+				0.02, // deadband X
+				0.02, // deadband Y
+				0.02,  // deadband Omega
+				true, // cubeControllerLeft
+				true // cubeControllerRight
+			),
+
+			XBOX_CONTROLLER(
+					5, // Port Number for Xbox controller
+					ControllerDeviceType.XBOX,
+					0.03, // deadband X for Xbox
+					0.03, // deadband Y for Xbox       //TODO: ALL DEADBAND FOR XBOX IS PLACEHOLDER
+					0.03, // deadband Omega for Xbox
+					false, // No cube controller configuration for Xbox yet
+					false);
+
+			private ControllerDeviceType controllerDeviceType;
+			private int portNumber;
+			private double deadbandX;
+			private double deadbandY;
+			private double deadbandOmega;
+			private boolean cubeControllerLeftStick;
+			private boolean cubeControllerRightStick;
+
+			ControllerDevice(int pn, ControllerDeviceType cdt, double dx, double dy, double dm, boolean ccL, boolean ccR) {
+				this.portNumber = pn;
+				this.controllerDeviceType = cdt;
+				this.deadbandX = dx;
+				this.deadbandY = dy;
+				this.deadbandOmega = dm;
+				this.cubeControllerLeftStick = ccL;
+				this.cubeControllerRightStick = ccR;
+			}
+
+			public ControllerDeviceType getControllerDeviceType() {
+				return controllerDeviceType;
+			}
+
+			public int getPortNumber() {
+				return portNumber;
+			}
+
+			public double getDeadbandX() {
+				return deadbandX;
+			}
+
+			public double getDeadbandY() {
+				return deadbandY;
+			}
+
+			public double getDeadbandOmega() {
+				return deadbandOmega;
+			}
+
+			public boolean isCubeControllerLeftStick() {
+				return cubeControllerLeftStick;
+			}
+
+			public boolean isCubeControllerRightStick() {
+				return cubeControllerRightStick;
+			}
+
+			
+
+		}
+				
+	}
 
 
 }
