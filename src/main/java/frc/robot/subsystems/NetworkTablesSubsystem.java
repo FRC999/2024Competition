@@ -16,24 +16,24 @@ public class NetworkTablesSubsystem extends SubsystemBase {
   public NetworkTablesSubsystem() {
     ntInst = NetworkTableInstance.getDefault();
   }
-  public Pose2d getLimelightLeftRobotPose() {
+  public Pose2d getLimelightBackRobotPose() {
 
     double[] robotPoseArray = ntInst.getTable("limelight-back").getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
 
     return new Pose2d(robotPoseArray[0],robotPoseArray[1],new Rotation2d(Units.degreesToRadians(robotPoseArray[5])));
   }
 
-  public Pose2d getLimelightRightRobotPose() {
+  public Pose2d getLimelightFrontRobotPose() {
 
     double[] robotPoseArray = ntInst.getTable("limelight-front").getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
 
     return new Pose2d(robotPoseArray[0],robotPoseArray[1],new Rotation2d(Units.degreesToRadians(robotPoseArray[5])));
   }
 
-  public boolean isLeftTargetAcquired() {
+  public boolean isBackTargetAcquired() {
     return ntInst.getTable("limelight-back").getEntry("tv").getDouble(0) == 1.0; // return true if the target visible
   }
-  public boolean isRightTargetAcquired() {
+  public boolean isFrontTargetAcquired() {
     return ntInst.getTable("limelight-front").getEntry("tv").getDouble(0) == 1.0; // return true if the target visible
   }
 
