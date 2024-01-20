@@ -43,7 +43,7 @@ public final class Constants {
 	}
 
 	public static class IMUConstants {
-		public static final int PIGEON2_CAN_ID = 0;
+		public static final int PIGEON2_CAN_ID = 15;
 	}
 
 	public static final class SwerveChassis {
@@ -323,52 +323,52 @@ public final class Constants {
 			MOD0( // Front Left
 					BaseMotorControllerTypes.TALON_FX, // Drive motor type
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
-					7, // driveMotorID
-					8, // angleMotorID
-					(3268.0 * 360.0) / 4096.0, // angleOffset of cancoder to mark zero-position
+					1, // driveMotorID
+					2, // angleMotorID
+					104.150, // angleOffset of cancoder to mark zero-position
 					true, // Inversion for drive motor
 					false, // Inversion for angle motor
 					false, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor
-					30 // cancoder ID
+					20 // cancoder ID
 			),
 			MOD1( // Front Right
 					BaseMotorControllerTypes.TALON_FX, // Drive motor type
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
-					5, // driveMotorID
-					6, // angleMotorID
-					(433.0 * 360.0) / 4096.0, // angleOffset of cancoder to mark zero-position
+					3, // driveMotorID
+					4, // angleMotorID
+					165.938, // angleOffset of cancoder to mark zero-position
 					true, // Inversion for drive motor
 					false, // Inversion for angle motor
 					false, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor
-					31 // cancoder ID
+					21 // cancoder ID
 
 			),
 			MOD2( // Back Left
 					BaseMotorControllerTypes.TALON_FX, // Drive motor type
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
-					1, // driveMotorID
-					2, // angleMotorID
-					(3489.0 * 360.0) / 4096.0, // angleOffset of cancoder to mark zero-position
+					5, // driveMotorID
+					6, // angleMotorID
+					244.688, // angleOffset of cancoder to mark zero-position 
 					true, // Inversion for drive motor
 					false, // Inversion for angle motor
 					true, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor
-					32 // cancoder ID
+					22 // cancoder ID
 
 			),
 			MOD3( // Back Right
 					BaseMotorControllerTypes.TALON_FX, // Drive motor type
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
-					3, // driveMotorID
-					4, // angleMotorID
-					(3307.0 * 360.0) / 4096.0, // angleOffset of cancoder to mark zero-position
+					7, // driveMotorID
+					8, // angleMotorID
+					164.092, // angleOffset of cancoder to mark zero-position
 					true, // Inversion for drive motor
 					false, // Inversion for angle motor
 					true, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor
-					33 // cancoder ID
+					23 // cancoder ID
 
 			);
 
