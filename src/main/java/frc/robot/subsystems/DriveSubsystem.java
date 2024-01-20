@@ -46,11 +46,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void stopDriveMotor(int modnumber) {
-    swerveMods[modnumber].DriveMotorApplyPower(0);
+    swerveMods[modnumber].driveMotorApplyPower(0);
   }
 
   public void stopAngleMotor(int modnumber) {
-    swerveMods[modnumber].AngleMotorApplyPower(0);
+    swerveMods[modnumber].angleMotorApplyPower(0);
   }
 
   public void stopRobot() {

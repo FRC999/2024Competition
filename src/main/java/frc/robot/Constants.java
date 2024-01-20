@@ -33,7 +33,7 @@ public final class Constants {
     public static final int NOTE_DETECTION_CAN_ID = 0;
   }
   public static class IMUConstants {
-    public static final int PIGEON2_CHANNEL = 0;    
+    public static final int PIGEON2_CAN_ID = 0;    
   }
 
   public static final class SwerveChassis {
@@ -171,16 +171,19 @@ public final class Constants {
 																// in that time; otherwise assume the error
 
 			// Customize the following values to your prototype
-			public static final double metersPerTick = 1.0 / 1462.25; // TODO: measure this number on the robot
-			public static final double degreePerTick = 360.0 / 4096.0; // On our swerve prototype 1 angular rotation of
+			public static final double metersPerTickFX = 1.0 / 1462.25; // TODO: measure this number on the robot - drive motor only
+			public static final double degreePerTickFX = 360.0 / 4096.0; 	// Angle motor only
+																		// On our swerve prototype 1 angular rotation of
 																		// the wheel = 1 full rotation of the encoder
+			public static final double degreePerTickCancoder = 360.0 / 4096.0 ; // degrees per tick for cancoder to track absolute wheel position
 
 			// Absolute encoder setup
 			public static final boolean kDiscontinuityPresent = true;
 			public static final int kBookEnd_0 = 910; /* 80 deg */
 			public static final int kBookEnd_1 = 1137; /* 100 deg */
-			public static final int clicksSRXPerFullRotation = 4096; // rollover on 999 swerve encoder - we use CTR Mag
-																		// encoders for angle with 1:1 ratio
+			public static final int clicksFXPerFullRotation = 4096; // rollover on 999 swerve encoder - we use Falcon FX
+																		// relative encoders for angle with x:x ratio
+																		//TODO: find out and fix that ratio
 
 			/**
 			 * Current limiters
@@ -209,15 +212,16 @@ public final class Constants {
 			 * https://v5.docs.ctr-electronics.com/en/latest/ch13_MC.html#new-api-in-2020
 			 */
 
-			public static final int angleContinuousCurrentLimit = 25; // amperes
-			public static final int anglePeakCurrentLimit = 40; // amperes
-			public static final int anglePeakCurrentDuration = 1000; // Milliseconds
+			public static final int angleContinuousCurrentLimit = 40; // amperes
+			public static final int anglePeakCurrentLimit = 60; // amperes
+			public static final int anglePeakCurrentDuration = 1; // Seconds
 			public static final boolean angleEnableCurrentLimit = true;
 
-			public static final int driveContinuousCurrentLimit = 35; // amperes
-			public static final int drivePeakCurrentLimit = 60; // amperes
-			public static final int drivePeakCurrentDuration = 500; // Milliseconds
+			public static final double driveContinuousCurrentLimit = 40; // amperes
+			public static final double drivePeakCurrentLimit = 60; // amperes
+			public static final double drivePeakCurrentDuration = 0.5; // Milliseconds
 			public static final boolean driveEnableCurrentLimit = true;
+			public static final double driveSecondsFromNeutralToFull = 0.1; //TODO: - check if needed - ramp-up limit to avoid peaks
 
 		}
 
@@ -294,22 +298,24 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					7, // driveMotorID
 					8, // angleMotorID
-					(3268.0 * 360.0) / 4096.0, // angleOffset
+					(3268.0 * 360.0) / 4096.0, // angleOffset of cancoder to mark zero-position
 					true, // Inversion for drive motor
 					false, // Inversion for angle motor
 					false, // Sensor phase for drive motor
-					false // Sensor phase for angle motor
+					false, // Sensor phase for angle motor
+					30 // cancoder ID
 			),
 			MOD1( // Front Right
 					BaseMotorControllerTypes.TALON_FX, // Drive motor type
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					5, // driveMotorID
 					6, // angleMotorID
-					(433.0 * 360.0) / 4096.0, // angleOffset
+					(433.0 * 360.0) / 4096.0, // angleOffset of cancoder to mark zero-position
 					true, // Inversion for drive motor
 					false, // Inversion for angle motor
 					false, // Sensor phase for drive motor
-					false // Sensor phase for angle motor
+					false, // Sensor phase for angle motor
+					31 // cancoder ID
 
 			),
 			MOD2( // Back Left
@@ -317,11 +323,12 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					1, // driveMotorID
 					2, // angleMotorID
-					(3489.0 * 360.0) / 4096.0, // angleOffset
+					(3489.0 * 360.0) / 4096.0, // angleOffset of cancoder to mark zero-position
 					true, // Inversion for drive motor
 					false, // Inversion for angle motor
 					true, // Sensor phase for drive motor
-					false // Sensor phase for angle motor
+					false, // Sensor phase for angle motor
+					32 // cancoder ID
 
 			),
 			MOD3( // Back Right
@@ -329,11 +336,12 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					3, // driveMotorID
 					4, // angleMotorID
-					(3307.0 * 360.0) / 4096.0, // angleOffset
+					(3307.0 * 360.0) / 4096.0, // angleOffset of cancoder to mark zero-position
 					true, // Inversion for drive motor
 					false, // Inversion for angle motor
 					true, // Sensor phase for drive motor
-					false // Sensor phase for angle motor
+					false, // Sensor phase for angle motor
+					33 // cancoder ID
 
 			);
 
@@ -346,9 +354,10 @@ public final class Constants {
 			private boolean angleMotorInverted;
 			private boolean driveMotorSensorPhase;
 			private boolean angleMotorSensorPhase;
+			private int cancoderID;
 
 			SwerveModuleConstantsEnum(BaseMotorControllerTypes dm, BaseMotorControllerTypes am, int d, int a, double o,
-					boolean di, boolean ai, boolean ds, boolean as) {
+					boolean di, boolean ai, boolean ds, boolean as, int c) {
 				this.driveBaseMotorControllerType = dm;
 				this.angleBaseMotorControllerType = am;
 				this.driveMotorID = d;
@@ -358,6 +367,7 @@ public final class Constants {
 				this.angleMotorInverted = ai;
 				this.driveMotorSensorPhase = ds;
 				this.angleMotorSensorPhase = as;
+				this.cancoderID = c;
 			}
 
 			public BaseMotorControllerTypes getDriveMotorControllerType() {
@@ -396,6 +406,10 @@ public final class Constants {
 				return angleMotorSensorPhase;
 			}
 
+			public int getCancoderID() {
+				return cancoderID;
+			}
+
 		} // End ENUM SwerveModuleConstants
 
 	} // End Swerve
@@ -410,7 +424,7 @@ public final class Constants {
 	public static final class PIDConstantsForSwerveModules {
 
 		// Hardware PID-related constants for angle motors controlled by TalonFX
-		public static final class SRXAngle {
+		public static final class FXAngle {
 
 			public static final int SLOT_0 = 0;
 			public static final double kP = 0.75;

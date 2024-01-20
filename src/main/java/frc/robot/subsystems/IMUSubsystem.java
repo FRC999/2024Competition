@@ -11,22 +11,11 @@ import frc.robot.RobotContainer;
 @SuppressWarnings({ "deprecation", "removal" })
 
 /*
- * The IMU object should be instantiated from this class. The class has a
- * selector that will
- * create additional hardware-specific objects. However, other subsystems and
- * commands will
- * use this passthrough class, which exposes "standard" IMU methods that should
- * be implemented
- * by all hardware-specific classes. That way the non-IMU code does not need to
- * know which IMU
- * is actually used.
- * 
- * Since IMU represents a separate hardware component, it's defined as a
+  * Since IMU represents a separate hardware component, it's defined as a
  * subsystem
  * (via "extends SubsystemBase"). It means that you can add "periodic" code to
  * it.
- * We do not currently need that. However, when used in a competition, you might
- * find it necessary to do so.
+ * We do not currently need that.
  */
 
 public class IMUSubsystem extends SubsystemBase {
@@ -49,7 +38,7 @@ public class IMUSubsystem extends SubsystemBase {
    */
   public IMUSubsystem() {
 
-    imu = new WPI_Pigeon2(Constants.IMUConstants.PIGEON2_CHANNEL);
+    imu = new WPI_Pigeon2(Constants.IMUConstants.PIGEON2_CAN_ID);
 
     //I am calling this because for some reason zeroYaw gives error for 
     //  "The method zeroYaw() is undefined for the type WPI_Pigeon2"
