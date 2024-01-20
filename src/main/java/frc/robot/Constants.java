@@ -63,6 +63,14 @@ public final class Constants {
 		public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
 		public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
+		/*Swerve Auto Constants */
+
+		public static final double CHASSIS_OUTER_DIMENSIONS_X = 0.8128;	//meters
+		public static final double CHASSIS_OUTER_DIMENSIONS_Y = 0.8128;
+
+		public static final double CHASSIS_OUTER_DRIVE_RADIUS = Math.sqrt( (CHASSIS_OUTER_DIMENSIONS_X * CHASSIS_OUTER_DIMENSIONS_X) + (CHASSIS_OUTER_DIMENSIONS_Y * CHASSIS_OUTER_DIMENSIONS_Y) );
+
+		
 		/**
 		 * This class lists locating of each of the swerve modules from the center of
 		 * the robot.
