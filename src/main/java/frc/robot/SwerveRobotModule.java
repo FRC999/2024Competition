@@ -189,6 +189,7 @@ public class SwerveRobotModule {
 
         angleMotorBrakeMode();
 
+        // Turn all wheels straight when the robot is turned ON
         //if (c.getAngleMotorID() == 2) {
         setAngleMotorChassisAngleSI(0); //Initialization turn wheels to 0 degrees
         //}

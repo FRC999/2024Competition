@@ -58,8 +58,8 @@ public final class Constants {
 		 * Drive train properties
 		 * All measurements are in meters
 		 */
-		public static final double TRACK_WIDTH = 0.385; // left to right
-		public static final double WHEEL_BASE = 0.44; // front to back
+		public static final double TRACK_WIDTH = 0.525; // left to right
+		public static final double WHEEL_BASE = 0.525; // front to back
 		public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
 		public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
@@ -335,7 +335,7 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					3, // driveMotorID
 					4, // angleMotorID
-					165.938, // angleOffset of cancoder to mark zero-position
+					167.6, // angleOffset of cancoder to mark zero-position
 					false, // Inversion for drive motor
 					true, // Inversion for angle motor
 					false, // Sensor phase for drive motor
@@ -348,7 +348,7 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					5, // driveMotorID
 					6, // angleMotorID
-					240.99, // angleOffset of cancoder to mark zero-position 
+					244.6, // angleOffset of cancoder to mark zero-position 
 					false, // Inversion for drive motor
 					true, // Inversion for angle motor
 					true, // Sensor phase for drive motor
