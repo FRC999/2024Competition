@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
+
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -236,12 +238,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public ChassisSpeeds getChassisSpeeds() {
-    ChassisSpeeds chassisSpeeds = new ChassisSpeeds(SwerveChassis.MAX_VELOCITY, SwerveChassis.MAX_VELOCITY, SwerveChassis.MAX_ANGULAR_VELOCITY);
-    return chassisSpeeds;
+    return getRobotVelocity(); // robot-relative chassis speeds
   }
-
-
-  
 
    // Used only for motor testing; run motor forward, 0.3 power
   public void testDriveMotorEncoderPhase(int modnumber){
@@ -251,6 +249,40 @@ public class DriveSubsystem extends SubsystemBase {
   // Used only for motor testing; run motor forward, 0.3 power
   public void testAngleMotorEncoderPhase(int modnumber) {
     swerveMods[modnumber].testAngleMotorApplyPower(0.3);
+  }
+
+
+  /**
+   * PathPlanner 2024-specific new methods
+   */
+
+  public ChassisSpeeds getFieldVelocity() {
+    // ChassisSpeeds has a method to convert from field-relative to robot-relative
+    // speeds,
+    // but not the reverse. However, because this transform is a simple rotation,
+    // negating the
+    // angle
+    // given as the robot angle reverses the direction of rotation, and the
+    // conversion is reversed.
+    return ChassisSpeeds.fromFieldRelativeSpeeds(
+        SwerveChassis.SWERVE_KINEMATICS.toChassisSpeeds(getStates()), RobotContainer.imuSubsystem.getYawRotation2d());
+  }
+
+  /**
+   * Gets the current robot-relative velocity (x, y and omega) of the robot
+   *
+   * @return A ChassisSpeeds object of the current robot-relative velocity
+   */
+  public ChassisSpeeds getRobotVelocity() {
+    return SwerveChassis.SWERVE_KINEMATICS.toChassisSpeeds(getStates());
+  }
+
+  public SwerveModuleState[] getStates() {
+    SwerveModuleState[] states = new SwerveModuleState[4];
+    for (int i=0; i<4; i++) {
+      states[i] = swerveMods[i].getState();
+    }
+    return states;
   }
 
   @Override
