@@ -185,11 +185,13 @@ public class SwerveRobotModule {
 
         setEncoderforWheelCalibration(c);
 
-        configureCurrentLimiterAngle();
+        //configureCurrentLimiterAngle();
 
         angleMotorBrakeMode();
 
-        //setAngleMotorChassisAngleSI(0); //Initialization turn wheels to 0 degrees
+        //if (c.getAngleMotorID() == 2) {
+        setAngleMotorChassisAngleSI(0); //Initialization turn wheels to 0 degrees
+        //}
 
     }
 
@@ -252,7 +254,8 @@ public class SwerveRobotModule {
     }
 
     public void setAngleMotorChassisAngleSI(double angle) {
-        angleMotor.set(TalonFXControlMode.MotionMagic, degreesToTicks(angle));
+        //angleMotor.set(TalonFXControlMode.MotionMagic, degreesToTicks(angle));
+        angleMotor.set(TalonFXControlMode.Position, degreesToTicks(angle));
     }
 
     public void applyPower(double power) {

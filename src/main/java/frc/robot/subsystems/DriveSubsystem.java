@@ -40,6 +40,15 @@ public class DriveSubsystem extends SubsystemBase {
         new SwerveRobotModule(3, SwerveModuleConstantsEnum.MOD3) // rear right
     };
 
+    // When the robot is turned on, both the IMU and drive encoders will be set to 0.
+    // So, the initial odometry X,Y,Angle will be set to 0,0,0
+    // This may need to be updated later either by th auto-driviing routines, or by camera inputs based on the AprilTags
+    swerveOdometry = new SwerveDriveOdometry(Constants.SwerveChassis.SWERVE_KINEMATICS, RobotContainer.imuSubsystem.getYawRotation2d(), getPositions());
+
+    // This object will help tracking Swerve pose changes based on the odometry
+    // So it will likely be used only for telemetry
+    swervePoseEstimator = new SwerveDrivePoseEstimator(Constants.SwerveChassis.SWERVE_KINEMATICS, RobotContainer.imuSubsystem.getYawRotation2d(), getPositions(), new Pose2d());
+
   }
 
   public double telemetryAngleEncoder(int modnumber) {

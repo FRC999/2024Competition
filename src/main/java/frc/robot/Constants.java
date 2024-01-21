@@ -450,9 +450,9 @@ public final class Constants {
 		public static final class FXAngle {
 
 			public static final int SLOT_0 = 0;
-			public static final double kP = 0.75;
-			public static final double kI = 0.005;
-			public static final double kD = 0.01;
+			public static final double kP = 0.5;
+			public static final double kI = 0.000;
+			public static final double kD = 0.5;
 			public static final double kF = 0;
 			public static final double Acceleration = 6750; // raw sensor units per 100 ms per second
 			public static final double CruiseVelocity = 6750; // raw sensor units per 100 ms
@@ -460,7 +460,7 @@ public final class Constants {
 													// S-Curve (greater value yields greater smoothing).
 			public static final double DefaultAcceptableError = 5; // Sensor units
 			public static final double Izone = 500;
-			public static final double PeakOutput = 0.5; // Closed Loop peak output
+			public static final double PeakOutput = 1.0; // Closed Loop peak output
 			public static final double NeutralDeadband = 0.001;
 			public static final int periodMs = 10; // status frame period
 			public static final int timeoutMs = 30; // status frame timeout
