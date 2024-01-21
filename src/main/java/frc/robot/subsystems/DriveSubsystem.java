@@ -51,23 +51,23 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
-  public double getTelemetryAngleEncoder(int modnumber) {
+  public double telemetryAngleEncoder(int modnumber) {
     return swerveMods[modnumber].telemetryAngleEncoder();
   }
 
-  public double getTelemetryAngleEncoderSI(int modnumber) {
+  public double telemetryAngleEncoderSI(int modnumber) {
     return swerveMods[modnumber].telemetryAngleEncoderSI();
   }
 
-  public double getTelemetryAngleEncoderSIAbs(int modnumber) {
+  public double telemetryAngleEncoderSIAbs(int modnumber) {
     return swerveMods[modnumber].telemetryAngleEncoderSIAbs();
   }
 
-  public double getTelemetryDriveEncoder(int modnumber) {
+  public double telemetryDriveEncoder(int modnumber) {
     return swerveMods[modnumber].telemetryDriveEncoder();
   }
 
-  public double getTelemetryCANCoderSI(int modnumber) {
+  public double telemetryCANCoderSI(int modnumber) {
     return swerveMods[modnumber].telemetryCANCoderSI();
   }
 
