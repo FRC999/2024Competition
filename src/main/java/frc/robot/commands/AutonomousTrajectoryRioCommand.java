@@ -49,16 +49,16 @@ public class AutonomousTrajectoryRioCommand extends FollowPathHolonomic {
       RobotContainer.driveSubsystem::getPose, //supplier of pose2d
       RobotContainer.driveSubsystem::getChassisSpeeds, //supplier of max chassis speeds
       RobotContainer.driveSubsystem::setChassisSpeeds,  //consumer of chassis speeds
-      new PIDConstants(Constants.SwerveChassis.DRIVE_CHASSIS_KP,
-                        Constants.SwerveChassis.DRIVE_CHASSIS_KI,
-                        Constants.SwerveChassis.DRIVE_CHASSIS_KD),
-      new PIDConstants(Constants.SwerveChassis.DRIVE_CHASSIS_KP,
-                        Constants.SwerveChassis.DRIVE_CHASSIS_KI,
-                        Constants.SwerveChassis.DRIVE_CHASSIS_KD),  //both PID constants
+      new PIDConstants(SwerveChassis.DRIVE_CHASSIS_KP,  // Translation PID constants
+                        SwerveChassis.DRIVE_CHASSIS_KI,
+                        SwerveChassis.DRIVE_CHASSIS_KD),
+      new PIDConstants(SwerveChassis.ANGLE_CHASSIS_KP,  // Rotation PID constants
+                        SwerveChassis.ANGLE_CHASSIS_KI,
+                        SwerveChassis.ANGLE_CHASSIS_KD),  //both PID constants
       SwerveChassis.MAX_VELOCITY, //Max module speed
       SwerveChassis.CHASSIS_OUTER_DRIVE_RADIUS, //drive base radius
       new ReplanningConfig(), //replanning config
-      () -> false,  //mirror trajectory
+      () -> false,  //mirror trajectory - change when needed
       RobotContainer.driveSubsystem //subsystem dependency
     );
     this.trajectoryPath = trajectoryPath;
