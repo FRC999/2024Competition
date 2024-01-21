@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -68,8 +69,16 @@ public class SwerveRobotModule {
         return getAngleEncoderPositionSI();
     }
 
+    public double telemetryAngleEncoderSIAbs() {
+        return getAngleEncoderPositionSIAbs();
+    }
+
     public double telemetryDriveEncoder() {
         return getDriveEncoderPosition();
+    }
+
+    public double telemetryCANCoderSI() {
+        return cancoder.getAbsolutePosition();
     }
 
     public void testDriveMotorApplyPower(double power) {
@@ -180,7 +189,7 @@ public class SwerveRobotModule {
 
         angleMotorBrakeMode();
 
-        setAngleMotorChassisAngleSI(0); //Initialization turn wheels to 0 degrees
+        //setAngleMotorChassisAngleSI(0); //Initialization turn wheels to 0 degrees
 
     }
 
@@ -212,6 +221,12 @@ public class SwerveRobotModule {
     public double getAngleEncoderPositionSI() {
         return angleMotor.getSelectedSensorPosition()
                 * TalonFXSwerveConfiguration.degreePerTickFX;
+    }
+
+    public double getAngleEncoderPositionSIAbs() {
+        return (angleMotor.getSelectedSensorPosition()
+                * TalonFXSwerveConfiguration.degreePerTickFX)
+                %360;
     }
 
     /**
@@ -335,8 +350,12 @@ public class SwerveRobotModule {
      * needed.
      */
     public void setEncoderforWheelCalibration(SwerveModuleConstantsEnum c) {
-        double difference = getCancoderAbsEncoderValue() - c.getAngleOffset() / TalonFXSwerveConfiguration.degreePerTickCancoder;
+        double difference = (getCancoderAbsEncoderValue() - c.getAngleOffset())
+                / TalonFXSwerveConfiguration.degreePerTickFX; // cancoder returns Abs value in Degrees
         double encoderSetting = 0.0;
+
+        // alex test
+        //System.out.println(c.getAngleMotorID()+"#"+getCancoderAbsEncoderValue()+"#"+c.getAngleOffset()+"#");
 
         if (difference < 0) {
             difference += TalonFXSwerveConfiguration.clicksFXPerFullRotation;

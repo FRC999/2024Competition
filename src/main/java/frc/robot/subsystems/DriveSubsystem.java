@@ -12,7 +12,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.SwerveRobotModule;
@@ -48,8 +50,16 @@ public class DriveSubsystem extends SubsystemBase {
     return swerveMods[modnumber].telemetryAngleEncoderSI();
   }
 
+  public double telemetryAngleEncoderSIAbs(int modnumber) {
+    return swerveMods[modnumber].telemetryAngleEncoderSIAbs();
+  }
+
   public double telemetryDriveEncoder(int modnumber) {
     return swerveMods[modnumber].telemetryDriveEncoder();
+  }
+
+  public double telemetryCANCoderSI(int modnumber) {
+    return swerveMods[modnumber].telemetryCANCoderSI();
   }
 
   public void stopDriveMotor(int modnumber) {
@@ -219,6 +229,19 @@ public class DriveSubsystem extends SubsystemBase {
   public ChassisSpeeds getChassisSpeeds() {
     ChassisSpeeds chassisSpeeds = new ChassisSpeeds(SwerveChassis.MAX_VELOCITY, SwerveChassis.MAX_VELOCITY, SwerveChassis.MAX_ANGULAR_VELOCITY);
     return chassisSpeeds;
+  }
+
+
+  
+
+   // Used only for motor testing; run motor forward, 0.3 power
+  public void testDriveMotorEncoderPhase(int modnumber){
+    swerveMods[modnumber].testDriveMotorApplyPower(0.3);
+  }
+
+  // Used only for motor testing; run motor forward, 0.3 power
+  public void testAngleMotorEncoderPhase(int modnumber) {
+    swerveMods[modnumber].testAngleMotorApplyPower(0.3);
   }
 
   @Override

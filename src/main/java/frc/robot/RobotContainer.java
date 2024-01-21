@@ -21,7 +21,9 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -40,9 +42,11 @@ public class RobotContainer {
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
   public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
-  public final GPMSubsystem gpmSubsystem = new GPMSubsystem();
+  //public final GPMSubsystem gpmSubsystem = new GPMSubsystem();
   public final NetworkTablesSubsystem networkTableSubsystem = new NetworkTablesSubsystem();
   public static Controller xboxController;
+
+  public static Controller driveStick; // for robot testing only
 
   // A Data Log Manager file handle
   public static StringLogEntry myStringLog;
@@ -70,12 +74,12 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    driveSubsystem.setDefaultCommand(
-        new DriveManuallyCommand(
-            () -> getDriverXAxis(),
-            () -> getDriverYAxis(),
-            () -> getDriverOmegaAxis(),
-            () -> getDriverFieldCentric()));
+   // driveSubsystem.setDefaultCommand(
+   //     new DriveManuallyCommand(
+   //         () -> getDriverXAxis(),
+   //         () -> getDriverYAxis(),
+   //         () -> getDriverOmegaAxis(),
+   //         () -> getDriverFieldCentric()));
 
       
   }
@@ -93,7 +97,7 @@ public class RobotContainer {
        * to the
        * commands that need manual control input (e.g. DriveManuallyCommand)
        */
-      //driveStick = new Controller(ControllerDevice.DRIVESTICK);  // disable joysticks for driver practice code
+      driveStick = new Controller(ControllerDevice.DRIVESTICK);  // disable joysticks for driver practice code
       //turnStick = new Controller(ControllerDevice.TURNSTICK);   // disable joysticks for driver practice code
       xboxController = new Controller(ControllerDevice.XBOX_CONTROLLER);
       // bbl = new Joystick(OIConstants.bblPort);
@@ -118,13 +122,18 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    //new Trigger(m_exampleSubsystem::exampleCondition)
+    //    .onTrue(new ExampleCommand(m_exampleSubsystem));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    //m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+
+    // Test Motor working, Inversion, and Encder phase
+    testCalibrateMotorsAndEncodersButtonBindings();
+
   }
 
   private double getDriverXAxis() {
@@ -151,6 +160,52 @@ public class RobotContainer {
    */
   private boolean getDriverFieldCentric() {
       return !xboxController.getRawButton(OIConstants.robotCentricButton);
+  }
+
+  /**
+   * #######################################################
+   * Methods used for motor, chassis and auto testing
+   * #######################################################
+   */
+
+  /**
+   * 
+  * Make sure motors move robot forward with positive power and encoders increase with positive power
+  * To enable put a call to this method in configureBindings method
+  */
+  private void testCalibrateMotorsAndEncodersButtonBindings() {
+
+    new JoystickButton(driveStick, 1)
+        .whileTrue(new InstantCommand(() -> RobotContainer.driveSubsystem.testDriveMotorEncoderPhase(0)))
+        .whileFalse(new InstantCommand(() -> RobotContainer.driveSubsystem.stopDriveMotor(0)));
+
+    new JoystickButton(driveStick, 3)
+        .whileTrue(new InstantCommand(() -> RobotContainer.driveSubsystem.testDriveMotorEncoderPhase(1)))
+        .whileFalse(new InstantCommand(() -> RobotContainer.driveSubsystem.stopDriveMotor(1)));
+
+    new JoystickButton(driveStick, 5)
+        .whileTrue(new InstantCommand(() -> RobotContainer.driveSubsystem.testDriveMotorEncoderPhase(2)))
+        .whileFalse(new InstantCommand(() -> RobotContainer.driveSubsystem.stopDriveMotor(2)));
+
+    new JoystickButton(driveStick, 7)
+        .whileTrue(new InstantCommand(() -> RobotContainer.driveSubsystem.testDriveMotorEncoderPhase(3)))
+        .whileFalse(new InstantCommand(() -> RobotContainer.driveSubsystem.stopDriveMotor(3)));
+
+    new JoystickButton(driveStick, 2)
+        .whileTrue(new InstantCommand(() -> RobotContainer.driveSubsystem.testAngleMotorEncoderPhase(0)))
+        .whileFalse(new InstantCommand(() -> RobotContainer.driveSubsystem.stopAngleMotor(0)));
+
+    new JoystickButton(driveStick, 4)
+        .whileTrue(new InstantCommand(() -> RobotContainer.driveSubsystem.testAngleMotorEncoderPhase(1)))
+        .whileFalse(new InstantCommand(() -> RobotContainer.driveSubsystem.stopAngleMotor(1)));
+
+    new JoystickButton(driveStick, 6)
+        .whileTrue(new InstantCommand(() -> RobotContainer.driveSubsystem.testAngleMotorEncoderPhase(2)))
+        .whileFalse(new InstantCommand(() -> RobotContainer.driveSubsystem.stopAngleMotor(2)));
+
+    new JoystickButton(driveStick, 8)
+        .whileTrue(new InstantCommand(() -> RobotContainer.driveSubsystem.testAngleMotorEncoderPhase(3)))
+        .whileFalse(new InstantCommand(() -> RobotContainer.driveSubsystem.stopAngleMotor(3)));
   }
 
   /**

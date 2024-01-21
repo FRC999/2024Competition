@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class SmartDashboardSubsystem extends SubsystemBase {
@@ -17,15 +18,18 @@ public class SmartDashboardSubsystem extends SubsystemBase {
   /**
    * If you turn a wheel counnter-clockwise the angle value and SI value should increase
    */
-  // public void updateOdometryTelemetry() {
-  //   for (int i =0; i<4; i++){
-  //     SmartDashboard.putNumber("S"+i+" Angle Encoder", RobotContainer.driveSubsystem.telemetryAngleEncoder(i));
-  //     SmartDashboard.putNumber("S"+i+" Angle Encoder SI", RobotContainer.driveSubsystem.telemetryAngleEncoderSI(i));
-  //     SmartDashboard.putNumber("S"+i+" Drive Encoder", RobotContainer.driveSubsystem.telemetryDriveEncoder(i));
+  public void updateOdometryTelemetry() {
+     for (int i =0; i<4; i++){
+       SmartDashboard.putNumber("S"+i+" Angle Encoder", RobotContainer.driveSubsystem.telemetryAngleEncoder(i));
+       SmartDashboard.putNumber("S"+i+" Angle Encoder SI", RobotContainer.driveSubsystem.telemetryAngleEncoderSI(i));
+       SmartDashboard.putNumber("S"+i+" Angle Encoder SI Abs", RobotContainer.driveSubsystem.telemetryAngleEncoderSIAbs(i));
+       SmartDashboard.putNumber("S"+i+" Drive Encoder", RobotContainer.driveSubsystem.telemetryDriveEncoder(i));
+       //SmartDashboard.putNumber("S"+i+" Drive Encoder", RobotContainer.driveSubsystem.telemetryDriveEncoderSI(i));
+       SmartDashboard.putNumber("S"+i+" CANCoder", RobotContainer.driveSubsystem.telemetryCANCoderSI(i));
       
-  //   }
+    }
     
-  // }
+  }
 
   public void updateIMUTelemetry() {
     SmartDashboard.putNumber("IMU Yaw", RobotContainer.imuSubsystem.getYaw());
@@ -33,7 +37,7 @@ public class SmartDashboardSubsystem extends SubsystemBase {
 
 
   public void updateAllDisplays(){
-    //updateOdometryTelemetry();
+    updateOdometryTelemetry();
     updateIMUTelemetry();
   }
   @Override

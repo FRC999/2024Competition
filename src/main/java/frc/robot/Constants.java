@@ -190,17 +190,15 @@ public final class Constants {
 			// Customize the following values to your prototype
 			public static final double metersPerTickFX = 1.0 / 1462.25; // TODO: measure this number on the robot -
 																		// drive motor only
-			public static final double degreePerTickFX = 360.0 / 4096.0; // Angle motor only
+			public static final double degreePerTickFX = 1 / 122.11575; // Angle motor only
 			// On our swerve prototype 1 angular rotation of
 			// the wheel = 1 full rotation of the encoder
-			public static final double degreePerTickCancoder = 360.0 / 4096.0; // degrees per tick for cancoder to track
-																				// absolute wheel position
 
 			// Absolute encoder setup
 			public static final boolean kDiscontinuityPresent = true;
 			public static final int kBookEnd_0 = 910; /* 80 deg */
 			public static final int kBookEnd_1 = 1137; /* 100 deg */
-			public static final int clicksFXPerFullRotation = 4096; // rollover on 999 swerve encoder - we use Falcon FX
+			public static final double clicksFXPerFullRotation = 360.0/degreePerTickFX; // rollover on 999 swerve encoder - we use Falcon FX
 																	// relative encoders for angle with x:x ratio
 																	// TODO: find out and fix that ratio
 
@@ -325,9 +323,9 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					1, // driveMotorID
 					2, // angleMotorID
-					104.150, // angleOffset of cancoder to mark zero-position
-					true, // Inversion for drive motor
-					false, // Inversion for angle motor
+					101.338, // angleOffset of cancoder to mark zero-position
+					false, // Inversion for drive motor
+					true, // Inversion for angle motor
 					false, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor
 					20 // cancoder ID
@@ -338,8 +336,8 @@ public final class Constants {
 					3, // driveMotorID
 					4, // angleMotorID
 					165.938, // angleOffset of cancoder to mark zero-position
-					true, // Inversion for drive motor
-					false, // Inversion for angle motor
+					false, // Inversion for drive motor
+					true, // Inversion for angle motor
 					false, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor
 					21 // cancoder ID
@@ -350,9 +348,9 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					5, // driveMotorID
 					6, // angleMotorID
-					244.688, // angleOffset of cancoder to mark zero-position 
-					true, // Inversion for drive motor
-					false, // Inversion for angle motor
+					240.99, // angleOffset of cancoder to mark zero-position 
+					false, // Inversion for drive motor
+					true, // Inversion for angle motor
 					true, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor
 					22 // cancoder ID
@@ -364,8 +362,8 @@ public final class Constants {
 					7, // driveMotorID
 					8, // angleMotorID
 					164.092, // angleOffset of cancoder to mark zero-position
-					true, // Inversion for drive motor
-					false, // Inversion for angle motor
+					false, // Inversion for drive motor
+					true, // Inversion for angle motor
 					true, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor
 					23 // cancoder ID
