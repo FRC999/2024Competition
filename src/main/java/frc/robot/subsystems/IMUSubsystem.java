@@ -23,6 +23,9 @@ public class IMUSubsystem extends SubsystemBase {
   private static WPI_Pigeon2 imu; // We will use downcasting to set this - it will point to methods either in NavX
   // or Pigeon subsystems
 
+  private double trajectoryAdjustmentIMU; // This is the value we need to adjust the IMU by after Trajectory
+  // is completed
+
   /**
    * Creates a new IMUSubsystem.
    * This is an IMU Passthrough class, meaning, it provides a class for the
@@ -39,7 +42,7 @@ public class IMUSubsystem extends SubsystemBase {
   public IMUSubsystem() {
 
     imu = new WPI_Pigeon2(Constants.IMUConstants.PIGEON2_CAN_ID);
-
+    
     //I am calling this because for some reason zeroYaw gives error for 
     //  "The method zeroYaw() is undefined for the type WPI_Pigeon2"
     //imu.zeroYaw();
@@ -138,6 +141,28 @@ public class IMUSubsystem extends SubsystemBase {
    */
   public double getTurnRate() {
     return -imu.getRate();
+  }
+
+    /**
+   * This method is used when we want to "snap" the chassis to a trajectory start, meaning
+   * assuming that the robot is at the starting point of the trajectory.
+   * Here we remember starting Yaw before trajectory so it can be restored
+   * back after trajectory
+   * @param y - starting Yaw of the trajectory
+   * @return - old value of the Yaw (we do not currently use it)
+   */
+  public double setYawForTrajectory(double y) {
+    trajectoryAdjustmentIMU = RobotContainer.imuSubsystem.getYaw() - y;
+    return setYaw(y);  // our own setYaw that returns old angle
+  }
+
+  /**
+   * Once the trajectory is done, we want to readjust the Yaw considering the value that we "remember", so
+   * the field-centric drive axis will not change. That may allow one to drive automated trajectories in teleop
+   * without losing the Yaw direction.
+   */
+  public void restoreYawAfterTrajectory() {
+    imu.setYaw(RobotContainer.imuSubsystem.getYaw() + trajectoryAdjustmentIMU);
   }
 
 }

@@ -11,12 +11,14 @@ import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.GPMSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
 import frc.robot.subsystems.NetworkTablesSubsystem;
 import frc.robot.subsystems.SmartDashboardSubsystem;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -136,6 +138,9 @@ public class RobotContainer {
 
     // Test Swerve drive routines - DONE
     // swerveValuesTesting();
+
+    // Test PathPlanner
+    trajectoryCalibration();
 
   }
 
@@ -290,6 +295,12 @@ public class RobotContainer {
            .andThen(new InstantCommand(() -> RobotContainer.driveSubsystem.stopDriveMotor(2)))
            .andThen(new InstantCommand(() -> RobotContainer.driveSubsystem.stopDriveMotor(3)))
         );
+  }
+
+  public void trajectoryCalibration() {
+      new JoystickButton(driveStick, 1)
+              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("OneMeterForward"))
+              .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
   }
 
   /**
