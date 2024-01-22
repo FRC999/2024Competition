@@ -181,6 +181,7 @@ public class RobotContainer {
   * Make sure motors move robot forward with positive power and encoders increase with positive power
   * To enable put a call to this method in configureBindings method
   */
+  @SuppressWarnings("unused")
   private void testCalibrateMotorsAndEncodersButtonBindings() {
 
     new JoystickButton(driveStick, 1)
@@ -216,6 +217,7 @@ public class RobotContainer {
         .whileFalse(new InstantCommand(() -> RobotContainer.driveSubsystem.stopAngleMotor(3)));
   }
 
+  @SuppressWarnings("unused")
   private void swerveValuesTesting() { // Field centric numbers applied
 
     // Move robot to the left
@@ -297,6 +299,7 @@ public class RobotContainer {
         );
   }
 
+  @SuppressWarnings("unused")
   public void trajectoryCalibration() {
       new JoystickButton(driveStick, 1)
               .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("OneMeterForward"))

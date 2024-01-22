@@ -39,7 +39,8 @@ public class DriveManuallyCommand extends Command {
    * @param dy
    * @param dm
    */
-  private void driveControlTelemetry(double dx, double dy, double dm){
+  @SuppressWarnings("unused")
+   private void driveControlTelemetry(double dx, double dy, double dm){
     System.out.print("DX "+ dx);
     System.out.print(" DY "+ dy);
     System.out.println(" Dm "+ dm);
