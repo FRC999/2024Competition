@@ -5,25 +5,20 @@ import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import frc.robot.Constants;
 import frc.robot.Constants.PIDConstantsForSwerveModules.FXAngle;
 import frc.robot.Constants.SwerveChassis;
 import frc.robot.Constants.SwerveChassis.SwerveModuleConstantsEnum;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 import frc.robot.Constants.SwerveChassis.TalonFXSwerveConfiguration;
 
-@SuppressWarnings({ "deprecation", "removal" })
+@SuppressWarnings({ "removal" })
 public class SwerveRobotModule {
 
     private WPI_TalonFX driveMotor;
