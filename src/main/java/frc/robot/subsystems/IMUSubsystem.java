@@ -154,7 +154,7 @@ public class IMUSubsystem extends SubsystemBase {
     trajectoryAdjustmentIMU = RobotContainer.imuSubsystem.getYaw() - y;
 
     // alex test
-    System.out.println("----  Trajectory AdjustmentIMU: "+ trajectoryAdjustmentIMU + " Real: "+ RobotContainer.imuSubsystem.getYaw()) ;
+    //System.out.println("----  Trajectory AdjustmentIMU: "+ trajectoryAdjustmentIMU + " Real: "+ RobotContainer.imuSubsystem.getYaw()) ;
 
     return setYaw(y);  // our own setYaw that returns old angle
   }
@@ -165,7 +165,7 @@ public class IMUSubsystem extends SubsystemBase {
    * without losing the Yaw direction.
    */
   public void restoreYawAfterTrajectory() {
-    System.out.println("Restoring original IMU after trajectory "+ (RobotContainer.imuSubsystem.getYaw() + trajectoryAdjustmentIMU));
+    //System.out.println("Restoring original IMU after trajectory "+ (RobotContainer.imuSubsystem.getYaw() + trajectoryAdjustmentIMU));
     imu.setYaw(RobotContainer.imuSubsystem.getYaw() + trajectoryAdjustmentIMU);
   }
 

@@ -39,8 +39,7 @@ public class RunTrajectorySequenceRobotAtStartPoint extends SequentialCommandGro
       new InstantCommand( () -> RobotContainer.imuSubsystem.setYawForTrajectory(trajectoryPath.getPreviewStartingHolonomicPose().getRotation().getDegrees()) ),
 
       // alex test
-
-      new PrintCommand("Initial Pose: " + trajectoryPath.getPreviewStartingHolonomicPose().toString()),
+      //new PrintCommand("Initial Pose: " + trajectoryPath.getPreviewStartingHolonomicPose().toString()),
 
       new InstantCommand( () -> RobotContainer.driveSubsystem.resetOdometry(trajectoryPath.getPreviewStartingHolonomicPose()  ) ),
       //new PrintCommand(

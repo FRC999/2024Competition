@@ -275,7 +275,7 @@ public final class Constants {
 			/**
 			 * Print odometry telemetry every 20 milliseconds.
 			 */
-			public static final boolean odometryTelemetryPrint = true;
+			public static final boolean odometryTelemetryPrint = false;
 
 		}
 
