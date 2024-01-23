@@ -302,13 +302,16 @@ public class RobotContainer {
   @SuppressWarnings("unused")
   public void trajectoryCalibration() {
       new JoystickButton(driveStick, 1)
-              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("OneMeterForward"))
+              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeterForward"))
               .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
       new JoystickButton(driveStick, 2)
-              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("OneMeterBackwards"))
+              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeterBackwards"))
               .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
       new JoystickButton(driveStick, 3)
-              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("OneMeter45"))
+              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeter45"))
+              .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+      new JoystickButton(driveStick, 4)
+              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023Loop"))
               .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
   }
 
