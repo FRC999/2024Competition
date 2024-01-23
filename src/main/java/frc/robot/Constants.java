@@ -136,7 +136,7 @@ public final class Constants {
 		 * trajectory with PathPlanner
 		 * even if a trajectory includes a holonomic component.
 		 */
-		public static final double DRIVE_CHASSIS_KP = 3.0;
+		public static final double DRIVE_CHASSIS_KP = 2.7;
 		public static final double DRIVE_CHASSIS_KI = 0.05;
 		public static final double DRIVE_CHASSIS_KD = 0.01;
 
@@ -276,7 +276,7 @@ public final class Constants {
 			/**
 			 * Print odometry telemetry every 20 milliseconds.
 			 */
-			public static final boolean odometryTelemetryPrint = false;
+			public static final boolean odometryTelemetryPrint = true;
 
 		}
 

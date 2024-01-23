@@ -164,7 +164,8 @@ public class DriveSubsystem extends SubsystemBase {
    * It's used only for telemetry. Use the getPose() method to get the values returned.
    */
   public void odometryTelemetry() {
-    RobotContainer.myStringLog.append("Odometry: "+swerveOdometry.getPoseMeters());
+    //RobotContainer.myStringLog.append("Odometry: "+swerveOdometry.getPoseMeters());
+    System.out.println("Odometry: "+swerveOdometry.getPoseMeters());
   }
 
   /**
@@ -176,10 +177,12 @@ public class DriveSubsystem extends SubsystemBase {
    * @param s - array of positions for each individual swerve module
    */
   public void odometryCommandTelemetry(Rotation2d r, SwerveModulePosition[] s) {
-    RobotContainer.myStringLog.append("Odometry Command Rotation: "+r);
+    //RobotContainer.myStringLog.append("Odometry Command Rotation: "+r);
+    System.out.println("Odometry Command Rotation: "+r);
     
     for(int i = 0; i < 4; i++)  {
-      RobotContainer.myStringLog.append("Odometry Command Module: "+ i + " " + s[i]);
+      //RobotContainer.myStringLog.append("Odometry Command Module: "+ i + " " + s[i]);
+      System.out.println("Odometry Command Module: "+ i + " " + s[i]);
     }
   
   }
@@ -208,7 +211,8 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void updateTrajectoryOdometry() {
     if (SwerveTelemetry.odometryTelemetryPrint) {
-      RobotContainer.myStringLog.append("PoseSupplier: "+getPose());
+      //RobotContainer.myStringLog.append("PoseSupplier: "+getPose());
+      System.out.println("PoseSupplier: "+getPose());
       Rotation2d r = RobotContainer.imuSubsystem.getYawRotation2d();
       SwerveModulePosition[] s = getPositions();
       odometryCommandTelemetry(r, s);

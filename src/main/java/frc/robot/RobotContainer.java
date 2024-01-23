@@ -301,6 +301,12 @@ public class RobotContainer {
       new JoystickButton(driveStick, 1)
               .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("OneMeterForward"))
               .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+      new JoystickButton(driveStick, 2)
+              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("OneMeterBackwards"))
+              .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+      new JoystickButton(driveStick, 3)
+              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("OneMeter45"))
+              .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
   }
 
   /**
