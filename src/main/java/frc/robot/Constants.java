@@ -163,7 +163,7 @@ public final class Constants {
 				/ (Math.sqrt(TRACK_WIDTH * TRACK_WIDTH + WHEEL_BASE * WHEEL_BASE) / 2);
 
 		// For trajectory driving.
-		public static final double MAX_ACCELERATION = 2.0;
+		public static final double MAX_ACCELERATION = 0.9;
 
 		/**
 		 * Parameters for BaseMotorTalonFX class
@@ -257,7 +257,7 @@ public final class Constants {
 			/**
 			 * Collect telemetry using Data Log Manager
 			 */
-			public static final boolean saveDataUsingDataLogManager = false;
+			public static final boolean saveDataUsingDataLogManager = true;
 			public static final String logFileName = "/home/lvuser/LittleSwerve";
 
 			public static enum SwerveDriveOrTelemetry {
@@ -275,7 +275,7 @@ public final class Constants {
 			/**
 			 * Print odometry telemetry every 20 milliseconds.
 			 */
-			public static final boolean odometryTelemetryPrint = false;
+			public static final boolean odometryTelemetryPrint = true;
 
 		}
 

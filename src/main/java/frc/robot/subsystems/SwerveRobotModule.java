@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
@@ -12,14 +12,16 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PIDConstantsForSwerveModules.FXAngle;
+import frc.robot.Constants;
 import frc.robot.Constants.SwerveChassis;
 import frc.robot.Constants.SwerveChassis.SwerveModuleConstantsEnum;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 import frc.robot.Constants.SwerveChassis.TalonFXSwerveConfiguration;
 
 @SuppressWarnings({ "removal" })
-public class SwerveRobotModule {
+public class SwerveRobotModule extends SubsystemBase {
 
     private WPI_TalonFX driveMotor;
     private WPI_TalonFX angleMotor;
@@ -381,5 +383,14 @@ public class SwerveRobotModule {
         angleMotor.setNeutralMode(NeutralMode.Brake);
     }
 
+    @Override
+    public void periodic() {
+
+        // While we update the current angle of the angle motor for telemetry,
+        // It's not used in the teleop driving, as we use real-time update via getState call.
+        currentAngle = Rotation2d.fromDegrees(getAngleEncoderPositionSI());
+
+        //integratedAngleEncoder.setPosition(cancoder.getAbsolutePosition() - angleOffset);
+    }
 
 }
