@@ -15,7 +15,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.SwerveRobotModule;
 import frc.robot.Constants.SwerveChassis;
 import frc.robot.Constants.SwerveChassis.*;
 

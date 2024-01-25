@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
-import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -17,7 +19,7 @@ import frc.robot.RobotContainer;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class RunTrajectorySequenceRobotAtStartPoint extends SequentialCommandGroup {
 
-  PathPlannerPath trajectoryPath;
+  PathPlannerTrajectory trajectoryPath;
   boolean isReversed = false;
 
   /** Creates a new RunTrajectorySequenceRobotAtStartPoint.
@@ -30,18 +32,14 @@ public class RunTrajectorySequenceRobotAtStartPoint extends SequentialCommandGro
     // addCommands(new FooCommand(), new BarCommand());
 
     // Read the trajectory from a file
-    trajectoryPath = PathPlannerPath.fromPathFile(trajectory);
+    trajectoryPath = PathPlanner.loadPath(trajectory, new PathConstraints(maxVelocity, maxAcceleration), reversed);
 
     addCommands(
       //new InstantCommand(RobotContainer.driveSubsystem::zeroDriveEncoders),
       new PrintCommand("****Starting trajectory****"),
       //new WaitCommand(0.4),
-      new InstantCommand( () -> RobotContainer.imuSubsystem.setYawForTrajectory(trajectoryPath.getPreviewStartingHolonomicPose().getRotation().getDegrees()) ),
-
-      // alex test
-      //new PrintCommand("Initial Pose: " + trajectoryPath.getPreviewStartingHolonomicPose().toString()),
-
-      new InstantCommand( () -> RobotContainer.driveSubsystem.resetOdometry(trajectoryPath.getPreviewStartingHolonomicPose()  ) ),
+      new InstantCommand( () -> RobotContainer.imuSubsystem.setYawForTrajectory(trajectoryPath.getInitialHolonomicPose().getRotation().getDegrees()) ),
+      new InstantCommand( () -> RobotContainer.driveSubsystem.resetOdometry(trajectoryPath.getInitialHolonomicPose()  ) ),
       //new PrintCommand(
       //  "START IX:" + trajectoryPath.getInitialPose().getX()+
       //  " IY:" + trajectoryPath.getInitialPose().getY()+

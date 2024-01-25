@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.Constants;
 import frc.robot.Constants.OIConstants.ControllerDevice;
 import frc.robot.Constants.OIConstants.ControllerDeviceType;
 
