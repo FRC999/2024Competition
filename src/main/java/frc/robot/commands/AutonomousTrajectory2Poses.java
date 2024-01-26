@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPoint;
@@ -21,7 +23,7 @@ public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
    * @param startPose
    * @param endPose
    */
-  public AutonomousTrajectory2Poses( Pose2d startPose, Pose2d endPose) {
+  public AutonomousTrajectory2Poses( Supplier<Pose2d> startPose, Supplier<Pose2d> endPose) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     this(startPose, endPose, SwerveChassis.MAX_VELOCITY, SwerveChassis.MAX_ACCELERATION);
@@ -34,15 +36,15 @@ public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
    * @param maxVelocity
    * @param maxAcceleration
    */
-  public AutonomousTrajectory2Poses( Pose2d startPose, Pose2d endPose, double maxVelocity, double maxAcceleration) {
+  public AutonomousTrajectory2Poses( Supplier<Pose2d> startPose, Supplier<Pose2d> endPose, double maxVelocity, double maxAcceleration) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new AutonomousTrajectoryRioCommand(
         PathPlanner.generatePath(
           new PathConstraints(maxVelocity, maxAcceleration),
-          new PathPoint(startPose.getTranslation(), startPose.getRotation()), // position, heading
-          new PathPoint(endPose.getTranslation(), endPose.getRotation()) // position, heading
+          new PathPoint(startPose.get().getTranslation(), startPose.get().getRotation()), // position, heading
+          new PathPoint(endPose.get().getTranslation(), endPose.get().getRotation()) // position, heading
         )
       )
     );
