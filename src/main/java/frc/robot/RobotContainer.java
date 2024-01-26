@@ -121,6 +121,9 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
+    helperButtons();
+
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     //new Trigger(m_exampleSubsystem::exampleCondition)
     //    .onTrue(new ExampleCommand(m_exampleSubsystem));
@@ -308,6 +311,11 @@ public class RobotContainer {
       new JoystickButton(driveStick, 3)
               .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("OneMeter45"))
               .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+  }
+
+  public void helperButtons() {
+    new JoystickButton(driveStick, 12) 
+      .onTrue(new InstantCommand(RobotContainer.imuSubsystem::zeroYaw));
   }
 
   /**
