@@ -8,6 +8,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OIConstants.ControllerDevice;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
+import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
@@ -17,6 +18,11 @@ import frc.robot.subsystems.GPMSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
 import frc.robot.subsystems.NetworkTablesSubsystem;
 import frc.robot.subsystems.SmartDashboardSubsystem;
+
+import java.util.function.Supplier;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -303,19 +309,32 @@ public class RobotContainer {
   @SuppressWarnings("unused")
   public void trajectoryCalibration() {
       new JoystickButton(driveStick, 1)
-              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("OneMeterForward"))
+              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeterForward"))
               .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
       new JoystickButton(driveStick, 2)
-              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("OneMeterBackwards"))
+              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeterBackwards"))
               .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
       new JoystickButton(driveStick, 3)
-              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("OneMeter45"))
+              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeter45"))
               .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+      new JoystickButton(driveStick, 4)
+              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023ThreeMeterForward"))
+              .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));  
+      new JoystickButton(driveStick, 5)
+              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023ThreeMeterForward90"))
+              .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));  
+      new JoystickButton(driveStick, 6)
+              .whileTrue(new AutonomousTrajectory2Poses(  ()->testPoseSupplier(1,1,0), ()->testPoseSupplier(2,1,0)))
+              .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));    
   }
 
+  Pose2d testPoseSupplier(double x, double y, double angle) {
+    return new Pose2d(x,y,new Rotation2d().fromDegrees(angle));
+  }
   public void helperButtons() {
     new JoystickButton(driveStick, 12) 
       .onTrue(new InstantCommand(RobotContainer.imuSubsystem::zeroYaw));
+    
   }
 
   /**
