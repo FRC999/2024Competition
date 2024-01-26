@@ -39,12 +39,14 @@ public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
   public AutonomousTrajectory2Poses( Supplier<Pose2d> startPose, Supplier<Pose2d> endPose, double maxVelocity, double maxAcceleration) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    Pose2d sp = startPose.get();
+    Pose2d ep = endPose.get();
     addCommands(
       new AutonomousTrajectoryRioCommand(
         PathPlanner.generatePath(
           new PathConstraints(maxVelocity, maxAcceleration),
-          new PathPoint(startPose.get().getTranslation(), startPose.get().getRotation()), // position, heading
-          new PathPoint(endPose.get().getTranslation(), endPose.get().getRotation()) // position, heading
+          new PathPoint(sp.getTranslation(), sp.getRotation()), // position, heading
+          new PathPoint(ep.getTranslation(), ep.getRotation()) // position, heading
         )
       )
     );
