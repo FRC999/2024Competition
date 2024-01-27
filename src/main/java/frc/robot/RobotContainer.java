@@ -323,10 +323,16 @@ public class RobotContainer {
       new JoystickButton(driveStick, 5)
               .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023ThreeMeterForward90"))
               .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));  
+
       new JoystickButton(driveStick, 6)
-              .whileTrue(new AutonomousTrajectory2Poses(  ()->testPoseSupplier(1,1,0), ()->testPoseSupplier(2,1,0)))
-              .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));    
-  }
+          .whileTrue(new AutonomousTrajectory2Poses(() -> testPoseSupplier(1, 1, 0), () -> testPoseSupplier(2, 1, 0)))
+          .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+
+      new JoystickButton(driveStick, 7)
+          .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023ThreeMeterRight"))
+          .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+
+    }
 
   Pose2d testPoseSupplier(double x, double y, double angle) {
     return new Pose2d(x,y,new Rotation2d().fromDegrees(angle));

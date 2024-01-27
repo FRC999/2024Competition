@@ -163,7 +163,7 @@ public final class Constants {
 				/ (Math.sqrt(TRACK_WIDTH * TRACK_WIDTH + WHEEL_BASE * WHEEL_BASE) / 2);
 
 		// For trajectory driving.
-		public static final double MAX_ACCELERATION = 2.0;
+		public static final double MAX_ACCELERATION = 0.9;
 
 		/**
 		 * Parameters for BaseMotorTalonFX class
@@ -187,7 +187,7 @@ public final class Constants {
 																// in that time; otherwise assume the error
 
 			// Customize the following values to your prototype
-			public static final double metersPerTickFX = 1.0 / 48622.0; // measure this number on the robot - remeasure on carpet
+			public static final double metersPerTickFX = (107.66/100.0)*(1.0 / 48622.0); // measure this number on the robot - remeasure on carpet
 																		// drive motor only
 			public static final double degreePerTickFX = 1.0 / 122.11575; // Angle motor only
 			// On our swerve prototype 1 angular rotation of
