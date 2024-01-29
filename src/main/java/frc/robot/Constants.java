@@ -9,6 +9,7 @@ import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -631,6 +632,27 @@ public final class Constants {
 		public static double angleOffsetOfCameraFromTurretDirection = 30; // degrees; offset of camera direction from
 																			// the arm direction
 
+	}
+
+	public static final class VisionConstants {
+
+		public static final Pose2d redSpeakerPose = new Pose2d(8.308467, 4.098925, new Rotation2d(0)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		public static final Translation2d redSpeakerTranslation = redSpeakerPose.getTranslation();
+		public static final Pose2d blueSpeakerPose = new Pose2d(-8.308467, 4.098925, new Rotation2d().fromDegrees(180)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		public static final Translation2d blueSpeakerTranslation = blueSpeakerPose.getTranslation();
+		public static final Pose2d redAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d().fromDegrees(90)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		public static final Translation2d redAmpTranslation = redAmpPose.getTranslation();
+		public static final Pose2d blueAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d().fromDegrees(90)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		public static final Translation2d blueAmpTranslation = blueAmpPose.getTranslation();
+
+		public static final class LimeLightConstants {
+
+			public static final String LLAprilTagName = "limelight-at1";	// Limelight that will track Apriltags; may decide to use multiple ones
+
+			public static final Pose2d centerFieldPose = new Pose2d(8.308467, 4.098925, new Rotation2d(0));
+			public static final Translation2d centerFieldTranlation = centerFieldPose.getTranslation();
+
+		}
 	}
 
 	
