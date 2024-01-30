@@ -9,6 +9,7 @@ import frc.robot.Constants.OIConstants.ControllerDevice;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
+import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
@@ -19,9 +20,8 @@ import frc.robot.subsystems.GPMSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
 import frc.robot.subsystems.LLVisionSubsystem;
 import frc.robot.subsystems.NetworkTablesSubsystem;
+import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.SmartDashboardSubsystem;
-
-import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -55,6 +55,7 @@ public class RobotContainer {
   public final NetworkTablesSubsystem networkTableSubsystem = new NetworkTablesSubsystem();
 
   public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
+  public final static PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem(PhotonVisionConstants.PVCameraName);
 
   public static Controller xboxController;
 

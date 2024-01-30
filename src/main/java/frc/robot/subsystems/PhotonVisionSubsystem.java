@@ -16,7 +16,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
 import frc.robot.lib.VisionHelpers;
 
 public class PhotonVisionSubsystem extends SubsystemBase implements VisionHelpers {
@@ -41,6 +41,11 @@ public class PhotonVisionSubsystem extends SubsystemBase implements VisionHelper
 
   /** Creates a new PhotonVisionSubsystem. */
   public PhotonVisionSubsystem(String cameraName) {
+
+    // Check if we have PV installed
+    if (! PhotonVisionConstants.PV_PRESENT) {
+      return;
+    }
 
     this.cameraName = cameraName;
     camera = new PhotonCamera(cameraName);
@@ -83,7 +88,7 @@ public class PhotonVisionSubsystem extends SubsystemBase implements VisionHelper
     return null; // if no apriltags visible or the pose cannot be determined
   }
 
-  public boolean hasTargets() {
+  public boolean isApriltagVisible() {
     return this.aprilTagHasTargets;
   }
 

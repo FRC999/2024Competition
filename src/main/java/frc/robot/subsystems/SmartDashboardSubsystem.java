@@ -37,6 +37,13 @@ public class SmartDashboardSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("LL AngleD BlueS", RobotContainer.llVisionSubsystem.getAngleToBlueSpeaker(RobotContainer.llVisionSubsystem.getRobotFieldPoseLL()).getDegrees());
   }
 
+  public void updateVisionTelemetryPV() {
+    SmartDashboard.putBoolean("PV AT present", RobotContainer.photonVisionSubsystem.isApriltagVisible());
+    SmartDashboard.putString("PV RobotPose2d", RobotContainer.photonVisionSubsystem.getRobotFieldPosePV().toString());
+    SmartDashboard.putNumber("PV Distance BlueS", RobotContainer.photonVisionSubsystem.getDistanceToBlueSpeaker(RobotContainer.photonVisionSubsystem.getRobotFieldPosePV()));
+    SmartDashboard.putNumber("PV AngleD BlueS", RobotContainer.photonVisionSubsystem.getAngleToBlueSpeaker(RobotContainer.photonVisionSubsystem.getRobotFieldPosePV()).getDegrees());
+  }
+
   public void updateIMUTelemetry() {
     SmartDashboard.putNumber("IMU Yaw", RobotContainer.imuSubsystem.getYaw());
   }
