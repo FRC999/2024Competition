@@ -16,6 +16,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.GPMSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
+import frc.robot.subsystems.LLVisionSubsystem;
 import frc.robot.subsystems.NetworkTablesSubsystem;
 import frc.robot.subsystems.SmartDashboardSubsystem;
 
@@ -28,6 +29,7 @@ import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -47,6 +49,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
   public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
   //public final GPMSubsystem gpmSubsystem = new GPMSubsystem();
   public final NetworkTablesSubsystem networkTableSubsystem = new NetworkTablesSubsystem();
@@ -79,6 +82,8 @@ public class RobotContainer {
 
     // Configure the trigger bindings
     configureBindings();
+
+    visionTesting();
 
     driveSubsystem.setDefaultCommand(
         new DriveManuallyCommand(
@@ -307,6 +312,15 @@ public class RobotContainer {
   }
 
   @SuppressWarnings("unused")
+
+  public void visionTesting(){
+    new JoystickButton(driveStick, 11)
+              .whileTrue(new InstantCommand(RobotContainer.llVisionSubsystem :: getRobotFieldPoseLL, RobotContainer.llVisionSubsystem))
+              .whileFalse(new PrintCommand("Command let go"));
+    new JoystickButton(driveStick, 12)
+              .whileTrue(new InstantCommand(RobotContainer.llVisionSubsystem :: getDistanceToBlueAmp, RobotContainer.llVisionSubsystem))
+              .whileFalse(new PrintCommand("Command let go"));
+  }
   public void trajectoryCalibration() {
       new JoystickButton(driveStick, 1)
               .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeterForward"))

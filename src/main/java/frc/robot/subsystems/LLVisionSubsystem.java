@@ -22,6 +22,7 @@ public class LLVisionSubsystem extends SubsystemBase {
 
   public Pose2d getRobotFieldPoseLL() {
     if (LimelightHelpers.getTV(LimeLightConstants.LLAprilTagName)) { // LL target visible - meaning - see an Apriltag
+      System.out.println(LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName));
       return LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName); //TODO: Check if the coordinates need to be translated to 0,0 of the blue lower corner
       // return LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName).relativeTo(LimeLightConstants.centerFieldPose); // check if this returns the right pose from 0,0
     } else {
@@ -58,6 +59,7 @@ public class LLVisionSubsystem extends SubsystemBase {
     if (robotPose == null) {  // return NaN if the camera cannot determine the pose
       return Double.NaN;
     }
+    System.out.println(robotPose.getTranslation().getDistance(VisionConstants.blueAmpTranslation));
     return robotPose.getTranslation().getDistance(VisionConstants.blueAmpTranslation);
   }
 
