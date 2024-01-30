@@ -71,15 +71,16 @@ public class PhotonVisionSubsystem extends SubsystemBase implements VisionHelper
       aprilTagZAngle = aprilTagBestTarget.getBestCameraToTarget().getRotation().getAngle();
       fieldToCamera = aprilTagResult.getMultiTagResult().estimatedPose.best;
 
-      globalPoseEstimate = new Pose2d(fieldToCamera.getX(), fieldToCamera.getY(),
+      if (aprilTagResult.getMultiTagResult().estimatedPose.isPresent) { // this may need to be commented out as it depends whether the single tag pose estimation is enabled
+
+        globalPoseEstimate = new Pose2d(fieldToCamera.getX(), fieldToCamera.getY(),
           new Rotation2d(fieldToCamera.getRotation().getX(), fieldToCamera.getRotation().getY()));
-      // apriltaField2d.setRobotPose(globalPoseEstimate);
+          // apriltaField2d.setRobotPose(globalPoseEstimate);
+        return globalPoseEstimate;
+      } 
 
-      return globalPoseEstimate;
-    } else {
-      return null;
-    }
-
+    } 
+    return null; // if no apriltags visible or the pose cannot be determined
   }
 
   public boolean hasTargets() {

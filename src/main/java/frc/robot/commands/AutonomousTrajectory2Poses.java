@@ -11,6 +11,7 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPoint;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.SwerveChassis;
 
@@ -39,6 +40,11 @@ public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
   public AutonomousTrajectory2Poses( Supplier<Pose2d> startPose, Supplier<Pose2d> endPose, double maxVelocity, double maxAcceleration) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    System.out.println("*** Staring AutonomousTrajectory2Poses ***");
+
+    if (startPose == null || endPose == null) { // do not have valid poses; cannot drive
+      System.out.println("One of the drive poses is NULL. Not driving it.");
+    }
     Pose2d sp = startPose.get();
     Pose2d ep = endPose.get();
     addCommands(
@@ -50,5 +56,6 @@ public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
         )
       )
     );
+    System.out.println("*** End AutonomousTrajectory2Poses ***");
   }
 }
