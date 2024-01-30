@@ -639,16 +639,43 @@ public final class Constants {
 
 	}
 
+	/**
+	 * This class contains constants used for vision navigation, apriltag and gamepiece detection, ideal shooting poses etc.
+	 * The coordinate system 0,0 is at the the BLUE "lower" corner of the field. So, coordinates supplied some other way (e.g. LL)
+	 * are recalculated/transformed.
+	 */
 	public static final class VisionConstants {
 
+		// Poses of important game elements
 		public static final Pose2d redSpeakerPose = new Pose2d(8.308467, 4.098925, new Rotation2d(0)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d redSpeakerTranslation = redSpeakerPose.getTranslation();
-		public static final Pose2d blueSpeakerPose = new Pose2d(-8.308467, 4.098925, new Rotation2d().fromDegrees(180)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		public static final Pose2d blueSpeakerPose = new Pose2d(-8.308467, 4.098925, new Rotation2d(2*Math.PI)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d blueSpeakerTranslation = blueSpeakerPose.getTranslation();
-		public static final Pose2d redAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d().fromDegrees(90)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		public static final Pose2d redAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d(Math.PI)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d redAmpTranslation = redAmpPose.getTranslation();
-		public static final Pose2d blueAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d().fromDegrees(90)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		public static final Pose2d blueAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d(Math.PI)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d blueAmpTranslation = blueAmpPose.getTranslation();
+
+		// Ideal shooting poses
+		public static final Transform2d redSpeakerShootingTransform = new Transform2d(-2, 0, new Rotation2d(0));
+		public static final Pose2d redSpeakerShootingPose = redSpeakerPose.transformBy(redSpeakerShootingTransform);
+
+		public static final Transform2d blueSpeakerShootingTransform = new Transform2d(2, 0, new Rotation2d(0));
+		public static final Pose2d blueSpeakerShootingPose = redSpeakerPose.transformBy(blueSpeakerShootingTransform);
+
+		public static final Transform2d reAmpShootingTransform = new Transform2d(0, -1, new Rotation2d(0));
+		public static final Pose2d redAmpShootingPose = redAmpPose.transformBy(reAmpShootingTransform);
+
+		public static final Transform2d blueAmpShootingTransform = new Transform2d(2, 0, new Rotation2d(0));
+		public static final Pose2d blueAmpShootingPose = blueAmpPose.transformBy(blueAmpShootingTransform);
+
+
+		// All cameras, both LL and PhotonVision, must be properly calibrated for use
+		// per procedures indicated by the vendors.
+		// LL calibration involves special downloadable sheet with tags on it,
+		// while PhotonVision is calibrated via checkerboard.
+		// All calibration sheets must be printed to proper size as we try using built-in
+		// field pose estimators
 
 		public static final class LimeLightConstants {
 

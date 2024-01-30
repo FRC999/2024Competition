@@ -28,6 +28,10 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
     }
   }
 
+  public boolean isApriltagVisible() {
+    return LimelightHelpers.getTV(LimeLightConstants.LLAprilTagName);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

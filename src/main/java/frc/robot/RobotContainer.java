@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OIConstants.ControllerDevice;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.Autos;
@@ -49,10 +50,12 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
-  public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
   public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
   //public final GPMSubsystem gpmSubsystem = new GPMSubsystem();
   public final NetworkTablesSubsystem networkTableSubsystem = new NetworkTablesSubsystem();
+
+  public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
+
   public static Controller xboxController;
 
   public static Controller driveStick; // for robot testing only
@@ -82,8 +85,6 @@ public class RobotContainer {
 
     // Configure the trigger bindings
     configureBindings();
-
-    visionTesting();
 
     driveSubsystem.setDefaultCommand(
         new DriveManuallyCommand(
@@ -151,8 +152,11 @@ public class RobotContainer {
     // Test Swerve drive routines - DONE
     // swerveValuesTesting();
 
-    // Test PathPlanner
-    trajectoryCalibration();
+    // Test PathPlanner - DONE
+    // trajectoryCalibration();
+
+    // Test Vision
+    visionTesting();
 
   }
 
@@ -314,12 +318,23 @@ public class RobotContainer {
   @SuppressWarnings("unused")
 
   public void visionTesting(){
-    new JoystickButton(driveStick, 11)
-              .whileTrue(new InstantCommand(RobotContainer.llVisionSubsystem :: getRobotFieldPoseLL, RobotContainer.llVisionSubsystem))
-              .whileFalse(new PrintCommand("Command let go"));
-    new JoystickButton(driveStick, 12)
-              .whileTrue(new InstantCommand(RobotContainer.llVisionSubsystem :: getDistanceToBlueAmp, RobotContainer.llVisionSubsystem))
-              .whileFalse(new PrintCommand("Command let go"));
+
+      // LL Vision and shooting pose checks
+
+      // Blue Amp Shooting
+      new JoystickButton(driveStick, 1)
+              .onTrue(new PrintCommand("Blue AMP - driving from\n"+llVisionSubsystem.getRobotFieldPoseLL()
+                +"\n to \n"+
+                VisionConstants.blueAmpShootingPose))
+              .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+
+      // Blue Amp Shooting
+      new JoystickButton(driveStick, 2)
+              .onTrue(new PrintCommand("Blue Speaker - driving from\n"+llVisionSubsystem.getRobotFieldPoseLL()
+                +"\n to \n"+
+                VisionConstants.blueSpeakerShootingPose))
+              .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+
   }
   public void trajectoryCalibration() {
       new JoystickButton(driveStick, 1)

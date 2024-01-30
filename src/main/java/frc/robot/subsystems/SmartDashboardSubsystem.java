@@ -30,6 +30,13 @@ public class SmartDashboardSubsystem extends SubsystemBase {
     
   }
 
+  public void updateVisionTelemetryLL() {
+    SmartDashboard.putBoolean("LL AT present", RobotContainer.llVisionSubsystem.isApriltagVisible());
+    SmartDashboard.putString("LL RobotPose2d", RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().toString());
+    SmartDashboard.putNumber("LL Distance BlueS", RobotContainer.llVisionSubsystem.getDistanceToBlueSpeaker(RobotContainer.llVisionSubsystem.getRobotFieldPoseLL()));
+    SmartDashboard.putNumber("LL AngleD BlueS", RobotContainer.llVisionSubsystem.getAngleToBlueSpeaker(RobotContainer.llVisionSubsystem.getRobotFieldPoseLL()).getDegrees());
+  }
+
   public void updateIMUTelemetry() {
     SmartDashboard.putNumber("IMU Yaw", RobotContainer.imuSubsystem.getYaw());
   }
@@ -38,6 +45,9 @@ public class SmartDashboardSubsystem extends SubsystemBase {
   public void updateAllDisplays(){
     updateOdometryTelemetry();
     updateIMUTelemetry();
+
+    // Test vision
+    //updateVisionTelemetryLL();
   }
   @Override
   public void periodic() {
