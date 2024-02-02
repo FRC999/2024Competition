@@ -630,26 +630,33 @@ public final class Constants {
 	public static final class VisionConstants {
 
 		// Poses of important game elements
-		public static final Pose2d redSpeakerPose = new Pose2d(8.308467, 1.442593, new Rotation2d(Math.PI)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		// Direction is - front of the robot faces the element
+		
+		public static final Pose2d redSpeakerPose = new Pose2d(8.308467, 1.442593, new Rotation2d(0)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d redSpeakerTranslation = redSpeakerPose.getTranslation();
-		public static final Pose2d blueSpeakerPose = new Pose2d(-8.308467, 1.442593, new Rotation2d(0)).relativeTo(LimeLightConstants.centerFieldPose) ;
+
+		public static final Pose2d blueSpeakerPose = new Pose2d(-8.308467, 1.442593, new Rotation2d(Math.PI)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d blueSpeakerTranslation = blueSpeakerPose.getTranslation();
-		public static final Pose2d redAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d(-Math.PI/2)).relativeTo(LimeLightConstants.centerFieldPose) ;
+
+		public static final Pose2d redAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d(Math.PI/2)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d redAmpTranslation = redAmpPose.getTranslation();
-		public static final Pose2d blueAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d(-Math.PI/2)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		// Facign down
+		public static final Pose2d blueAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d(Math.PI/2)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d blueAmpTranslation = blueAmpPose.getTranslation();
 
-		// Ideal shooting poses
-		public static final Transform2d redSpeakerShootingTransform = new Transform2d(-2, 0, new Rotation2d(0));
+		// Ideal shooting poses - all of them - back to the target, hence Math.PI rotation transform is added to all
+
+		// Facing backwards
+		public static final Transform2d redSpeakerShootingTransform = new Transform2d(-2, 0, new Rotation2d(Math.PI));
 		public static final Pose2d redSpeakerShootingPose = redSpeakerPose.transformBy(redSpeakerShootingTransform);
-
-		public static final Transform2d blueSpeakerShootingTransform = new Transform2d(2, 0, new Rotation2d(0));
+		// Facing forward
+		public static final Transform2d blueSpeakerShootingTransform = new Transform2d(2, 0, new Rotation2d(Math.PI));
 		public static final Pose2d blueSpeakerShootingPose = blueSpeakerPose.transformBy(blueSpeakerShootingTransform);
-
-		public static final Transform2d reAmpShootingTransform = new Transform2d(0, -1, new Rotation2d(0));
+		// Facign down
+		public static final Transform2d reAmpShootingTransform = new Transform2d(0, -1, new Rotation2d(Math.PI));
 		public static final Pose2d redAmpShootingPose = redAmpPose.transformBy(reAmpShootingTransform);
-
-		public static final Transform2d blueAmpShootingTransform = new Transform2d(2, 0, new Rotation2d(0));
+		// Facign down
+		public static final Transform2d blueAmpShootingTransform = new Transform2d(2, 0, new Rotation2d(Math.PI));
 		public static final Pose2d blueAmpShootingPose = blueAmpPose.transformBy(blueAmpShootingTransform);
 
 
@@ -664,6 +671,7 @@ public final class Constants {
 
 			public static final String LLAprilTagName = "limelight-at";	// Limelight that will track Apriltags; may decide to use multiple ones
 
+			// NEW origin from the old origin point of view in the old coordiinate system
 			public static final Pose2d centerFieldPose = new Pose2d(-8.308467, -4.098925, new Rotation2d(0));
 			public static final Translation2d centerFieldTranlation = centerFieldPose.getTranslation();
 

@@ -27,7 +27,7 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
       return LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName); //TODO: Check if the coordinates need to be translated to 0,0 of the blue lower corner
       // return LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName).relativeTo(LimeLightConstants.centerFieldPose); // check if this returns the right pose from 0,0
     } else {
-      return nullPose;
+      return null;
     }
   }
 

@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -32,9 +33,16 @@ public class SmartDashboardSubsystem extends SubsystemBase {
 
   public void updateVisionTelemetryLL() {
     SmartDashboard.putBoolean("LL AT present", RobotContainer.llVisionSubsystem.isApriltagVisible());
-    SmartDashboard.putString("LL RobotPose2d", RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().toString());
-    SmartDashboard.putNumber("LL Distance BlueS", RobotContainer.llVisionSubsystem.getDistanceToBlueSpeaker(RobotContainer.llVisionSubsystem.getRobotFieldPoseLL()));
-    SmartDashboard.putNumber("LL AngleD BlueS", RobotContainer.llVisionSubsystem.getAngleToBlueSpeaker(RobotContainer.llVisionSubsystem.getRobotFieldPoseLL()).getDegrees());
+    Pose2d llPose = RobotContainer.llVisionSubsystem.getRobotFieldPoseLL();
+    if (llPose == null) {
+      SmartDashboard.putString("LL RobotPose2d", "null");
+      SmartDashboard.putNumber("LL Distance BlueS", Double.NaN);
+      SmartDashboard.putNumber("LL AngleD BlueS", Double.NaN);
+    } else {
+      SmartDashboard.putString("LL RobotPose2d", llPose.toString());
+      SmartDashboard.putNumber("LL Distance BlueS", RobotContainer.llVisionSubsystem.getDistanceToBlueSpeaker(llPose));
+      SmartDashboard.putNumber("LL AngleD BlueS", RobotContainer.llVisionSubsystem.getAngleToBlueSpeaker(llPose).getDegrees());
+    }
   }
 
   public void updateVisionTelemetryPV() {
