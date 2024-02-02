@@ -579,49 +579,6 @@ public final class Constants {
 		}
 
 	}
-
-	public static final class NavigationConstants {
-		public static final int numberOfMeasurements = 10; // Number of robot pose measurements to collect in order to
-															// make robot pose determination
-		public static final int numberOfMaxPoseMeasurements = 50; // Max number of pose measurements - in case we do not
-																	// see anything
-		public static final Pose2d dummyPose = new Pose2d(-1, -1, new Rotation2d(Units.degreesToRadians(-1)));
-
-		// Camera poses relative to the Turret/Arm
-		// public static final Pose2d leftCameraPose = new Pose2d(0.07,0.135,new
-		// Rotation2d(Units.degreesToRadians(-21.2)));
-		public static final Pose2d leftCameraPose = new Pose2d(0.07, 0.135,
-				new Rotation2d(Units.degreesToRadians(-24.5)));
-		public static final Pose2d rightCameraPose = new Pose2d(0.07, 0.135,
-				new Rotation2d(Units.degreesToRadians(21.9)));
-
-		// public static final double BLUE_X_ERROR = -0.45604;
-		public static final double BLUE_X_ERROR = 0;
-		public static final double BLUE_Y_ERROR = -0.06521;
-		// public static final double RED_X_ERROR = 0.46169;
-		public static final double RED_X_ERROR = 0;
-		public static final double RED_Y_ERROR = 0.03884;
-		public static final double[] fieldCenter = { 8.27, 4.043 }; // {8.725, 4.043};
-		// X,Y coordinates of the tags from 0,0 in the blue/lower-left
-	
-		public static List<Pose2d> leftTargets = new ArrayList<Pose2d>();
-		public static List<Pose2d> rightTargets = new ArrayList<Pose2d>();
-
-	
-		public static final double autoMidConeLengthBackwards = 1.034;
-
-		public static final int POSE_QUEUE_MAXSIZE = 10;
-		public static final double MEAN_DEV = 0.2;
-
-		public static double xOffsetOfCameraFromTurret = -0.1; // Offset of camera lens from the turret center of
-																// rotation
-		public static double yOffsetOfCameraFromTurret = 0.2; // Offset of camera lens from the turret center of
-																// rotation
-		public static double angleOffsetOfCameraFromTurretDirection = 30; // degrees; offset of camera direction from
-																			// the arm direction
-
-	}
-
 	/**
 	 * This class contains constants used for vision navigation, apriltag and gamepiece detection, ideal shooting poses etc.
 	 * The coordinate system 0,0 is at the the BLUE "lower" corner of the field. So, coordinates supplied some other way (e.g. LL)
