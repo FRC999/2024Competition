@@ -406,6 +406,7 @@ public class LimelightHelpers {
     }
 
     public static NetworkTable getLimelightNTTable(String tableName) {
+        //System.out.println("t: "+sanitizeName(tableName));
         return NetworkTableInstance.getDefault().getTable(sanitizeName(tableName));
     }
 

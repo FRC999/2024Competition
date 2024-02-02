@@ -336,12 +336,20 @@ public class RobotContainer {
                 VisionConstants.blueSpeakerShootingPose))
               .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
 
+      // Red Speaker Shooting
+      new JoystickButton(driveStick, 3)
+              .onTrue(new PrintCommand("Red Speaker - driving from\n"+llVisionSubsystem.getRobotFieldPoseLL()
+                +"\n to \n"+
+                VisionConstants.redSpeakerShootingPose))
+              .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+
 
       // *** === Commands that actually drive; caution; check the FROM/TO poses before trying them ===
       // **** MAKE SURE to check the prinout of the poses first (see triggers above)
       // **** CAUTION !!! DO NOT run unless you have ample space to test
 
       // Blue Amp driving
+      /* 
       new JoystickButton(driveStick, 7)
           .whileTrue(new AutonomousTrajectory2Poses(() -> llVisionSubsystem.getRobotFieldPoseLL(), () -> VisionConstants.blueAmpShootingPose))
           .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
@@ -350,7 +358,7 @@ public class RobotContainer {
       new JoystickButton(driveStick, 8)
           .whileTrue(new AutonomousTrajectory2Poses(() -> llVisionSubsystem.getRobotFieldPoseLL(), () -> VisionConstants.blueSpeakerShootingPose))
           .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
-
+      */
   }
   public void trajectoryCalibration() {
       new JoystickButton(driveStick, 1)

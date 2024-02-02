@@ -54,7 +54,7 @@ public class SmartDashboardSubsystem extends SubsystemBase {
     updateIMUTelemetry();
 
     // Test vision
-    //updateVisionTelemetryLL();
+    updateVisionTelemetryLL();
   }
   @Override
   public void periodic() {

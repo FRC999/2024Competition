@@ -5,12 +5,15 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants.LimeLightConstants;
 import frc.robot.lib.LimelightHelpers;
 import frc.robot.lib.VisionHelpers;
 
 public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
+
+  private Pose2d nullPose = new Pose2d(0,0,new Rotation2d(0));
 
   /** Creates a new LLVisionSubsystem. 
    * Vision Subsystem based on LimeLight.
@@ -20,11 +23,11 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
 
   public Pose2d getRobotFieldPoseLL() {
     if (LimelightHelpers.getTV(LimeLightConstants.LLAprilTagName)) { // LL target visible - meaning - see an Apriltag
-      System.out.println(LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName));
+      //System.out.println(LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName));
       return LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName); //TODO: Check if the coordinates need to be translated to 0,0 of the blue lower corner
       // return LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName).relativeTo(LimeLightConstants.centerFieldPose); // check if this returns the right pose from 0,0
     } else {
-      return null;
+      return nullPose;
     }
   }
 

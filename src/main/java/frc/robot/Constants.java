@@ -603,28 +603,11 @@ public final class Constants {
 		public static final double RED_Y_ERROR = 0.03884;
 		public static final double[] fieldCenter = { 8.27, 4.043 }; // {8.725, 4.043};
 		// X,Y coordinates of the tags from 0,0 in the blue/lower-left
-		public static final double tags[][] = {
-				{}, // 0
-				{ 7.24310 + fieldCenter[0] + RED_X_ERROR, -2.93659 + fieldCenter[1] + RED_Y_ERROR }, // id 1 Y: 1.14525
-				{ 7.24310 + fieldCenter[0] + RED_X_ERROR, -1.26019 + fieldCenter[1] + RED_Y_ERROR }, // id 2 Y: 2.7176
-				{ 7.24310 + fieldCenter[0] + RED_X_ERROR, 0.41621 + fieldCenter[1] + RED_Y_ERROR }, // id 3 Y: 4.394
-				{ 7.90832 + fieldCenter[0] + RED_X_ERROR, 2.74161 + fieldCenter[1] + RED_Y_ERROR }, // id 4
-				{ -7.90832 + fieldCenter[0] + BLUE_X_ERROR, 2.74161 + fieldCenter[1] + BLUE_Y_ERROR }, // id 5
-				{ -7.24310 + fieldCenter[0] + BLUE_X_ERROR, 0.41621 + fieldCenter[1] + BLUE_Y_ERROR }, // id 6
-				{ -7.24310 + fieldCenter[0] + BLUE_X_ERROR, -1.26019 + fieldCenter[1] + BLUE_Y_ERROR }, // id 7
-				{ -7.24310 + fieldCenter[0] + BLUE_X_ERROR, -2.93659 + fieldCenter[1] + BLUE_Y_ERROR } // id 8
-		};
+	
 		public static List<Pose2d> leftTargets = new ArrayList<Pose2d>();
 		public static List<Pose2d> rightTargets = new ArrayList<Pose2d>();
 
-		public static final double yTargetOffset = tags[8][1] - 0.512;
-
-		public static final double xTargetOffset[] = {
-				1.1955 - tags[8][0], // front/bottom offset
-				0.903 - tags[8][0], // middle offset
-				0.358 - tags[8][0] // top offset
-		};
-
+	
 		public static final double autoMidConeLengthBackwards = 1.034;
 
 		public static final int POSE_QUEUE_MAXSIZE = 10;
@@ -647,13 +630,13 @@ public final class Constants {
 	public static final class VisionConstants {
 
 		// Poses of important game elements
-		public static final Pose2d redSpeakerPose = new Pose2d(8.308467, 4.098925, new Rotation2d(0)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		public static final Pose2d redSpeakerPose = new Pose2d(8.308467, 1.442593, new Rotation2d(Math.PI)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d redSpeakerTranslation = redSpeakerPose.getTranslation();
-		public static final Pose2d blueSpeakerPose = new Pose2d(-8.308467, 4.098925, new Rotation2d(2*Math.PI)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		public static final Pose2d blueSpeakerPose = new Pose2d(-8.308467, 1.442593, new Rotation2d(0)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d blueSpeakerTranslation = blueSpeakerPose.getTranslation();
-		public static final Pose2d redAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d(Math.PI)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		public static final Pose2d redAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d(-Math.PI/2)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d redAmpTranslation = redAmpPose.getTranslation();
-		public static final Pose2d blueAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d(Math.PI)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		public static final Pose2d blueAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d(-Math.PI/2)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d blueAmpTranslation = blueAmpPose.getTranslation();
 
 		// Ideal shooting poses
@@ -661,7 +644,7 @@ public final class Constants {
 		public static final Pose2d redSpeakerShootingPose = redSpeakerPose.transformBy(redSpeakerShootingTransform);
 
 		public static final Transform2d blueSpeakerShootingTransform = new Transform2d(2, 0, new Rotation2d(0));
-		public static final Pose2d blueSpeakerShootingPose = redSpeakerPose.transformBy(blueSpeakerShootingTransform);
+		public static final Pose2d blueSpeakerShootingPose = blueSpeakerPose.transformBy(blueSpeakerShootingTransform);
 
 		public static final Transform2d reAmpShootingTransform = new Transform2d(0, -1, new Rotation2d(0));
 		public static final Pose2d redAmpShootingPose = redAmpPose.transformBy(reAmpShootingTransform);
@@ -679,9 +662,9 @@ public final class Constants {
 
 		public static final class LimeLightConstants {
 
-			public static final String LLAprilTagName = "limelight-at1";	// Limelight that will track Apriltags; may decide to use multiple ones
+			public static final String LLAprilTagName = "limelight-at";	// Limelight that will track Apriltags; may decide to use multiple ones
 
-			public static final Pose2d centerFieldPose = new Pose2d(8.308467, 4.098925, new Rotation2d(0));
+			public static final Pose2d centerFieldPose = new Pose2d(-8.308467, -4.098925, new Rotation2d(0));
 			public static final Translation2d centerFieldTranlation = centerFieldPose.getTranslation();
 
 		}
