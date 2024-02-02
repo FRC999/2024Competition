@@ -575,9 +575,7 @@ public final class Constants {
 			public boolean isCubeControllerRightStick() {
 				return cubeControllerRightStick;
 			}
-
 		}
-
 	}
 	/**
 	 * This class contains constants used for vision navigation, apriltag and gamepiece detection, ideal shooting poses etc.
@@ -626,11 +624,11 @@ public final class Constants {
 
 		public static final class LimeLightConstants {
 
+			// If changing this value, do not forget to set it in LL
 			public static final String LLAprilTagName = "limelight-at";	// Limelight that will track Apriltags; may decide to use multiple ones
 
 			// NEW origin from the old origin point of view in the old coordiinate system
 			public static final Pose2d centerFieldPose = new Pose2d(-8.308467, -4.098925, new Rotation2d(0));
-			public static final Translation2d centerFieldTranlation = centerFieldPose.getTranslation();
 
 		}
 		public static final class PhotonVisionConstants {
@@ -642,6 +640,4 @@ public final class Constants {
 
 		}
 	}
-
-	
 }
