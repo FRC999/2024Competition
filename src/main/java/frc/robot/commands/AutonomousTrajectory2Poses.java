@@ -69,7 +69,7 @@ public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
             new PrintCommand(ep.get().toString()).onlyIf(()->ep.get()!=null),
             
             new ConditionalCommand (
-              new AutonomousTrajectoryRioCommand(
+              new RunTrajectorySequenceRobotAtStartPoint(
                 PathPlanner.generatePath(
                   new PathConstraints(maxVelocity, maxAcceleration),
                   new PathPoint(sp.get().getTranslation(), new Rotation2d(0), sp.get().getRotation()), // position, heading

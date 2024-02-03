@@ -22,52 +22,85 @@ public class RunTrajectorySequenceRobotAtStartPoint extends SequentialCommandGro
   PathPlannerTrajectory trajectoryPath;
   boolean isReversed = false;
 
-  /** Creates a new RunTrajectorySequenceRobotAtStartPoint.
-   * This command reads a PathPlanner trajectory from a file specified by name in the first parameter,
-   * optionally applies max velocity and max acceleration restrictions as well as reverse if needed,
+  /**
+   * Creates a new RunTrajectorySequenceRobotAtStartPoint.
+   * This command reads a PathPlanner trajectory from a file specified by name in
+   * the first parameter,
+   * optionally applies max velocity and max acceleration restrictions as well as
+   * reverse if needed,
    * and runs the adjusted trajectory via AutonomousTrajectoryRioCommand command.
    */
-  public RunTrajectorySequenceRobotAtStartPoint(String trajectory, double maxVelocity, double maxAcceleration, boolean reversed) {
+  public RunTrajectorySequenceRobotAtStartPoint(String trajectory, double maxVelocity, double maxAcceleration,
+      boolean reversed) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
     // Read the trajectory from a file
-    trajectoryPath = PathPlanner.loadPath(trajectory, new PathConstraints(maxVelocity, maxAcceleration), reversed);
+    this(
+        PathPlanner.loadPath(trajectory, new PathConstraints(maxVelocity, maxAcceleration)),
+        maxVelocity,
+        maxAcceleration,
+        reversed);
+  }
+
+  public RunTrajectorySequenceRobotAtStartPoint(PathPlannerTrajectory traj, double maxVelocity, double maxAcceleration,
+      boolean reversed) {
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
+
+    // Read the trajectory from a file
+    this.trajectoryPath = traj;
 
     addCommands(
-      //new InstantCommand(RobotContainer.driveSubsystem::zeroDriveEncoders),
-      new PrintCommand("****Starting trajectory****"),
-      //new WaitCommand(0.4),
-      new InstantCommand( () -> RobotContainer.imuSubsystem.setYawForTrajectory(trajectoryPath.getInitialHolonomicPose().getRotation().getDegrees()) ),
-      new InstantCommand( () -> RobotContainer.driveSubsystem.resetOdometry(trajectoryPath.getInitialHolonomicPose()  ) ),
-      //new PrintCommand(
-      //  "START IX:" + trajectoryPath.getInitialPose().getX()+
-      //  " IY:" + trajectoryPath.getInitialPose().getY()+
-      //  " IA:" + trajectoryPath.getInitialPose().getRotation().getDegrees()
-      //  ),  // Set the initial pose of the robot to the one in a trajectory
-      new AutonomousTrajectoryRioCommand(trajectoryPath), // Run a trajectory
-      new InstantCommand( () -> RobotContainer.imuSubsystem.restoreYawAfterTrajectory()),
-      new PrintCommand("****End trajectory****")
-    );
+        // new InstantCommand(RobotContainer.driveSubsystem::zeroDriveEncoders),
+        new PrintCommand("****Starting trajectory****"),
+        // new WaitCommand(0.4),
+        new InstantCommand(() -> RobotContainer.imuSubsystem
+            .setYawForTrajectory(trajectoryPath.getInitialHolonomicPose().getRotation().getDegrees())),
+        new InstantCommand(() -> RobotContainer.driveSubsystem.resetOdometry(trajectoryPath.getInitialHolonomicPose())),
+        // new PrintCommand(
+        // "START IX:" + trajectoryPath.getInitialPose().getX()+
+        // " IY:" + trajectoryPath.getInitialPose().getY()+
+        // " IA:" + trajectoryPath.getInitialPose().getRotation().getDegrees()
+        // ), // Set the initial pose of the robot to the one in a trajectory
+        new AutonomousTrajectoryRioCommand(trajectoryPath), // Run a trajectory
+        new InstantCommand(() -> RobotContainer.imuSubsystem.restoreYawAfterTrajectory()),
+        new PrintCommand("****End trajectory****"));
   }
 
   public RunTrajectorySequenceRobotAtStartPoint(String trajectory) {
 
     this(trajectory, false);
-    System.out.println("*** Run trajectory non-reversed"+ trajectory);
+    System.out.println("*** Run trajectory non-reversed" + trajectory);
   }
 
   /**
-   * Run trajectory from a saved PathPlanner trajectory file with the maximum velocity and acceleration
+   * Run trajectory from a saved PathPlanner trajectory file with the maximum
+   * velocity and acceleration
    * defined in Constant file.
+   * 
    * @param trajectory - name of the trajectory file without extension
-   * @param reversed - whether the trajectory should run in reverse
+   * @param reversed   - whether the trajectory should run in reverse
    */
   public RunTrajectorySequenceRobotAtStartPoint(String trajectory, boolean reversed) {
 
-    //this(trajectory, 0.5, 0.05, reversed);
+    // this(trajectory, 0.5, 0.05, reversed);
     this(trajectory, Constants.SwerveChassis.MAX_VELOCITY, Constants.SwerveChassis.MAX_ACCELERATION, reversed);
-    System.out.println("*** Run trajectory "+ trajectory+" reversed:"+reversed+" with max velocity and acceleration");
+    System.out
+        .println("*** Run trajectory " + trajectory + " reversed:" + reversed + " with max velocity and acceleration");
+  }
+
+  public RunTrajectorySequenceRobotAtStartPoint(PathPlannerTrajectory traj) {
+
+    this(traj, false);
+    System.out.println("*** Run dynamic trajectory non-reversed" + traj);
+  }
+
+  public RunTrajectorySequenceRobotAtStartPoint(PathPlannerTrajectory traj, boolean reversed) {
+
+    // this(trajectory, 0.5, 0.05, reversed);
+    this(traj, Constants.SwerveChassis.MAX_VELOCITY, Constants.SwerveChassis.MAX_ACCELERATION, reversed);
+    System.out.println("*** Run dynamic trajectory reversed:" + reversed + " with max velocity and acceleration");
   }
 
 }
