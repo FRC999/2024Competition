@@ -12,6 +12,7 @@ import com.pathplanner.lib.PathPoint;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -52,26 +53,31 @@ public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
 
       sp = startPose;
       ep = endPose;
+
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     System.out.println("*** Staring AutonomousTrajectory2Poses ***");
 
-    if (sp == null || ep == null) { // do not have valid poses; cannot drive
-      System.out.println("One of the drive poses is NULL. Not driving it.");
+    if (sp == null || ep == null) { // do not have valid pose suppliers
+      System.out.println("Pose supplier is NULL");
     } else {
-       addCommands(
+
+        addCommands(
             new PrintCommand("=================== Driving from "),
             new PrintCommand(sp.get().toString()).onlyIf(()->sp.get()!=null),
             new PrintCommand("Driving to "),
             new PrintCommand(ep.get().toString()).onlyIf(()->ep.get()!=null),
             
-
-            new AutonomousTrajectoryRioCommand(
-              PathPlanner.generatePath(
-              new PathConstraints(maxVelocity, maxAcceleration),
-              new PathPoint(sp.get().getTranslation(), new Rotation2d(0), sp.get().getRotation()), // position, heading
-              new PathPoint(ep.get().getTranslation(), new Rotation2d(0), ep.get().getRotation()) // position, heading
-              )).onlyIf(()->(sp.get()!=null && ep.get()!=null)
+            new ConditionalCommand (
+              new AutonomousTrajectoryRioCommand(
+                PathPlanner.generatePath(
+                  new PathConstraints(maxVelocity, maxAcceleration),
+                  new PathPoint(sp.get().getTranslation(), new Rotation2d(0), sp.get().getRotation()), // position, heading
+                  new PathPoint(ep.get().getTranslation(), new Rotation2d(0), ep.get().getRotation()) // position, heading
+                )
+              ),
+              new PrintCommand("The pose is NULL. Not driving"),
+              () -> { return sp != null && ep != null && sp.get()!=null && ep.get()!=null;}
             )
             
             //new PrintCommand("=================== Driving from "),
