@@ -43,6 +43,13 @@ public class RunTrajectorySequenceRobotAtStartPoint extends SequentialCommandGro
         reversed);
   }
 
+  /**
+   * This method will run both predefined trajectories and the dynamically generated ones
+   * @param traj
+   * @param maxVelocity
+   * @param maxAcceleration
+   * @param reversed
+   */
   public RunTrajectorySequenceRobotAtStartPoint(PathPlannerTrajectory traj, double maxVelocity, double maxAcceleration,
       boolean reversed) {
     // Add your commands in the addCommands() call, e.g.
@@ -90,6 +97,10 @@ public class RunTrajectorySequenceRobotAtStartPoint extends SequentialCommandGro
         .println("*** Run trajectory " + trajectory + " reversed:" + reversed + " with max velocity and acceleration");
   }
 
+  /**
+   * For dynamic trajectories
+   * @param traj - PathPlannerTrajectory trajectory 
+   */
   public RunTrajectorySequenceRobotAtStartPoint(PathPlannerTrajectory traj) {
 
     this(traj, false);
