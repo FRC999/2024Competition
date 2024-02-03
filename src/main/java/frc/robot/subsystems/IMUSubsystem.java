@@ -165,7 +165,7 @@ public class IMUSubsystem extends SubsystemBase {
    * without losing the Yaw direction.
    */
   public void restoreYawAfterTrajectory() {
-    //System.out.println("Restoring original IMU after trajectory "+ (RobotContainer.imuSubsystem.getYaw() + trajectoryAdjustmentIMU));
+    System.out.println("Restoring original IMU after trajectory "+ (RobotContainer.imuSubsystem.getYaw() + trajectoryAdjustmentIMU));
     imu.setYaw(RobotContainer.imuSubsystem.getYaw() + trajectoryAdjustmentIMU);
   }
 

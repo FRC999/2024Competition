@@ -70,8 +70,12 @@ public class RunTrajectorySequenceRobotAtStartPoint extends SequentialCommandGro
         // " IY:" + trajectoryPath.getInitialPose().getY()+
         // " IA:" + trajectoryPath.getInitialPose().getRotation().getDegrees()
         // ), // Set the initial pose of the robot to the one in a trajectory
-        new AutonomousTrajectoryRioCommand(trajectoryPath), // Run a trajectory
-        new InstantCommand(() -> RobotContainer.imuSubsystem.restoreYawAfterTrajectory()),
+        new AutonomousTrajectoryRioCommand(trajectoryPath)
+        //, // Run a trajectory
+        .finallyDo (
+          () -> RobotContainer.imuSubsystem.restoreYawAfterTrajectory()
+          //new InstantCommand(() -> RobotContainer.imuSubsystem.restoreYawAfterTrajectory())
+        ),
         new PrintCommand("****End trajectory****"));
   }
 
