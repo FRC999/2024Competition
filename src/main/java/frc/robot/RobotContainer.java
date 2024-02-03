@@ -13,6 +13,7 @@ import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
+import frc.robot.commands.PosePrinter;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -324,23 +325,29 @@ public class RobotContainer {
 
       // Blue Amp Shooting
       new JoystickButton(driveStick, 1)
-              .onTrue(new PrintCommand("Blue AMP - driving from\n"+llVisionSubsystem.getRobotFieldPoseLL()
-                +"\n to \n"+
-                VisionConstants.blueAmpShootingPose))
+              .onTrue(
+                new PrintCommand("Blue AMP - driving from\n").andThen(
+                new PosePrinter(llVisionSubsystem::getRobotFieldPoseLL)).andThen(
+                new PrintCommand("\n to \n"+
+                  VisionConstants.blueAmpShootingPose)))
               .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
 
       // Blue Speaker Shooting
       new JoystickButton(driveStick, 2)
-              .onTrue(new PrintCommand("Blue Speaker - driving from\n"+llVisionSubsystem.getRobotFieldPoseLL()
-                +"\n to \n"+
-                VisionConstants.blueSpeakerShootingPose))
+              .onTrue(
+                new PrintCommand("Blue Speaker - driving from\n").andThen(
+                new PosePrinter(llVisionSubsystem::getRobotFieldPoseLL)).andThen(
+                new PrintCommand("\n to \n" +
+                VisionConstants.blueSpeakerShootingPose)))
               .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
 
       // Red Speaker Shooting
       new JoystickButton(driveStick, 3)
-              .onTrue(new PrintCommand("Red Speaker - driving from\n"+llVisionSubsystem.getRobotFieldPoseLL()
-                +"\n to \n"+
-                VisionConstants.redSpeakerShootingPose))
+              .onTrue(
+                new PrintCommand("Red Speaker - driving from\n").andThen(
+                new PosePrinter(llVisionSubsystem::getRobotFieldPoseLL)).andThen(
+                new PrintCommand("\n to \n" +
+                VisionConstants.redSpeakerShootingPose)))
               .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
 
 
@@ -349,16 +356,16 @@ public class RobotContainer {
       // **** CAUTION !!! DO NOT run unless you have ample space to test
 
       // Blue Amp driving
-      /* 
-      new JoystickButton(driveStick, 7)
-          .whileTrue(new AutonomousTrajectory2Poses(() -> llVisionSubsystem.getRobotFieldPoseLL(), () -> VisionConstants.blueAmpShootingPose))
-          .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+      
+      //new JoystickButton(driveStick, 7)
+      //    .whileTrue(new AutonomousTrajectory2Poses(() -> llVisionSubsystem.getRobotFieldPoseLL(), () -> VisionConstants.blueAmpShootingPose))
+      //    .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
 
-      // Blue Speaker Shooting
+      // red Speaker Shooting
       new JoystickButton(driveStick, 8)
-          .whileTrue(new AutonomousTrajectory2Poses(() -> llVisionSubsystem.getRobotFieldPoseLL(), () -> VisionConstants.blueSpeakerShootingPose))
+          .whileTrue(new AutonomousTrajectory2Poses(() -> llVisionSubsystem.getRobotFieldPoseLL(), () -> VisionConstants.redSpeakerShootingPose))
           .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
-      */
+      
   }
   public void trajectoryCalibration() {
       new JoystickButton(driveStick, 1)

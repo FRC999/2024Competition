@@ -152,7 +152,7 @@ public final class Constants {
 		 * as the teleop logic will simply use it as a point of reference.
 		 * Changing this number will not require any other changes in the teleop code.
 		 */
-		public static final double MAX_VELOCITY = 3.0;
+		public static final double MAX_VELOCITY = 1.5;
 
 		/**
 		 * Radians per second.
@@ -596,20 +596,20 @@ public final class Constants {
 		public static final Pose2d redAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d(Math.PI/2)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d redAmpTranslation = redAmpPose.getTranslation();
 		// Facign down
-		public static final Pose2d blueAmpPose = new Pose2d(6.429883, 4.098925, new Rotation2d(Math.PI/2)).relativeTo(LimeLightConstants.centerFieldPose) ;
+		public static final Pose2d blueAmpPose = new Pose2d(-6.429883, 4.098925, new Rotation2d(Math.PI/2)).relativeTo(LimeLightConstants.centerFieldPose) ;
 		public static final Translation2d blueAmpTranslation = blueAmpPose.getTranslation();
 
 		// Ideal shooting poses - all of them - back to the target, hence Math.PI rotation transform is added to all
 
 		// Facing backwards
-		public static final Transform2d redSpeakerShootingTransform = new Transform2d(-2, 0, new Rotation2d(Math.PI));
+		public static final Transform2d redSpeakerShootingTransform = new Transform2d(-1, 0, new Rotation2d(Math.PI));
 		public static final Pose2d redSpeakerShootingPose = redSpeakerPose.transformBy(redSpeakerShootingTransform);
 		// Facing forward
 		public static final Transform2d blueSpeakerShootingTransform = new Transform2d(2, 0, new Rotation2d(Math.PI));
 		public static final Pose2d blueSpeakerShootingPose = blueSpeakerPose.transformBy(blueSpeakerShootingTransform);
 		// Facign down
-		public static final Transform2d reAmpShootingTransform = new Transform2d(0, -1, new Rotation2d(Math.PI));
-		public static final Pose2d redAmpShootingPose = redAmpPose.transformBy(reAmpShootingTransform);
+		public static final Transform2d redAmpShootingTransform = new Transform2d(0, -1, new Rotation2d(Math.PI));
+		public static final Pose2d redAmpShootingPose = redAmpPose.transformBy(redAmpShootingTransform);
 		// Facign down
 		public static final Transform2d blueAmpShootingTransform = new Transform2d(2, 0, new Rotation2d(Math.PI));
 		public static final Pose2d blueAmpShootingPose = blueAmpPose.transformBy(blueAmpShootingTransform);
@@ -636,7 +636,7 @@ public final class Constants {
 			public static final boolean PV_PRESENT = false;
 			public static final String PVCameraName = "Razor_Kiyo";
 			// Camera position from center of the chassis / floor (for Z) point of view; it's looking backwards
-			public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,180));
+			public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,Math.PI));
 
 		}
 	}

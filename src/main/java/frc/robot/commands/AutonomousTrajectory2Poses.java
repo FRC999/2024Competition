@@ -11,14 +11,21 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPoint;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.SwerveChassis;
+import frc.robot.RobotContainer;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
+
+  Supplier<Pose2d> sp;
+  Supplier<Pose2d> ep;
+
   /**
    * Run a trajectory between 2 poses with max velocity and acceleration
    * 
@@ -42,23 +49,38 @@ public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
    */
   public AutonomousTrajectory2Poses(Supplier<Pose2d> startPose, Supplier<Pose2d> endPose, double maxVelocity,
       double maxAcceleration) {
+
+      sp = startPose;
+      ep = endPose;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     System.out.println("*** Staring AutonomousTrajectory2Poses ***");
 
-    if (startPose == null || endPose == null) { // do not have valid poses; cannot drive
+    if (sp == null || ep == null) { // do not have valid poses; cannot drive
       System.out.println("One of the drive poses is NULL. Not driving it.");
     } else {
-      Pose2d sp = startPose.get();
-      Pose2d ep = endPose.get();
-      addCommands(
-          new AutonomousTrajectoryRioCommand(
+       addCommands(
+            new PrintCommand("=================== Driving from "),
+            new PrintCommand(sp.get().toString()).onlyIf(()->sp.get()!=null),
+            new PrintCommand("Driving to "),
+            new PrintCommand(ep.get().toString()).onlyIf(()->ep.get()!=null),
+            
+
+            new AutonomousTrajectoryRioCommand(
               PathPlanner.generatePath(
-                  new PathConstraints(maxVelocity, maxAcceleration),
-                  new PathPoint(sp.getTranslation(), sp.getRotation()), // position, heading
-                  new PathPoint(ep.getTranslation(), ep.getRotation()) // position, heading
-              )));
-    }
+              new PathConstraints(maxVelocity, maxAcceleration),
+              new PathPoint(sp.get().getTranslation(), new Rotation2d(0), sp.get().getRotation()), // position, heading
+              new PathPoint(ep.get().getTranslation(), new Rotation2d(0), ep.get().getRotation()) // position, heading
+              )).onlyIf(()->(sp.get()!=null && ep.get()!=null)
+            )
+            
+            //new PrintCommand("=================== Driving from "),
+            //new PrintCommand(sp.get().toString()).onlyIf(()->sp.get()!=null),
+            //new PrintCommand("Driving to "),
+            //new PrintCommand(ep.get().toString()).onlyIf(()->ep.get()!=null)
+          );
+
+      }
     System.out.println("*** End AutonomousTrajectory2Poses ***");
 
   }
