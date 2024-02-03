@@ -15,6 +15,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.PosePrinter;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
+import frc.robot.commands.AutonomousTrajectory2PosesDynamic;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.GPMSubsystem;
@@ -364,7 +365,7 @@ public class RobotContainer {
       // red Speaker Shooting
       new JoystickButton(driveStick, 8)
           // Test with relatively slow max velocity and acceleration
-          .whileTrue(new AutonomousTrajectory2Poses(() -> llVisionSubsystem.getRobotFieldPoseLL(), () -> VisionConstants.redSpeakerShootingPose, 1.5, 0.9))
+          .whileTrue(new AutonomousTrajectory2PosesDynamic(() -> llVisionSubsystem.getRobotFieldPoseLL(), () -> VisionConstants.redSpeakerShootingPose))
           .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
       
   }
@@ -386,7 +387,7 @@ public class RobotContainer {
               .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));  
 
       new JoystickButton(driveStick, 6)
-          .whileTrue(new AutonomousTrajectory2Poses(() -> testPoseSupplier(1, 1, 0), () -> testPoseSupplier(2, 1, 0)))
+          .whileTrue(new AutonomousTrajectory2Poses(testPoseSupplier(1, 1, 0), testPoseSupplier(2, 1, 0)))
           .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
 
       new JoystickButton(driveStick, 7)

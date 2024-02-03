@@ -29,7 +29,7 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
     if (LimelightHelpers.getTV(LimeLightConstants.LLAprilTagName)) { // LL target visible - meaning - see an Apriltag
 
 
-      System.out.println("TESTPOSE:"+LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName).transformBy(cameraPoseInRobotSpace));
+      //System.out.println("TESTPOSE:"+LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName).transformBy(cameraPoseInRobotSpace));
       // We need to transform the camera pose to the chassis pose
       return LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName).transformBy(cameraPoseInRobotSpace); //TODO: Check if the coordinates need to be translated to 0,0 of the blue lower corner
       // return LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName).relativeTo(LimeLightConstants.centerFieldPose); // check if this returns the right pose from 0,0
