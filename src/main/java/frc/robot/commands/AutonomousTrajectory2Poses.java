@@ -63,9 +63,9 @@ public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
     } else {
 
         addCommands(
-            new PrintCommand("=================== Driving from "),
+            new PrintCommand("=== Driving from "),
             new PrintCommand(sp.get().toString()).onlyIf(()->sp.get()!=null),
-            new PrintCommand("Driving to "),
+            new PrintCommand("=== Driving to "),
             new PrintCommand(ep.get().toString()).onlyIf(()->ep.get()!=null),
             
             new ConditionalCommand (
@@ -76,7 +76,7 @@ public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
                   new PathPoint(ep.get().getTranslation(), new Rotation2d(0), ep.get().getRotation()) // position, heading
                 )
               ),
-              new PrintCommand("The pose is NULL. Not driving"),
+              new PrintCommand("The supplier or pose is NULL. Not driving"),
               () -> { return sp != null && ep != null && sp.get()!=null && ep.get()!=null;}
             )
             

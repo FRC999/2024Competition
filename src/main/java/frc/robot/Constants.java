@@ -152,7 +152,7 @@ public final class Constants {
 		 * as the teleop logic will simply use it as a point of reference.
 		 * Changing this number will not require any other changes in the teleop code.
 		 */
-		public static final double MAX_VELOCITY = 1.5;
+		public static final double MAX_VELOCITY = 3.0;
 
 		/**
 		 * Radians per second.
