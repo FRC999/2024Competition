@@ -11,9 +11,16 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+/**
+ * This command will perform dynamic scheduling of the AutonomousTrajectory2Poses Sequence
+ * This will allow us to run dynamic trajectories using RunTrajectorySequenceRobotAtStartPoint
+ * and AutonomousTrajectoryRioCommand.
+ * To do so, we pass the start/end poses as Pose Suppliers to this command, and do the pose determination
+ * in "initialize()". We also create a new AutonomousTrajectory2Poses where we pass the poses.
+ * That way we can drive trajectory between two poses we dynamically get in teleop, for instance,
+ * from vision system.
+ * Note that this class subclasses the InstantCommand, because we're only interested in doing initialize()
+ */
 public class AutonomousTrajectory2PosesDynamic extends InstantCommand {
 
   Supplier<Pose2d> startPose;

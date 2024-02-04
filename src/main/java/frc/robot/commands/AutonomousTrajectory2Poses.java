@@ -13,9 +13,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.SwerveChassis;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+/**
+ * This command drives a robot between two Poses. Note that poses are provided as
+ * Pose2d objects and not as suppliers. Since the command sequence is formed in a constructor,
+ * you cannot use this class directly to drive between two poses with unknown values.
+ * However, this Command is scheduled by AutonomousTrajectory2PosesDynamic Command,
+ * which works with dynamically determined poses.
+ */
 public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
   /**
    * Run a trajectory between 2 poses with max velocity and acceleration

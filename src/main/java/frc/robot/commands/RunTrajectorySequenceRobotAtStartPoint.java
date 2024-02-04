@@ -82,7 +82,7 @@ public class RunTrajectorySequenceRobotAtStartPoint extends SequentialCommandGro
   public RunTrajectorySequenceRobotAtStartPoint(String trajectory) {
 
     this(trajectory, false);
-    System.out.println("*** Run trajectory non-reversed" + trajectory);
+    System.out.println("*** Run dynamic trajectory non-reversed");
   }
 
   /**
@@ -98,7 +98,7 @@ public class RunTrajectorySequenceRobotAtStartPoint extends SequentialCommandGro
     // this(trajectory, 0.5, 0.05, reversed);
     this(trajectory, Constants.SwerveChassis.MAX_VELOCITY, Constants.SwerveChassis.MAX_ACCELERATION, reversed);
     System.out
-        .println("*** Run trajectory " + trajectory + " reversed:" + reversed + " with max velocity and acceleration");
+        .println("*** Run dynamic trajectory reversed:" + reversed + " with max velocity and acceleration");
   }
 
   /**
