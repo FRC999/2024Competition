@@ -17,6 +17,18 @@ public class LLDetectorSubsystem extends SubsystemBase implements VisionHelpers 
     return LimelightHelpers.getTV(LimeLightConstants.LLDetectorName);
   }
 
+  public double getHorizontalSide(){
+    return LimelightHelpers.getThor(LimeLightConstants.LLDetectorName);
+  }
+
+  public double getHorizontalOffset(){
+    return LimelightHelpers.getTX(LimeLightConstants.LLDetectorName);
+  }
+
+  public double getVerticalOffset(){
+    return LimelightHelpers.getTY(LimeLightConstants.LLDetectorName);
+  }
+
   public double getHorizontalAngleToNote() {
     if(isNoteVisible()) {
       return LimelightHelpers.getTX(LimeLightConstants.LLDetectorName);

@@ -20,6 +20,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.GPMSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
+import frc.robot.subsystems.LLDetectorSubsystem;
 import frc.robot.subsystems.LLVisionSubsystem;
 import frc.robot.subsystems.NetworkTablesSubsystem;
 import frc.robot.subsystems.PhotonVisionSubsystem;
@@ -52,13 +53,15 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
-  public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
+  
   //public final GPMSubsystem gpmSubsystem = new GPMSubsystem();
   public final NetworkTablesSubsystem networkTableSubsystem = new NetworkTablesSubsystem();
 
   public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
   public final static PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem(PhotonVisionConstants.PVCameraName);
-
+  public final static LLDetectorSubsystem llDetectorSubsystem = new LLDetectorSubsystem();
+  public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
+  
   public static Controller xboxController;
 
   public static Controller driveStick; // for robot testing only
@@ -369,6 +372,14 @@ public class RobotContainer {
           .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
       
   }
+
+  /**
+   * Testing of the routines related to the note detection
+   */
+  public void visionDetectorTesting() {
+
+  }
+
   public void trajectoryCalibration() {
       new JoystickButton(driveStick, 1)
               .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeterForward"))
