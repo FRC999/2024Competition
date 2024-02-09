@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -12,6 +13,7 @@ import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -19,7 +21,7 @@ import frc.robot.Constants;
 
 public class GPMSubsystem extends SubsystemBase {
   /** Creates a new GPMSubsystem. */
-  private WPI_TalonSRX intakeMotor; //TalonSRX
+  private WPI_TalonSRX shooterMotor; //TalonSRX
   
   private CANSparkMax leftArm;  //NEOS
   private CANSparkMax rightArm;
@@ -33,8 +35,8 @@ public class GPMSubsystem extends SubsystemBase {
 
   public GPMSubsystem() {
 
-    //create intake motor variables
-    intakeMotor = new WPI_TalonSRX(Constants.GPMConstants.INTAKE_MOTOR_CAN_ID);
+    //create shooter motor variables
+    shooterMotor = new WPI_TalonSRX(Constants.GPMConstants.SHOOTER_MOTOR_CAN_ID);
     
     //create arm motor variables
     leftArm = new CANSparkMax(Constants.GPMConstants.LEFT_ARM_CAN_ID, MotorType.kBrushless);
@@ -45,18 +47,7 @@ public class GPMSubsystem extends SubsystemBase {
     shooterB = new CANSparkMax(Constants.GPMConstants.SHOOTER_B_CAN_ID, MotorType.kBrushless);
 
 
-    //motor setups    
-    intakeMotor.setNeutralMode(NeutralMode.Brake);
-    leftArm.setIdleMode(IdleMode.kBrake);
-    //leftArm.configOpenloopRamp(0.25);
-    rightArm.setIdleMode(IdleMode.kBrake);
-    //rightArm.configOpenloopRamp(0.25);
-
-    leftArm.setInverted(true); 
-    rightArm.setInverted(false); 
-    leftArm.follow(rightArm);
-
-    shooterB.follow(shooterA);
+  
   }
   
   public double getArmEnc() {
@@ -86,17 +77,66 @@ public class GPMSubsystem extends SubsystemBase {
 
   }
 
-  public void intakeGamePiece(double power) {
-    this.intakeMotor.set(power);
-  }
-
-  public void shootGamePiece(double power) {
-    this.shooterA.set(-power);
-  }
+ 
 
   public void getNoteSensor() {
     this.noteSensor.isPressed();
   }
+
+  public void configureShooterMotor(int motorID) {
+     
+  }
+
+
+  public void configureArmMotors() {
+   leftArm.restoreFactoryDefaults();
+   rightArm.restoreFactoryDefaults();
+
+   leftArm.setSmartCurrentLimit(0);
+   rightArm.setSmartCurrentLimit(0);
+
+   leftArm.setIdleMode(IdleMode.kBrake);
+    //leftArm.configOpenloopRamp(0.25);
+    rightArm.setIdleMode(IdleMode.kBrake);
+    //rightArm.configOpenloopRamp(0.25);
+
+    leftArm.setInverted(true); 
+    rightArm.setInverted(false); 
+    leftArm.follow(rightArm);
+
+
+  }
+
+  public void configureshooterMotors() {
+    shooterA.restoreFactoryDefaults();
+    shooterB.restoreFactoryDefaults();
+
+    shooterA.setSmartCurrentLimit(0);
+    shooterB.setSmartCurrentLimit(0);
+
+    shooterMotor.setNeutralMode(NeutralMode.Brake);
+
+    shooterB.follow(shooterA);
+  }
+
+  /* 
+  public double getShooterVelocity(CANSparkMax shooter) {
+    
+  }
+  
+  public Rotation2d getArmAngle(CANSparkMax shooter) {
+    
+  }
+  */
+  
+  public void runShooter(double speed) {
+    this.shooterA.set(speed);
+  }
+
+  public void stopShooter() {
+    
+  }
+
 
   @Override
   public void periodic() {

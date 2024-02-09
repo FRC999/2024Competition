@@ -37,7 +37,7 @@ public final class Constants {
 	}
 
 	public static class GPMConstants {
-		public static final int INTAKE_MOTOR_CAN_ID = 0;
+		public static final int SHOOTER_MOTOR_CAN_ID = 0;
 		public static final int LEFT_ARM_CAN_ID = 0;
 		public static final int RIGHT_ARM_CAN_ID = 0;
 
@@ -45,6 +45,17 @@ public final class Constants {
 		public static final int SHOOTER_B_CAN_ID = 0;
 
 		public static final int NOTE_DETECTION_CAN_ID = 0;
+
+		public static final double degreePerTickFX = 1.0 / 122.11575; // Angle motor only
+
+		public static final boolean kDiscontinuityPresent = true;
+			public static final int kBookEnd_0 = 910; /* 80 deg */
+			public static final int kBookEnd_1 = 1137; /* 100 deg */
+			public static final double clicksFXPerFullRotation = 360.0/degreePerTickFX; // rollover on 999 swerve encoder - we use Falcon FX
+																	// relative encoders for angle with x:x ratio
+																	// TODO: find out and fix that ratio
+
+
 	}
 
 	public static class IMUConstants {
