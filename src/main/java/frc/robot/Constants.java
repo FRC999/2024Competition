@@ -44,6 +44,8 @@ public final class Constants {
 		public static final int SHOOTER_A_CAN_ID = 0;
 		public static final int SHOOTER_B_CAN_ID = 0;
 
+		public static final int INTAKE_MOTOR_CAN_ID = 0;
+
 		public static final int NOTE_DETECTION_CAN_ID = 0;
 
 		public static final double degreePerTickFX = 1.0 / 122.11575; // Angle motor only
@@ -54,6 +56,48 @@ public final class Constants {
 			public static final double clicksFXPerFullRotation = 360.0/degreePerTickFX; // rollover on 999 swerve encoder - we use Falcon FX
 																	// relative encoders for angle with x:x ratio
 																	// TODO: find out and fix that ratio
+
+		public static final class ArmPIDConstants {
+
+			public static final double kP = 0.75;
+			public static final double kI = 0.005;
+			public static final double kD = 0.01;
+			public static final double kF = 0;
+			public static final double kMaxOutput = 1;
+			public static final double Acceleration = 6750; // raw sensor units per 100 ms per second
+			public static final double CruiseVelocity = 6750; // raw sensor units per 100 ms
+			public static final int Smoothing = 3; // CurveStrength. 0 to use Trapezoidal Motion Profile. [1,8] for S-Curve (greater value yields greater smoothing).
+			public static final double DefaultAcceptableError = 5; // Sensor units
+			public static final double Izone = 500;
+			public static final double PeakOutput = 0.5; // Closed Loop peak output
+			public static final double NeutralDeadband = 0.001;
+			public static final int periodMs = 10; // status frame period
+			public static final int timeoutMs = 30; // status frame timeout
+			public static final int closedLoopPeriod = 1; // 1ms for TalonSRX and locally connected encoder
+
+		}
+
+
+		public static final class ShooterPIDConstants {
+
+			public static final double kP = 0.75;
+			public static final double kI = 0.005;
+			public static final double kD = 0.01;
+			public static final double kF = 0;
+			public static final double kMaxOutput = 1;
+			public static final double Acceleration = 6750; // raw sensor units per 100 ms per second
+			public static final double CruiseVelocity = 6750; // raw sensor units per 100 ms
+			public static final int Smoothing = 3; // CurveStrength. 0 to use Trapezoidal Motion Profile. [1,8] for S-Curve (greater value yields greater smoothing).
+			public static final double DefaultAcceptableError = 5; // Sensor units
+			public static final double Izone = 500;
+			public static final double PeakOutput = 0.5; // Closed Loop peak output
+			public static final double NeutralDeadband = 0.001;
+			public static final int periodMs = 10; // status frame period
+			public static final int timeoutMs = 30; // status frame timeout
+			public static final int closedLoopPeriod = 1; // 1ms for TalonSRX and locally connected encoder
+
+		}
+
 
 
 	}
