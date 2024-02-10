@@ -5,18 +5,24 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.GPMConstants.Arm;
 import frc.robot.Constants.GPMConstants.Intake;
+import frc.robot.Constants.GPMConstants.Intake.IntakePIDConstants;
 import frc.robot.Constants.GPMConstants.Arm.ArmMotorConstantsEnum;
 import frc.robot.Constants.GPMConstants.Arm.ArmPIDConstants;
 import frc.robot.Constants.GPMConstants.Shooter.ShooterMotorConstantsEnum;
@@ -58,8 +64,8 @@ public class GPMSubsystem extends SubsystemBase {
 
   // REV Thru-bore encoder connected to Spark Max, which has NEO
   // connected as well; so using Absolute Encoder expansion board
-  private  SparkAbsoluteEncoder armEncoderLeft;
-  private  SparkAbsoluteEncoder armEncoderRight;
+  private  SparkAbsoluteEncoder armEncoder;
+  
 
   //private SparkLimitSwitch noteSensor;  //limit switch
 
@@ -81,9 +87,8 @@ public class GPMSubsystem extends SubsystemBase {
     armMotorRight = new CANSparkMax(ArmMotorConstantsEnum.RIGHTMOTOR.getArmMotorID(), MotorType.kBrushless);
 
     //TODO: We will probably have only one Thru-bore encoder, which is sufficient for us; revise the code as needed
-    armEncoderLeft = armMotorLeft.getAbsoluteEncoder(Type.kDutyCycle);
-    armEncoderLeft = armMotorRight.getAbsoluteEncoder(Type.kDutyCycle);
-
+    armEncoder = armMotorLeft.getAbsoluteEncoder(Type.kDutyCycle);
+    
     armPIDControllerLeft = armMotorLeft.getPIDController();
     armPIDControllerRight = armMotorRight.getPIDController();
 
@@ -121,24 +126,22 @@ public class GPMSubsystem extends SubsystemBase {
    
     motor.restoreFactoryDefaults();
 
-    motor.clearFaults();
+     motor.restoreFactoryDefaults();
 
-    // motor.setSmartCurrentLimit(0);
+    // armMotorLeft.setSmartCurrentLimit(0);
 
     motor.setIdleMode(IdleMode.kBrake);
 
-    armMotorLeft.setInverted(true); 
-    armMotorRight.setInverted(false); 
-    
     if (c.getArmMotorFollower()) {
       motor.follow(motorToFollow);
     } else {
 
     }
 
-    //PID Controllers 
-    
-    p.setFeedbackDevice(shooterEncoderLeft);
+    // PID Controller setup
+
+    // TODO: check if only one of these needs to be set
+    p.setFeedbackDevice(armEncoder);
 
     // set arm PID coefficients - LIFT
     p.setP(ArmPIDConstants.kP);
@@ -149,8 +152,9 @@ public class GPMSubsystem extends SubsystemBase {
     // kMaxOutput = 1 ; range is -1, 1
     p.setOutputRange(-ArmPIDConstants.kMaxOutput, ArmPIDConstants.kMaxOutput);
 
-    //kMaxOutput = 1 ; range is -1, 1
-    armPIDControllerRight.setOutputRange(-ArmPIDConstants.kMaxOutput, ArmPIDConstants.kMaxOutput);
+    // kMaxOutput = 1 ; range is -1, 1
+    // armPIDControllerRight.setOutputRange(-Constants.GPMConstants.ArmPIDConstants.kMaxOutput,
+    // Constants.GPMConstants.ShooterPIDConstants.kMaxOu
   }
 
   /**
@@ -194,10 +198,10 @@ public class GPMSubsystem extends SubsystemBase {
     // Constants.GPMConstants.ShooterPIDConstants.kMaxOu
   }
 
-  public void zeroArmEncoders() {  // zero encoders on master mmotor controllers of the drivetrain
+  public void zeroArmEncoder() {  // zero encoders on master mmotor controllers of the drivetrain
 
-    armEncoderLeft.setZeroOffset(0);
-    armEncoderRight.setZeroOffset(0);
+    armEncoder.setZeroOffset(0);
+  
     System.out.println("===== arm encoders are 0");
   }
 
@@ -206,28 +210,76 @@ public class GPMSubsystem extends SubsystemBase {
     intakeMotor.configFactoryDefault();
     intakeMotor.setSafetyEnabled(false);
 
-    //PID Controllers
+    //Configure motor and controller
     intakeMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+    intakeMotor.setSensorPhase(Intake.INTAKE_SENSOR_PHASE);
+    intakeMotor.setInverted(Intake.INTAKE_INVERTED);
+    intakeMotor.configNeutralDeadband(Intake.INTAKE_NEUTRAL_DEADBAND, Intake.INTAKE_TIMEOUT);
+
+    //PID Configuration
+    intakeMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 10, Intake.INTAKE_TIMEOUT);
+    intakeMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, 10, Intake.INTAKE_TIMEOUT);
+
+    intakeMotor.configPeakOutputForward(+1.0, Intake.INTAKE_TIMEOUT);
+    intakeMotor.configPeakOutputReverse(-1.0, Intake.INTAKE_TIMEOUT);
+    intakeMotor.configNominalOutputForward(0, Intake.INTAKE_TIMEOUT);
+    intakeMotor.configNominalOutputReverse(0, Intake.INTAKE_TIMEOUT);
+
+    /* FPID Gains */
+    intakeMotor.selectProfileSlot(IntakePIDConstants.intakeSlot0, IntakePIDConstants.pidIntakeIdx);
+    intakeMotor.config_kP(IntakePIDConstants.intakeSlot0, IntakePIDConstants.kP,
+      Intake.INTAKE_TIMEOUT);
+    intakeMotor.config_kI(IntakePIDConstants.intakeSlot0, IntakePIDConstants.kI,
+      Intake.INTAKE_TIMEOUT);
+    intakeMotor.config_kD(IntakePIDConstants.intakeSlot0, IntakePIDConstants.kD,
+      Intake.INTAKE_TIMEOUT);
+    intakeMotor.config_kF(IntakePIDConstants.intakeSlot0, IntakePIDConstants.kF,
+      Intake.INTAKE_TIMEOUT);
+
+    intakeMotor.config_IntegralZone(IntakePIDConstants.intakeSlot0, IntakePIDConstants.Izone,
+      Intake.INTAKE_TIMEOUT);
+    intakeMotor.configClosedLoopPeakOutput(IntakePIDConstants.intakeSlot0, IntakePIDConstants.PeakOutput,
+      Intake.INTAKE_TIMEOUT);
+    intakeMotor.configAllowableClosedloopError(IntakePIDConstants.intakeSlot0,
+      IntakePIDConstants.DefaultAcceptableError,
+      Intake.INTAKE_TIMEOUT);
+
+    intakeMotor.configClosedLoopPeriod(IntakePIDConstants.intakeSlot0, IntakePIDConstants.closedLoopPeriod,
+      Intake.INTAKE_TIMEOUT);
+
+    intakeMotor.configMotionAcceleration(IntakePIDConstants.Acceleration,
+      Intake.INTAKE_TIMEOUT);
+    intakeMotor.configMotionCruiseVelocity(IntakePIDConstants.CruiseVelocity,
+      Intake.INTAKE_TIMEOUT);
+    intakeMotor.configMotionSCurveStrength(IntakePIDConstants.intakeSmoothing);
+
   }
+
+  // ======== ARM METHODS
 
  public double getArmEnc(SparkAbsoluteEncoder c) {
     return c.getPosition();
   }
   
-  public double getShooterVelocity(AbsoluteEncoder c) {
-    return c.getVelocity();
+  public Rotation2d getArmAngle() {
+    return new Rotation2d(armEncoder.getPosition()*Arm.armDegreeEncoderConversion);
+  }
+
+  public void setArmMotorAnglesSI(CANSparkMax m, double angle) {
+   m.getPIDController().setReference((Arm.armDegreeEncoderConversion*angle), ControlType.kPosition);
+   System.out.println("========== Arm Motor Angle set to : " + angle);
   }
   
-  // public Rotation2d getArmAngle(CANSparkMax a) {
-   
-  // }
-  
+  // ======== SHOOTER METHODS
+
   public void runShooter(double speed) {
-    shooterMotorLeft.set(speed);
+    shooterMotorLeft.getPIDController().setReference((speed), ControlType.kVelocity);
+    System.out.println("========== Shooter Motor running at " + speed);
   }
 
   public void stopShooter() {
-    
+    shooterMotorLeft.getPIDController().setReference((0), ControlType.kVelocity);
+    System.out.println("========== Shooter Motor stopped ");
   }
 
   public void getNoteSensor() { //????
