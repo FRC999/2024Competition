@@ -5,47 +5,59 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkLimitSwitch;
-import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.GPMConstants.Intake;
+import frc.robot.Constants.GPMConstants.Arm.ArmMotorConstantsEnum;
+import frc.robot.Constants.GPMConstants.Arm.ArmPIDConstants;
+import frc.robot.Constants.GPMConstants.Shooter.ShooterMotorConstantsEnum;
+import frc.robot.Constants.GPMConstants.Shooter.ShooterPIDConstants;
 
 
 
 public class GPMSubsystem extends SubsystemBase {
   /** Creates a new GPMSubsystem. */
+
+  // === INTAKE ===
+
+  // 775 connected to TalonSRX
   private WPI_TalonSRX intakeMotor; //TalonSRX
   
-  private SparkAbsoluteEncoder shooterEncoderA;
-  private SparkAbsoluteEncoder shooterEncoderB;
+  // === SHOOTER ====
 
-  private CANSparkMax shooterA; //NEOS
-  private CANSparkMax shooterB;
+  // NEO motors connected to Spark Max
+  private CANSparkMax shooterMotorLeft;
+  private CANSparkMax shooterMotorRight;
+
+  // Built-in NEO encoders
+  // Will be used with Velocity PID
+  private RelativeEncoder shooterEncoderLeft;
+  private RelativeEncoder shooterEncoderRight;
+
+  // Necessary for hardware PID with Spark Max
+  private SparkPIDController shooterPIDControllerLeft;
+  private SparkPIDController shooterPIDControllerRight;
+
+  // === ARM ====
+
+  // NEO motors connected to Spark Max
+  private CANSparkMax armMotorLeft; 
+  private CANSparkMax armMotorRight;
 
   private SparkPIDController armPIDControllerLeft;
   private SparkPIDController armPIDControllerRight;
 
-  private SparkPIDController shooterPIDControllerA;
-  private SparkPIDController shooterPIDControllerB;
-
-  private CANSparkMax leftArm;  //NEOS
-  private CANSparkMax rightArm;
-
+  // REV Thru-bore encoder connected to Spark Max, which has NEO
+  // connected as well; so using Absolute Encoder expansion board
   private  SparkAbsoluteEncoder armEncoderLeft;
   private  SparkAbsoluteEncoder armEncoderRight;
 
@@ -53,98 +65,133 @@ public class GPMSubsystem extends SubsystemBase {
 
   public GPMSubsystem() {
 
-    //create intake motor variables
-    intakeMotor = new WPI_TalonSRX(Constants.GPMConstants.SHOOTER_MOTOR_CAN_ID);
+    // ==========================
+    // === INTAKE initiatization
+    // ==========================
+
+    intakeMotor = new WPI_TalonSRX(Intake.INTAKE_MOTOR_CAN_ID);
+
+    configureIntakeMotor();
     
-    //create arm motor variables
-    leftArm = new CANSparkMax(Constants.GPMConstants.LEFT_ARM_CAN_ID, MotorType.kBrushless);
-    rightArm = new CANSparkMax(Constants.GPMConstants.RIGHT_ARM_CAN_ID, MotorType.kBrushless);
-  
-    armPIDControllerLeft = leftArm.getPIDController();
-    armPIDControllerRight = rightArm.getPIDController();
+    // ==========================
+    // === ARM initialization
+    // ==========================
 
-     //create shooter motor variables
-    shooterA = new CANSparkMax(Constants.GPMConstants.SHOOTER_A_CAN_ID, MotorType.kBrushless);
-    shooterB = new CANSparkMax(Constants.GPMConstants.SHOOTER_B_CAN_ID, MotorType.kBrushless);
+    armMotorLeft = new CANSparkMax(ArmMotorConstantsEnum.LEFTMOTOR.getArmMotorID(), MotorType.kBrushless);
+    armMotorRight = new CANSparkMax(ArmMotorConstantsEnum.RIGHTMOTOR.getArmMotorID(), MotorType.kBrushless);
 
-    armEncoderLeft = leftArm.getAbsoluteEncoder(Type.kDutyCycle);
-    armEncoderLeft = rightArm.getAbsoluteEncoder(Type.kDutyCycle);
+    //TODO: We will probably have only one Thru-bore encoder, which is sufficient for us; revise the code as needed
+    armEncoderLeft = armMotorLeft.getAbsoluteEncoder(Type.kDutyCycle);
+    armEncoderLeft = armMotorRight.getAbsoluteEncoder(Type.kDutyCycle);
+
+    armPIDControllerLeft = armMotorLeft.getPIDController();
+    armPIDControllerRight = armMotorRight.getPIDController();
+
+    // Main Motor; should not follow the other motor
+    configureArmMotors(armMotorLeft, armPIDControllerLeft, ArmMotorConstantsEnum.LEFTMOTOR, null);
+    // Follower Motor
+    configureArmMotors(armMotorRight, armPIDControllerRight, ArmMotorConstantsEnum.RIGHTMOTOR, armMotorLeft);
+
+    // ==========================
+    // === SHOOTER initialization
+    // ==========================
+
+    shooterMotorLeft = new CANSparkMax(ShooterMotorConstantsEnum.LEFTMOTOR.getShooterMotorID(), MotorType.kBrushless);
+    shooterMotorRight = new CANSparkMax(ShooterMotorConstantsEnum.RIGHTMOTOR.getShooterMotorID(), MotorType.kBrushless);
+
+    shooterEncoderLeft = shooterMotorLeft.getEncoder();
+    shooterEncoderRight = shooterMotorRight.getEncoder();
+
+    // Main Motor; should not follow the other motor
+    configureshooterMotors(shooterMotorLeft, shooterPIDControllerLeft, ShooterMotorConstantsEnum.LEFTMOTOR, null);
+    // Follower Motor
+    configureshooterMotors(shooterMotorRight, shooterPIDControllerRight, ShooterMotorConstantsEnum.RIGHTMOTOR, shooterMotorLeft);
+
   }
 
-  public void configureArmMotors() {
+  /**
+   * Configure Arm motors with a main and a follower
+   * @param motor - motor object
+   * @param p - PID controller object
+   * @param c - motor constants
+   * @param motorToFollow - motor to follow if this is a follower
+   */
+  public void configureArmMotors(CANSparkMax motor, SparkPIDController p, ArmMotorConstantsEnum c,
+      CANSparkMax motorToFollow) {
    
-    leftArm.restoreFactoryDefaults();
-    rightArm.restoreFactoryDefaults();
+    motor.restoreFactoryDefaults();
 
-    leftArm.setSmartCurrentLimit(0);
-    rightArm.setSmartCurrentLimit(0);
+    motor.clearFaults();
 
-    leftArm.setIdleMode(IdleMode.kBrake);
-    //leftArm.configOpenloopRamp(0.25);
-    rightArm.setIdleMode(IdleMode.kBrake);
-    //rightArm.configOpenloopRamp(0.25);
+    // motor.setSmartCurrentLimit(0);
 
-    leftArm.setInverted(true); 
-    rightArm.setInverted(false); 
+    motor.setIdleMode(IdleMode.kBrake);
+
+    armMotorLeft.setInverted(true); 
+    armMotorRight.setInverted(false); 
     
-    leftArm.follow(rightArm);
+    if (c.getArmMotorFollower()) {
+      motor.follow(motorToFollow);
+    } else {
+
+    }
 
     //PID Controllers 
     
+    p.setFeedbackDevice(shooterEncoderLeft);
 
-    //set arm PID coefficients - LIFT
-    armPIDControllerLeft.setP(Constants.GPMConstants.ArmPIDConstants.kP);
-    armPIDControllerLeft.setI(Constants.GPMConstants.ArmPIDConstants.kI);
-    armPIDControllerLeft.setD(Constants.GPMConstants.ArmPIDConstants.kD);
-    armPIDControllerLeft.setIZone(Constants.GPMConstants.ArmPIDConstants.Izone);
-    armPIDControllerLeft.setFF(Constants.GPMConstants.ArmPIDConstants.kF);
-    //kMaxOutput = 1 ; range is -1, 1
-    armPIDControllerLeft.setOutputRange(-Constants.GPMConstants.ArmPIDConstants.kMaxOutput, Constants.GPMConstants.ArmPIDConstants.kMaxOutput);
+    // set arm PID coefficients - LIFT
+    p.setP(ArmPIDConstants.kP);
+    p.setI(ArmPIDConstants.kI);
+    p.setD(ArmPIDConstants.kD);
+    p.setIZone(ArmPIDConstants.Izone);
+    p.setFF(ArmPIDConstants.kF);
+    // kMaxOutput = 1 ; range is -1, 1
+    p.setOutputRange(-ArmPIDConstants.kMaxOutput, ArmPIDConstants.kMaxOutput);
 
-    //set arm PID coefficients - RIGHT
-    armPIDControllerRight.setP(Constants.GPMConstants.ArmPIDConstants.kP);
-    armPIDControllerRight.setI(Constants.GPMConstants.ArmPIDConstants.kI);
-    armPIDControllerRight.setD(Constants.GPMConstants.ArmPIDConstants.kD);
-    armPIDControllerRight.setIZone(Constants.GPMConstants.ArmPIDConstants.Izone);
-    armPIDControllerRight.setFF(Constants.GPMConstants.ArmPIDConstants.kF);
     //kMaxOutput = 1 ; range is -1, 1
-    armPIDControllerRight.setOutputRange(-Constants.GPMConstants.ArmPIDConstants.kMaxOutput, Constants.GPMConstants.ArmPIDConstants.kMaxOutput);
+    armPIDControllerRight.setOutputRange(-ArmPIDConstants.kMaxOutput, ArmPIDConstants.kMaxOutput);
   }
 
-  public void configureshooterMotors() {
-    
-    shooterA.restoreFactoryDefaults();
-    shooterB.restoreFactoryDefaults();
+  /**
+   * Configure Shooter motors with a main and a follower
+   * @param motor - motor object
+   * @param p - PID controller object
+   * @param c - motor constants
+   * @param motorToFollow - motor to follow if this is a follower
+   */
+  public void configureshooterMotors(CANSparkMax motor, SparkPIDController p, ShooterMotorConstantsEnum c,
+      CANSparkMax motorToFollow) {
 
-    shooterA.setSmartCurrentLimit(0);
-    shooterB.setSmartCurrentLimit(0);
+    motor.restoreFactoryDefaults();
 
-    shooterA.setIdleMode(IdleMode.kBrake);
-    shooterB.setIdleMode(IdleMode.kBrake);
+    // shooterMotorLeft.setSmartCurrentLimit(0);
 
-    shooterB.follow(shooterA);
+    motor.setIdleMode(IdleMode.kBrake);
 
-    //PID Controllers 
-    shooterPIDControllerA.setFeedbackDevice(shooterEncoderA);
-    shooterPIDControllerB.setFeedbackDevice(shooterEncoderB);
+    if (c.getShooterMotorFollower()) {
+      motor.follow(motorToFollow);
+    } else {
 
-    //set arm PID coefficients - LIFT
-    shooterPIDControllerA.setP(Constants.GPMConstants.ShooterPIDConstants.kP);
-    shooterPIDControllerA.setI(Constants.GPMConstants.ShooterPIDConstants.kI);
-    shooterPIDControllerA.setD(Constants.GPMConstants.ShooterPIDConstants.kD);
-    shooterPIDControllerA.setIZone(Constants.GPMConstants.ShooterPIDConstants.Izone);
-    shooterPIDControllerA.setFF(Constants.GPMConstants.ShooterPIDConstants.kF);
-    //kMaxOutput = 1 ; range is -1, 1
-    shooterPIDControllerA.setOutputRange(-Constants.GPMConstants.ShooterPIDConstants.kMaxOutput, Constants.GPMConstants.ShooterPIDConstants.kMaxOutput);
+    }
 
-    //set arm PID coefficients - RIGHT
-    shooterPIDControllerB.setP(Constants.GPMConstants.ShooterPIDConstants.kP);
-    shooterPIDControllerB.setI(Constants.GPMConstants.ShooterPIDConstants.kI);
-    shooterPIDControllerB.setD(Constants.GPMConstants.ShooterPIDConstants.kD);
-    shooterPIDControllerB.setIZone(Constants.GPMConstants.ShooterPIDConstants.Izone);
-    shooterPIDControllerB.setFF(Constants.GPMConstants.ShooterPIDConstants.kF);
-    //kMaxOutput = 1 ; range is -1, 1
-    //shooterPIDControllerB.setOutputRange(-Constants.GPMConstants.ShooterPIDConstants.kMaxOutput, Constants.GPMConstants.ShooterPIDConstants.kMaxOu
+    // PID Controller setup
+
+    // TODO: check if only one of these needs to be set
+    p.setFeedbackDevice(shooterEncoderLeft);
+
+    // set arm PID coefficients - LIFT
+    p.setP(ShooterPIDConstants.kP);
+    p.setI(ShooterPIDConstants.kI);
+    p.setD(ShooterPIDConstants.kD);
+    p.setIZone(ShooterPIDConstants.Izone);
+    p.setFF(ShooterPIDConstants.kF);
+    // kMaxOutput = 1 ; range is -1, 1
+    p.setOutputRange(-ShooterPIDConstants.kMaxOutput, ShooterPIDConstants.kMaxOutput);
+
+    // kMaxOutput = 1 ; range is -1, 1
+    // shooterPIDControllerB.setOutputRange(-Constants.GPMConstants.ShooterPIDConstants.kMaxOutput,
+    // Constants.GPMConstants.ShooterPIDConstants.kMaxOu
   }
 
   public void zeroArmEncoders() {  // zero encoders on master mmotor controllers of the drivetrain
@@ -155,7 +202,7 @@ public class GPMSubsystem extends SubsystemBase {
   }
 
   public void configureIntakeMotor(){
-    intakeMotor = new WPI_TalonSRX(Constants.GPMConstants.INTAKE_MOTOR_CAN_ID);
+
     intakeMotor.configFactoryDefault();
     intakeMotor.setSafetyEnabled(false);
 
@@ -175,9 +222,8 @@ public class GPMSubsystem extends SubsystemBase {
    
   // }
   
-
   public void runShooter(double speed) {
-    shooterA.set(speed);
+    shooterMotorLeft.set(speed);
   }
 
   public void stopShooter() {
@@ -187,7 +233,6 @@ public class GPMSubsystem extends SubsystemBase {
   public void getNoteSensor() { //????
     //noteSensor.isPressed();
   }
-
 
   @Override
   public void periodic() {
