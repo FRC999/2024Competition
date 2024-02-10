@@ -22,6 +22,7 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.GPMConstants.Arm;
 import frc.robot.Constants.GPMConstants.Intake;
 import frc.robot.Constants.GPMConstants.Intake.IntakePIDConstants;
@@ -73,15 +74,19 @@ public class GPMSubsystem extends SubsystemBase {
 
   private static WPI_Pigeon2 armImu; // We will use downcasting to set this - it will point to methods either in NavX
   // or Pigeon subsystems
+  private double currentArmIMU;
   
 
   //private SparkLimitSwitch noteSensor;  //limit switch
 
   public GPMSubsystem() {
 
-    armImu = new WPI_Pigeon2(Constants.IMUConstants.PIGEON2_CAN_ID);
-
     // ==========================
+    // === ARM IMU initialization
+    // ==========================
+    armImu = new WPI_Pigeon2(Constants.IMUConstants.PIGEON2_CAN_ID);
+    
+
     // === INTAKE initiatization
     // ==========================
 
@@ -280,6 +285,10 @@ public class GPMSubsystem extends SubsystemBase {
  public double getArmEnc(SparkAbsoluteEncoder c) {
     return c.getPosition();
   }
+
+  public void getCurrentArmIMU() {
+    currentArmIMU = getPitch() - RobotContainer.imuSubsystem.getPitch();
+  }
   
   public double getArmAngle() {
     return (armEncoder.getPosition() + Arm.gearRatioDifference)*Arm.armDegreeEncoderConversion;
@@ -304,6 +313,17 @@ public class GPMSubsystem extends SubsystemBase {
   public void stopShooter() {
     shooterMotorLeader.getPIDController().setReference((0), ControlType.kVelocity);
     System.out.println("========== Shooter Motor stopped ");
+  }
+
+  // ============== INTAKE METHODS
+
+  public void runIntake(double speed) {
+    intakeMotor.set(speed);
+    System.out.println("========== Intake Motor running at " + speed);
+  }
+
+  public void stopIntake() {
+    intakeMotor.set(0);
   }
 
   public void getNoteSensor() { //????
