@@ -5,11 +5,13 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants.LimeLightConstants;
 import frc.robot.lib.LimelightHelpers;
 import frc.robot.lib.VisionHelpers;
 
 public class LLDetectorSubsystem extends SubsystemBase implements VisionHelpers {
+  private final double[] doNotMoveRobot = {0,0};
   /** Creates a new LLDetectorSubsystem. */
   public LLDetectorSubsystem() {}
 
@@ -35,6 +37,17 @@ public class LLDetectorSubsystem extends SubsystemBase implements VisionHelpers 
     } else {
       return Double.NaN;
     }
+  }
+
+  public double[] driveToNotePowers() {
+    double horizontalAngleToNote = getHorizontalAngleToNote();
+    if(horizontalAngleToNote == Double.NaN) {
+      return doNotMoveRobot;
+    }
+    double x = Math.sin(getHorizontalOffset())*Constants.VisionConstants.LimeLightConstants.VELOCITY_TO_AUTO_NOTE;
+    double y = Math.cos(getHorizontalOffset())*Constants.VisionConstants.LimeLightConstants.VELOCITY_TO_AUTO_NOTE;
+    double[] noteDrivingInstructions = {x,y};
+    return noteDrivingInstructions ;
   }
 
   @Override

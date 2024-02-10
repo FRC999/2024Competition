@@ -633,6 +633,8 @@ public final class Constants {
 			// *** LL Detector ***
 			public static final String LLDetectorName = "limelight-d";	// Limelight that will track Apriltags; may decide to use multiple ones
 
+			public static final double MOTOR_SPEED = 0.5;
+			public static final double VELOCITY_TO_AUTO_NOTE = 0.5;
 		}
 		public static final class PhotonVisionConstants {
 

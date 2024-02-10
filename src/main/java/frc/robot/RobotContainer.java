@@ -14,6 +14,7 @@ import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.PosePrinter;
+import frc.robot.commands.DriveToNoteCommand;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.commands.AutonomousTrajectory2PosesDynamic;
 import frc.robot.subsystems.DriveSubsystem;
@@ -55,7 +56,7 @@ public class RobotContainer {
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
   
   //public final GPMSubsystem gpmSubsystem = new GPMSubsystem();
-  public final NetworkTablesSubsystem networkTableSubsystem = new NetworkTablesSubsystem();
+  public final static NetworkTablesSubsystem networkTableSubsystem = new NetworkTablesSubsystem();
 
   public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
   public final static PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem(PhotonVisionConstants.PVCameraName);
@@ -353,6 +354,7 @@ public class RobotContainer {
                 new PrintCommand("\n to \n" +
                 VisionConstants.redSpeakerShootingPose)))
               .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+      
 
 
       // *** === Commands that actually drive; caution; check the FROM/TO poses before trying them ===
