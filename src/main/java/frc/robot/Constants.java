@@ -181,6 +181,7 @@ public final class Constants {
 				public static final int timeoutMs = 30; // status frame timeout
 				public static final int closedLoopPeriod = 1; // 1ms for TalonSRX and locally connected encoder
 
+				public static final double anglePIDTolerance = 0.5; // degree tolerance when rotating arm to angle using PID
 			}
 
 			public static final double armDegreeEncoderConversion = 1.0 / 122.11575;
@@ -188,7 +189,9 @@ public final class Constants {
 			public static final boolean kDiscontinuityPresent = true;
 			public static final int kBookEnd_0 = 910; /* 80 deg */
 			public static final int kBookEnd_1 = 1137; /* 100 deg */
-			public static final double clicksFXPerFullRotation = 360.0 / armDegreeEncoderConversion; 
+			public static final double clicksFXPerFullRotation = 360.0 / armDegreeEncoderConversion;
+			public static final int PIGEON2_CAN_ID = 15;
+			public static final double gearRatioDifference = 0; // in ticks
 		}
 
 	}

@@ -7,11 +7,13 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.SparkRelativeEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -28,7 +30,7 @@ import frc.robot.Constants.GPMConstants.Arm.ArmPIDConstants;
 import frc.robot.Constants.GPMConstants.Shooter.ShooterMotorConstantsEnum;
 import frc.robot.Constants.GPMConstants.Shooter.ShooterPIDConstants;
 
-
+@SuppressWarnings({ "removal" })
 
 public class GPMSubsystem extends SubsystemBase {
   /** Creates a new GPMSubsystem. */
@@ -43,6 +45,7 @@ public class GPMSubsystem extends SubsystemBase {
   // NEO motors connected to Spark Max
   private CANSparkMax shooterMotorLeft;
   private CANSparkMax shooterMotorRight;
+  private CANSparkMax shooterMotorLeader;
 
   // Built-in NEO encoders
   // Will be used with Velocity PID
@@ -58,18 +61,25 @@ public class GPMSubsystem extends SubsystemBase {
   // NEO motors connected to Spark Max
   private CANSparkMax armMotorLeft; 
   private CANSparkMax armMotorRight;
+  private CANSparkMax armMotorLeader;
+
 
   private SparkPIDController armPIDControllerLeft;
   private SparkPIDController armPIDControllerRight;
 
   // REV Thru-bore encoder connected to Spark Max, which has NEO
   // connected as well; so using Absolute Encoder expansion board
-  private  SparkAbsoluteEncoder armEncoder;
+  private  SparkRelativeEncoder armEncoder;
+
+  private static WPI_Pigeon2 armImu; // We will use downcasting to set this - it will point to methods either in NavX
+  // or Pigeon subsystems
   
 
   //private SparkLimitSwitch noteSensor;  //limit switch
 
   public GPMSubsystem() {
+
+    armImu = new WPI_Pigeon2(Constants.IMUConstants.PIGEON2_CAN_ID);
 
     // ==========================
     // === INTAKE initiatization
@@ -87,7 +97,6 @@ public class GPMSubsystem extends SubsystemBase {
     armMotorRight = new CANSparkMax(ArmMotorConstantsEnum.RIGHTMOTOR.getArmMotorID(), MotorType.kBrushless);
 
     //TODO: We will probably have only one Thru-bore encoder, which is sufficient for us; revise the code as needed
-    armEncoder = armMotorLeft.getAbsoluteEncoder(Type.kDutyCycle);
     
     armPIDControllerLeft = armMotorLeft.getPIDController();
     armPIDControllerRight = armMotorRight.getPIDController();
@@ -135,7 +144,7 @@ public class GPMSubsystem extends SubsystemBase {
     if (c.getArmMotorFollower()) {
       motor.follow(motorToFollow);
     } else {
-
+      armMotorLeader = motor;
     }
 
     // PID Controller setup
@@ -176,7 +185,7 @@ public class GPMSubsystem extends SubsystemBase {
     if (c.getShooterMotorFollower()) {
       motor.follow(motorToFollow);
     } else {
-
+      shooterMotorLeader = motor;
     }
 
     // PID Controller setup
@@ -200,7 +209,7 @@ public class GPMSubsystem extends SubsystemBase {
 
   public void zeroArmEncoder() {  // zero encoders on master mmotor controllers of the drivetrain
 
-    armEncoder.setZeroOffset(0);
+    armEncoder.setPosition(0);
   
     System.out.println("===== arm encoders are 0");
   }
@@ -255,30 +264,45 @@ public class GPMSubsystem extends SubsystemBase {
 
   }
 
+  // ======== PIGEON METHODS
+
+  public double getPitch() {
+    // double[] ypr = new double[3];
+    // pigeon2.getYawPitchRoll(ypr);
+    // return ypr[1];
+
+    // Front UP - positive Pitch
+    return -armImu.getPitch();
+  }
+
   // ======== ARM METHODS
 
  public double getArmEnc(SparkAbsoluteEncoder c) {
     return c.getPosition();
   }
   
-  public Rotation2d getArmAngle() {
-    return new Rotation2d(armEncoder.getPosition()*Arm.armDegreeEncoderConversion);
+  public double getArmAngle() {
+    return (armEncoder.getPosition() + Arm.gearRatioDifference)*Arm.armDegreeEncoderConversion;
   }
 
-  public void setArmMotorAnglesSI(CANSparkMax m, double angle) {
-   m.getPIDController().setReference((Arm.armDegreeEncoderConversion*angle), ControlType.kPosition);
+  public void setArmMotorAnglesSI(double angle) {
+   armMotorLeader.getPIDController().setReference((Arm.armDegreeEncoderConversion*angle), ControlType.kPosition);
    System.out.println("========== Arm Motor Angle set to : " + angle);
+  }
+
+  public void stopArmPID(){
+    armMotorLeader.getPIDController().setReference((0), ControlType.kVoltage);
   }
   
   // ======== SHOOTER METHODS
 
   public void runShooter(double speed) {
-    shooterMotorLeft.getPIDController().setReference((speed), ControlType.kVelocity);
+    shooterMotorLeader.getPIDController().setReference((speed), ControlType.kVelocity);
     System.out.println("========== Shooter Motor running at " + speed);
   }
 
   public void stopShooter() {
-    shooterMotorLeft.getPIDController().setReference((0), ControlType.kVelocity);
+    shooterMotorLeader.getPIDController().setReference((0), ControlType.kVelocity);
     System.out.println("========== Shooter Motor stopped ");
   }
 

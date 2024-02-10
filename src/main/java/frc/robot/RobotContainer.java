@@ -52,8 +52,8 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
-  public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
-  //public final GPMSubsystem gpmSubsystem = new GPMSubsystem();
+  public final static SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
+  public final static GPMSubsystem gpmSubsystem = new GPMSubsystem();
   public final NetworkTablesSubsystem networkTableSubsystem = new NetworkTablesSubsystem();
 
   public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
