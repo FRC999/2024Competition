@@ -50,13 +50,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
   public final static SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
   public final static ArmSubsystem gpmSubsystem = new ArmSubsystem();
   public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  public final static ArmSubsystem armSubsystem = new ArmSubsystem();
   public final NetworkTablesSubsystem networkTableSubsystem = new NetworkTablesSubsystem();
 
   public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
@@ -158,7 +158,7 @@ public class RobotContainer {
     // trajectoryCalibration();
 
     // Test Vision
-    visionTesting();
+    // visionTesting();
 
   }
 
@@ -319,81 +319,101 @@ public class RobotContainer {
 
   @SuppressWarnings("unused")
 
-  public void visionTesting(){
+  public void visionTesting() {
 
-      // LL Vision and shooting pose checks
+    // LL Vision and shooting pose checks
 
-      // Blue Amp Shooting
-      new JoystickButton(driveStick, 1)
-              .onTrue(
-                new PrintCommand("Blue AMP - driving from\n").andThen(
+    // Blue Amp Shooting
+    new JoystickButton(driveStick, 1)
+        .onTrue(
+            new PrintCommand("Blue AMP - driving from\n").andThen(
                 new PosePrinter(llVisionSubsystem::getRobotFieldPoseLL)).andThen(
-                new PrintCommand("\n to \n"+
-                  VisionConstants.blueAmpShootingPose)))
-              .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+                    new PrintCommand("\n to \n" +
+                        VisionConstants.blueAmpShootingPose)))
+        .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
 
-      // Blue Speaker Shooting
-      new JoystickButton(driveStick, 2)
-              .onTrue(
-                new PrintCommand("Blue Speaker - driving from\n").andThen(
+    // Blue Speaker Shooting
+    new JoystickButton(driveStick, 2)
+        .onTrue(
+            new PrintCommand("Blue Speaker - driving from\n").andThen(
                 new PosePrinter(llVisionSubsystem::getRobotFieldPoseLL)).andThen(
-                new PrintCommand("\n to \n" +
-                VisionConstants.blueSpeakerShootingPose)))
-              .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+                    new PrintCommand("\n to \n" +
+                        VisionConstants.blueSpeakerShootingPose)))
+        .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
 
-      // Red Speaker Shooting
-      new JoystickButton(driveStick, 3)
-              .onTrue(
-                new PrintCommand("Red Speaker - driving from\n").andThen(
+    // Red Speaker Shooting
+    new JoystickButton(driveStick, 3)
+        .onTrue(
+            new PrintCommand("Red Speaker - driving from\n").andThen(
                 new PosePrinter(llVisionSubsystem::getRobotFieldPoseLL)).andThen(
-                new PrintCommand("\n to \n" +
-                VisionConstants.redSpeakerShootingPose)))
-              .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+                    new PrintCommand("\n to \n" +
+                        VisionConstants.redSpeakerShootingPose)))
+        .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
 
+    // *** === Commands that actually drive; caution; check the FROM/TO poses before
+    // trying them ===
+    // **** MAKE SURE to check the prinout of the poses first (see triggers above)
+    // **** CAUTION !!! DO NOT run unless you have ample space to test
 
-      // *** === Commands that actually drive; caution; check the FROM/TO poses before trying them ===
-      // **** MAKE SURE to check the prinout of the poses first (see triggers above)
-      // **** CAUTION !!! DO NOT run unless you have ample space to test
+    // Blue Amp driving
 
-      // Blue Amp driving
-      
-      //new JoystickButton(driveStick, 7)
-      //    .whileTrue(new AutonomousTrajectory2Poses(() -> llVisionSubsystem.getRobotFieldPoseLL(), () -> VisionConstants.blueAmpShootingPose))
-      //    .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+    // new JoystickButton(driveStick, 7)
+    // .whileTrue(new AutonomousTrajectory2Poses(() ->
+    // llVisionSubsystem.getRobotFieldPoseLL(), () ->
+    // VisionConstants.blueAmpShootingPose))
+    // .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot,
+    // RobotContainer.driveSubsystem));
 
-      // red Speaker Shooting
-      new JoystickButton(driveStick, 8)
-          // Test with relatively slow max velocity and acceleration
-          .whileTrue(new AutonomousTrajectory2PosesDynamic(() -> llVisionSubsystem.getRobotFieldPoseLL(), () -> VisionConstants.redSpeakerShootingPose))
-          .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
-      
+    // red Speaker Shooting
+    new JoystickButton(driveStick, 8)
+        // Test with relatively slow max velocity and acceleration
+        .whileTrue(new AutonomousTrajectory2PosesDynamic(() -> llVisionSubsystem.getRobotFieldPoseLL(),
+            () -> VisionConstants.redSpeakerShootingPose))
+        .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+
   }
+  
   public void trajectoryCalibration() {
-      new JoystickButton(driveStick, 1)
-              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeterForward"))
-              .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
-      new JoystickButton(driveStick, 2)
-              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeterBackwards"))
-              .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
-      new JoystickButton(driveStick, 3)
-              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeter45"))
-              .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
-      new JoystickButton(driveStick, 4)
-              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023ThreeMeterForward"))
-              .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));  
-      new JoystickButton(driveStick, 5)
-              .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023ThreeMeterForward90"))
-              .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));  
+    new JoystickButton(driveStick, 1)
+        .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeterForward"))
+        .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+    new JoystickButton(driveStick, 2)
+        .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeterBackwards"))
+        .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+    new JoystickButton(driveStick, 3)
+        .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeter45"))
+        .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+    new JoystickButton(driveStick, 4)
+        .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023ThreeMeterForward"))
+        .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+    new JoystickButton(driveStick, 5)
+        .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023ThreeMeterForward90"))
+        .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
 
-      new JoystickButton(driveStick, 6)
-          .whileTrue(new AutonomousTrajectory2Poses(testPoseSupplier(1, 1, 0), testPoseSupplier(2, 1, 0)))
-          .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+    new JoystickButton(driveStick, 6)
+        .whileTrue(new AutonomousTrajectory2Poses(testPoseSupplier(1, 1, 0), testPoseSupplier(2, 1, 0)))
+        .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
 
-      new JoystickButton(driveStick, 7)
-          .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023ThreeMeterRight"))
-          .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+    new JoystickButton(driveStick, 7)
+        .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023ThreeMeterRight"))
+        .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
 
-    }
+  }
+
+  public void testIntake() {
+    new JoystickButton(driveStick, 3)
+      .whileTrue(new InstantCommand(() -> RobotContainer.intakeSubsystem.runIntake(0.2)))
+      .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
+  }
+
+  public void testArm() {
+    new JoystickButton(driveStick, 3)
+      .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(0.2)))
+      .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
+    new JoystickButton(driveStick, 4)
+      .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(-0.2)))
+      .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
+  }
 
   Pose2d testPoseSupplier(double x, double y, double angle) {
     return new Pose2d(x,y,new Rotation2d().fromDegrees(angle));

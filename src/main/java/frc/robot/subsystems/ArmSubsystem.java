@@ -13,7 +13,9 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.GPMConstants.Arm;
 
 import frc.robot.Constants.GPMConstants.Arm.ArmMotorConstantsEnum;
@@ -49,6 +51,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   public ArmSubsystem() {
 
+    // Check if need to initialize arm
+    if (! EnabledSubsystems.arm) { return; }
 
     // ==========================
     // === ARM initialization
@@ -78,6 +82,7 @@ public class ArmSubsystem extends SubsystemBase {
     // This IMU should be attached FLAT to the ARM, with X pointing straight forward.
     // The IMU angle will allow us to calibrate NEO encoders rotating the arm.
     armImu = new WPI_Pigeon2(Arm.PIGEON2_ARM_CAN_ID);
+    calibrateArmEncoderToPitch();
 
   }
 
@@ -93,8 +98,8 @@ public class ArmSubsystem extends SubsystemBase {
       CANSparkMax motorToFollow) {
 
     motor.restoreFactoryDefaults();
-
-    // armMotorLeft.setSmartCurrentLimit(0);
+    motor.clearFaults();
+    motor.setInverted(c.getArmMotorInverted());
 
     motor.setIdleMode(IdleMode.kBrake);
 
@@ -105,10 +110,7 @@ public class ArmSubsystem extends SubsystemBase {
       armEncoderLeading = motor.getEncoder();
     }
 
-    // Set motor encoder
-
-    // PID Controller setup
-
+    // --- PID Setup
     // set the PID sensor to motor encoder for hardware PID
     p.setFeedbackDevice(motor.getEncoder());
 
@@ -121,9 +123,6 @@ public class ArmSubsystem extends SubsystemBase {
     // kMaxOutput = 1 ; range is -1, 1
     p.setOutputRange(-ArmPIDConstants.kMaxOutput, ArmPIDConstants.kMaxOutput);
 
-    // kMaxOutput = 1 ; range is -1, 1
-    // armPIDControllerRight.setOutputRange(-Constants.GPMConstants.ArmPIDConstants.kMaxOutput,
-    // Constants.GPMConstants.ShooterPIDConstants.kMaxOu
   }
 
   // ======== ARM METHODS
@@ -155,8 +154,21 @@ public class ArmSubsystem extends SubsystemBase {
    * divided by ARM_ENCODER_CHANGE_PER_DEGREE
    * @return - degrees angle
    */
-  public double getArmAngle() {
+  public double getArmAngleSI() {
     return (armEncoderLeading.getPosition() - armEncoderZero) / Arm.ARM_ENCODER_CHANGE_PER_DEGREE;
+  }
+
+  // Encoder telemetry
+  public double getArmEncoderLeft() {
+    return armEncoderLeft.getPosition();
+  }
+
+  public double getArmEncoderRight() {
+    return armEncoderRight.getPosition();
+  }
+
+  public double getArmEncoderLeading() {
+    return armEncoderLeading.getPosition();
   }
 
   /**
@@ -172,15 +184,21 @@ public class ArmSubsystem extends SubsystemBase {
       ( Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero,
       ControlType.kPosition
     );
-    System.out.println("========== Arm Motor Angle PID set to : " + angle);
   }
 
   public void stopArmPID() {
     armMotorLeader.getPIDController().setReference((0), ControlType.kVoltage);
   }
 
-  public void getNoteSensor() { // ????
-    // noteSensor.isPressed();
+  // ==================================
+  // test methods; for calibration only
+  // ==================================
+  public void runArmMotors(double power) {
+    armMotorLeader.set(power);
+  }
+
+  public void stopArmMotors() {
+    armMotorLeader.set(0);
   }
 
   @Override

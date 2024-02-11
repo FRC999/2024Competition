@@ -11,7 +11,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.EnabledSubsystems;
+import frc.robot.Constants.GPMConstants.Shooter;
 import frc.robot.Constants.GPMConstants.Shooter.ShooterMotorConstantsEnum;
 import frc.robot.Constants.GPMConstants.Shooter.ShooterPIDConstants;
 
@@ -34,6 +37,9 @@ public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
 
+    // Check if need to initialize shooter
+    if (! EnabledSubsystems.shooter) { return; }
+
     shooterMotorLeft = new CANSparkMax(ShooterMotorConstantsEnum.LEFTMOTOR.getShooterMotorID(), MotorType.kBrushless);
     shooterMotorRight = new CANSparkMax(ShooterMotorConstantsEnum.RIGHTMOTOR.getShooterMotorID(), MotorType.kBrushless);
 
@@ -41,9 +47,9 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterEncoderRight = shooterMotorRight.getEncoder();
 
     // Main Motor; should not follow the other motor
-    configureshooterMotors(shooterMotorLeft, shooterPIDControllerLeft, ShooterMotorConstantsEnum.LEFTMOTOR, null);
+    configureshooterMotors(shooterMotorLeft, shooterEncoderLeft, shooterPIDControllerLeft, ShooterMotorConstantsEnum.LEFTMOTOR, null);
     // Follower Motor
-    configureshooterMotors(shooterMotorRight, shooterPIDControllerRight, ShooterMotorConstantsEnum.RIGHTMOTOR,
+    configureshooterMotors(shooterMotorRight, shooterEncoderRight, shooterPIDControllerRight, ShooterMotorConstantsEnum.RIGHTMOTOR,
         shooterMotorLeft);
 
     System.out.println("*** Shooter initialized");
@@ -58,14 +64,24 @@ public class ShooterSubsystem extends SubsystemBase {
    * @param c             - motor constants
    * @param motorToFollow - motor to follow if this is a follower
    */
-  private void configureshooterMotors(CANSparkMax motor, SparkPIDController p, ShooterMotorConstantsEnum c,
+  private void configureshooterMotors(CANSparkMax motor, RelativeEncoder encoder, SparkPIDController p, ShooterMotorConstantsEnum c,
       CANSparkMax motorToFollow) {
 
     motor.restoreFactoryDefaults();
-
-    // shooterMotorLeft.setSmartCurrentLimit(0);
+    motor.clearFaults();
+    motor.setInverted(c.getShooterMotorInverted());
 
     motor.setIdleMode(IdleMode.kBrake);
+
+    encoder.setPositionConversionFactor(Shooter.POSITION_CONVERSION_FACTOR);
+    encoder.setVelocityConversionFactor(Shooter.VELOCITY_CONVERSION_FACTOR);
+
+    motor.setCANTimeout(0);
+
+    motor.enableVoltageCompensation(Shooter.nominalVoltage);
+    motor.setSmartCurrentLimit(Shooter.shooterMotorCurrentLimit);
+    motor.setOpenLoopRampRate(Shooter.rampRate);
+    motor.setClosedLoopRampRate(Shooter.rampRate);
 
     if (c.getShooterMotorFollower()) {
       motor.follow(motorToFollow);
@@ -74,11 +90,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     // PID Controller setup
-
-    // TODO: check if only one of these needs to be set
-    p.setFeedbackDevice(shooterEncoderLeft);
-
-    // set arm PID coefficients - LIFT
+    p.setPositionPIDWrappingEnabled(false);
     p.setP(ShooterPIDConstants.kP);
     p.setI(ShooterPIDConstants.kI);
     p.setD(ShooterPIDConstants.kD);
@@ -92,14 +104,60 @@ public class ShooterSubsystem extends SubsystemBase {
     // Constants.GPMConstants.ShooterPIDConstants.kMaxOu
   }
 
-  public void runShooter(double speed) {
+  /**
+   * Run shooter with velocity using PID
+   * @param speed
+   */
+  public void runShooterWithVelocity(double speed) {
     shooterMotorLeader.getPIDController().setReference((speed), ControlType.kVelocity);
-    System.out.println("========== Shooter Motor running at " + speed);
+  }
+
+  /**
+   * Run shooter with NON-PID power -1..1
+   * @param power
+   */
+  public void runShooterWithPower(double power) {
+    shooterMotorLeader.set(power);
+  }
+
+  /**
+   * Run shooter with PID power -1..1; converts power to voltage
+   * @param power
+   */
+  public void runShooterWithPowerPID(double power) {
+    runShooterWithVoltagePID(MathUtil.clamp (power * Shooter.nominalVoltage, -Shooter.nominalVoltage, Shooter.nominalVoltage));
+  }
+
+  /**
+   * Run shooter with PID voltage; clamp voltage to nominal range
+   * @param voltage
+   */
+  public void runShooterWithVoltagePID(double voltage) {
+    shooterMotorLeader.getPIDController().setReference(MathUtil.clamp (voltage, -Shooter.nominalVoltage, Shooter.nominalVoltage), ControlType.kVoltage);
   }
 
   public void stopShooter() {
     shooterMotorLeader.getPIDController().setReference((0), ControlType.kVelocity);
-    System.out.println("========== Shooter Motor stopped ");
+  }
+
+  // ===============================
+  // ===== Shooter telemetry methods
+  // ===============================
+
+  public double getLeftShooterMotorVelocity() {
+    return shooterEncoderLeft.getVelocity();
+  }
+
+  public double getRightShooterMotorVelocity() {
+    return shooterEncoderRight.getVelocity();
+  }
+
+    public double getLeftShooterMotorEncoder() {
+    return shooterEncoderLeft.getPosition();
+  }
+
+  public double getRightShooterMotorEncoder() {
+    return shooterEncoderRight.getPosition();
   }
 
   @Override

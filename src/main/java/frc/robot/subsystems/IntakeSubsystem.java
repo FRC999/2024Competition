@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.GPMConstants.Intake;
 
 @SuppressWarnings({ "removal" })
@@ -18,6 +19,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
+
+    // Check if need to initialize intake
+    if (! EnabledSubsystems.intake) { return; }
 
     // ==========================
     // === INTAKE initiatization
@@ -103,7 +107,6 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public void runIntake(double speed) {
     intakeMotor.set(speed);
-    System.out.println("========== Intake Motor running at " + speed);
   }
 
   /**

@@ -38,6 +38,6 @@ public class TurnArmToAngle extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(angle-RobotContainer.gpmSubsystem.getArmAngle())<ArmPIDConstants.anglePIDTolerance);
+    return (Math.abs(angle-RobotContainer.gpmSubsystem.getArmAngleSI())<ArmPIDConstants.anglePIDTolerance);
   }
 }

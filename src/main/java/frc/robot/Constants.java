@@ -4,11 +4,6 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -34,6 +29,23 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 	public static final class OperatorConstants {
 		public static final int kDriverControllerPort = 0;
+	}
+
+	// ====== MAKE SURE all necessary subsystems are enabled ===
+	public static final class EnabledSubsystems {
+		public static final boolean arm = false;
+		public static final boolean intake = false;
+		public static final boolean shooter = false;
+	}
+
+	public static final class DebugTelemetrySubsystems {
+		
+		public static final boolean odometry = false;
+		public static final boolean imu = true;
+
+		public static final boolean arm = false;
+		public static final boolean intake = false;
+		public static final boolean shooter = false;
 	}
 
 	public static final class GPMConstants {
@@ -122,6 +134,14 @@ public final class Constants {
 				public static final int closedLoopPeriod = 1; // 1ms for TalonSRX and locally connected encoder
 
 			}
+			
+			//TODO: Check conversion factors; find the ones that work best with PID
+			public static final double POSITION_CONVERSION_FACTOR = 2*Math.PI;
+			public static final double VELOCITY_CONVERSION_FACTOR = 2*Math.PI/60;
+			public static final double nominalVoltage = 12.0;
+			public static final int shooterMotorCurrentLimit = 40;
+			public static final double positionConversionFactor = 0;
+			public static final double rampRate = 0.25;
 		}
 
 

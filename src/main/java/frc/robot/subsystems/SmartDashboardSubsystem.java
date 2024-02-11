@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DebugTelemetrySubsystems;
+import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.RobotContainer;
 
 public class SmartDashboardSubsystem extends SubsystemBase {
@@ -56,10 +58,38 @@ public class SmartDashboardSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("IMU Yaw", RobotContainer.imuSubsystem.getYaw());
   }
 
+  public void updateArmTelemetry() {
+    SmartDashboard.putNumber("ArmLeftEncoder", RobotContainer.armSubsystem.getArmEncoderLeft());
+    SmartDashboard.putNumber("ArmRightEncoder", RobotContainer.armSubsystem.getArmEncoderRight());
+    SmartDashboard.putNumber("ArmLeadingEncoder", RobotContainer.armSubsystem.getArmEncoderLeading());
+    SmartDashboard.putNumber("ArmAngle", RobotContainer.armSubsystem.getArmAngleSI());
+    SmartDashboard.putNumber("ArmIMUPitch", RobotContainer.armSubsystem.getArmIMUPitch());
+  }
+
+  public void updateShooterTelemetry() {
+    SmartDashboard.putNumber("ShooterLeftEncoder", RobotContainer.shooterSubsystem.getLeftShooterMotorEncoder());
+    SmartDashboard.putNumber("ShooterRightEncoder", RobotContainer.shooterSubsystem.getRightShooterMotorEncoder());
+    SmartDashboard.putNumber("ShooterLeftVelocity", RobotContainer.shooterSubsystem.getLeftShooterMotorVelocity());
+    SmartDashboard.putNumber("ShooterRightVelocity", RobotContainer.shooterSubsystem.getRightShooterMotorVelocity());
+  }
 
   public void updateAllDisplays(){
-    updateOdometryTelemetry();
-    updateIMUTelemetry();
+
+    if (DebugTelemetrySubsystems.odometry) {
+      updateOdometryTelemetry();
+    }
+
+    if (DebugTelemetrySubsystems.imu) {
+      updateIMUTelemetry();
+    }
+
+    if (EnabledSubsystems.arm && DebugTelemetrySubsystems.arm) {
+      updateArmTelemetry();
+    }
+
+    if (EnabledSubsystems.shooter && DebugTelemetrySubsystems.shooter) {
+      updateShooterTelemetry();
+    }
 
     // Test vision
     updateVisionTelemetryLL();
