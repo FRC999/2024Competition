@@ -208,6 +208,14 @@ public final class Constants {
 			public static final int PIGEON2_ARM_CAN_ID = 15;
 			public static final boolean USE_PAN_IMU_FOR_CORRECTION = true; // Correct Arm IMU with Pan IMU if game surface is uneven
 			public static final double ARM_ENCODER_CHANGE_PER_DEGREE = 1.0; //TODO: test and correct as needed
+
+			//TODO: Check conversion factors; find the ones that work best with PID
+			public static final double POSITION_CONVERSION_FACTOR = 2*Math.PI;
+			public static final double VELOCITY_CONVERSION_FACTOR = 2*Math.PI/60;
+			public static final double nominalVoltage = 12.0;
+			public static final int shooterMotorCurrentLimit = 40;
+			public static final double positionConversionFactor = 0;
+			public static final double rampRate = 0.25;
 		}
 
 	}

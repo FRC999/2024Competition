@@ -20,39 +20,40 @@ import frc.robot.Constants.GPMConstants.Arm;
 
 import frc.robot.Constants.GPMConstants.Arm.ArmMotorConstantsEnum;
 import frc.robot.Constants.GPMConstants.Arm.ArmPIDConstants;
-
+import frc.robot.Constants.GPMConstants.Shooter;
 
 @SuppressWarnings({ "removal" })
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new GPMSubsystem. */
-  
+
   // === ARM ====
 
   // NEO motors connected to Spark Max
-  private CANSparkMax armMotorLeft; 
+  private CANSparkMax armMotorLeft;
   private CANSparkMax armMotorRight;
   private CANSparkMax armMotorLeader;
-
 
   private SparkPIDController armPIDControllerLeft;
   private SparkPIDController armPIDControllerRight;
 
   // We wii use built-in NEO encoders for now
   // They're relative, but we can calibrate them based on second Pigeon on the arm
-  private  RelativeEncoder armEncoderLeft;
-  private  RelativeEncoder armEncoderRight;
-  private  RelativeEncoder armEncoderLeading;
+  private RelativeEncoder armEncoderLeft;
+  private RelativeEncoder armEncoderRight;
+  private RelativeEncoder armEncoderLeading;
 
   private WPI_Pigeon2 armImu;
   private double armEncoderZero;
 
-  //private SparkLimitSwitch noteSensor;  //limit switch
+  // private SparkLimitSwitch noteSensor; //limit switch
 
   public ArmSubsystem() {
 
     // Check if need to initialize arm
-    if (! EnabledSubsystems.arm) { return; }
+    if (!EnabledSubsystems.arm) {
+      return;
+    }
 
     // ==========================
     // === ARM initialization
@@ -72,14 +73,15 @@ public class ArmSubsystem extends SubsystemBase {
     armEncoderRight = armMotorRight.getEncoder();
 
     // Main Motor; should not follow the other motor
-    configureArmMotors(armMotorLeft, armPIDControllerLeft, ArmMotorConstantsEnum.LEFTMOTOR, null);
+    configureArmMotors(armMotorLeft, armEncoderLeft, armPIDControllerLeft, ArmMotorConstantsEnum.LEFTMOTOR, null);
     // Follower Motor
-    configureArmMotors(armMotorRight, armPIDControllerRight, ArmMotorConstantsEnum.RIGHTMOTOR, armMotorLeft);
+    configureArmMotors(armMotorRight, armEncoderRight, armPIDControllerRight, ArmMotorConstantsEnum.RIGHTMOTOR, armMotorLeft);
 
     // ==========================
     // === ARM IMU initialization
     // ==========================
-    // This IMU should be attached FLAT to the ARM, with X pointing straight forward.
+    // This IMU should be attached FLAT to the ARM, with X pointing straight
+    // forward.
     // The IMU angle will allow us to calibrate NEO encoders rotating the arm.
     armImu = new WPI_Pigeon2(Arm.PIGEON2_ARM_CAN_ID);
     calibrateArmEncoderToPitch();
@@ -94,15 +96,25 @@ public class ArmSubsystem extends SubsystemBase {
    * @param c             - motor constants
    * @param motorToFollow - motor to follow if this is a follower
    */
-  private void configureArmMotors(CANSparkMax motor, SparkPIDController p, ArmMotorConstantsEnum c,
+  private void configureArmMotors(CANSparkMax motor,  RelativeEncoder encoder, SparkPIDController p, ArmMotorConstantsEnum c,
       CANSparkMax motorToFollow) {
 
-    motor.restoreFactoryDefaults();
-    motor.clearFaults();
-    motor.setInverted(c.getArmMotorInverted());
+    motor.restoreFactoryDefaults(); //restores the state of the motor to factory defaults
+    motor.clearFaults();  //clears a fault that has occurred since the last time the faults were reset
+    motor.setInverted(c.getArmMotorInverted()); //sets motor inverted if getArmMotorInverted() returns true
 
-    motor.setIdleMode(IdleMode.kBrake);
+    motor.setIdleMode(IdleMode.kBrake); //sets motor into brake mode
 
+    encoder.setPositionConversionFactor(Arm.POSITION_CONVERSION_FACTOR);  //sets conversion between NEO units to necessary unit for positon
+
+    motor.setCANTimeout(0); //sets up timeout
+
+    motor.enableVoltageCompensation(Arm.nominalVoltage);  //enables voltage compensation for set voltage [12v]
+    motor.setSmartCurrentLimit(Arm.shooterMotorCurrentLimit); // sets current limit to 40 amps
+    motor.setOpenLoopRampRate(Arm.rampRate);  // sets the rate to go from 0 to full throttle on open loop
+    motor.setClosedLoopRampRate(Arm.rampRate);  // sets the rate to go from 0 to full throttle on open loop
+
+    // sets which motor is the leader and follower
     if (c.getArmMotorFollower()) {
       motor.follow(motorToFollow);
     } else {
@@ -130,17 +142,21 @@ public class ArmSubsystem extends SubsystemBase {
   /**
    * The NEO built-in encoder cannot be reset.
    * So, instead we remember its "Zero position" using the IMU
+   * 
+   * 1. get the pitch from arm IMU
+   * 2. compare  
    */
   private void calibrateArmEncoderToPitch() {
     armEncoderZero = getArmIMUPitch() - 
-      ((Arm.USE_PAN_IMU_FOR_CORRECTION)?RobotContainer.imuSubsystem.getPitch():0 )
-          *Arm.ARM_ENCODER_CHANGE_PER_DEGREE ;
+        ((Arm.USE_PAN_IMU_FOR_CORRECTION) ? RobotContainer.imuSubsystem.getPitch() : 0)
+            * Arm.ARM_ENCODER_CHANGE_PER_DEGREE;
   }
 
   /**
    * Get Arm IMU pitch in degrees.
    * IMU is pointed to the FRONT of the robot with the X and left with Y
    * Positive Pitch angle increases when arm is going from front towards the back.
+   * 
    * @return
    */
   public double getArmIMUPitch() {
@@ -150,8 +166,10 @@ public class ArmSubsystem extends SubsystemBase {
   /**
    * Get current angle of the arm.
    * Positive Pitch angle increases when arm is going from front towards the back.
-   * The pitch (per encoders) is a difference between current encoder value and a "zero degree" encoder value
+   * The pitch (per encoders) is a difference between current encoder value and a
+   * "zero degree" encoder value
    * divided by ARM_ENCODER_CHANGE_PER_DEGREE
+   * 
    * @return - degrees angle
    */
   public double getArmAngleSI() {
@@ -173,17 +191,18 @@ public class ArmSubsystem extends SubsystemBase {
 
   /**
    * Set Arm motor to degrees Angle using PID
-   * Positive Pitch angle increases is when arm is going from front towards the back.
+   * Positive Pitch angle increases is when arm is going from front towards the
+   * back.
+   * 
    * @param angle
    */
   public void setArmMotorAnglesSI(double angle) {
     armMotorLeader.getPIDController().setReference(
-      // armEncoderZero is encoder position at ZERO degrees
-      // So, the expected encoder position is armEncoderZero plus
-      // the degrees angle multiplied by ARM_ENCODER_CHANGE_PER_DEGREE
-      ( Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero,
-      ControlType.kPosition
-    );
+        // armEncoderZero is encoder position at ZERO degrees
+        // So, the expected encoder position is armEncoderZero plus
+        // the degrees angle multiplied by ARM_ENCODER_CHANGE_PER_DEGREE
+        (Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero,
+        ControlType.kPosition);
   }
 
   public void stopArmPID() {
@@ -199,6 +218,22 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void stopArmMotors() {
     armMotorLeader.set(0);
+  }
+
+  public double getLeftArmMotorVelocity() {
+    return armEncoderLeft.getVelocity();
+  }
+
+  public double getRightArmMotorVelocity() {
+    return armEncoderRight.getVelocity();
+  }
+
+    public double getLeftArmMotorEncoder() {
+    return armEncoderLeft.getPosition();
+  }
+
+  public double getRightArmMotorEncoder() {
+    return armEncoderRight.getPosition();
   }
 
   @Override

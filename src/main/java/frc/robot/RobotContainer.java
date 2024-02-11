@@ -95,7 +95,6 @@ public class RobotContainer {
             () -> getDriverOmegaAxis(),
             () -> getDriverFieldCentric()));
 
-      
   }
 
   /**
