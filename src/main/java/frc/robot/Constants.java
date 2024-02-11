@@ -184,14 +184,10 @@ public final class Constants {
 				public static final double anglePIDTolerance = 0.5; // degree tolerance when rotating arm to angle using PID
 			}
 
-			public static final double armDegreeEncoderConversion = 1.0 / 122.11575;
-
-			public static final boolean kDiscontinuityPresent = true;
-			public static final int kBookEnd_0 = 910; /* 80 deg */
-			public static final int kBookEnd_1 = 1137; /* 100 deg */
-			public static final double clicksFXPerFullRotation = 360.0 / armDegreeEncoderConversion;
-			public static final int PIGEON2_CAN_ID = 15;
-			public static final double gearRatioDifference = 0; // in ticks
+			// Arm IMU
+			public static final int PIGEON2_ARM_CAN_ID = 15;
+			public static final boolean USE_PAN_IMU_FOR_CORRECTION = true; // Correct Arm IMU with Pan IMU if game surface is uneven
+			public static final double ARM_ENCODER_CHANGE_PER_DEGREE = 1.0; //TODO: test and correct as needed
 		}
 
 	}

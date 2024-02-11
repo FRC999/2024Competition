@@ -11,18 +11,19 @@ import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
 import frc.robot.commands.AutonomousTrajectory2Poses;
-import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.PosePrinter;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.commands.AutonomousTrajectory2PosesDynamic;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.GPMSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LLVisionSubsystem;
 import frc.robot.subsystems.NetworkTablesSubsystem;
 import frc.robot.subsystems.PhotonVisionSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SmartDashboardSubsystem;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -53,7 +54,9 @@ public class RobotContainer {
   public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
   public final static SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
-  public final static GPMSubsystem gpmSubsystem = new GPMSubsystem();
+  public final static ArmSubsystem gpmSubsystem = new ArmSubsystem();
+  public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public final NetworkTablesSubsystem networkTableSubsystem = new NetworkTablesSubsystem();
 
   public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
@@ -65,10 +68,6 @@ public class RobotContainer {
 
   // A Data Log Manager file handle
   public static StringLogEntry myStringLog;
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController = new CommandXboxController(
-      OperatorConstants.kDriverControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -405,13 +404,4 @@ public class RobotContainer {
     
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
-  }
 }

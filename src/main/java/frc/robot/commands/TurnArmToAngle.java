@@ -8,7 +8,6 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.GPMConstants.Arm;
 import frc.robot.Constants.GPMConstants.Arm.ArmPIDConstants;
 
 public class TurnArmToAngle extends Command {
