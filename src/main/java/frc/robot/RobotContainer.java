@@ -13,6 +13,7 @@ import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.PosePrinter;
+import frc.robot.commands.DriveToNoteCommand;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.commands.AutonomousTrajectory2PosesDynamic;
 import frc.robot.subsystems.DriveSubsystem;
@@ -20,6 +21,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LLDetectorSubsystem;
 import frc.robot.subsystems.LLVisionSubsystem;
 import frc.robot.subsystems.NetworkTablesSubsystem;
 import frc.robot.subsystems.PhotonVisionSubsystem;
@@ -52,7 +54,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
-  public final static SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
+  //public final static SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
   public final static ArmSubsystem gpmSubsystem = new ArmSubsystem();
   public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
@@ -61,7 +63,9 @@ public class RobotContainer {
 
   public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
   public final static PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem(PhotonVisionConstants.PVCameraName);
-
+  public final static LLDetectorSubsystem llDetectorSubsystem = new LLDetectorSubsystem();
+  public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
+  
   public static Controller xboxController;
 
   public static Controller driveStick; // for robot testing only
@@ -371,7 +375,14 @@ public class RobotContainer {
         .onFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
 
   }
-  
+
+  /**
+   * Testing of the routines related to the note detection
+   */
+  public void visionDetectorTesting() {
+
+  }
+
   public void trajectoryCalibration() {
     new JoystickButton(driveStick, 1)
         .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeterForward"))

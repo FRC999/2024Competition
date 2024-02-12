@@ -803,6 +803,11 @@ public final class Constants {
 			// NEW origin from the old origin point of view in the old coordiinate system
 			public static final Pose2d centerFieldPose = new Pose2d(-8.308467, -4.098925, new Rotation2d(0));
 
+			// *** LL Detector ***
+			public static final String LLDetectorName = "limelight-d";	// Limelight that will track Apriltags; may decide to use multiple ones
+
+			public static final double MOTOR_SPEED = 0.5;
+			public static final double VELOCITY_TO_AUTO_NOTE = 0.5;
 		}
 		public static final class PhotonVisionConstants {
 

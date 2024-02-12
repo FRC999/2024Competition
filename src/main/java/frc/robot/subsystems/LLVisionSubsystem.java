@@ -8,13 +8,14 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.SwerveChassis;
 import frc.robot.Constants.VisionConstants.LimeLightConstants;
 import frc.robot.lib.LimelightHelpers;
 import frc.robot.lib.VisionHelpers;
 
 public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
-
+  public static double joystickDirectionDegrees;
   private Pose2d nullPose = new Pose2d(0,0,new Rotation2d(0));
   // position of the LL relative to the center of the chassis; the X value may need to be remeasured if used to correct odometry
   private Transform2d cameraPoseInRobotSpace = new Transform2d(-SwerveChassis.CHASSIS_OUTER_DIMENSIONS_X/2.0,0,new Rotation2d(Math.PI));

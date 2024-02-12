@@ -54,6 +54,14 @@ public class SmartDashboardSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("PV AngleD BlueS", RobotContainer.photonVisionSubsystem.getAngleToBlueSpeaker(RobotContainer.photonVisionSubsystem.getRobotFieldPosePV()).getDegrees());
   }
 
+  // Note tracking
+  public void updateVisionDetectorTelemetry() {
+    SmartDashboard.putBoolean("Note Present", RobotContainer.llDetectorSubsystem.isNoteVisible());
+    SmartDashboard.putNumber("Note THorizontal", RobotContainer.llDetectorSubsystem.getHorizontalSide());
+    SmartDashboard.putNumber("Note TX", RobotContainer.llDetectorSubsystem.getHorizontalOffset());
+    SmartDashboard.putNumber("Note TY", RobotContainer.llDetectorSubsystem.getVerticalOffset());
+  }
+
   public void updateIMUTelemetry() {
     SmartDashboard.putNumber("IMU Yaw", RobotContainer.imuSubsystem.getYaw());
   }
@@ -92,7 +100,8 @@ public class SmartDashboardSubsystem extends SubsystemBase {
     }
 
     // Test vision
-    updateVisionTelemetryLL();
+    //updateVisionTelemetryLL();
+    updateVisionDetectorTelemetry();
   }
   @Override
   public void periodic() {
