@@ -61,7 +61,7 @@ public class SmartDashboardSubsystem extends SubsystemBase {
   public void updateArmTelemetry() {
     SmartDashboard.putNumber("ArmLeftEncoder", RobotContainer.armSubsystem.getArmEncoderLeft());
     SmartDashboard.putNumber("ArmRightEncoder", RobotContainer.armSubsystem.getArmEncoderRight());
-    SmartDashboard.putNumber("ArmLeadingEncoder", RobotContainer.armSubsystem.getArmEncoderLeading());
+    SmartDashboard.putNumber("ArmLeadingEncoder", RobotContainer.armSubsystem.getArmEncoderLeader());
     SmartDashboard.putNumber("ArmAngle", RobotContainer.armSubsystem.getArmAngleSI());
     SmartDashboard.putNumber("ArmIMUPitch", RobotContainer.armSubsystem.getArmIMUPitch());
   }

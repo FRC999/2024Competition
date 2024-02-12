@@ -41,7 +41,7 @@ public class ArmSubsystem extends SubsystemBase {
   // They're relative, but we can calibrate them based on second Pigeon on the arm
   private RelativeEncoder armEncoderLeft;
   private RelativeEncoder armEncoderRight;
-  private RelativeEncoder armEncoderLeading;
+  private RelativeEncoder armEncoderLeader;
 
   private WPI_Pigeon2 armImu;
   private double armEncoderZero;
@@ -84,6 +84,7 @@ public class ArmSubsystem extends SubsystemBase {
     // forward.
     // The IMU angle will allow us to calibrate NEO encoders rotating the arm.
     armImu = new WPI_Pigeon2(Arm.PIGEON2_ARM_CAN_ID);
+
     calibrateArmEncoderToPitch();
 
   }
@@ -114,12 +115,12 @@ public class ArmSubsystem extends SubsystemBase {
     motor.setOpenLoopRampRate(Arm.rampRate);  // sets the rate to go from 0 to full throttle on open loop
     motor.setClosedLoopRampRate(Arm.rampRate);  // sets the rate to go from 0 to full throttle on open loop
 
-    // sets which motor is the leader and follower
+    // sets which motor is the leader and follower; set follower inversion if needed
     if (c.getArmMotorFollower()) {
-      motor.follow(motorToFollow);
+      motor.follow(motorToFollow,c.getArmMotorInverted());
     } else {
       armMotorLeader = motor;
-      armEncoderLeading = motor.getEncoder();
+      armEncoderLeader = motor.getEncoder();
     }
 
     // --- PID Setup
@@ -144,12 +145,20 @@ public class ArmSubsystem extends SubsystemBase {
    * So, instead we remember its "Zero position" using the IMU
    * 
    * 1. get the pitch from arm IMU
-   * 2. compare  
+   * 2. subtract pan IMU from Arm IMU if desired (to get an angle relative to pan rather than the floor in case of uneven surface)
+   * 3. multiply the adjusted pitch by the ARM_ENCODER_CHANGE_PER_DEGREE to translate the angle into encoder units
+   * 4. subtract encoder units obtained in #3 from the current encoder setting. That gives us encoder setting at 0 angle
    */
   private void calibrateArmEncoderToPitch() {
-    armEncoderZero = getArmIMUPitch() - 
-        ((Arm.USE_PAN_IMU_FOR_CORRECTION) ? RobotContainer.imuSubsystem.getPitch() : 0)
-            * Arm.ARM_ENCODER_CHANGE_PER_DEGREE;
+    // The 0-degree encoder position is current encoder value minus (degrees times encoderchange_per_degree)
+    // We also may decide to apply a correction for an uneven floor by subtracting pan IMU pitch from
+    // arm IMU pitch, which gives us relative angle of the arm to the pan
+    armEncoderZero = getArmEncoderLeader() -
+      (
+       (getArmIMUPitch() - 
+          ((Arm.USE_PAN_IMU_FOR_CORRECTION) ? RobotContainer.imuSubsystem.getPitch() : 0))  // pan IMU Pitch-based correction for uneven surface
+            * Arm.ARM_ENCODER_CHANGE_PER_DEGREE
+      );
   }
 
   /**
@@ -173,7 +182,7 @@ public class ArmSubsystem extends SubsystemBase {
    * @return - degrees angle
    */
   public double getArmAngleSI() {
-    return (armEncoderLeading.getPosition() - armEncoderZero) / Arm.ARM_ENCODER_CHANGE_PER_DEGREE;
+    return (armEncoderLeader.getPosition() - armEncoderZero) / Arm.ARM_ENCODER_CHANGE_PER_DEGREE;
   }
 
   // Encoder telemetry
@@ -185,8 +194,8 @@ public class ArmSubsystem extends SubsystemBase {
     return armEncoderRight.getPosition();
   }
 
-  public double getArmEncoderLeading() {
-    return armEncoderLeading.getPosition();
+  public double getArmEncoderLeader() {
+    return armEncoderLeader.getPosition();
   }
 
   /**
@@ -220,20 +229,16 @@ public class ArmSubsystem extends SubsystemBase {
     armMotorLeader.set(0);
   }
 
-  public double getLeftArmMotorVelocity() {
-    return armEncoderLeft.getVelocity();
-  }
-
-  public double getRightArmMotorVelocity() {
-    return armEncoderRight.getVelocity();
-  }
-
-    public double getLeftArmMotorEncoder() {
+  public double getLeftArmMotorEncoder() {
     return armEncoderLeft.getPosition();
   }
 
   public double getRightArmMotorEncoder() {
     return armEncoderRight.getPosition();
+  }
+
+  public double getLeaderArmMotorEncoder() {
+    return armEncoderLeader.getPosition();
   }
 
   @Override

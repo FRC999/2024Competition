@@ -83,8 +83,9 @@ public class ShooterSubsystem extends SubsystemBase {
     motor.setOpenLoopRampRate(Shooter.rampRate);
     motor.setClosedLoopRampRate(Shooter.rampRate);
 
+    // sets which motor is the leader and follower; set follower inversion if needed
     if (c.getShooterMotorFollower()) {
-      motor.follow(motorToFollow);
+      motor.follow(motorToFollow,c.getShooterMotorInverted());
     } else {
       shooterMotorLeader = motor;
     }
