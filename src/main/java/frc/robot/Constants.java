@@ -855,4 +855,14 @@ public final class Constants {
 
 		}
 	}
+
+	public static final class AutoConstants {
+		public static final class BlueSpeakerBottomSideConstants {
+			public static double blueSpeakerBottomSideYaw = 60;
+			public static double blueSpeakerBottomSideArmAngle = 0.0;  //TODO : figure this out lol
+			public static double blueSpeakerBottomSideShooterPower = 0.0;
+			public static double shooterSpeedTolerance = 0.1;
+			public static double armAngleTolerance = 1.0;
+		}
+	}
 }
