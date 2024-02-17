@@ -24,7 +24,8 @@ public class AutoBlueSpeakerBottomShootLeave extends SequentialCommandGroup {
       new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(BlueSpeakerBottomSideConstants.blueSpeakerBottomSideYaw)), //steps to shoot preloaded note into speaker
       new ArmToAngleCommand(Constants.AutoConstants.BlueSpeakerBottomSideConstants.blueSpeakerBottomSideArmAngle),
       new ShooterToSpeed(Constants.AutoConstants.BlueSpeakerBottomSideConstants.blueSpeakerBottomSideShooterPower),
-      new RunTrajectorySequenceRobotAtStartPoint(traj) //this will be our trajectory where we go from (0.46, 4.722478) to (3.25, 0.8) to leave community
+      new RunTrajectorySequenceRobotAtStartPoint("BlueSpeakerTopShootLeavePath") //this will be our trajectory where we go from (0.46, 4.722478) to (3.25, 0.8) to leave community
+      //TODO : figure out the y-coordinates of trajectory
     );
 
   }
