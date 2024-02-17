@@ -16,9 +16,13 @@ import frc.robot.commands.PosePrinter;
 import frc.robot.commands.DriveToNoteCommand;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.commands.AutonomousTrajectory2PosesDynamic;
+import frc.robot.commands.ClimbDown;
+import frc.robot.commands.ClimbStop;
+import frc.robot.commands.ClimbUp;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LLDetectorSubsystem;
@@ -60,6 +64,7 @@ public class RobotContainer {
   public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public final static ArmSubsystem armSubsystem = new ArmSubsystem();
   public final NetworkTablesSubsystem networkTableSubsystem = new NetworkTablesSubsystem();
+  public final static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
   public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
   public final static PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem(PhotonVisionConstants.PVCameraName);
@@ -423,6 +428,15 @@ public class RobotContainer {
     new JoystickButton(driveStick, 4)
       .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(-0.2)))
       .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
+  }
+
+   public void testClimber() {
+    new JoystickButton(driveStick, 3)
+      .whileTrue(new ClimbUp())
+      .onFalse(new ClimbStop());
+    new JoystickButton(driveStick, 4)
+      .whileTrue(new ClimbDown())
+      .onFalse(new ClimbStop());
   }
 
   Pose2d testPoseSupplier(double x, double y, double angle) {
