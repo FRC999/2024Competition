@@ -12,10 +12,9 @@ import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.ClimberConstants;
-import frc.robot.Constants.ClimberConstants.ClimbMotorConstantsEnum;
 import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.GPMConstants.Arm;
+import frc.robot.Constants.GPMConstants.Climber;
 import frc.robot.Constants.GPMConstants.Arm.ArmMotorConstantsEnum;
 import frc.robot.Constants.GPMConstants.Intake;
 
@@ -30,20 +29,20 @@ public class ClimberSubsystem extends SubsystemBase {
     // Check if need to initialize climber
     if (! EnabledSubsystems.climber) { return; }
 
-    frontClimberMotor = new WPI_TalonSRX(ClimbMotorConstantsEnum.FRONTMOTOR.getArmMotorID());
-    backClimberMotor = new WPI_TalonSRX(ClimbMotorConstantsEnum.BACKMOTOR.getArmMotorID());
+    frontClimberMotor = new WPI_TalonSRX(Climber.ClimbMotorConstantsEnum.FRONTMOTOR.getClimberMotorID());
+    backClimberMotor = new WPI_TalonSRX(Climber.ClimbMotorConstantsEnum.BACKMOTOR.getClimberMotorID());
 
-    configureClimbMotors(frontClimberMotor, ClimbMotorConstantsEnum.FRONTMOTOR, null);
-    configureClimbMotors(backClimberMotor, ClimbMotorConstantsEnum.BACKMOTOR, frontClimberMotor);
+    configureClimbMotors(frontClimberMotor, Climber.ClimbMotorConstantsEnum.FRONTMOTOR, null);
+    configureClimbMotors(backClimberMotor, Climber.ClimbMotorConstantsEnum.BACKMOTOR, frontClimberMotor);
 
   }
  
-  private void configureClimbMotors(WPI_TalonSRX motor, ClimbMotorConstantsEnum c, WPI_TalonSRX motorToFollow) {
+  private void configureClimbMotors(WPI_TalonSRX motor, Climber.ClimbMotorConstantsEnum c, WPI_TalonSRX motorToFollow) {
 
         motor.configFactoryDefault();
         motor.setSafetyEnabled(false);
         // Configure motor and controller
-        motor.setInverted(Intake.INTAKE_INVERTED);
+        motor.setInverted(Climber.);
 
     // sets which motor is the leader and follower; set follower inversion if needed
     if (c.getArmMotorFollower()) {

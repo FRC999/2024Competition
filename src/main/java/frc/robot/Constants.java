@@ -218,17 +218,16 @@ public final class Constants {
 			public static final double positionConversionFactor = 0;
 			public static final double rampRate = 0.25;
 		}
-	}
 
-	public static class ClimberConstants {
+		public static class Climber {
 
-		public static enum ClimbMotorConstantsEnum {
-				FRONTMOTOR( // Front  - main motor
+			public static enum ClimbMotorConstantsEnum {
+				FRONTMOTOR( // Front - main motor
 						40, // CANID
 						false, // Inversion
 						false // Follower
 				),
-				BACKMOTOR( // Back 
+				BACKMOTOR( // Back
 						41, // CANID
 						false, // Inversion
 						true // Follower
@@ -244,20 +243,24 @@ public final class Constants {
 					this.climbMotorFollower = f;
 				}
 
-				public int getArmMotorID() {
+				public int getClimberMotorID() {
 					return climbMotorID;
 				}
 
-				public boolean getArmMotorInverted() {
+				public boolean getClimberMotorInverted() {
 					return climbMotorInverted;
 				}
 
-				public boolean getArmMotorFollower() {
+				public boolean getClimberMotorFollower() {
 					return climbMotorFollower;
 				}
+			}
+
+			public static final double CLIMBER_UP_DEFAULT_POWER = 0.2;
+		}
+
 	}
-	public static final double CLIMBER_UP_DEFAULT_POWER = 0.2;
-}
+
 	public static class IMUConstants {
 		public static final int PIGEON2_CAN_ID = 15;
 	}
