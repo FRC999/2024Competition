@@ -5,18 +5,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.EnabledSubsystems;
-import frc.robot.Constants.GPMConstants.Arm;
-import frc.robot.Constants.GPMConstants.Climber;
-import frc.robot.Constants.GPMConstants.Arm.ArmMotorConstantsEnum;
-import frc.robot.Constants.GPMConstants.Intake;
+import frc.robot.Constants.Climber;
+
 
 public class ClimberSubsystem extends SubsystemBase {
     private WPI_TalonSRX frontClimberMotor; // TalonSRX
@@ -42,10 +36,10 @@ public class ClimberSubsystem extends SubsystemBase {
         motor.configFactoryDefault();
         motor.setSafetyEnabled(false);
         // Configure motor and controller
-        motor.setInverted(Climber.);
+        motor.setInverted(c.getClimberMotorInverted());
 
     // sets which motor is the leader and follower; set follower inversion if needed
-    if (c.getArmMotorFollower()) {
+    if (c.getClimberMotorFollower()) {
       motor.follow(motorToFollow);
     } else {
       leadClimberMotor = motor;
