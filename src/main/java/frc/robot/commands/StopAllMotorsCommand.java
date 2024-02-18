@@ -29,7 +29,7 @@ public class StopAllMotorsCommand extends InstantCommand {
   public void initialize() {
     
     // Stop chassis
-    for(int i = 0; i < 3; i++) {
+    for(int i = 0; i <=3 ; i++) {
       RobotContainer.driveSubsystem.stopAngleMotor(i);
       RobotContainer.driveSubsystem.stopDriveMotor(i);
     }
