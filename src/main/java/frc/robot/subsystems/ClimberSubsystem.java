@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.ClimberConstants.ClimbMotorConstantsEnum;
+import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.GPMConstants.Arm;
 import frc.robot.Constants.GPMConstants.Arm.ArmMotorConstantsEnum;
 import frc.robot.Constants.GPMConstants.Intake;
@@ -25,6 +26,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
+
+    // Check if need to initialize climber
+    if (! EnabledSubsystems.climber) { return; }
+
     frontClimberMotor = new WPI_TalonSRX(ClimbMotorConstantsEnum.FRONTMOTOR.getArmMotorID());
     backClimberMotor = new WPI_TalonSRX(ClimbMotorConstantsEnum.BACKMOTOR.getArmMotorID());
 

@@ -36,6 +36,7 @@ public final class Constants {
 		public static final boolean arm = false;
 		public static final boolean intake = false;
 		public static final boolean shooter = false;
+		public static final boolean climber = false;
 	}
 
 	public static final class DebugTelemetrySubsystems {
