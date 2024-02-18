@@ -13,7 +13,11 @@ import frc.robot.RobotContainer;
 public class StopAllMotorsCommand extends InstantCommand {
   // Emergency stop of all motors
 
-
+  /**
+   * This will interrupt all commands that use subsystems with motors, and will stop
+   * all motors in these subsystems.
+   * PID will be interrupted as well
+   */
   public StopAllMotorsCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.armSubsystem,
