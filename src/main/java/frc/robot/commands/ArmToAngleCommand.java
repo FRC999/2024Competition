@@ -21,7 +21,7 @@ public class ArmToAngleCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.armSubsystem.setArmMotorAnglesSI(BlueSpeakerBottomSideConstants.blueSpeakerBottomSideArmAngle);
+    RobotContainer.armSubsystem.setArmMotorAnglesSI(BlueSpeakerBottomSideConstants.angle);
 
   }
 
@@ -37,6 +37,6 @@ public class ArmToAngleCommand extends Command {
   @Override
   public boolean isFinished() {
    return Math.abs(RobotContainer.armSubsystem.getArmAngleSI() - angle)
-       <= Constants.AutoConstants.BlueSpeakerBottomSideConstants.armAngleTolerance;
+       <= Constants.AutoConstants.BlueSpeakerBottomSideConstants.angleTolerance;
   }
 }

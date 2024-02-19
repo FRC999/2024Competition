@@ -39,6 +39,6 @@ public class ShooterToSpeed extends Command {
   @Override
   public boolean isFinished() {
     return Math.abs(RobotContainer.shooterSubsystem.getRightShooterMotorVelocity() - speed)
-       <= Constants.AutoConstants.BlueSpeakerBottomSideConstants.shooterSpeedTolerance;
+       <= Constants.AutoConstants.BlueSpeakerBottomSideConstants.speedTolerance;
   }
 }
