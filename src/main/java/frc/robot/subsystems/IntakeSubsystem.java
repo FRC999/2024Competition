@@ -116,6 +116,15 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(0);
   }
 
+  //TODO: This will work using the sensor; modify the code as needed.
+  /**
+   * Check if note is in the intake
+   * @return
+   */
+  public boolean isNoteInIntake() {
+    return true;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

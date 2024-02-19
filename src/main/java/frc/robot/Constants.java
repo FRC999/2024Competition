@@ -57,6 +57,9 @@ public final class Constants {
 			public static final boolean INTAKE_INVERTED = true;
 			public static final double INTAKE_NEUTRAL_DEADBAND = 0.001;
 			public static final int INTAKE_TIMEOUT = 30; //in ms
+			public static final double INTAKE_NOTE_GRAB_POWER = 0.5;
+			public static final double INTAKE_NOTE_FORWARD_POWER = 0.5;
+			public static final double INTAKE_NOTE_SPEW_POWER = 0.5;
 
 			public static final class IntakePIDConstants {
 				public static final int pidIntakeIdx = 0;

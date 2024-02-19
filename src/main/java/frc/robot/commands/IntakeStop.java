@@ -10,8 +10,8 @@ import frc.robot.RobotContainer;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class StopIntake extends InstantCommand {
-  public StopIntake() {
+public class IntakeStop extends InstantCommand {
+  public IntakeStop() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.intakeSubsystem);
   }

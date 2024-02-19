@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.GPMConstants.Arm.ArmPIDConstants;
 
-public class TurnArmToAngle extends Command {
+public class ArmTurnToAngle extends Command {
 
   DoubleSupplier angleSupplier;
   double angle;
   /** Creates a new TurnArmToAngle. */
-  public TurnArmToAngle(DoubleSupplier as) {
+  public ArmTurnToAngle(DoubleSupplier as) {
     // Use addRequirements() here to declare subsystem dependencies.
     angleSupplier = as;
   }
