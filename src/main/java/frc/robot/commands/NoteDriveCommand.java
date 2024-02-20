@@ -9,10 +9,14 @@ import edu.wpi.first.apriltag.AprilTagDetection;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
-public class DriveToNoteCommand extends Command {
+/**
+ * Drive to note if you see it.
+ * We do not re-check if we still see it, as we drive
+ */
+public class NoteDriveCommand extends Command {
   private double[] noteDriveDirections;
   /** Creates a new RobotToTarget. */
-  public DriveToNoteCommand() {
+  public NoteDriveCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.driveSubsystem);
   }
@@ -20,6 +24,7 @@ public class DriveToNoteCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Get X and Y of the drive to note related to the direction
     noteDriveDirections = RobotContainer.llDetectorSubsystem.driveToNotePowers();
     RobotContainer.driveSubsystem.drive(noteDriveDirections[0], noteDriveDirections[1], 0, false);
   }

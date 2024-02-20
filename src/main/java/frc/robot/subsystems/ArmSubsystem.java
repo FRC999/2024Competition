@@ -218,6 +218,11 @@ public class ArmSubsystem extends SubsystemBase {
     armMotorLeader.getPIDController().setReference((0), ControlType.kVoltage);
   }
 
+  public void armHoldPosition() {
+    // TODO: this will depend on the angle; need to calibrate
+    armMotorLeader.set(0);
+  }
+
   // ==================================
   // test methods; for calibration only
   // ==================================

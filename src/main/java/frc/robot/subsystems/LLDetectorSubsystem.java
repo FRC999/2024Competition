@@ -39,6 +39,7 @@ public class LLDetectorSubsystem extends SubsystemBase implements VisionHelpers 
     }
   }
 
+  // By default drive to the note with decreased speed defined by VELOCITY_TO_AUTO_NOTE
   public double[] driveToNotePowers() {
     double horizontalAngleToNote = getHorizontalAngleToNote();
     if(horizontalAngleToNote == Double.NaN) {

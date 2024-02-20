@@ -220,6 +220,12 @@ public final class Constants {
 			public static final int shooterMotorCurrentLimit = 40;
 			public static final double positionConversionFactor = 0;
 			public static final double rampRate = 0.25;
+
+			// TODO: Calibrate all these angles
+			public static final double ARM_MIN_ANGLE = 0;
+			public static final double ARM_MAX_ANGLE = 95;
+			public static final double ARM_INTAKE_ANGLE = 0;
+			public static final double ARM_AMP_ANGLE = 95;
 		}
 
 	}

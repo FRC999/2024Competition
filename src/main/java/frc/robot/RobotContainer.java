@@ -13,7 +13,7 @@ import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.PosePrinter;
-import frc.robot.commands.DriveToNoteCommand;
+import frc.robot.commands.NoteDriveCommand;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.commands.AutonomousTrajectory2PosesDynamic;
 import frc.robot.commands.ClimbDown;
