@@ -10,12 +10,18 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
+import frc.robot.commands.ArmStop;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.DriveManuallyCommand;
+import frc.robot.commands.IntakeStop;
 import frc.robot.commands.PosePrinter;
 import frc.robot.commands.NoteDriveCommand;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
+import frc.robot.commands.ShooterStop;
 import frc.robot.commands.AutonomousTrajectory2PosesDynamic;
+import frc.robot.commands.CalibrateArmPowerFF;
+import frc.robot.commands.CalibrateIntakePower;
+import frc.robot.commands.CalibrateShooterPower;
 import frc.robot.commands.ClimbDown;
 import frc.robot.commands.ClimbStop;
 import frc.robot.commands.ClimbUp;
@@ -416,36 +422,56 @@ public class RobotContainer {
   }
 
   public void testIntake() {
-    new JoystickButton(driveStick, 3)
-      .whileTrue(new InstantCommand(() -> RobotContainer.intakeSubsystem.runIntake(0.2)))
-      .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
+      new JoystickButton(driveStick, 3)
+              .whileTrue(new InstantCommand(() -> RobotContainer.intakeSubsystem.runIntake(0.2)))
+              .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
   }
 
   public void testArm() {
-    new JoystickButton(driveStick, 3)
-      .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(0.2)))
-      .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
-    new JoystickButton(driveStick, 4)
-      .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(-0.2)))
-      .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
+      new JoystickButton(driveStick, 3)
+              .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(0.2)))
+              .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
+      new JoystickButton(driveStick, 4)
+              .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(-0.2)))
+              .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
   }
 
-   public void testClimber() {
-    new JoystickButton(driveStick, 3)
-      .whileTrue(new ClimbUp())
-      .onFalse(new ClimbStop());
-    new JoystickButton(driveStick, 4)
-      .whileTrue(new ClimbDown())
-      .onFalse(new ClimbStop());
+  public void testClimber() {
+      new JoystickButton(driveStick, 3)
+              .whileTrue(new ClimbUp())
+              .onFalse(new ClimbStop());
+      new JoystickButton(driveStick, 4)
+              .whileTrue(new ClimbDown())
+              .onFalse(new ClimbStop());
   }
 
   Pose2d testPoseSupplier(double x, double y, double angle) {
-    return new Pose2d(x,y,new Rotation2d().fromDegrees(angle));
+      return new Pose2d(x, y, new Rotation2d().fromDegrees(angle));
   }
+
   public void helperButtons() {
-    new JoystickButton(driveStick, 12) 
-      .onTrue(new InstantCommand(RobotContainer.imuSubsystem::zeroYaw));
-    
+      new JoystickButton(driveStick, 12)
+              .onTrue(new InstantCommand(RobotContainer.imuSubsystem::zeroYaw));
+
+  }
+
+  // GPM Calibration
+  public void calibrateIntakePower() {
+      new JoystickButton(driveStick, 1)
+              .whileTrue(new CalibrateIntakePower())
+              .onFalse(new IntakeStop());
+  }
+
+  public void calibrateArmPowerFF() {
+      new JoystickButton(driveStick, 1)
+              .whileTrue(new CalibrateArmPowerFF())
+              .onFalse(new ArmStop());
+  }
+
+  public void calibrateShooterPower() {
+      new JoystickButton(driveStick, 1)
+              .whileTrue(new CalibrateShooterPower())
+              .onFalse(new ShooterStop());
   }
 
 }
