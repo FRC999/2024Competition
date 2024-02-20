@@ -43,6 +43,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -472,6 +474,10 @@ public class RobotContainer {
       new JoystickButton(driveStick, 1)
               .whileTrue(new CalibrateShooterPower())
               .onFalse(new ShooterStop());
+  }
+
+  public void checkAllianceColor() {
+    SmartDashboard.putString("AllianceColor", DriverStation.getAlliance().toString());
   }
 
 }
