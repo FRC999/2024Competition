@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EnabledSubsystems;
@@ -15,7 +16,7 @@ import frc.robot.Constants.GPMConstants.Intake;
 public class IntakeSubsystem extends SubsystemBase {
 
   // 775 connected to TalonSRX
-  private WPI_TalonSRX intakeMotor; // TalonSRX
+  private WPI_VictorSPX intakeMotor; // TalonSRX
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
@@ -27,7 +28,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // === INTAKE initiatization
     // ==========================
 
-    intakeMotor = new WPI_TalonSRX(Intake.INTAKE_MOTOR_CAN_ID);
+    intakeMotor = new WPI_VictorSPX(Intake.INTAKE_MOTOR_CAN_ID);
 
     configureIntakeMotor();
 
