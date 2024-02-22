@@ -173,7 +173,10 @@ public class RobotContainer {
     // visionTesting();
 
     // Calibrate intake
-    calibrateIntakePower();
+    //calibrateIntakePower();
+
+    // Calibrate shooter
+    calibrateShooterPower();
   }
 
   // Driver preferred controls

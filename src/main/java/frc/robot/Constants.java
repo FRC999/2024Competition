@@ -34,8 +34,8 @@ public final class Constants {
 	// ====== MAKE SURE all necessary subsystems are enabled ===
 	public static final class EnabledSubsystems {
 		public static final boolean arm = false;
-		public static final boolean intake = true;
-		public static final boolean shooter = false;
+		public static final boolean intake = false;
+		public static final boolean shooter = true;
 		public static final boolean climber = false;
 	}
 
@@ -46,7 +46,7 @@ public final class Constants {
 
 		public static final boolean arm = false;
 		public static final boolean intake = true;
-		public static final boolean shooter = false;
+		public static final boolean shooter = true;
 	}
 
 	public static final class GPMConstants {
@@ -54,7 +54,7 @@ public final class Constants {
 		public static final class Intake {
 			public static final int INTAKE_MOTOR_CAN_ID = 51;
 			//public static final boolean INTAKE_SENSOR_PHASE = false;
-			public static final boolean INTAKE_INVERTED = true;
+			public static final boolean INTAKE_INVERTED = false; // positive power - note in
 			//public static final double INTAKE_NEUTRAL_DEADBAND = 0.001;
 			//public static final int INTAKE_TIMEOUT = 30; //in ms
 			public static final double INTAKE_NOTE_GRAB_POWER = 0.5;
@@ -68,12 +68,12 @@ public final class Constants {
 
 			public static enum ShooterMotorConstantsEnum {
 				LEFTMOTOR( // Front Left - main motor
-						25, // CANID
+						23, // CANID
 						false, // Inversion
 						false // Follower
 				),
 				RIGHTMOTOR( // Front Left
-						26, // CANID
+						22, // CANID
 						true, // Inversion
 						true // Follower
 				);
