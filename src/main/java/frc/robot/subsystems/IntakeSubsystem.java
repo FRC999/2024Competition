@@ -7,7 +7,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.GPMConstants.Intake;
 
@@ -17,6 +19,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // 775 connected to TalonSRX
   private WPI_VictorSPX intakeMotor; // TalonSRX
+  public static DigitalInput noteSensor;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
@@ -34,6 +37,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
     System.out.println("*** Intake initialized");
 
+     /*  if(noteSensor == null) {
+          try {
+            noteSensor = new DigitalInput(Constants.GPMConstants.Intake.NOTE_SENSOR_SWITCH_ID);
+          } catch (Exception e) {
+            System.out.println("Unable to get note sensor value");
+          }
+        }
+      */
   }
 
   private void configureIntakeMotor() {
@@ -123,7 +134,7 @@ public class IntakeSubsystem extends SubsystemBase {
    * @return
    */
   public boolean isNoteInIntake() {
-    return true;
+      return true;
   }
 
   @Override

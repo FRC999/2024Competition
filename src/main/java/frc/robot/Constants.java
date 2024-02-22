@@ -34,7 +34,7 @@ public final class Constants {
 	// ====== MAKE SURE all necessary subsystems are enabled ===
 	public static final class EnabledSubsystems {
 		public static final boolean arm = false;
-		public static final boolean intake = false;
+		public static final boolean intake = true;
 		public static final boolean shooter = false;
 		public static final boolean climber = false;
 	}
@@ -45,43 +45,23 @@ public final class Constants {
 		public static final boolean imu = true;
 
 		public static final boolean arm = false;
-		public static final boolean intake = false;
+		public static final boolean intake = true;
 		public static final boolean shooter = false;
 	}
 
 	public static final class GPMConstants {
 
 		public static final class Intake {
-			public static final int INTAKE_MOTOR_CAN_ID = 29;
-			public static final boolean INTAKE_SENSOR_PHASE = false;
+			public static final int INTAKE_MOTOR_CAN_ID = 51;
+			//public static final boolean INTAKE_SENSOR_PHASE = false;
 			public static final boolean INTAKE_INVERTED = true;
-			public static final double INTAKE_NEUTRAL_DEADBAND = 0.001;
-			public static final int INTAKE_TIMEOUT = 30; //in ms
+			//public static final double INTAKE_NEUTRAL_DEADBAND = 0.001;
+			//public static final int INTAKE_TIMEOUT = 30; //in ms
 			public static final double INTAKE_NOTE_GRAB_POWER = 0.5;
 			public static final double INTAKE_NOTE_FORWARD_POWER = 0.5;
 			public static final double INTAKE_NOTE_SPEW_POWER = 0.5;
 
-			public static final class IntakePIDConstants {
-				public static final int pidIntakeIdx = 0;
-				public static final int intakeSlot0 = 0;
-				public static final double kP = 0.75;
-				public static final double kI = 0.005;
-				public static final double kD = 0.01;
-				public static final double kF = 0;
-				public static final double kMaxOutput = 1;
-				public static final double Acceleration = 6750; // raw sensor units per 100 ms per second
-				public static final double CruiseVelocity = 6750; // raw sensor units per 100 ms
-				public static final int Smoothing = 3; // CurveStrength. 0 to use Trapezoidal Motion Profile. [1,8] for
-														// S-Curve (greater value yields greater smoothing).
-				public static final double DefaultAcceptableError = 5; // Sensor units
-				public static final double Izone = 500;
-				public static final double PeakOutput = 0.5; // Closed Loop peak output
-				public static final double NeutralDeadband = 0.001;
-				public static final int periodMs = 10; // status frame period
-				public static final int timeoutMs = 30; // status frame timeout
-				public static final int closedLoopPeriod = 1; // 1ms for TalonSRX and locally connected encoder
-				public static final int intakeSmoothing = 3;
-			}
+			public static final int NOTE_SENSOR_SWITCH_ID = 1; // TODO : change this when confirmed
 
 		}
 		public static final class Shooter {
