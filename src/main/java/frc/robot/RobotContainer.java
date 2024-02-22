@@ -174,16 +174,20 @@ public class RobotContainer {
 
   }
 
+  // Driver preferred controls
   private double getDriverXAxis() {
-    return -xboxController.getLeftStickY();
+    //return -xboxController.getLeftStickY();
+    return -xboxController.getRightStickY();
   }
 
   private double getDriverYAxis() {
-    return -xboxController.getLeftStickX();
+    //return -xboxController.getLeftStickX();
+    return -xboxController.getRightStickX();
   }
 
   private double getDriverOmegaAxis() {
-    return -xboxController.getLeftStickOmega();
+    //return -xboxController.getLeftStickOmega();
+    return xboxController.getLeftStickX();
   }
 
     /**
