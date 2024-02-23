@@ -78,6 +78,7 @@ public class RobotContainer {
   public static Controller xboxController;
 
   public static Controller driveStick; // for robot testing only
+  public static Controller driveStick1; // for robot testing only
   public static Controller driveStick2; // for robot testing only
   public static Controller driveStick3; // for robot testing only
 
@@ -126,8 +127,15 @@ public class RobotContainer {
        * commands that need manual control input (e.g. DriveManuallyCommand)
        */
       driveStick = new Controller(ControllerDevice.DRIVESTICK);  // disable joysticks for driver practice code
-      driveStick2 = new Controller(ControllerDevice.DRIVESTICK2);
-      driveStick3 = new Controller(ControllerDevice.DRIVESTICK3);
+
+      // Calibrate-only joysticks
+      if (DebugTelemetrySubsystems.calibrateShooter)
+        driveStick1 = new Controller(ControllerDevice.DRIVESTICK1);
+      if (DebugTelemetrySubsystems.calibrateIntake)
+        driveStick2 = new Controller(ControllerDevice.DRIVESTICK2);
+      if (DebugTelemetrySubsystems.calibrateArm)
+        driveStick3 = new Controller(ControllerDevice.DRIVESTICK3);
+
       //turnStick = new Controller(ControllerDevice.TURNSTICK);   // disable joysticks for driver practice code
       xboxController = new Controller(ControllerDevice.XBOX_CONTROLLER);
       // bbl = new Joystick(OIConstants.bblPort);

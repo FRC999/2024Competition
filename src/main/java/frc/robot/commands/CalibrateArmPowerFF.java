@@ -19,6 +19,7 @@ public class CalibrateArmPowerFF extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("**** Calibrating Arm ...");
     double armPower = RobotContainer.driveStick3.getRawAxis(OIConstants.CALIBRATION_JOYSTICK_SLIDER_AXLE);
     RobotContainer.armSubsystem.runArmMotors(armPower);
   }
