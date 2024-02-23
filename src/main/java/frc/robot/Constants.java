@@ -47,6 +47,13 @@ public final class Constants {
 		public static final boolean arm = true;
 		public static final boolean intake = false;
 		public static final boolean shooter = false;
+
+		// Calibration-only methods
+		public static final boolean calibrateArm = false;
+		public static final boolean calibrateIntake = false;
+		public static final boolean calibrateShooter = false;
+
+		
 	}
 
 	public static final class GPMConstants {
@@ -214,12 +221,12 @@ public final class Constants {
 
 		public static enum ClimbMotorConstantsEnum {
 			FRONTMOTOR( // Front - main motor
-					40, // CANID
+					52, // CANID
 					false, // Inversion
 					false // Follower
 			),
 			BACKMOTOR( // Back
-					41, // CANID
+					53, // CANID
 					false, // Inversion
 					true // Follower
 			);
@@ -714,7 +721,8 @@ public final class Constants {
 					true // cubeControllerRight
 			),
 
-			DRIVESTICK2(
+			// DRIVESTICK1,2,3 are used only for GPM calibration
+			DRIVESTICK1(
 					1, // Port Number
 					ControllerDeviceType.LOGITECH,
 					0.02, // deadband X
@@ -724,8 +732,18 @@ public final class Constants {
 					true // cubeControllerRight
 			),
 
-			DRIVESTICK3(
+			DRIVESTICK2(
 					2, // Port Number
+					ControllerDeviceType.LOGITECH,
+					0.02, // deadband X
+					0.02, // deadband Y
+					0.02, // deadband Omega
+					true, // cubeControllerLeft
+					true // cubeControllerRight
+			),
+
+			DRIVESTICK3(
+					3, // Port Number
 					ControllerDeviceType.LOGITECH,
 					0.02, // deadband X
 					0.02, // deadband Y

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.DebugTelemetrySubsystems;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OIConstants.ControllerDevice;
 import frc.robot.Constants.VisionConstants;
@@ -175,14 +176,24 @@ public class RobotContainer {
     // Test Vision
     // visionTesting();
 
+    // ============================
+    // === Calibration bindings ===
+    // ============================
+
     // Calibrate intake
-    //calibrateIntakePower();
+    if (DebugTelemetrySubsystems.calibrateIntake) {
+        calibrateIntakePower();
+    }
 
     // Calibrate shooter
-    //calibrateShooterPower();
+    if (DebugTelemetrySubsystems.calibrateShooter) {
+        calibrateShooterPower();
+    }
 
     // Calibrate arm
-    calibrateArmPowerFF();
+    if (DebugTelemetrySubsystems.calibrateArm) {
+        calibrateArmPowerFF();
+    }
   }
 
   // Driver preferred controls
