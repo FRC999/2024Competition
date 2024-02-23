@@ -43,6 +43,9 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotorLeft = new CANSparkMax(ShooterMotorConstantsEnum.LEFTMOTOR.getShooterMotorID(), MotorType.kBrushless);
     shooterMotorRight = new CANSparkMax(ShooterMotorConstantsEnum.RIGHTMOTOR.getShooterMotorID(), MotorType.kBrushless);
 
+    shooterPIDControllerLeft = shooterMotorLeft.getPIDController();
+    shooterPIDControllerRight = shooterMotorRight.getPIDController();
+
     shooterEncoderLeft = shooterMotorLeft.getEncoder();
     shooterEncoderRight = shooterMotorRight.getEncoder();
 
@@ -51,6 +54,8 @@ public class ShooterSubsystem extends SubsystemBase {
     // Follower Motor
     configureshooterMotors(shooterMotorRight, shooterEncoderRight, shooterPIDControllerRight, ShooterMotorConstantsEnum.RIGHTMOTOR,
         shooterMotorLeft);
+    
+    //shooterMotorLeft.setIdleMode(IdleMode.kCoast);
 
     System.out.println("*** Shooter initialized");
 
@@ -147,7 +152,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void stopShooter() {
-    shooterMotorLeader.getPIDController().setReference((0), ControlType.kVelocity);
+    //shooterMotorLeader.getPIDController().setReference((0), ControlType.kVelocity);
+    shooterMotorLeader.set(0);
   }
 
   // ===============================

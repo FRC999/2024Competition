@@ -33,20 +33,20 @@ public final class Constants {
 
 	// ====== MAKE SURE all necessary subsystems are enabled ===
 	public static final class EnabledSubsystems {
-		public static final boolean arm = false;
+		public static final boolean arm = true;
 		public static final boolean intake = false;
-		public static final boolean shooter = true;
+		public static final boolean shooter = false;
 		public static final boolean climber = false;
 	}
 
 	public static final class DebugTelemetrySubsystems {
 		
 		public static final boolean odometry = false;
-		public static final boolean imu = true;
+		public static final boolean imu = false;
 
-		public static final boolean arm = false;
-		public static final boolean intake = true;
-		public static final boolean shooter = true;
+		public static final boolean arm = true;
+		public static final boolean intake = false;
+		public static final boolean shooter = false;
 	}
 
 	public static final class GPMConstants {
@@ -68,12 +68,12 @@ public final class Constants {
 
 			public static enum ShooterMotorConstantsEnum {
 				LEFTMOTOR( // Front Left - main motor
-						23, // CANID
+						33, // CANID
 						false, // Inversion
 						false // Follower
 				),
 				RIGHTMOTOR( // Front Left
-						22, // CANID
+						34, // CANID
 						true, // Inversion
 						true // Follower
 				);
@@ -133,14 +133,14 @@ public final class Constants {
 
 			public static enum ArmMotorConstantsEnum {
 				LEFTMOTOR( // Front Left - main motor
-						27, // CANID
+						32, // CANID
 						false, // Inversion
 						false // Follower
 				),
 				RIGHTMOTOR( // Front Left
-						28, // CANID
+						31, // CANID
 						true, // Inversion
-						true // Follower
+						false // Follower
 				);
 
 				private int armMotorID; // CAN ID
@@ -189,7 +189,7 @@ public final class Constants {
 			}
 
 			// Arm IMU
-			public static final int PIGEON2_ARM_CAN_ID = 15;
+			public static final int PIGEON2_ARM_CAN_ID = 16;
 			public static final boolean USE_PAN_IMU_FOR_CORRECTION = true; // Correct Arm IMU with Pan IMU if game surface is uneven
 			public static final double ARM_ENCODER_CHANGE_PER_DEGREE = 1.0; //TODO: test and correct as needed
 
@@ -714,8 +714,28 @@ public final class Constants {
 					true // cubeControllerRight
 			),
 
-			TURNSTICK( // Controls the rotation of the swervebot
+			DRIVESTICK2(
 					1, // Port Number
+					ControllerDeviceType.LOGITECH,
+					0.02, // deadband X
+					0.02, // deadband Y
+					0.02, // deadband Omega
+					true, // cubeControllerLeft
+					true // cubeControllerRight
+			),
+
+			DRIVESTICK3(
+					2, // Port Number
+					ControllerDeviceType.LOGITECH,
+					0.02, // deadband X
+					0.02, // deadband Y
+					0.02, // deadband Omega
+					true, // cubeControllerLeft
+					true // cubeControllerRight
+			),
+
+			TURNSTICK( // Controls the rotation of the swervebot
+					2, // Port Number
 					ControllerDeviceType.LOGITECH,
 					0.02, // deadband X
 					0.02, // deadband Y

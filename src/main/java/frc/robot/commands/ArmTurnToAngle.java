@@ -24,7 +24,7 @@ public class ArmTurnToAngle extends Command {
   @Override
   public void initialize() {
     angle = angleSupplier.getAsDouble();
-    RobotContainer.gpmSubsystem.setArmMotorAnglesSI(angle);
+    RobotContainer.armSubsystem.setArmMotorAnglesSI(angle);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,6 +38,6 @@ public class ArmTurnToAngle extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(angle-RobotContainer.gpmSubsystem.getArmAngleSI())<ArmPIDConstants.anglePIDTolerance);
+    return (Math.abs(angle-RobotContainer.armSubsystem.getArmAngleSI())<ArmPIDConstants.anglePIDTolerance);
   }
 }

@@ -70,6 +70,8 @@ public class SmartDashboardSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ArmLeftEncoder", RobotContainer.armSubsystem.getArmEncoderLeft());
     SmartDashboard.putNumber("ArmRightEncoder", RobotContainer.armSubsystem.getArmEncoderRight());
     SmartDashboard.putNumber("ArmLeadingEncoder", RobotContainer.armSubsystem.getArmEncoderLeader());
+    SmartDashboard.putNumber("ArmRightVelocity", RobotContainer.armSubsystem.getRightArmMotorVelocity());
+    SmartDashboard.putNumber("ArmLeftVelocity", RobotContainer.armSubsystem.getLeftArmMotorVelocity());
     SmartDashboard.putNumber("ArmAngle", RobotContainer.armSubsystem.getArmAngleSI());
     SmartDashboard.putNumber("ArmIMUPitch", RobotContainer.armSubsystem.getArmIMUPitch());
   }

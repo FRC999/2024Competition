@@ -63,7 +63,6 @@ public class RobotContainer {
   public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
   //public final static SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
-  public final static ArmSubsystem gpmSubsystem = new ArmSubsystem();
   public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public final static ArmSubsystem armSubsystem = new ArmSubsystem();
@@ -78,6 +77,8 @@ public class RobotContainer {
   public static Controller xboxController;
 
   public static Controller driveStick; // for robot testing only
+  public static Controller driveStick2; // for robot testing only
+  public static Controller driveStick3; // for robot testing only
 
   // A Data Log Manager file handle
   public static StringLogEntry myStringLog;
@@ -124,6 +125,8 @@ public class RobotContainer {
        * commands that need manual control input (e.g. DriveManuallyCommand)
        */
       driveStick = new Controller(ControllerDevice.DRIVESTICK);  // disable joysticks for driver practice code
+      driveStick2 = new Controller(ControllerDevice.DRIVESTICK2);
+      driveStick3 = new Controller(ControllerDevice.DRIVESTICK3);
       //turnStick = new Controller(ControllerDevice.TURNSTICK);   // disable joysticks for driver practice code
       xboxController = new Controller(ControllerDevice.XBOX_CONTROLLER);
       // bbl = new Joystick(OIConstants.bblPort);
@@ -176,7 +179,10 @@ public class RobotContainer {
     //calibrateIntakePower();
 
     // Calibrate shooter
-    calibrateShooterPower();
+    //calibrateShooterPower();
+
+    // Calibrate arm
+    calibrateArmPowerFF();
   }
 
   // Driver preferred controls
@@ -464,13 +470,13 @@ public class RobotContainer {
 
   // GPM Calibration
   public void calibrateIntakePower() {
-      new JoystickButton(driveStick, 1)
+      new JoystickButton(driveStick2, 1)
               .whileTrue(new CalibrateIntakePower())
               .onFalse(new IntakeStop());
   }
 
   public void calibrateArmPowerFF() {
-      new JoystickButton(driveStick, 1)
+      new JoystickButton(driveStick3, 1)
               .whileTrue(new CalibrateArmPowerFF())
               .onFalse(new ArmStop());
   }
