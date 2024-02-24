@@ -49,9 +49,9 @@ public final class Constants {
 		public static final boolean shooter = false;
 
 		// Calibration-only methods
-		public static final boolean calibrateArm = false;
-		public static final boolean calibrateIntake = false;
-		public static final boolean calibrateShooter = false;
+		public static final boolean calibrateArm = true;
+		public static final boolean calibrateIntake = true;
+		public static final boolean calibrateShooter = true;
 
 		
 	}
@@ -68,7 +68,8 @@ public final class Constants {
 			public static final double INTAKE_NOTE_FORWARD_POWER = 0.5;
 			public static final double INTAKE_NOTE_SPEW_POWER = 0.5;
 
-			public static final int NOTE_SENSOR_SWITCH_ID = 1; // TODO : change this when confirmed
+			public static final boolean NOTE_SENSOR_PRESENT = false; // turn to TRUE when sensor will be configured
+			public static final int NOTE_SENSOR_SWITCH_DIO_PORT_NUMBER = 1; // TODO : change this when confirmed
 
 		}
 		public static final class Shooter {
