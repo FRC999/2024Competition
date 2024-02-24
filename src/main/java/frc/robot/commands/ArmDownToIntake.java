@@ -16,7 +16,7 @@ public class ArmDownToIntake extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ArmToAngleCommand(Arm.ARM_INTAKE_ANGLE)
+      new ArmTurnToAngle(() -> Arm.ARM_INTAKE_ANGLE)
     );
   }
 }

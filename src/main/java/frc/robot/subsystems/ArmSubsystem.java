@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.EnabledSubsystems;
@@ -25,6 +26,8 @@ import frc.robot.Constants.GPMConstants.Arm.ArmPIDConstants;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new GPMSubsystem. */
 
+  public InterpolatingDoubleTreeMap FEED_FORWARD = new InterpolatingDoubleTreeMap();
+
   // === ARM ====
 
   // NEO motors connected to Spark Max
@@ -34,6 +37,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private SparkPIDController armPIDControllerLeft;
   private SparkPIDController armPIDControllerRight;
+  private SparkPIDController armPidControllerLeader;
 
   // We wii use built-in NEO encoders for now
   // They're relative, but we can calibrate them based on second Pigeon on the arm
@@ -129,6 +133,7 @@ public class ArmSubsystem extends SubsystemBase {
 
       armMotorLeader = motor;
       armEncoderLeader = motor.getEncoder();
+      armPidControllerLeader = p;
     }
 
     // --- PID Setup
@@ -214,6 +219,7 @@ public class ArmSubsystem extends SubsystemBase {
    * @param angle
    */
   public void setArmMotorAnglesSI(double angle) {
+    armPidControllerLeader.setFF(FEED_FORWARD.get(angle));
     armMotorLeader.getPIDController().setReference(
         // armEncoderZero is encoder position at ZERO degrees
         // So, the expected encoder position is armEncoderZero plus
@@ -264,6 +270,11 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getLeaderArmMotorEncoder() {
     return armEncoderLeader.getPosition();
+  }
+
+  public void populateFeedForward() {
+    FEED_FORWARD.put(-180.0,0.0);
+    FEED_FORWARD.put(180.0, 0.0);
   }
 
   @Override
