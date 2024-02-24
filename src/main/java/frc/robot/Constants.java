@@ -34,8 +34,8 @@ public final class Constants {
 	// ====== MAKE SURE all necessary subsystems are enabled ===
 	public static final class EnabledSubsystems {
 		public static final boolean arm = true;
-		public static final boolean intake = false;
-		public static final boolean shooter = false;
+		public static final boolean intake = true;
+		public static final boolean shooter = true;
 		public static final boolean climber = false;
 	}
 
