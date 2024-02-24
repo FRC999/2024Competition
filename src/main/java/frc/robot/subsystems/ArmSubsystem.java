@@ -77,7 +77,7 @@ public class ArmSubsystem extends SubsystemBase {
     // Follower Motor
     configureArmMotors(armMotorRight, armEncoderRight, armPIDControllerRight, ArmMotorConstantsEnum.RIGHTMOTOR, armMotorLeft);
 
-    armMotorRight.setIdleMode(IdleMode.kCoast);
+    //armMotorRight.setIdleMode(IdleMode.kCoast);
 
     // ==========================
     // === ARM IMU initialization
@@ -109,7 +109,7 @@ public class ArmSubsystem extends SubsystemBase {
     motor.setInverted(c.getArmMotorInverted()); //sets motor inverted if getArmMotorInverted() returns true
 
     motor.setIdleMode(IdleMode.kBrake); //sets motor into brake mode
-    motor.setIdleMode(IdleMode.kCoast); 
+    //motor.setIdleMode(IdleMode.kCoast); 
 
     encoder.setPositionConversionFactor(Arm.POSITION_CONVERSION_FACTOR);  //sets conversion between NEO units to necessary unit for positon
 
@@ -122,7 +122,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     // sets which motor is the leader and follower; set follower inversion if needed
     if (c.getArmMotorFollower()) {
-      //motor.follow(motorToFollow,c.getArmMotorInverted());
+      motor.follow(motorToFollow,c.getArmMotorInverted());
     } else {
 
       System.out.println("*** Set Arm Leader " + motor.getDeviceId());
@@ -235,15 +235,15 @@ public class ArmSubsystem extends SubsystemBase {
   // test methods; for calibration only
   // ==================================
   public void runArmMotors(double power) {
-    //armMotorLeader.set(power);
-    armMotorLeft.set(power);
-    armMotorRight.set(power);
+    armMotorLeader.set(power);
+    //armMotorLeft.set(power);
+    //armMotorRight.set(power);
   }
 
   public void stopArmMotors() {
-    //armMotorLeader.set(0);
-    armMotorLeft.set(0);
-    armMotorRight.set(0);
+    armMotorLeader.set(0);
+    //armMotorLeft.set(0);
+    //armMotorRight.set(0);
   }
 
   public double getLeftArmMotorEncoder() {
