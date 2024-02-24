@@ -488,6 +488,13 @@ public class RobotContainer {
   }
 
   // GPM Calibration
+
+  public void calibrateShooterPower() {
+      new JoystickButton(driveStick1, 1)
+              .whileTrue(new CalibrateShooterPower())
+              .onFalse(new ShooterStop());
+  }
+
   public void calibrateIntakePower() {
       new JoystickButton(driveStick2, 1)
               .whileTrue(new CalibrateIntakePower())
@@ -500,11 +507,7 @@ public class RobotContainer {
               .onFalse(new ArmStop());
   }
 
-  public void calibrateShooterPower() {
-      new JoystickButton(driveStick, 1)
-              .whileTrue(new CalibrateShooterPower())
-              .onFalse(new ShooterStop());
-  }
+
 
   public void checkAllianceColor() {
     SmartDashboard.putString("AllianceColor", DriverStation.getAlliance().toString());

@@ -34,8 +34,8 @@ public final class Constants {
 	// ====== MAKE SURE all necessary subsystems are enabled ===
 	public static final class EnabledSubsystems {
 		public static final boolean arm = true;
-		public static final boolean intake = false;
-		public static final boolean shooter = false;
+		public static final boolean intake = true;
+		public static final boolean shooter = true;
 		public static final boolean climber = false;
 	}
 
@@ -49,9 +49,9 @@ public final class Constants {
 		public static final boolean shooter = false;
 
 		// Calibration-only methods
-		public static final boolean calibrateArm = false;
-		public static final boolean calibrateIntake = false;
-		public static final boolean calibrateShooter = false;
+		public static final boolean calibrateArm = true;
+		public static final boolean calibrateIntake = true;
+		public static final boolean calibrateShooter = true;
 
 		
 	}
