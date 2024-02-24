@@ -12,6 +12,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.GPMConstants.Shooter;
@@ -33,6 +34,8 @@ public class ShooterSubsystem extends SubsystemBase {
   // Necessary for hardware PID with Spark Max
   private SparkPIDController shooterPIDControllerLeft;
   private SparkPIDController shooterPIDControllerRight;
+
+  private InterpolatingDoubleTreeMap SHOOTER_POWER = new InterpolatingDoubleTreeMap();
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
@@ -57,6 +60,8 @@ public class ShooterSubsystem extends SubsystemBase {
     
     //shooterMotorLeft.setIdleMode(IdleMode.kCoast);
 
+    setShooterPower();
+    
     System.out.println("*** Shooter initialized");
 
   }
@@ -174,6 +179,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getRightShooterMotorEncoder() {
     return shooterEncoderRight.getPosition();
+  }
+
+  public void setShooterPower() {
+    SHOOTER_POWER.put(0.0, 0.0); //TODO: need to calibrate
+    SHOOTER_POWER.put(6.0, 0.8); 
   }
 
   @Override

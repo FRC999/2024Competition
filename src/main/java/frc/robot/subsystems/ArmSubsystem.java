@@ -93,6 +93,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     calibrateArmEncoderToPitch();
 
+    setArmFeedForward();
+
     System.out.println("*** Arm Subsystem Initialized");
 
   }
@@ -272,7 +274,7 @@ public class ArmSubsystem extends SubsystemBase {
     return armEncoderLeader.getPosition();
   }
 
-  public void populateFeedForward() {
+  public void setArmFeedForward() {
     FEED_FORWARD.put(-180.0,0.0);
     FEED_FORWARD.put(180.0, 0.0);
   }
