@@ -68,7 +68,8 @@ public final class Constants {
 			public static final double INTAKE_NOTE_FORWARD_POWER = 0.5;
 			public static final double INTAKE_NOTE_SPEW_POWER = 0.5;
 
-			public static final int NOTE_SENSOR_SWITCH_ID = 1; // TODO : change this when confirmed
+			public static final boolean NOTE_SENSOR_PRESENT = false; // turn to TRUE when sensor will be configured
+			public static final int NOTE_SENSOR_SWITCH_DIO_PORT_NUMBER = 1; // TODO : change this when confirmed
 
 		}
 		public static final class Shooter {

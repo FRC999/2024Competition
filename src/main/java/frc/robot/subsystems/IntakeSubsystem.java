@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.EnabledSubsystems;
+import frc.robot.Constants.GPMConstants;
 import frc.robot.Constants.GPMConstants.Intake;
 
 @SuppressWarnings({ "removal" })
@@ -19,13 +20,16 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // 775 connected to TalonSRX
   private WPI_VictorSPX intakeMotor; // TalonSRX
-  public static DigitalInput noteSensor;
+
+  public static DigitalInput noteSensor; // connected to the DIO iinput
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
 
     // Check if need to initialize intake
-    if (! EnabledSubsystems.intake) { return; }
+    if (!EnabledSubsystems.intake) {
+      return;
+    }
 
     // ==========================
     // === INTAKE initiatization
@@ -37,14 +41,15 @@ public class IntakeSubsystem extends SubsystemBase {
 
     System.out.println("*** Intake initialized");
 
-     /*  if(noteSensor == null) {
-          try {
-            noteSensor = new DigitalInput(Constants.GPMConstants.Intake.NOTE_SENSOR_SWITCH_ID);
-          } catch (Exception e) {
-            System.out.println("Unable to get note sensor value");
-          }
-        }
-      */
+    if (Intake.NOTE_SENSOR_PRESENT) {
+      try {
+        noteSensor = new DigitalInput(Intake.NOTE_SENSOR_SWITCH_DIO_PORT_NUMBER);
+        System.out.println("*** Note sensor initialized");
+      } catch (Exception e) {
+        System.out.println("Unable to get note sensor value");
+      }
+    }
+
   }
 
   private void configureIntakeMotor() {
@@ -131,10 +136,11 @@ public class IntakeSubsystem extends SubsystemBase {
   //TODO: This will work using the sensor; modify the code as needed.
   /**
    * Check if note is in the intake
+   * If sensor is not present, always return TRUE
    * @return
    */
   public boolean isNoteInIntake() {
-      return true;
+      return (! Intake.NOTE_SENSOR_PRESENT) || noteSensor.get() ;
   }
 
   @Override
