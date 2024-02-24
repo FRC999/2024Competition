@@ -148,7 +148,7 @@ public final class Constants {
 				RIGHTMOTOR( // Front Left
 						31, // CANID
 						true, // Inversion
-						false // Follower
+						true // Follower
 				);
 
 				private int armMotorID; // CAN ID
