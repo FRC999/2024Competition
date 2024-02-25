@@ -229,14 +229,14 @@ public class ArmSubsystem extends SubsystemBase {
    */
   public void setArmMotorAnglesSI(double angle) {
     //armPidControllerLeader.setFF(FEED_FORWARD.get(angle));
-    //armMotorLeader.getPIDController().setReference(
+    armMotorLeader.getPIDController().setReference(
         // armEncoderZero is encoder position at ZERO degrees
         // So, the expected encoder position is armEncoderZero plus
         // the degrees angle multiplied by ARM_ENCODER_CHANGE_PER_DEGREE
-    //    (Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero,
-     //   ControlType.kPosition);
-     
-    System.out.println("AENC-FIN:"+(Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero);
+        (Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero,
+           ControlType.kPosition);
+
+    System.out.println("AENC-FIN:"+((Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero));
   }
 
   public void stopArmPID() {

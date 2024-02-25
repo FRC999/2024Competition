@@ -481,6 +481,9 @@ public class RobotContainer {
       new JoystickButton(driveStick, 11)
               .whileTrue(new ArmTurnToAngle( ()-> -10.0 ))
               .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
+      new JoystickButton(driveStick, 12)
+              .whileTrue(new ArmTurnToAngle( ()-> -50.0 ))
+              .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
   }
 
   public void testClimber() {
