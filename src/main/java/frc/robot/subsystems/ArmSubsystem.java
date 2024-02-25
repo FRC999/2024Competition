@@ -174,6 +174,9 @@ public class ArmSubsystem extends SubsystemBase {
           ((Arm.USE_PAN_IMU_FOR_CORRECTION) ? RobotContainer.imuSubsystem.getPitch() : 0))  // pan IMU Pitch-based correction for uneven surface
             * Arm.ARM_ENCODER_CHANGE_PER_DEGREE
       );
+
+    // Alex test
+    System.out.println("ARM0: "+ armEncoderZero);
   }
 
   /**
@@ -213,6 +216,10 @@ public class ArmSubsystem extends SubsystemBase {
     return armEncoderLeader.getPosition();
   }
 
+  public double getFormFeedPowerForCurrentAngle() {
+    return FEED_FORWARD.get(getArmAngleSI());
+  }
+
   /**
    * Set Arm motor to degrees Angle using PID
    * Positive Pitch angle increases is when arm is going from front towards the
@@ -221,13 +228,15 @@ public class ArmSubsystem extends SubsystemBase {
    * @param angle
    */
   public void setArmMotorAnglesSI(double angle) {
-    armPidControllerLeader.setFF(FEED_FORWARD.get(angle));
-    armMotorLeader.getPIDController().setReference(
+    //armPidControllerLeader.setFF(FEED_FORWARD.get(angle));
+    //armMotorLeader.getPIDController().setReference(
         // armEncoderZero is encoder position at ZERO degrees
         // So, the expected encoder position is armEncoderZero plus
         // the degrees angle multiplied by ARM_ENCODER_CHANGE_PER_DEGREE
-        (Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero,
-        ControlType.kPosition);
+    //    (Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero,
+     //   ControlType.kPosition);
+     
+    System.out.println("AENC-FIN:"+(Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero);
   }
 
   public void stopArmPID() {
@@ -275,8 +284,16 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setArmFeedForward() {
-    FEED_FORWARD.put(-180.0,0.0);
-    FEED_FORWARD.put(180.0, 0.0);
+    FEED_FORWARD.put(-90.0,0.015);
+    FEED_FORWARD.put(-82.7,0.015);
+    FEED_FORWARD.put(-25.0,0.015);
+    FEED_FORWARD.put(-20.0,0.015);
+    FEED_FORWARD.put(-10.0,0.007);
+    FEED_FORWARD.put(-5.0,0.007);
+    FEED_FORWARD.put(0.0,0.0);
+    FEED_FORWARD.put(5.0, -0.007);
+    FEED_FORWARD.put(15.0, -0.007);
+    FEED_FORWARD.put(20.0, -0.009);
   }
 
   @Override

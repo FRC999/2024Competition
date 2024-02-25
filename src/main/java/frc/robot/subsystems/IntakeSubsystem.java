@@ -137,7 +137,7 @@ public class IntakeSubsystem extends SubsystemBase {
    * @return
    */
   public boolean isNoteInIntake() {
-      return (! Intake.NOTE_SENSOR_PRESENT) || noteSensor.get() ;
+      return (! Intake.NOTE_SENSOR_PRESENT) || ! noteSensor.get() ;
   }
 
   @Override

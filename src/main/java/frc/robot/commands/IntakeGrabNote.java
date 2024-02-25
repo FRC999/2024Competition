@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -19,6 +20,7 @@ public class IntakeGrabNote extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new PrintCommand("Grabbing Note..."),
       new IntakeRun(Intake.INTAKE_NOTE_GRAB_POWER).until(RobotContainer.intakeSubsystem::isNoteInIntake),
       new IntakeStop()
     );

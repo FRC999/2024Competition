@@ -35,6 +35,10 @@ public class CalibrateArmPowerFF extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    
+    // alex test
+    //System.out.println("HoldP: " + RobotContainer.armSubsystem.getFormFeedPowerForCurrentAngle());
+
     RobotContainer.armSubsystem.runArmMotors(0);
   }
 

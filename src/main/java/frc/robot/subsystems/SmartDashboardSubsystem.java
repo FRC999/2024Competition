@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DebugTelemetrySubsystems;
 import frc.robot.Constants.EnabledSubsystems;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class SmartDashboardSubsystem extends SubsystemBase {
@@ -74,6 +75,7 @@ public class SmartDashboardSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ArmLeftVelocity", RobotContainer.armSubsystem.getLeftArmMotorVelocity());
     SmartDashboard.putNumber("ArmAngle", RobotContainer.armSubsystem.getArmAngleSI());
     SmartDashboard.putNumber("ArmIMUPitch", RobotContainer.armSubsystem.getArmIMUPitch());
+    SmartDashboard.putNumber("IMU Pitch", RobotContainer.imuSubsystem.getPitch());
   }
 
   public void updateShooterTelemetry() {
@@ -81,6 +83,12 @@ public class SmartDashboardSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ShooterRightEncoder", RobotContainer.shooterSubsystem.getRightShooterMotorEncoder());
     SmartDashboard.putNumber("ShooterLeftVelocity", RobotContainer.shooterSubsystem.getLeftShooterMotorVelocity());
     SmartDashboard.putNumber("ShooterRightVelocity", RobotContainer.shooterSubsystem.getRightShooterMotorVelocity());
+  }
+
+  public void updateIntakeTelemetry() {
+    if (Constants.GPMConstants.Intake.NOTE_SENSOR_PRESENT) {
+      SmartDashboard.putBoolean("Intake sensor : ", RobotContainer.intakeSubsystem.isNoteInIntake());
+    }
   }
 
   public void updateAllDisplays(){
@@ -99,6 +107,10 @@ public class SmartDashboardSubsystem extends SubsystemBase {
 
     if (EnabledSubsystems.shooter && DebugTelemetrySubsystems.shooter) {
       updateShooterTelemetry();
+    }
+
+    if (EnabledSubsystems.intake && DebugTelemetrySubsystems.intake) {
+      updateIntakeTelemetry();
     }
 
     // Test vision

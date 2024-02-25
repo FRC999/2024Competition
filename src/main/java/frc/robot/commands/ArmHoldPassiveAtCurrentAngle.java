@@ -4,28 +4,24 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.GPMConstants.Arm.ArmPIDConstants;
 
-public class ArmTurnToAngle extends Command {
-
-  DoubleSupplier angleSupplier;
-  double angle;
-  /** Creates a new TurnArmToAngle. */
-  public ArmTurnToAngle(DoubleSupplier as) {
+public class ArmHoldPassiveAtCurrentAngle extends Command {
+  /** Creates a new ArmHoldAtCurrentAngle. */
+  public ArmHoldPassiveAtCurrentAngle() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.armSubsystem);
-    angleSupplier = as;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    angle = angleSupplier.getAsDouble();
-    RobotContainer.armSubsystem.setArmMotorAnglesSI(angle);
+    double angle = RobotContainer.armSubsystem.getArmAngleSI();
+    double holdPower = RobotContainer.armSubsystem.FEED_FORWARD.get(angle);
+
+    //Alex test
+    System.out.println("Hold: "+holdPower);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,13 +30,11 @@ public class ArmTurnToAngle extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    System.out.println("ArmToAngleDone: "+interrupted);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(angle-RobotContainer.armSubsystem.getArmAngleSI())<ArmPIDConstants.anglePIDTolerance);
+    return false;
   }
 }

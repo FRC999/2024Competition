@@ -43,10 +43,10 @@ public final class Constants {
 	public static final class DebugTelemetrySubsystems {
 		
 		public static final boolean odometry = false;
-		public static final boolean imu = false;
+		public static final boolean imu = true;
 
 		public static final boolean arm = true;
-		public static final boolean intake = false;
+		public static final boolean intake = true;
 		public static final boolean shooter = false;
 
 		// Calibration-only methods
@@ -62,15 +62,15 @@ public final class Constants {
 		public static final class Intake {
 			public static final int INTAKE_MOTOR_CAN_ID = 51;
 			//public static final boolean INTAKE_SENSOR_PHASE = false;
-			public static final boolean INTAKE_INVERTED = false; // positive power - note in
+			public static final boolean INTAKE_INVERTED = true; // positive power - note in
 			//public static final double INTAKE_NEUTRAL_DEADBAND = 0.001;
 			//public static final int INTAKE_TIMEOUT = 30; //in ms
 			public static final double INTAKE_NOTE_GRAB_POWER = 0.5;
 			public static final double INTAKE_NOTE_FORWARD_POWER = 0.5;
 			public static final double INTAKE_NOTE_SPEW_POWER = 0.5;
 
-			public static final boolean NOTE_SENSOR_PRESENT = false; // turn to TRUE when sensor will be configured
-			public static final int NOTE_SENSOR_SWITCH_DIO_PORT_NUMBER = 1; // TODO : change this when confirmed
+			public static final boolean NOTE_SENSOR_PRESENT = true; // turn to TRUE when sensor will be configured
+			public static final int NOTE_SENSOR_SWITCH_DIO_PORT_NUMBER = 4;
 
 		}
 		public static final class Shooter {
@@ -143,7 +143,7 @@ public final class Constants {
 			public static enum ArmMotorConstantsEnum {
 				LEFTMOTOR( // Front Left - main motor
 						32, // CANID
-						false, // Inversion
+						true, // Inversion
 						false // Follower
 				),
 				RIGHTMOTOR( // Front Left
@@ -177,11 +177,11 @@ public final class Constants {
 
 			public static final class ArmPIDConstants {
 
-				public static final double kP = 0.75;
-				public static final double kI = 0.005;
-				public static final double kD = 0.01;
+				public static final double kP = 0.05;
+				public static final double kI = 0.000;
+				public static final double kD = 0.00;
 				public static final double kF = 0;
-				public static final double kMaxOutput = 1;
+				public static final double kMaxOutput = 0.05;
 				public static final double Acceleration = 6750; // raw sensor units per 100 ms per second
 				public static final double CruiseVelocity = 6750; // raw sensor units per 100 ms
 				public static final int Smoothing = 3; // CurveStrength. 0 to use Trapezoidal Motion Profile. [1,8] for
@@ -200,7 +200,7 @@ public final class Constants {
 			// Arm IMU
 			public static final int PIGEON2_ARM_CAN_ID = 16;
 			public static final boolean USE_PAN_IMU_FOR_CORRECTION = true; // Correct Arm IMU with Pan IMU if game surface is uneven
-			public static final double ARM_ENCODER_CHANGE_PER_DEGREE = 1.0; //TODO: test and correct as needed
+			public static final double ARM_ENCODER_CHANGE_PER_DEGREE = 3.862568732		; //TODO: test and correct as needed
 
 			//TODO: Check conversion factors; find the ones that work best with PID
 			public static final double POSITION_CONVERSION_FACTOR = 2*Math.PI;
@@ -891,75 +891,415 @@ public final class Constants {
 	}
 
 	public static final class AutoConstants {
+
 		public static final class BlueSpeakerBottomSideConstants {
-			public static final double yaw = -60;
-			public static final double angle = 0.0;  //TODO : figure this out lol
-			public static final double power = 0.0;
-			public static final double speedTolerance = 0.1;
-			public static final double angleTolerance = 1.0;
+				public static final double yaw = -60;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
 
-			// Poses for start/end of the trajectory
-			public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, new Rotation2d().fromDegrees(300));
-			public static final Pose2d t1p2 = new Pose2d(3.25, 0.80, new Rotation2d(0));
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, new Rotation2d().fromDegrees(300));
+				public static final Pose2d t1p2 = new Pose2d(3.25, 0.80, new Rotation2d(0));
 		}
-
 		public static final class BlueSpeakerMiddleConstants {
-			public static final double yaw = 0;
-			public static final double angle = 0.0;  //TODO : figure this out lol
-			public static final double power = 0.0;
-			public static final double speedTolerance = 0.1;
-			public static final double angleTolerance = 1.0;
+				public static final double yaw = 0;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
 
-			// Poses for start/end of the trajectory
-			public static final Pose2d t1p1 = new Pose2d();
-			public static final Pose2d t1p2 = new Pose2d();
-		}
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d();
+				public static final Pose2d t1p2 = new Pose2d();
+			}
 		public static final class BlueSpeakerTopSideConstants {
-			public static final double yaw = 60;
-			public static final double angle = 0.0;  //TODO : figure this out lol
-			public static final double power = 0.0;
-			public static final double speedTolerance = 0.1;
-			public static final double angleTolerance = 1.0;
+				public static final double yaw = 60;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
 
-			// Poses for start/end of the trajectory
-			public static final Pose2d t1p1 = new Pose2d();
-			public static final Pose2d t1p2 = new Pose2d();
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d();
+				public static final Pose2d t1p2 = new Pose2d();
+			}
+		public static final class ShootAndLeaveTrajectories { //t,m,b
+			public static final class BlueSpeakerBottomSideConstants {
+				public static final double yaw = -60;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, new Rotation2d().fromDegrees(300));
+				public static final Pose2d t1p2 = new Pose2d(3.25, 0.80, new Rotation2d(0));
+			}
+
+			public static final class BlueSpeakerMiddleConstants {
+				public static final double yaw = 0;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d();
+				public static final Pose2d t1p2 = new Pose2d();
+			}
+
+			public static final class BlueSpeakerTopSideConstants {
+				public static final double yaw = 60;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d();
+				public static final Pose2d t1p2 = new Pose2d();
+			}
+
+			public static final class RedSpeakerBottomSideConstants {
+				public static final double yaw = 120;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, new Rotation2d().fromDegrees(300));
+				public static final Pose2d t1p2 = new Pose2d(3.25, 0.80, new Rotation2d(0));
+			}
+
+			public static final class RedSpeakerMiddleConstants {
+				public static final double yaw = 180;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d();
+				public static final Pose2d t1p2 = new Pose2d();
+			}
+
+			public static final class RedSpeakerTopSideConstants {
+				public static final double yaw = -120;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d();
+				public static final Pose2d t1p2 = new Pose2d();
+			}
 		}
 
-		public static final class RedSpeakerBottomSideConstants {
-			public static final double yaw = 120;
-			public static final double angle = 0.0;  //TODO : figure this out lol
-			public static final double power = 0.0;
-			public static final double speedTolerance = 0.1;
-			public static final double angleTolerance = 1.0;
+		public static final class ShootSecondNoteTrajectories { //t,m,b
+			public static final class BlueSpeakerBottomSideConstants {
+				public static final double yaw = -60;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
 
-			// Poses for start/end of the trajectory
-			public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, new Rotation2d().fromDegrees(300));
-			public static final Pose2d t1p2 = new Pose2d(3.25, 0.80, new Rotation2d(0));
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d();
+				public static final Pose2d t1p2 = new Pose2d();
+
+			}
+
+			public static final class BlueSpeakerMiddleConstants {
+				public static final double yaw = 0;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d();
+				public static final Pose2d t1p2 = new Pose2d();
+			}
+
+			public static final class BlueSpeakerTopSideConstants {
+				public static final double yaw = 60;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d();
+				public static final Pose2d t1p2 = new Pose2d();
+			}
+
+			public static final class RedSpeakerBottomSideConstants {
+				public static final double yaw = 120;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, new Rotation2d().fromDegrees(300));
+				public static final Pose2d t1p2 = new Pose2d(3.25, 0.80, new Rotation2d(0));
+			}
+
+			public static final class RedSpeakerMiddleConstants {
+				public static final double yaw = 180;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d();
+				public static final Pose2d t1p2 = new Pose2d();
+			}
+
+			public static final class RedSpeakerTopSideConstants {
+				public static final double yaw = -120;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d();
+				public static final Pose2d t1p2 = new Pose2d();
+			}
 		}
-		public static final class RedSpeakerMiddleConstants {
-			public static final double yaw = 180;
-			public static final double angle = 0.0;  //TODO : figure this out lol
-			public static final double power = 0.0;
-			public static final double speedTolerance = 0.1;
-			public static final double angleTolerance = 1.0;
 
-			// Poses for start/end of the trajectory
-			public static final Pose2d t1p1 = new Pose2d();
-			public static final Pose2d t1p2 = new Pose2d();
+		public static final class PickUpThirdNoteInsideTrajectories {	// t,b
+			public static final class BlueSpeakerBottomSideConstants {
+				public static final double yaw = -60;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(); // start pose and shoot
+				public static final Pose2d t1p2 = new Pose2d(); // pose FIRST note in the middle of field
+				public static final Pose2d t1p3 = new Pose2d(); // pose place FIRST note close to blue line
+				public static final Pose2d t1p4 = new Pose2d(); // pose SECOND note in the middle of field
+				public static final Pose2d t1p5 = new Pose2d(); // pose place SECOND note close to blue line
+				public static final Pose2d t1p6 = new Pose2d(); // pose THIRD note in the middle of field
+				public static final Pose2d t1p7 = new Pose2d(); // pose place THIRD note close to blue line
+				public static final Pose2d t1p8 = new Pose2d(); // pose FOURTH note in the middle of field
+				public static final Pose2d t1p9 = new Pose2d(); // pose place FOURTH note close to blue line
+				public static final Pose2d t1p10 = new Pose2d(); // pose FIFTH note in the middle of field
+				public static final Pose2d t1p11 = new Pose2d(); // pose place FIFTH note close to blue line [END POSE]
+			}
+
+
+
+			public static final class BlueSpeakerTopSideConstants {
+				public static final double yaw = 60;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(); // start pose and shoot
+				public static final Pose2d t1p2 = new Pose2d(); // pose FIRST note in the middle of field
+				public static final Pose2d t1p3 = new Pose2d(); // pose place FIRST note close to blue line
+				public static final Pose2d t1p4 = new Pose2d(); // pose SECOND note in the middle of field
+				public static final Pose2d t1p5 = new Pose2d(); // pose place SECOND note close to blue line
+				public static final Pose2d t1p6 = new Pose2d(); // pose THIRD note in the middle of field
+				public static final Pose2d t1p7 = new Pose2d(); // pose place THIRD note close to blue line
+				public static final Pose2d t1p8 = new Pose2d(); // pose FOURTH note in the middle of field
+				public static final Pose2d t1p9 = new Pose2d(); // pose place FOURTH note close to blue line
+				public static final Pose2d t1p10 = new Pose2d(); // pose FIFTH note in the middle of field
+				public static final Pose2d t1p11 = new Pose2d(); // pose place FIFTH note close to blue line [END POSE]
+			}
+
+			public static final class RedSpeakerBottomSideConstants {
+				public static final double yaw = 120;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(); // start pose and shoot
+				public static final Pose2d t1p2 = new Pose2d(); // pose FIRST note in the middle of field
+				public static final Pose2d t1p3 = new Pose2d(); // pose place FIRST note close to blue line
+				public static final Pose2d t1p4 = new Pose2d(); // pose SECOND note in the middle of field
+				public static final Pose2d t1p5 = new Pose2d(); // pose place SECOND note close to blue line
+				public static final Pose2d t1p6 = new Pose2d(); // pose THIRD note in the middle of field
+				public static final Pose2d t1p7 = new Pose2d(); // pose place THIRD note close to blue line
+				public static final Pose2d t1p8 = new Pose2d(); // pose FOURTH note in the middle of field
+				public static final Pose2d t1p9 = new Pose2d(); // pose place FOURTH note close to blue line
+				public static final Pose2d t1p10 = new Pose2d(); // pose FIFTH note in the middle of field
+				public static final Pose2d t1p11 = new Pose2d(); // pose place FIFTH note close to blue line [END POSE]
+			}
+
+
+			public static final class RedSpeakerTopSideConstants {
+				public static final double yaw = -120;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(); // start pose and shoot
+				public static final Pose2d t1p2 = new Pose2d(); // pose FIRST note in the middle of field
+				public static final Pose2d t1p3 = new Pose2d(); // pose place FIRST note close to blue line
+				public static final Pose2d t1p4 = new Pose2d(); // pose SECOND note in the middle of field
+				public static final Pose2d t1p5 = new Pose2d(); // pose place SECOND note close to blue line
+				public static final Pose2d t1p6 = new Pose2d(); // pose THIRD note in the middle of field
+				public static final Pose2d t1p7 = new Pose2d(); // pose place THIRD note close to blue line
+				public static final Pose2d t1p8 = new Pose2d(); // pose FOURTH note in the middle of field
+				public static final Pose2d t1p9 = new Pose2d(); // pose place FOURTH note close to blue line
+				public static final Pose2d t1p10 = new Pose2d(); // pose FIFTH note in the middle of field
+				public static final Pose2d t1p11 = new Pose2d(); // pose place FIFTH note close to blue line [END POSE]
+			}
 		}
-		public static final class RedSpeakerTopSideConstants {
-			public static final double yaw = -120;
-			public static final double angle = 0.0;  //TODO : figure this out lol
-			public static final double power = 0.0;
-			public static final double speedTolerance = 0.1;
-			public static final double angleTolerance = 1.0;
 
-			// Poses for start/end of the trajectory
-			public static final Pose2d t1p1 = new Pose2d();
-			public static final Pose2d t1p2 = new Pose2d();
+		public static final class DisruptMiddleNotesTrajectories {	//t,b
+			public static final class BlueSpeakerBottomSideConstants {
+				public static final double yaw = -60;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(); // start pose and shoot
+				public static final Pose2d t1p2 = new Pose2d(); // pose FIRST note in the middle of field
+				public static final Pose2d t1p3 = new Pose2d(); // pose place FIRST note close to blue line
+				public static final Pose2d t1p4 = new Pose2d(); // pose SECOND note in the middle of field
+				public static final Pose2d t1p5 = new Pose2d(); // pose place SECOND note close to blue line
+				public static final Pose2d t1p6 = new Pose2d(); // pose THIRD note in the middle of field
+				public static final Pose2d t1p7 = new Pose2d(); // pose place THIRD note close to blue line
+				public static final Pose2d t1p8 = new Pose2d(); // pose FOURTH note in the middle of field
+				public static final Pose2d t1p9 = new Pose2d(); // pose place FOURTH note close to blue line
+				public static final Pose2d t1p10 = new Pose2d(); // pose FIFTH note in the middle of field
+				public static final Pose2d t1p11 = new Pose2d(); // pose place FIFTH note close to blue line [END POSE]
+			}
+
+
+			public static final class BlueSpeakerTopSideConstants {
+				public static final double yaw = 60;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(); // start pose and shoot
+				public static final Pose2d t1p2 = new Pose2d(); // pose FIRST note in the middle of field
+				public static final Pose2d t1p3 = new Pose2d(); // pose place FIRST note close to blue line
+				public static final Pose2d t1p4 = new Pose2d(); // pose SECOND note in the middle of field
+				public static final Pose2d t1p5 = new Pose2d(); // pose place SECOND note close to blue line
+				public static final Pose2d t1p6 = new Pose2d(); // pose THIRD note in the middle of field
+				public static final Pose2d t1p7 = new Pose2d(); // pose place THIRD note close to blue line
+				public static final Pose2d t1p8 = new Pose2d(); // pose FOURTH note in the middle of field
+				public static final Pose2d t1p9 = new Pose2d(); // pose place FOURTH note close to blue line
+				public static final Pose2d t1p10 = new Pose2d(); // pose FIFTH note in the middle of field
+				public static final Pose2d t1p11 = new Pose2d(); // pose place FIFTH note close to blue line [END POSE]
+			}
+
+			public static final class RedSpeakerBottomSideConstants {
+				public static final double yaw = 120;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(); // start pose and shoot
+				public static final Pose2d t1p2 = new Pose2d(); // pose FIRST note in the middle of field
+				public static final Pose2d t1p3 = new Pose2d(); // pose place FIRST note close to blue line
+				public static final Pose2d t1p4 = new Pose2d(); // pose SECOND note in the middle of field
+				public static final Pose2d t1p5 = new Pose2d(); // pose place SECOND note close to blue line
+				public static final Pose2d t1p6 = new Pose2d(); // pose THIRD note in the middle of field
+				public static final Pose2d t1p7 = new Pose2d(); // pose place THIRD note close to blue line
+				public static final Pose2d t1p8 = new Pose2d(); // pose FOURTH note in the middle of field
+				public static final Pose2d t1p9 = new Pose2d(); // pose place FOURTH note close to blue line
+				public static final Pose2d t1p10 = new Pose2d(); // pose FIFTH note in the middle of field
+				public static final Pose2d t1p11 = new Pose2d(); // pose place FIFTH note close to blue line [END POSE]
+			}
+
+
+			public static final class RedSpeakerTopSideConstants {
+				public static final double yaw = -120;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(); // start pose and shoot
+				public static final Pose2d t1p2 = new Pose2d(); // pose FIRST note in the middle of field
+				public static final Pose2d t1p3 = new Pose2d(); // pose place FIRST note close to blue line
+				public static final Pose2d t1p4 = new Pose2d(); // pose SECOND note in the middle of field
+				public static final Pose2d t1p5 = new Pose2d(); // pose place SECOND note close to blue line
+				public static final Pose2d t1p6 = new Pose2d(); // pose THIRD note in the middle of field
+				public static final Pose2d t1p7 = new Pose2d(); // pose place THIRD note close to blue line
+				public static final Pose2d t1p8 = new Pose2d(); // pose FOURTH note in the middle of field
+				public static final Pose2d t1p9 = new Pose2d(); // pose place FOURTH note close to blue line
+				public static final Pose2d t1p10 = new Pose2d(); // pose FIFTH note in the middle of field
+				public static final Pose2d t1p11 = new Pose2d(); // pose place FIFTH note close to blue line [END POSE]
+			}
 		}
 
+		public static final class ShootThirdNoteFromMiddle {	//t,b
+			public static final class BlueSpeakerBottomSideConstants {
+				public static final double yaw = -60;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(); // shoot preloaded note [start pose]
+				public static final Pose2d t1p2 = new Pose2d(); // pick up and shoot middle note [end pose]
+			}
+
+			public static final class BlueSpeakerTopSideConstants {
+				public static final double yaw = 60;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(); // shoot preloaded note [start pose]
+				public static final Pose2d t1p2 = new Pose2d(); // pick up and shoot middle note [end pose]
+			}
+
+			public static final class RedSpeakerBottomSideConstants {
+				public static final double yaw = 120;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(); // shoot preloaded note [start pose]
+				public static final Pose2d t1p2 = new Pose2d(); // pick up and shoot middle note [end pose]
+			}
+
+			public static final class RedSpeakerTopSideConstants {
+				public static final double yaw = -120;
+				public static final double angle = 0.0; // TODO : figure this out lol
+				public static final double power = 0.0;
+				public static final double speedTolerance = 0.1;
+				public static final double angleTolerance = 1.0;
+
+				// Poses for start/end of the trajectory
+				public static final Pose2d t1p1 = new Pose2d(); // shoot preloaded note [start pose]
+				public static final Pose2d t1p2 = new Pose2d(); // pick up and shoot middle note [end pose]
+			}
+		}
 
 	}
 }

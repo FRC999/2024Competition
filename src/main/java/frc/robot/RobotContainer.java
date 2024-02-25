@@ -11,8 +11,10 @@ import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
 import frc.robot.commands.ArmStop;
+import frc.robot.commands.ArmTurnToAngle;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.DriveManuallyCommand;
+import frc.robot.commands.IntakeGrabNote;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.PosePrinter;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
@@ -202,6 +204,10 @@ public class RobotContainer {
     if (DebugTelemetrySubsystems.calibrateArm) {
         calibrateArmPowerFF();
     }
+
+    //testIntake();
+    testArm();
+    
   }
 
   // Driver preferred controls
@@ -455,16 +461,25 @@ public class RobotContainer {
 
   public void testIntake() {
       new JoystickButton(driveStick, 3)
-              .whileTrue(new InstantCommand(() -> RobotContainer.intakeSubsystem.runIntake(0.2)))
+              .whileTrue(new InstantCommand(() -> RobotContainer.intakeSubsystem.runIntake(0.5)))
+              .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
+      new JoystickButton(driveStick, 4)
+              .whileTrue(new InstantCommand(() -> RobotContainer.intakeSubsystem.runIntake(-0.5)))
+              .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
+      new JoystickButton(driveStick, 11)
+              .whileTrue(new IntakeGrabNote())
               .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
   }
 
   public void testArm() {
       new JoystickButton(driveStick, 3)
-              .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(0.2)))
+              .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(-0.007)))
               .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
       new JoystickButton(driveStick, 4)
-              .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(-0.2)))
+              .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(-0.02)))
+              .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
+      new JoystickButton(driveStick, 11)
+              .whileTrue(new ArmTurnToAngle( ()-> -10.0 ))
               .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
   }
 
