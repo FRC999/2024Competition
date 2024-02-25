@@ -21,6 +21,11 @@ import frc.robot.commands.IntakeStop;
 import frc.robot.commands.PosePrinter;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.commands.ShooterStop;
+import frc.robot.commands.ShooterToSpeed;
+import frc.robot.commands.ShootingGPM0Sequence;
+import frc.robot.commands.ShootingGPM60Sequence;
+import frc.robot.commands.StopAllMotorsCommand;
+import frc.robot.lib.GPMHelpers;
 import frc.robot.commands.AutonomousTrajectory2PosesDynamic;
 import frc.robot.commands.CalibrateArmPowerFF;
 import frc.robot.commands.CalibrateIntakePower;
@@ -68,6 +73,8 @@ public class RobotContainer {
   public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
   //public final static SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
+
+  public final static GPMHelpers gpmHelpers = new GPMHelpers();
   public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public final static ArmSubsystem armSubsystem = new ArmSubsystem();
@@ -79,7 +86,8 @@ public class RobotContainer {
   public final static LLDetectorSubsystem llDetectorSubsystem = new LLDetectorSubsystem();
   public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
   
-  public static Controller xboxController;
+  public static Controller xboxDriveController;
+  public static Controller xboxGPMController;
 
   public static Controller driveStick; // for robot testing only
   public static Controller driveStick1; // for robot testing only
@@ -141,7 +149,8 @@ public class RobotContainer {
         driveStick3 = new Controller(ControllerDevice.DRIVESTICK3);
 
       //turnStick = new Controller(ControllerDevice.TURNSTICK);   // disable joysticks for driver practice code
-      xboxController = new Controller(ControllerDevice.XBOX_CONTROLLER);
+      xboxDriveController = new Controller(ControllerDevice.XBOX_CONTROLLER);
+      xboxGPMController = new Controller(ControllerDevice.XBOX_CONTROLLER_GPM);
       // bbl = new Joystick(OIConstants.bblPort);
       // bbr = new Joystick(OIConstants.bbrPort);
 
@@ -207,25 +216,25 @@ public class RobotContainer {
         calibrateArmPowerFF();
     }
 
-    testIntake();
-    testArm();
+    //testIntake();
+    //testArm();
     
   }
 
   // Driver preferred controls
   private double getDriverXAxis() {
     //return -xboxController.getLeftStickY();
-    return -xboxController.getRightStickY();
+    return -xboxDriveController.getRightStickY();
   }
 
   private double getDriverYAxis() {
     //return -xboxController.getLeftStickX();
-    return -xboxController.getRightStickX();
+    return -xboxDriveController.getRightStickX();
   }
 
   private double getDriverOmegaAxis() {
     //return -xboxController.getLeftStickOmega();
-    return xboxController.getLeftStickX();
+    return -xboxDriveController.getLeftStickX() * 0.6;
   }
 
     /**
@@ -239,7 +248,7 @@ public class RobotContainer {
    * @return - true if robot-centric swerve should be used
    */
   private boolean getDriverFieldCentric() {
-      return !xboxController.getRawButton(OIConstants.robotCentricButton);
+      return !xboxDriveController.getRawButton(OIConstants.robotCentricButton);
   }
 
   /**
@@ -504,6 +513,40 @@ public class RobotContainer {
       new JoystickButton(driveStick, 4)
               .whileTrue(new ClimbDown())
               .onFalse(new ClimbStop());
+  }
+
+
+
+  public void competitionCommandsForDriverController() {
+    
+    //R2 on driver xbox -  intake grab note
+    new Trigger(() -> xboxDriveController.getRawAxis(3) > 0.3)
+        .onTrue(new IntakeGrabNote())
+        .onFalse(new IntakeStop());
+    
+  }
+
+  public void competitionCommandsForGPMController() {
+
+    //L2 on gpm xbox - manual shoot
+    //new Trigger(() -> xboxGPMController.getRawAxis(2) > 0.3)
+    //    .onTrue(new ShooterToSpeed())
+    //    .onFalse(new ShooterStop());
+
+    // ======== GPM 0 Sequences
+    
+    /* 
+    new JoystickButton(xboxGPMController, 2)
+        .whileTrue(new ShootingGPM0Sequence(0.0));  //close distance
+    new JoystickButton(xboxGPMController, 4)
+        .whileTrue(new ShootingGPM0Sequence(2.0));  //mid distance
+    new JoystickButton(xboxGPMController, 3)
+        .whileTrue(new ShootingGPM0Sequence(4.0));  //far distance
+    */
+
+    // ======== GPM 60 Sequences    
+
+
   }
 
   Pose2d testPoseSupplier(double x, double y, double angle) {

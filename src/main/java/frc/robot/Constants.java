@@ -42,16 +42,16 @@ public final class Constants {
 	public static final class DebugTelemetrySubsystems {
 		
 		public static final boolean odometry = false;
-		public static final boolean imu = true;
+		public static final boolean imu = false;
 
-		public static final boolean arm = true;
-		public static final boolean intake = true;
+		public static final boolean arm = false;
+		public static final boolean intake = false;
 		public static final boolean shooter = false;
 
 		// Calibration-only methods
-		public static final boolean calibrateArm = true;
-		public static final boolean calibrateIntake = true;
-		public static final boolean calibrateShooter = true;
+		public static final boolean calibrateArm = false;
+		public static final boolean calibrateIntake = false;
+		public static final boolean calibrateShooter = false;
 
 		
 	}
@@ -770,7 +770,17 @@ public final class Constants {
 					0.03, // deadband Y for Xbox //TODO: ALL DEADBAND FOR XBOX IS PLACEHOLDER
 					0.03, // deadband Omega for Xbox
 					false, // No cube controller configuration for Xbox yet
+					false),
+
+			XBOX_CONTROLLER_GPM(
+					4, // Port Number for Xbox controller
+					ControllerDeviceType.XBOX,
+					0.03, // deadband X for Xbox
+					0.03, // deadband Y for Xbox //TODO: ALL DEADBAND FOR XBOX IS PLACEHOLDER
+					0.03, // deadband Omega for Xbox
+					false, // No cube controller configuration for Xbox yet
 					false);
+
 
 			private ControllerDeviceType controllerDeviceType;
 			private int portNumber;
