@@ -64,7 +64,7 @@ public final class Constants {
 			public static final boolean INTAKE_INVERTED = true; // positive power - note in
 			//public static final double INTAKE_NEUTRAL_DEADBAND = 0.001;
 			//public static final int INTAKE_TIMEOUT = 30; //in ms
-			public static final double INTAKE_NOTE_GRAB_POWER = 0.5;
+			public static final double INTAKE_NOTE_GRAB_POWER = 0.7;
 			public static final double INTAKE_NOTE_FORWARD_POWER = 0.5;
 			public static final double INTAKE_NOTE_SPEW_POWER = 0.5;
 
@@ -176,11 +176,11 @@ public final class Constants {
 
 			public static final class ArmPIDConstants {
 
-				public static final double kP = 0.05;
+				public static final double kP = 0.2;
 				public static final double kI = 0.000;
-				public static final double kD = 0.00;
+				public static final double kD = 1.5;
 				public static final double kF = 0;
-				public static final double kMaxOutput = 0.05;
+				public static final double kMaxOutput = 0.2;
 				public static final double Acceleration = 6750; // raw sensor units per 100 ms per second
 				public static final double CruiseVelocity = 6750; // raw sensor units per 100 ms
 				public static final int Smoothing = 3; // CurveStrength. 0 to use Trapezoidal Motion Profile. [1,8] for

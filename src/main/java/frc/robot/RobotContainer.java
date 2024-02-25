@@ -10,6 +10,8 @@ import frc.robot.Constants.OIConstants.ControllerDevice;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
+import frc.robot.commands.ArmHoldCurrentPositionWithPID;
+import frc.robot.commands.ArmRelease;
 import frc.robot.commands.ArmStop;
 import frc.robot.commands.ArmTurnToAngle;
 import frc.robot.commands.AutonomousTrajectory2Poses;
@@ -205,7 +207,7 @@ public class RobotContainer {
         calibrateArmPowerFF();
     }
 
-    //testIntake();
+    testIntake();
     testArm();
     
   }
@@ -460,24 +462,33 @@ public class RobotContainer {
   }
 
   public void testIntake() {
-      new JoystickButton(driveStick, 3)
+
+
+
+      new JoystickButton(driveStick2, 3)
               .whileTrue(new InstantCommand(() -> RobotContainer.intakeSubsystem.runIntake(0.5)))
               .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
-      new JoystickButton(driveStick, 4)
+      new JoystickButton(driveStick2, 4)
               .whileTrue(new InstantCommand(() -> RobotContainer.intakeSubsystem.runIntake(-0.5)))
               .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
-      new JoystickButton(driveStick, 11)
+      new JoystickButton(driveStick2, 11)
               .whileTrue(new IntakeGrabNote())
               .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
   }
 
   public void testArm() {
+
+      new JoystickButton(driveStick, 2)
+              .whileTrue(new ArmRelease());
+
       new JoystickButton(driveStick, 3)
-              .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(-0.007)))
-              .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
+              .onTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(0.04),armSubsystem))
+              .onFalse(new ArmHoldCurrentPositionWithPID());
+              //.onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
       new JoystickButton(driveStick, 4)
-              .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(-0.02)))
-              .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
+              .onTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(-0.04),armSubsystem))
+              .onFalse(new ArmHoldCurrentPositionWithPID());
+              //.onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
       new JoystickButton(driveStick, 11)
               .whileTrue(new ArmTurnToAngle( ()-> -10.0 ))
               .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));

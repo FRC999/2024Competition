@@ -236,8 +236,15 @@ public class ArmSubsystem extends SubsystemBase {
         (Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero,
            ControlType.kPosition);
 
-    System.out.println("AENC-FIN:"+((Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero));
+    //System.out.println("AENC-FIN:"+((Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero));
   }
+
+   public void setArmMotorEncoder(double position) {
+    // hold position for encoder value
+    armMotorLeader.getPIDController().setReference(
+        position,
+           ControlType.kPosition);
+  } 
 
   public void stopArmPID() {
     armMotorLeader.getPIDController().setReference((0), ControlType.kVoltage);
@@ -258,9 +265,9 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void stopArmMotors() {
-    armMotorLeader.set(0);
-    //armMotorLeft.set(0);
-    //armMotorRight.set(0);
+    //armMotorLeader.set(0);
+    armMotorLeft.set(0);
+    armMotorRight.set(0);
   }
 
   public double getLeftArmMotorEncoder() {
