@@ -11,7 +11,6 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
@@ -211,10 +210,10 @@ public final class Constants {
 			public static final double rampRate = 0.25;
 
 			// TODO: Calibrate all these angles
-			public static final double ARM_MIN_ANGLE = 0;
-			public static final double ARM_MAX_ANGLE = 95;
-			public static final double ARM_INTAKE_ANGLE = 0;
-			public static final double ARM_AMP_ANGLE = 95;
+			public static final double ARM_MIN_ANGLE = -82.0;
+			public static final double ARM_MAX_ANGLE = 15.0;
+			public static final double ARM_INTAKE_ANGLE = -82.0;
+			public static final double ARM_AMP_ANGLE = 15.0;
 		}
 
 	}
