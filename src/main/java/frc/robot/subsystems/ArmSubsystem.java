@@ -11,6 +11,7 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -129,6 +130,11 @@ public class ArmSubsystem extends SubsystemBase {
     // sets which motor is the leader and follower; set follower inversion if needed
     if (c.getArmMotorFollower()) {
       motor.follow(motorToFollow,c.getArmMotorInverted());
+
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 250);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 250);
+
     } else {
 
       System.out.println("*** Set Arm Leader " + motor.getDeviceId());
@@ -136,6 +142,12 @@ public class ArmSubsystem extends SubsystemBase {
       armMotorLeader = motor;
       armEncoderLeader = motor.getEncoder();
       armPidControllerLeader = p;
+
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 25);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 50);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
+
+
     }
 
     // --- PID Setup

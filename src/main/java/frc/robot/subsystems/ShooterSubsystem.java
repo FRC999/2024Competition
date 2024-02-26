@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -96,8 +97,18 @@ public class ShooterSubsystem extends SubsystemBase {
     // sets which motor is the leader and follower; set follower inversion if needed
     if (c.getShooterMotorFollower()) {
       motor.follow(motorToFollow,c.getShooterMotorInverted());
+
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 250);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 250);
+
     } else {
       shooterMotorLeader = motor;
+
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 25);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 50);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
+
     }
 
     // PID Controller setup
