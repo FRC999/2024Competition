@@ -17,13 +17,16 @@ import frc.robot.commands.ArmTurnToAngle;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.IntakeGrabNote;
+import frc.robot.commands.IntakeRun;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.PosePrinter;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.commands.ShooterStop;
 import frc.robot.commands.ShooterToSpeed;
+import frc.robot.commands.ShootingAmpSequence;
 import frc.robot.commands.ShootingGPM0Sequence;
 import frc.robot.commands.ShootingGPM60Sequence;
+import frc.robot.commands.ShootingSequenceManual;
 import frc.robot.commands.StopAllMotorsCommand;
 import frc.robot.lib.GPMHelpers;
 import frc.robot.commands.AutonomousTrajectory2PosesDynamic;
@@ -54,6 +57,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -173,8 +178,6 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    helperButtons();
-
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     //new Trigger(m_exampleSubsystem::exampleCondition)
     //    .onTrue(new ExampleCommand(m_exampleSubsystem));
@@ -218,6 +221,10 @@ public class RobotContainer {
 
     //testIntake();
     //testArm();
+
+    // Mohawk, practice and competition
+    competitionCommandsForDriverController();
+    competitionCommandsForGPMController();
     
   }
 
@@ -516,48 +523,76 @@ public class RobotContainer {
   }
 
 
+  // =========================================
+  // === Competition and driver training binds
+  // =========================================
 
   public void competitionCommandsForDriverController() {
-    
-    //R2 on driver xbox -  intake grab note
+
+    // START button on the DRIVE controller - reset YAW to 0  
+    new JoystickButton(xboxDriveController, 8)
+        .onTrue(new InstantCommand(RobotContainer.imuSubsystem::zeroYaw));
+
+    // R2 on driver xbox - intake grab note
     new Trigger(() -> xboxDriveController.getRawAxis(3) > 0.3)
         .onTrue(new IntakeGrabNote())
         .onFalse(new IntakeStop());
-    
+
   }
 
   public void competitionCommandsForGPMController() {
 
-    //L2 on gpm xbox - manual shoot
-    //new Trigger(() -> xboxGPMController.getRawAxis(2) > 0.3)
-    //    .onTrue(new ShooterToSpeed())
-    //    .onFalse(new ShooterStop());
+      // Shooting amp
+      new JoystickButton(xboxGPMController, 1) // Button A - double-check
+              .onTrue(new ShootingAmpSequence())
+              .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
 
-    // ======== GPM 0 Sequences
-    
-    /* 
-    new JoystickButton(xboxGPMController, 2)
-        .whileTrue(new ShootingGPM0Sequence(0.0));  //close distance
-    new JoystickButton(xboxGPMController, 4)
-        .whileTrue(new ShootingGPM0Sequence(2.0));  //mid distance
-    new JoystickButton(xboxGPMController, 3)
-        .whileTrue(new ShootingGPM0Sequence(4.0));  //far distance
-    */
+      // Shooting Speaker Close Range
+      new JoystickButton(xboxGPMController, 2) // Button B
+              .onTrue(new ShootingGPM0Sequence(0))
+              .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
 
-    // ======== GPM 60 Sequences    
+      // Shooting Speaker Mid Range
+      new JoystickButton(xboxGPMController, 3) // Button X
+              .onTrue(new ShootingGPM0Sequence(2))
+              .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
 
+    // Shooting Speaker Far Range
+    new JoystickButton(xboxGPMController, 4)    // Button Y
+        .onTrue(new ShootingGPM0Sequence(3.5))
+        .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
+
+    // L1 + L-DOWN = run arm DOWN manually 0.5 speed
+    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawAxis(9) < -0.3) ))
+        .onTrue(new StartEndCommand(() -> armSubsystem.runArmMotors(-0.5) ,
+            () -> {    double currentPosition = armSubsystem.getArmEncoderLeader();
+                armSubsystem.stopArmMotors();
+                armSubsystem.setArmMotorEncoder(currentPosition);} ,
+            armSubsystem))
+        .onFalse(new ArmHoldCurrentPositionWithPID());
+
+    // L1 + L-UP = run arm UP manually 0.5 speed
+    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawAxis(9) > 0.3) ))
+        .onTrue(new StartEndCommand(() -> armSubsystem.runArmMotors(0.5) ,
+            () -> {    double currentPosition = RobotContainer.armSubsystem.getArmEncoderLeader();
+                RobotContainer.armSubsystem.stopArmMotors();
+                RobotContainer.armSubsystem.setArmMotorEncoder(currentPosition);} ,
+            armSubsystem))
+        .onFalse(new ArmHoldCurrentPositionWithPID());
+
+    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawAxis(2) > 0.3) ) )
+        .onTrue(new ShootingSequenceManual()) // Manual shooting sequence - 2m parameters
+        .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmHoldCurrentPositionWithPID()));
 
   }
+
+  // =========================================
 
   Pose2d testPoseSupplier(double x, double y, double angle) {
       return new Pose2d(x, y, new Rotation2d().fromDegrees(angle));
   }
 
-  public void helperButtons() {
-      new JoystickButton(driveStick, 12)
-              .onTrue(new InstantCommand(RobotContainer.imuSubsystem::zeroYaw));
 
-  }
 
   // GPM Calibration
 
