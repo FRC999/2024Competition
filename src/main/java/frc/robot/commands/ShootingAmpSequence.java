@@ -18,10 +18,12 @@ public class ShootingAmpSequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // Spin the shooter first
-      new ShooterToSpeed(RobotContainer.gpmHelpers.getShooterPowerTouchingAmp()),
+      new WaitCommand(0.1).raceWith(
+       new ShooterToSpeed(RobotContainer.gpmHelpers.getShooterPowerTouchingAmp())
+      ),
       // Arm to angle, minimum wait 1.5s to the next step
       new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getAngleTouchingAmp()).
-          alongWith(new WaitCommand(1.5)),
+          alongWith(new WaitCommand(0.8)),
       // push note to shooter
       new IntakeRun(RobotContainer.gpmHelpers.getIntakePowerTouchingAmp()),
       // wait until the shooting is done

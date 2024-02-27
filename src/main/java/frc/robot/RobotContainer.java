@@ -535,8 +535,8 @@ public class RobotContainer {
 
     // R2 on driver xbox - intake grab note
     new Trigger(() -> xboxDriveController.getRawAxis(3) > 0.3)
-        .onTrue(new IntakeGrabNote())
-        .onFalse(new IntakeStop());
+        .onTrue(new IntakeGrabNote().alongWith(new ArmTurnToAngle(() -> -83)))
+        .onFalse(new IntakeStop().andThen(new ArmRelease()));
 
   }
 
@@ -559,7 +559,7 @@ public class RobotContainer {
 
     // Shooting Speaker Far Range
     new JoystickButton(xboxGPMController, 4)    // Button Y
-        .onTrue(new ShootingGPM0Sequence(3.5))
+        .onTrue(new ShootingGPM0Sequence(3.0))
         .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
 
     // L1 + L-DOWN = run arm DOWN manually 0.5 speed
