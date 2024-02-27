@@ -143,7 +143,7 @@ public class ArmSubsystem extends SubsystemBase {
       armEncoderLeader = motor.getEncoder();
       armPidControllerLeader = p;
 
-      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 25);
+      //motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 25);
       motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 50);
       motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
 
