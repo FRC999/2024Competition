@@ -22,7 +22,9 @@ public class IntakeGrabNote extends SequentialCommandGroup {
     addCommands(
       new PrintCommand("Grabbing Note..."),
       new IntakeRun(Intake.INTAKE_NOTE_GRAB_POWER).until(RobotContainer.intakeSubsystem::isNoteInIntake),
-      new IntakeStop()
+      new IntakeStop(),
+      new ControllerRumbleCommandDriver(0.25) // rumble driver controller if got the note in
+        .onlyIf(RobotContainer.intakeSubsystem::isNoteInIntake)
     );
   }
 }
