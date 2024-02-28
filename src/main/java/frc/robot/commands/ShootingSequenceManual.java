@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotContainer;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -17,11 +18,15 @@ public class ShootingSequenceManual extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new ShooterToSpeed(RobotContainer.gpmHelpers.getGPM0ShooterPower(2.0))
-            .alongWith(new WaitCommand(1.5)),
+        new ShooterToSpeed(RobotContainer.gpmHelpers.getGPM0ShooterPower(0))
+            .alongWith(new WaitCommand(0.1)),
         new IntakeRun(RobotContainer.gpmHelpers.getGPM0ShooterPower(
-            RobotContainer.gpmHelpers.getGPM0IntakePower(2.0))),
+            RobotContainer.gpmHelpers.getGPM0IntakePower(0))),
         // wait until the shooting is done
-        new WaitCommand(1.5));
+        new WaitCommand(1.5).raceWith(    
+          new WaitUntilCommand( () -> ! RobotContainer.intakeSubsystem.isNoteInIntake() )
+            .andThen(new WaitCommand(0.3))
+        )
+    );
   }
 }

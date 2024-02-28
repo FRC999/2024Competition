@@ -563,7 +563,7 @@ public class RobotContainer {
         .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
 
     // L1 + L-DOWN = run arm DOWN manually 0.5 speed
-    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawAxis(9) < -0.3) ))
+    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawAxis(1) > 0.3) ))
         .onTrue(new StartEndCommand(() -> armSubsystem.runArmMotors(-0.5) ,
             () -> {    double currentPosition = armSubsystem.getArmEncoderLeader();
                 armSubsystem.stopArmMotors();
@@ -572,7 +572,7 @@ public class RobotContainer {
         .onFalse(new ArmHoldCurrentPositionWithPID());
 
     // L1 + L-UP = run arm UP manually 0.5 speed
-    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawAxis(9) > 0.3) ))
+    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawAxis(1) < -0.3) ))
         .onTrue(new StartEndCommand(() -> armSubsystem.runArmMotors(0.5) ,
             () -> {    double currentPosition = RobotContainer.armSubsystem.getArmEncoderLeader();
                 RobotContainer.armSubsystem.stopArmMotors();
@@ -580,6 +580,7 @@ public class RobotContainer {
             armSubsystem))
         .onFalse(new ArmHoldCurrentPositionWithPID());
 
+    // Manual shooting with 0-distance power; no arm - pivot it separately
     new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawAxis(2) > 0.3) ) )
         .onTrue(new ShootingSequenceManual()) // Manual shooting sequence - 2m parameters
         .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmHoldCurrentPositionWithPID()));
