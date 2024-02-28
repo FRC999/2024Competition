@@ -135,6 +135,8 @@ public final class Constants {
 			public static final int shooterMotorCurrentLimit = 40;
 			public static final double positionConversionFactor = 0;
 			public static final double rampRate = 0.25;
+
+			public static final double speedTolerance = 0.1;
 		}
 
 
@@ -902,13 +904,24 @@ public final class Constants {
 
 	public static final class AutoConstants {
 
-		public static final class BlueSpeakerBottomSideConstants {
-				public static final double yaw = -60;
-				public static final double angle = 0.0; // TODO : figure this out lol
-				public static final double power = 0.0;
-				public static final double speedTolerance = 0.1;
-				public static final double angleTolerance = 1.0;
+		public static enum autoPoses {	// important poses
+			BLUE_SPEAKER_HIGHER (0.914, 6.764, 60),
+			BLUE_SPEAKER_MID (0.914, 5.540, 0),
+			BLUE_SPEAKER_LOWER (0.914, 4.315, -60),
+			BLUE_HIGHER_POS_OUT(3.25, 7.1,0),
+			BLUE_LOWER_POS_OUT (3.25, 1.312, 0)
+			;
+			private Pose2d pose;
 
+			autoPoses(double x, double y, double angle) {
+				this.pose = new Pose2d(x, y, Rotation2d.fromDegrees(angle));
+			}
+			public Pose2d getPose() {
+				return pose;
+			}
+		}
+
+		public static final class BlueSpeakerBottomSideConstants {
 				// Poses for start/end of the trajectory
 				public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, new Rotation2d().fromDegrees(300));
 				public static final Pose2d t1p2 = new Pose2d(3.25, 0.80, new Rotation2d(0));

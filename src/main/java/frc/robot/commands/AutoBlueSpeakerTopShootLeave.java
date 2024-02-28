@@ -8,9 +8,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants.BlueSpeakerBottomSideConstants;
 import frc.robot.Constants.AutoConstants.BlueSpeakerTopSideConstants;
+import frc.robot.Constants.AutoConstants.autoPoses;
 import frc.robot.RobotContainer;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -25,10 +27,14 @@ public class AutoBlueSpeakerTopShootLeave extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(BlueSpeakerTopSideConstants.yaw)), //steps to shoot preloaded note into speaker
-      new ArmToAngleCommand(Constants.AutoConstants.BlueSpeakerTopSideConstants.angle),
-      new ShooterToSpeed(Constants.AutoConstants.BlueSpeakerTopSideConstants.power),
-      new RunTrajectorySequenceRobotAtStartPoint("BlueSpeakerBottomShootLeavePath") //this will be our trajectory where we go from (0.46, ) to (3.25, ) to leave community
+      new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(
+          autoPoses.BLUE_SPEAKER_HIGHER.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
+      new WaitCommand(20).deadlineWith(
+        new ShootingGPM0Sequence(0)),   // shoot
+      new AutonomousTrajectory2Poses(
+        autoPoses.BLUE_SPEAKER_HIGHER.getPose(),
+        autoPoses.BLUE_LOWER_POS_OUT.getPose()
+      )  //this will be our trajectory where we go from (0.46, 4.722478) to (3.25, 0.8) to leave community
     );
   }
 }

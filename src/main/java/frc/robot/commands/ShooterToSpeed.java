@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.GPMConstants.Shooter;
 
 public class ShooterToSpeed extends Command {
 
@@ -39,6 +40,6 @@ public class ShooterToSpeed extends Command {
   @Override
   public boolean isFinished() {
     return Math.abs(RobotContainer.shooterSubsystem.getRightShooterMotorVelocity() - speed)
-       <= Constants.AutoConstants.BlueSpeakerBottomSideConstants.speedTolerance;
+       <= Shooter.speedTolerance;
   }
 }

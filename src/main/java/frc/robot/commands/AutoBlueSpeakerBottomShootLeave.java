@@ -14,6 +14,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.AutoConstants.BlueSpeakerBottomSideConstants;
+import frc.robot.Constants.AutoConstants.autoPoses;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -21,17 +22,18 @@ import frc.robot.Constants.AutoConstants.BlueSpeakerBottomSideConstants;
 public class AutoBlueSpeakerBottomShootLeave extends SequentialCommandGroup {
   /** Creates a new AutoBlueSpeakerBottomShootLeave. */
 
-  private Pose2d startPose = new Pose2d(0.914, 4.315, new Rotation2d().fromDegrees(-60));
-  private Pose2d endPose = new Pose2d(3.25, 1.312, new Rotation2d().fromDegrees(-60));
-
   public AutoBlueSpeakerBottomShootLeave() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-      new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(BlueSpeakerBottomSideConstants.yaw)), //steps to shoot preloaded note into speaker
-      new ArmToAngleCommand(Constants.AutoConstants.BlueSpeakerBottomSideConstants.angle),
-      new WaitCommand(5.0).deadlineWith(new ShooterToSpeed(Constants.AutoConstants.BlueSpeakerBottomSideConstants.power)),
-      new AutonomousTrajectory2Poses(startPose, endPose)  //this will be our trajectory where we go from (0.46, 4.722478) to (3.25, 0.8) to leave community
+    addCommands(  //steps to shoot preloaded note into speaker
+      new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(
+          autoPoses.BLUE_SPEAKER_LOWER.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
+      new WaitCommand(20).deadlineWith(
+        new ShootingGPM0Sequence(0)),   // shoot
+      new AutonomousTrajectory2Poses(
+        autoPoses.BLUE_SPEAKER_LOWER.getPose(),
+        autoPoses.BLUE_LOWER_POS_OUT.getPose()
+      )  //this will be our trajectory where we go from (0.46, 4.722478) to (3.25, 0.8) to leave community
       
     );
 
