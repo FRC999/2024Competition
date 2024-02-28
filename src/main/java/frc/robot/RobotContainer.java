@@ -617,8 +617,6 @@ public class RobotContainer {
               .onFalse(new ArmStop());
   }
 
-
-
   public void checkAllianceColor() {
     SmartDashboard.putString("AllianceColor", DriverStation.getAlliance().toString());
   }

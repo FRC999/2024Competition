@@ -1315,7 +1315,7 @@ public final class Constants {
 
 	public class CANdleConstants {
 
-		public static final int CANdlePort = 6;
+		public static final int CANdleCANID = 60;
 		public static final int LedCount = 8+16; // 8 on the controller + 8x32 panel
 		public static final int MaxBrightnessAngle = 90;
 		public static final int MidBrightnessAngle = 180;

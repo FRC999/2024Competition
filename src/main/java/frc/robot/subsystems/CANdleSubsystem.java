@@ -40,7 +40,7 @@ public class CANdleSubsystem extends SubsystemBase {
 
     System.out.println("Initializing CANdle");
 
-    candle = new CANdle(CANdleConstants.CANdlePort);
+    candle = new CANdle(CANdleConstants.CANdleCANID);
 
   }
 
