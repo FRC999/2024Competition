@@ -37,6 +37,7 @@ public final class Constants {
 		public static final boolean intake = true;
 		public static final boolean shooter = true;
 		public static final boolean climber = false;
+		public static final boolean candle = false;
 	}
 
 	public static final class DebugTelemetrySubsystems {
@@ -1309,6 +1310,16 @@ public final class Constants {
 				public static final Pose2d t1p2 = new Pose2d(); // pick up and shoot middle note [end pose]
 			}
 		}
+
+	}
+
+	public class CANdleConstants {
+
+		public static final int CANdlePort = 6;
+		public static final int LedCount = 8+16; // 8 on the controller + 8x32 panel
+		public static final int MaxBrightnessAngle = 90;
+		public static final int MidBrightnessAngle = 180;
+		public static final int ZeroBrightnessAngle = 270;
 
 	}
 }

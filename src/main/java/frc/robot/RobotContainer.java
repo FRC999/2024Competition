@@ -38,6 +38,7 @@ import frc.robot.commands.ClimbStop;
 import frc.robot.commands.ClimbUp;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CANdleSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -89,6 +90,7 @@ public class RobotContainer {
   public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
   public final static PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem(PhotonVisionConstants.PVCameraName);
   public final static LLDetectorSubsystem llDetectorSubsystem = new LLDetectorSubsystem();
+  public final static CANdleSubsystem candleSubsystem = new CANdleSubsystem();
   public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
   
   public static Controller xboxDriveController;
