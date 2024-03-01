@@ -84,6 +84,10 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveModuleState[] swerveModuleStates;
 
     if (fieldcentric) { // field-centric swerve
+      if (RobotContainer.isAlianceRed && RobotContainer.isReversingControllerAndIMUForRed)  { // On red alliance reverse X and Y directions to preserve BLUE coordinate system
+        xVelocity_m_per_s = -xVelocity_m_per_s;
+        yVelocity_m_per_s = -yVelocity_m_per_s;
+      }
       swerveModuleStates = SwerveChassis.SWERVE_KINEMATICS.toSwerveModuleStates(
           ChassisSpeeds.fromFieldRelativeSpeeds(
               xVelocity_m_per_s,

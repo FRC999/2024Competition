@@ -104,6 +104,15 @@ public class RobotContainer {
   // A Data Log Manager file handle
   public static StringLogEntry myStringLog;
 
+  // ========================================
+  // === Variables for the alliance color ===
+  // ========================================
+  // If Apriltag detection is in place, need to track joystick directions in reverse so
+  // from the RED alliance side the forward is back, right is left, and IMU is + 180 degrees
+
+  public static boolean isAlianceRed = false;
+  public static boolean isReversingControllerAndIMUForRed = true;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -595,8 +604,6 @@ public class RobotContainer {
       return new Pose2d(x, y, new Rotation2d().fromDegrees(angle));
   }
 
-
-
   // GPM Calibration
 
   public void calibrateShooterPower() {
@@ -617,8 +624,21 @@ public class RobotContainer {
               .onFalse(new ArmStop());
   }
 
+  // Aliiance color determination
   public void checkAllianceColor() {
     SmartDashboard.putString("AllianceColor", DriverStation.getAlliance().toString());
   }
 
+  public static void setIfAllianceRed() {
+    var alliance = DriverStation.getAlliance();
+    if (! alliance.isPresent()) {
+        System.out.println("=== !!! Alliance not present !!! === Staying with the BLUE system");
+    } else {
+        isAlianceRed = alliance.get() == DriverStation.Alliance.Red;
+        System.out.println("*** RED Alliance: "+isAlianceRed);
+    }
+  }
+  public static void toggleReversingControllerAndIMUForRed() {
+    isReversingControllerAndIMUForRed = !isReversingControllerAndIMUForRed;
+  }
 }

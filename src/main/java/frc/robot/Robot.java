@@ -83,6 +83,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    // Set alliance color before periodic
+    RobotContainer.setIfAllianceRed(); // check if red alliance
   }
 
   /** This function is called periodically during operator control. */
