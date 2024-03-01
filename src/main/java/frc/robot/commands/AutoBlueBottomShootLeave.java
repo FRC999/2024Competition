@@ -19,16 +19,16 @@ import frc.robot.Constants.AutoConstants.autoPoses;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoBlueSpeakerBottomShootLeave extends SequentialCommandGroup {
+public class AutoBlueBottomShootLeave extends SequentialCommandGroup {
   /** Creates a new AutoBlueSpeakerBottomShootLeave. */
 
-  public AutoBlueSpeakerBottomShootLeave() {
+  public AutoBlueBottomShootLeave() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(  //steps to shoot preloaded note into speaker
       new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(
           autoPoses.BLUE_SPEAKER_LOWER.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
-      new WaitCommand(20).deadlineWith(
+      new WaitCommand(10).deadlineWith(
         new ShootingGPM0Sequence(0)),   // shoot
       new AutonomousTrajectory2Poses(
         autoPoses.BLUE_SPEAKER_LOWER.getPose(),
