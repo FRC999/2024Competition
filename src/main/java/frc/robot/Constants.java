@@ -137,6 +137,9 @@ public final class Constants {
 			public static final double rampRate = 0.25;
 
 			public static final double speedTolerance = 0.1;
+
+			// wait time to consider note leaving the shooter after it's not seen by the intake sensor anymore
+			public static final double SHOOT_TIME_DELAY_AFTER_NOTE_LEAVES = 0.2; 
 		}
 
 

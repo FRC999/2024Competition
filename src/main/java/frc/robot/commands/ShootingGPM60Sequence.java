@@ -24,8 +24,8 @@ public class ShootingGPM60Sequence extends SequentialCommandGroup {
       new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM60Angle(distance)).
           alongWith(new WaitCommand(1.5)),
       // push note to shooter
-      new IntakeRun(RobotContainer.gpmHelpers.getGPM60ShooterPower(
-          RobotContainer.gpmHelpers.getGPM60IntakePower(distance))),
+      new IntakeRun(
+          RobotContainer.gpmHelpers.getGPM60IntakePower(distance)),
       // wait until the shooting is done
       new WaitCommand(1.5)
     );

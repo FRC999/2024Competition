@@ -4,9 +4,11 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.GPMConstants.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -20,15 +22,30 @@ public class ShootingGPM0Sequence extends SequentialCommandGroup {
       // Spin the shooter first
       new WaitCommand(0.5)
         .raceWith(
-      new ShooterToSpeed(RobotContainer.gpmHelpers.getGPM0ShooterPower(distance))
+          // get shooter rollers up to speed
+          new ShooterToSpeed(RobotContainer.gpmHelpers.getGPM0ShooterPower(distance))
         ),
       // Arm to angle, minimum wait 1.5s to the next step
       new WaitCommand(1.5)
+        // get arm to the right angle
         .raceWith(new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM0Angle(distance))),
-      // push note to shooter
-      new WaitCommand(1.5)
-        .raceWith(new IntakeRun(RobotContainer.gpmHelpers.getGPM0ShooterPower(
-          RobotContainer.gpmHelpers.getGPM0IntakePower(distance))))
+      // push note to shooter after shooter rollers get up to speed
+      new ConditionalCommand(
+        // command if the note is seen by the sensor at this point
+        new WaitCommand(0.75)
+          .raceWith(
+              new ShootingPushNote( // push note by the intake to the shooter rollers
+                RobotContainer.gpmHelpers.getGPM0IntakePower(distance)))
+                // after the note leaves the intake, wait to make sure it leaves the shooter as well
+                .andThen(new WaitCommand(Shooter.SHOOT_TIME_DELAY_AFTER_NOTE_LEAVES))
+        ,
+        // slower command if the note is not seen by the sensor at this point
+        new WaitCommand(1.5)
+          .raceWith(new IntakeRun(
+            RobotContainer.gpmHelpers.getGPM0IntakePower(distance)))
+        ,
+        // is note seen by the sensor?
+        RobotContainer.intakeSubsystem::isNoteInIntake)
       // wait until the shooting is done
       
     );
