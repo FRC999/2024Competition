@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.GPMConstants.Arm;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -17,6 +19,7 @@ public class ArmDownToIntake extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ArmTurnToAngle(() -> Arm.ARM_INTAKE_ANGLE)
+        .until(RobotContainer.intakeSubsystem::isIntakeDown).andThen(new ArmRelease())
     );
   }
 }

@@ -86,6 +86,9 @@ public final class Constants {
 			public static final boolean NOTE_SENSOR_PRESENT = true; // turn to TRUE when sensor will be configured
 			public static final int NOTE_SENSOR_SWITCH_DIO_PORT_NUMBER = 4;
 
+			public static final boolean INTAKE_DOWN_LIMIT_SWITCH_PRESENT = true;
+			public static final int INTAKE_DOWN_LIMIT_SWITCH_DIO_PORT_NUMBER = 7;
+
 		}
 		public static final class Shooter {
 
@@ -229,9 +232,9 @@ public final class Constants {
 			public static final double rampRate = 0.25;
 
 			// TODO: Calibrate all these angles
-			public static final double ARM_MIN_ANGLE = -82.0;
+			public static final double ARM_MIN_ANGLE = -83.0;
 			public static final double ARM_MAX_ANGLE = 15.0;
-			public static final double ARM_INTAKE_ANGLE = -82.0;
+			public static final double ARM_INTAKE_ANGLE = -83.0;
 			public static final double ARM_AMP_ANGLE = 15.0;
 		}
 

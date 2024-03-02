@@ -18,8 +18,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // 775 connected to TalonSRX
   private WPI_VictorSPX intakeMotor; // TalonSRX
+  
 
   public static DigitalInput noteSensor; // connected to the DIO iinput
+  private DigitalInput intakeDownLimitSwitch;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
@@ -45,6 +47,15 @@ public class IntakeSubsystem extends SubsystemBase {
         System.out.println("*** Note sensor initialized");
       } catch (Exception e) {
         System.out.println("Unable to get note sensor value");
+      }
+    }
+
+    if (Intake.INTAKE_DOWN_LIMIT_SWITCH_PRESENT) {
+      try {
+        intakeDownLimitSwitch = new DigitalInput(Intake.INTAKE_DOWN_LIMIT_SWITCH_DIO_PORT_NUMBER);
+        System.out.println("*** Intake Down Limit Switch initialized");
+      } catch (Exception e) {
+        System.out.println("Unable to get intake down limit switch value");
       }
     }
 
@@ -139,6 +150,10 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public boolean isNoteInIntake() {
       return (! Intake.NOTE_SENSOR_PRESENT) || ! noteSensor.get() ;
+  }
+  
+  public boolean isIntakeDown() {
+      return(Intake.INTAKE_DOWN_LIMIT_SWITCH_PRESENT && intakeDownLimitSwitch.get());
   }
 
   @Override

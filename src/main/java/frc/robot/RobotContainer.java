@@ -8,8 +8,10 @@ import frc.robot.Constants.DebugTelemetrySubsystems;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OIConstants.ControllerDevice;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.Constants.GPMConstants.Arm;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
+import frc.robot.commands.ArmDownToIntake;
 import frc.robot.commands.ArmHoldCurrentPositionWithPID;
 import frc.robot.commands.ArmRelease;
 import frc.robot.commands.ArmStop;
@@ -544,9 +546,13 @@ public class RobotContainer {
 
     // R2 on driver xbox - intake grab note
     new Trigger(() -> xboxDriveController.getRawAxis(3) > 0.3)
-        .onTrue(new IntakeGrabNote().alongWith(new ArmTurnToAngle(() -> -83)))
-        .onFalse(new IntakeStop().andThen(new ArmRelease()).andThen(new ControllerRumbleStop()));
+        .onTrue(new IntakeGrabNote().alongWith(new ArmTurnToAngle(() -> Arm.ARM_INTAKE_ANGLE)
+            .until(intakeSubsystem::isIntakeDown)
+            .andThen(new ArmRelease())
+            )
+        )
 
+        .onFalse(new IntakeStop().andThen(new ArmRelease()).andThen(new ControllerRumbleStop()));
   }
 
   public void competitionCommandsForGPMController() {
@@ -593,6 +599,10 @@ public class RobotContainer {
     new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawAxis(2) > 0.3) ) )
         .onTrue(new ShootingSequenceManual()) // Manual shooting sequence - 2m parameters
         .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmHoldCurrentPositionWithPID()));
+
+     new JoystickButton(xboxGPMController, 9)    // Button Y
+        .onTrue(new ArmDownToIntake())
+        .onFalse(new ArmRelease());
 
   }
 
