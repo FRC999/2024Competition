@@ -15,6 +15,8 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CurrentLimiter;
+import frc.robot.Constants.EnableCurrentLimiter;
 import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.GPMConstants.Shooter;
 import frc.robot.Constants.GPMConstants.Shooter.ShooterMotorConstantsEnum;
@@ -90,7 +92,11 @@ public class ShooterSubsystem extends SubsystemBase {
     motor.setCANTimeout(0);
 
     motor.enableVoltageCompensation(Shooter.nominalVoltage);
-    motor.setSmartCurrentLimit(Shooter.shooterMotorCurrentLimit);
+
+    if (EnableCurrentLimiter.shooter) {
+      motor.setSmartCurrentLimit(CurrentLimiter.shooter);
+    }
+    
     motor.setOpenLoopRampRate(Shooter.rampRate);
     motor.setClosedLoopRampRate(Shooter.rampRate);
 

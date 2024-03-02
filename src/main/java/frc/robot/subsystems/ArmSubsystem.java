@@ -16,6 +16,8 @@ import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.CurrentLimiter;
+import frc.robot.Constants.EnableCurrentLimiter;
 import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.GPMConstants.Arm;
 
@@ -123,7 +125,11 @@ public class ArmSubsystem extends SubsystemBase {
     motor.setCANTimeout(0); //sets up timeout
 
     motor.enableVoltageCompensation(Arm.nominalVoltage);  //enables voltage compensation for set voltage [12v]
-    motor.setSmartCurrentLimit(Arm.shooterMotorCurrentLimit); // sets current limit to 40 amps
+   
+    if (EnableCurrentLimiter.arm) {
+      motor.setSmartCurrentLimit(CurrentLimiter.arm); // sets current limit to 40 amps
+    }
+    
     motor.setOpenLoopRampRate(Arm.rampRate);  // sets the rate to go from 0 to full throttle on open loop
     motor.setClosedLoopRampRate(Arm.rampRate);  // sets the rate to go from 0 to full throttle on open loop
 

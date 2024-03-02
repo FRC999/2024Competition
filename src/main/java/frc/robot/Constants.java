@@ -57,6 +57,20 @@ public final class Constants {
 		
 	}
 
+	public static final class EnableCurrentLimiter {
+		public static final boolean drive = true;
+		public static final boolean intake = true;
+		public static final boolean arm = true;
+		public static final boolean shooter = true;
+	}
+
+	public static final class CurrentLimiter {
+		public static int drive = 45;
+		public static int intake = 0;
+		public static int arm = 40;
+		public static int shooter = 40;
+	}
+
 	public static final class GPMConstants {
 
 		public static final class Intake {
@@ -132,7 +146,6 @@ public final class Constants {
 			public static final double POSITION_CONVERSION_FACTOR = 2*Math.PI;
 			public static final double VELOCITY_CONVERSION_FACTOR = 2*Math.PI/60;
 			public static final double nominalVoltage = 12.0;
-			public static final int shooterMotorCurrentLimit = 40;
 			public static final double positionConversionFactor = 0;
 			public static final double rampRate = 0.25;
 
@@ -322,8 +335,8 @@ public final class Constants {
 		 */
 		public static final double DRIVE_CLOSED_LOOP_RAMP = 0;
 		public static final double DRIVE_OPEN_LOOP_RAMP = 0.25;
-		public static final int ANGLE_MOTOR_SMART_CURRENT = 25;
-		public static final double ANGLE_MOTOR_SECONDARY_LIMIT = 40;
+		//public static final int ANGLE_MOTOR_SMART_CURRENT = 25;
+		//public static final double ANGLE_MOTOR_SECONDARY_LIMIT = 40;
 		public static final int DRIVE_MOTOR_SMART_CURRENT = 40;
 		public static final double DRIVE_MOTOR_SECONDARY_LIMIT = 60;
 
@@ -453,7 +466,7 @@ public final class Constants {
 			public static final int angleContinuousCurrentLimit = 40; // amperes
 			public static final int anglePeakCurrentLimit = 60; // amperes
 			public static final int anglePeakCurrentDuration = 1; // Seconds
-			public static final boolean angleEnableCurrentLimit = true;
+			public static final boolean angleEnableCurrentLimit = false;
 
 			public static final double driveContinuousCurrentLimit = 40; // amperes
 			public static final double drivePeakCurrentLimit = 60; // amperes
