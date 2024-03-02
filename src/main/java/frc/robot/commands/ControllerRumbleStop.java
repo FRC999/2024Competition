@@ -4,31 +4,21 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.Climber;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ClimbDown extends InstantCommand {
-  double power;
-  public ClimbDown() {
-
+public class ControllerRumbleStop extends InstantCommand {
+  public ControllerRumbleStop() {
     // Use addRequirements() here to declare subsystem dependencies.
-    this(Climber.CLIMBER_UP_DEFAULT_POWER);
-  }
-
-   public ClimbDown(double p) {
-    // Use addRequirements() here to declare subsystem dependencies.
-   addRequirements(RobotContainer.climberSubsystem);
-
-    this.power = p;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.climberSubsystem.climbDown(power);
+    new InstantCommand( () -> RobotContainer.xboxDriveController.setRumble(RumbleType.kBothRumble, 0)); // stop rumble
   }
 }

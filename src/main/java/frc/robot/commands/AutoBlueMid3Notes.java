@@ -22,17 +22,19 @@ public class AutoBlueMid3Notes extends SequentialCommandGroup {
     addCommands(
       new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(
         autoPoses.BLUE_SPEAKER_MID.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
-      new ShootingGPM0Sequence(0),   // shoot
+      new ShootingGPM0Sequence(0)   // shoot
+        .andThen(new ShooterStop()) // stop shooter
+        .andThen(new IntakeStop()), // stop intake
       new AutonomousTrajectory2Poses( // drive to 1st note pickup
         autoPoses.BLUE_SPEAKER_MID.getPose(),
         autoPoses.BLUE_MID_RING_TAKE_START.getPose()),
       new AutonomousTrajectory2Poses( // drive and run intake to pickup 1st note
         autoPoses.BLUE_MID_RING_TAKE_START.getPose(),
         autoPoses.BLUE_MID_RING_TAKE_END.getPose())
-          .alongWith(new IntakeGrabNote()),
+          .deadlineWith(new IntakeGrabNote()),
       new IntakeStop(), // in case we did not grab the note
       new ConditionalCommand( // only shoot if picked up the note
-        new AutonomousTrajectory2Poses( // drive to original bottom position
+        new AutonomousTrajectory2Poses( // drive to original mid position
             autoPoses.BLUE_MID_RING_TAKE_END.getPose(),
             autoPoses.BLUE_SPEAKER_MID.getPose())
               .andThen(new ShootingGPM0Sequence(0)) // shoot

@@ -4,16 +4,11 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.RobotController;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.AutoConstants.BlueSpeakerBottomSideConstants;
 import frc.robot.Constants.AutoConstants.autoPoses;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -29,7 +24,10 @@ public class AutoBlueBottomShootLeave extends SequentialCommandGroup {
       new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(
           autoPoses.BLUE_SPEAKER_LOWER.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
       new WaitCommand(10).deadlineWith(
-        new ShootingGPM0Sequence(0)),   // shoot
+        (new ShootingGPM0Sequence(0))
+          .andThen(new ShooterStop()) // stop shooter
+          .andThen(new IntakeStop())) // stop intake
+        ,   // shoot
       new AutonomousTrajectory2Poses(
         autoPoses.BLUE_SPEAKER_LOWER.getPose(),
         autoPoses.BLUE_LOWER_POS_OUT.getPose()

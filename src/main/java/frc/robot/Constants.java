@@ -36,7 +36,7 @@ public final class Constants {
 		public static final boolean arm = true;
 		public static final boolean intake = true;
 		public static final boolean shooter = true;
-		public static final boolean climber = false;
+		public static final boolean climber = true;
 		public static final boolean candle = false;
 	}
 
@@ -908,7 +908,7 @@ public final class Constants {
 
 		public static enum autoPoses {	// important poses
 			BLUE_SPEAKER_HIGHER (0.765, 6.764, 60),
-			BLUE_SPEAKER_MID (0.914, 5.540, 0),
+			BLUE_SPEAKER_MID (1.346, 5.540, 0),
 			BLUE_SPEAKER_LOWER (0.765, 4.315, -60),
 
 			BLUE_HIGHER_POS_OUT(3.25, 7.1,0),
@@ -916,7 +916,7 @@ public final class Constants {
 			BLUE_LOWER_POS_OUT (3.25, 1.312, 0),
 
 			RED_SPEAKER_HIGHER(15.78, 6.764, 120),
-			RED_SPEAKER_MID(15.195, 5.540, 180),
+			RED_SPEAKER_MID(15.19, 5.540, 180),
 			RED_SPEAKER_LOWER(15.78, 4.315, -120),
 
 			RED_HIGHER_POS_OUT(13.3, 7.1, 0),

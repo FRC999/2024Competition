@@ -22,7 +22,10 @@ public class AutoBlueMidShootLeave extends SequentialCommandGroup {
       new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(
           autoPoses.BLUE_SPEAKER_MID.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
       new WaitCommand(10).deadlineWith(
-        new ShootingGPM0Sequence(0)),   // shoot
+        (new ShootingGPM0Sequence(0))
+          .andThen(new ShooterStop()) // stop shooter
+          .andThen(new IntakeStop())) // stop intake
+        ,   // shoot
       new WaitCommand(5.0), //wait 5 seconds to give time for other
       new AutonomousTrajectory2Poses(
         autoPoses.BLUE_SPEAKER_MID.getPose(),

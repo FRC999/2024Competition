@@ -36,6 +36,7 @@ import frc.robot.commands.CalibrateShooterPower;
 import frc.robot.commands.ClimbDown;
 import frc.robot.commands.ClimbStop;
 import frc.robot.commands.ClimbUp;
+import frc.robot.commands.ControllerRumbleStop;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CANdleSubsystem;
@@ -232,6 +233,7 @@ public class RobotContainer {
 
     //testIntake();
     //testArm();
+    //testClimber();
 
     // Mohawk, practice and competition
     competitionCommandsForDriverController();
@@ -547,7 +549,7 @@ public class RobotContainer {
     // R2 on driver xbox - intake grab note
     new Trigger(() -> xboxDriveController.getRawAxis(3) > 0.3)
         .onTrue(new IntakeGrabNote().alongWith(new ArmTurnToAngle(() -> -83)))
-        .onFalse(new IntakeStop().andThen(new ArmRelease()));
+        .onFalse(new IntakeStop().andThen(new ArmRelease()).andThen(new ControllerRumbleStop()));
 
   }
 

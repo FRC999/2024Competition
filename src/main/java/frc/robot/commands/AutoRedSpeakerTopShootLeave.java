@@ -22,7 +22,10 @@ public class AutoRedSpeakerTopShootLeave extends SequentialCommandGroup {
        new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(
         autoPoses.RED_SPEAKER_HIGHER.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
       new WaitCommand(20).deadlineWith(
-        new ShootingGPM0Sequence(0)),   // shoot
+        (new ShootingGPM0Sequence(0))
+          .andThen(new ShooterStop()) // stop shooter
+          .andThen(new IntakeStop())) // stop intake
+        ,   // shoot
       new AutonomousTrajectory2Poses(
         autoPoses.RED_SPEAKER_HIGHER.getPose(),
         autoPoses.RED_LOWER_POS_OUT.getPose()
