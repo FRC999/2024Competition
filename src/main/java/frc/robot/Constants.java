@@ -136,7 +136,7 @@ public final class Constants {
 			public static final double positionConversionFactor = 0;
 			public static final double rampRate = 0.25;
 
-			public static final double speedTolerance = 0.1;
+			//public static final double speedTolerance = 0.1;
 		}
 
 

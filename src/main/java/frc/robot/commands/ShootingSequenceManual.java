@@ -18,8 +18,8 @@ public class ShootingSequenceManual extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new ShooterToSpeed(RobotContainer.gpmHelpers.getGPM0ShooterPower(0))
-            .alongWith(new WaitCommand(0.1)),
+        new ShooterToPower(RobotContainer.gpmHelpers.getGPM0ShooterPower(0))
+            .raceWith(new WaitCommand(0.5)),
         new IntakeRun(RobotContainer.gpmHelpers.getGPM0ShooterPower(
             RobotContainer.gpmHelpers.getGPM0IntakePower(0))),
         // wait until the shooting is done
