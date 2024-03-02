@@ -6,8 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.GPMConstants.Shooter;
-import frc.robot.lib.GPMHelpers;
+
 
 public class ShooterToPower extends Command {
 

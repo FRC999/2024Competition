@@ -953,7 +953,13 @@ public final class Constants {
 			BLUE_HIGHER_RING_TAKE_END(2.465,7.0015,0),
 			BLUE_MID_RING_TAKE_END(2.465,5.5535,0),
 			BLUE_LOWER_RING_TAKE_END(2.465,4.1055,0),
+
+			//Constants to pick up far note
+			BLUE_FAR_DRIVE_W1(3.34, 0.80, 0),
+			BLUE_FAR_LOWER_TAKE_START(7.40, 0.80, 0),
+			BLUE_FAR_LOWER_TAKE_END(7.70, 0.80, 0)
 			;
+			
 			private Pose2d pose;
 
 			autoPoses(double x, double y, double angle) {
