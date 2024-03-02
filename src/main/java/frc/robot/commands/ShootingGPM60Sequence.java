@@ -19,10 +19,14 @@ public class ShootingGPM60Sequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
        // Spin the shooter first
-      new ShooterToSpeed(RobotContainer.gpmHelpers.getGPM60ShooterPower(distance)),
-      // Arm to angle, minimum wait 1.5s to the next step
-      new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM60Angle(distance)).
-          alongWith(new WaitCommand(1.5)),
+      new WaitCommand(0.9)
+        .raceWith(
+          new ShooterToPower(RobotContainer.gpmHelpers.getGPM60ShooterPower(distance))
+           .alongWith(
+            // Along with arm to angle
+              new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM60Angle(distance))
+           )
+        ),
       // push note to shooter
       new IntakeRun(
           RobotContainer.gpmHelpers.getGPM60IntakePower(distance)),

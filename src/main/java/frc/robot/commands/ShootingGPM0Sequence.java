@@ -20,7 +20,7 @@ public class ShootingGPM0Sequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // Spin the shooter first
-      new WaitCommand(0.5)
+      new WaitCommand(0.9)
         .raceWith(
           // get shooter rollers up to speed
           new ShooterToSpeed(RobotContainer.gpmHelpers.getGPM0ShooterPower(distance))

@@ -7,22 +7,22 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.GPMConstants.Shooter;
+import frc.robot.lib.GPMHelpers;
 
-public class ShooterToSpeed extends Command {
+public class ShooterToPower extends Command {
 
-  double speed;
+  double power;
   /** Creates a new ShooterToSpeed. */
-  public ShooterToSpeed(double s) {
+  public ShooterToPower(double p) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.shooterSubsystem);
-    speed = s;
+    power = p;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.shooterSubsystem.runShooterWithPower(
-      RobotContainer.shooterSubsystem.convertShooterSpeedIntoShooterPower(speed));
+    RobotContainer.shooterSubsystem.runShooterWithPower(power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,13 +32,13 @@ public class ShooterToSpeed extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Shooter is up to speed: " + speed);
+    System.out.println("Shooter is up to power: " + power);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(RobotContainer.shooterSubsystem.getRightShooterMotorVelocity() - speed)
-       <= Shooter.speedTolerance;
+    return RobotContainer.shooterSubsystem.getRightShooterMotorVelocity() >= 
+      RobotContainer.gpmHelpers.getMeasuredShootingSpeedFromPower(power);
   }
 }

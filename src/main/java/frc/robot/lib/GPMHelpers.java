@@ -12,6 +12,8 @@ public class GPMHelpers {
     public InterpolatingDoubleTreeMap GPM_60_IntakePower = new InterpolatingDoubleTreeMap();
     public InterpolatingDoubleTreeMap GPM_60_ShooterPower = new InterpolatingDoubleTreeMap();
 
+    public InterpolatingDoubleTreeMap Measured_Shooter_Speeds_From_Power = new InterpolatingDoubleTreeMap();
+
 
 
     public GPMHelpers() {
@@ -21,6 +23,7 @@ public class GPMHelpers {
         setGPM60Angle();
         setGPM60IntakePower();
         setGPM60ShooterPower();
+        setMeasuredShootingSpeedsFromPower();
     }
 
     public double getAngleTouchingAmp() {
@@ -78,6 +81,22 @@ public class GPMHelpers {
         GPM_60_ShooterPower.put(1.0, 0.65);
         GPM_60_ShooterPower.put(2.0, 0.73);
         GPM_60_ShooterPower.put(3.0, 0.85);
+    }
+
+    public void setMeasuredShootingSpeedsFromPower() {   
+        Measured_Shooter_Speeds_From_Power.put(getGPM0ShooterPower(0.0), 0.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM0ShooterPower(1.0), 0.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM0ShooterPower(2.0), 0.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM0ShooterPower(3.0), 0.0);
+
+        Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(0.0), 0.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(1.0), 0.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(2.0), 0.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(3.0), 0.0);
+    }
+
+    public double getMeasuredShootingSpeedFromPower(double power)   {
+        return Measured_Shooter_Speeds_From_Power.get(power);
     }
 
     public double getGPM0Angle(double distance){

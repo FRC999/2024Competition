@@ -135,13 +135,18 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   // TODO: Modify this
+  
+  /* 
   public double convertShooterPowerIntoShooterSpeed(double power) {
     return power;
   }
+  */
 
+  /* 
   public double convertShooterSpeedIntoShooterPower(double speed) {
     return speed;
   }
+  */
 
   /**
    * Run shooter with NON-PID power -1..1
