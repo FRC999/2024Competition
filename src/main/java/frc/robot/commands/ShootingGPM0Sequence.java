@@ -23,12 +23,11 @@ public class ShootingGPM0Sequence extends SequentialCommandGroup {
       new WaitCommand(0.9)
         .raceWith(
           // get shooter rollers up to speed
-          new ShooterToSpeed(RobotContainer.gpmHelpers.getGPM0ShooterPower(distance))
+          new ShooterToPower(RobotContainer.gpmHelpers.getGPM0ShooterPower(distance))
+            .alongWith(
+              new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM0Angle(distance))
+            )
         ),
-      // Arm to angle, minimum wait 1.5s to the next step
-      new WaitCommand(1.5)
-        // get arm to the right angle
-        .raceWith(new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM0Angle(distance))),
       // push note to shooter after shooter rollers get up to speed
       new ConditionalCommand(
         // command if the note is seen by the sensor at this point
