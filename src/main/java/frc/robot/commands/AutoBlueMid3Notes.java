@@ -38,7 +38,7 @@ public class AutoBlueMid3Notes extends SequentialCommandGroup {
         (new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
             autoPoses.BLUE_MID_RING_TAKE_END.getPose(),
             autoPoses.BLUE_SPEAKER_MID.getPose())
-            .alongWith(
+            .deadlineWith(
               new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM0Angle(0))
             ))
               .andThen(new ShootingGPM0Sequence(0)) // shoot
@@ -67,7 +67,7 @@ public class AutoBlueMid3Notes extends SequentialCommandGroup {
         (new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
             autoPoses.BLUE_HIGHER_RING_TAKE_END.getPose(),
             autoPoses.BLUE_SPEAKER_MID.getPose())
-            .alongWith(
+            .deadlineWith(
               new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM0Angle(0))
             ))
               .andThen(new ShootingGPM0Sequence(0)) // shoot
@@ -96,7 +96,7 @@ public class AutoBlueMid3Notes extends SequentialCommandGroup {
         (new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
             autoPoses.BLUE_LOWER_RING_TAKE_END.getPose(),
             autoPoses.BLUE_SPEAKER_MID.getPose())
-            .alongWith(
+            .deadlineWith(
               new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM0Angle(0))
             ))
               .andThen(new ShootingGPM0Sequence(0)) // shoot
