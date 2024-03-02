@@ -33,10 +33,14 @@ public class AutoBlueMid3Notes extends SequentialCommandGroup {
         autoPoses.BLUE_MID_RING_TAKE_END.getPose())
           .deadlineWith(new IntakeGrabNote()),
       new IntakeStop(), // in case we did not grab the note
+      new ControllerRumbleStop(),
       new ConditionalCommand( // only shoot if picked up the note
-        new AutonomousTrajectory2Poses( // drive to original mid position
+        (new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
             autoPoses.BLUE_MID_RING_TAKE_END.getPose(),
             autoPoses.BLUE_SPEAKER_MID.getPose())
+            .alongWith(
+              new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM0Angle(0))
+            ))
               .andThen(new ShootingGPM0Sequence(0)) // shoot
               .andThen(new ShooterStop()) // stop shooter
               .andThen(new IntakeStop()) // stop intake
@@ -58,10 +62,14 @@ public class AutoBlueMid3Notes extends SequentialCommandGroup {
         autoPoses.BLUE_HIGHER_RING_TAKE_END.getPose())
           .alongWith(new IntakeGrabNote()),
       new IntakeStop(), // in case we did not grab the note
+      new ControllerRumbleStop(),
       new ConditionalCommand( // only shoot if picked up the note
-        new AutonomousTrajectory2Poses( // drive to original bottom position
+        (new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
             autoPoses.BLUE_HIGHER_RING_TAKE_END.getPose(),
             autoPoses.BLUE_SPEAKER_MID.getPose())
+            .alongWith(
+              new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM0Angle(0))
+            ))
               .andThen(new ShootingGPM0Sequence(0)) // shoot
               .andThen(new ShooterStop()) // stop shooter
               .andThen(new IntakeStop()) // stop intake
@@ -83,10 +91,14 @@ public class AutoBlueMid3Notes extends SequentialCommandGroup {
         autoPoses.BLUE_LOWER_RING_TAKE_END.getPose())
           .alongWith(new IntakeGrabNote()),
       new IntakeStop(), // in case we did not grab the note
+      new ControllerRumbleStop(),
       new ConditionalCommand( // only shoot if picked up the note
-        new AutonomousTrajectory2Poses( // drive to original bottom position
+        (new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
             autoPoses.BLUE_LOWER_RING_TAKE_END.getPose(),
             autoPoses.BLUE_SPEAKER_MID.getPose())
+            .alongWith(
+              new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM0Angle(0))
+            ))
               .andThen(new ShootingGPM0Sequence(0)) // shoot
               .andThen(new ShooterStop()) // stop shooter
               .andThen(new IntakeStop()) // stop intake
