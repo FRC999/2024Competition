@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
@@ -20,7 +21,7 @@ public class ShootingGPM0Sequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // Spin the shooter first
-      new WaitCommand(0.9)
+      new WaitCommand(1.5)
         .raceWith(
           // get shooter rollers up to speed
           new ShooterToPower(RobotContainer.gpmHelpers.getGPM0ShooterPower(distance))
@@ -39,9 +40,10 @@ public class ShootingGPM0Sequence extends SequentialCommandGroup {
                 .andThen(new WaitCommand(Shooter.SHOOT_TIME_DELAY_AFTER_NOTE_LEAVES))
         ,
         // slower command if the note is not seen by the sensor at this point
-        new WaitCommand(1.5)
+        (new WaitCommand(1.5)
           .raceWith(new IntakeRun(
             RobotContainer.gpmHelpers.getGPM0IntakePower(distance)))
+        )
         ,
         // is note seen by the sensor?
         RobotContainer.intakeSubsystem::isNoteInIntake)
