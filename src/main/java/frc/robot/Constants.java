@@ -47,12 +47,12 @@ public final class Constants {
 
 		public static final boolean arm = false;
 		public static final boolean intake = true;
-		public static final boolean shooter = true;
+		public static final boolean shooter = false;
 
 		// Calibration-only methods
 		public static final boolean calibrateArm = false;
 		public static final boolean calibrateIntake = false;
-		public static final boolean calibrateShooter = true;
+		public static final boolean calibrateShooter = false;
 
 		
 	}
@@ -938,9 +938,9 @@ public final class Constants {
 			RED_SPEAKER_MID(15.19, 5.540, 180),
 			RED_SPEAKER_LOWER(15.78, 4.315, -120),
 
-			RED_HIGHER_POS_OUT(13.3, 7.1, 0),
-			RED_MID_POS_OUT(13.3, 5.540, 0),
-			RED_LOWER_POS_OUT(13.3, 1.312, 0),
+			RED_HIGHER_POS_OUT(13.3, 7.1, 180),
+			RED_MID_POS_OUT(13.3, 5.540, 180),
+			RED_LOWER_POS_OUT(13.3, 1.312, 180),
 
 			BLUE_HIGHER_RING(2.896,7.0015,0),
 			BLUE_MID_RING(2.896,5.5535,0),

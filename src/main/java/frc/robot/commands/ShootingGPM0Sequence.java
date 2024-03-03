@@ -46,8 +46,9 @@ public class ShootingGPM0Sequence extends SequentialCommandGroup {
         )
         ,
         // is note seen by the sensor?
-        RobotContainer.intakeSubsystem::isNoteInIntake)
+        RobotContainer.intakeSubsystem::isNoteInIntake),
       // wait until the shooting is done
+      new PrintCommand("GPM0Sequence done")
       
     );
   }
