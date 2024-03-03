@@ -36,7 +36,7 @@ public class ArmTurnToAngle extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("ArmToAngleDone: "+interrupted);
+    System.out.println("ArmToAngleDone: " + interrupted);
   }
 
   // Returns true when the command should end.

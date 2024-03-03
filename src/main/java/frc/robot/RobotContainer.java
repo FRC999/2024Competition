@@ -547,12 +547,14 @@ public class RobotContainer {
 
     // R2 on driver xbox - intake grab note
     new Trigger(() -> xboxDriveController.getRawAxis(3) > 0.3)
-        .onTrue(new IntakeGrabNote().alongWith(new ArmTurnToAngle(() -> Arm.ARM_INTAKE_ANGLE)
-            .until(intakeSubsystem::isIntakeDown)
-            .andThen(new ArmRelease())
+        .onTrue(new IntakeGrabNote().
+            alongWith
+                (
+                    (new ArmTurnToAngle(() -> Arm.ARM_INTAKE_ANGLE)
+                            .until(intakeSubsystem::isIntakeDown))
+                        .andThen(new ArmRelease())
+                )
             )
-        )
-
         .onFalse(new IntakeStop().andThen(new ArmRelease()).andThen(new ControllerRumbleStop()));
   }
 
