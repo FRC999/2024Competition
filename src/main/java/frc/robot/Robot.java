@@ -86,6 +86,9 @@ public class Robot extends TimedRobot {
 
     // Set alliance color before periodic
     RobotContainer.setIfAllianceRed(); // check if red alliance
+
+    stopAllMotorsAtStartOfTeleop(); // to avoid unfortunate accidents; note it does not necessarily stop commands, just PID
+
   }
 
   /** This function is called periodically during operator control. */
@@ -109,4 +112,25 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+  public void stopAllMotorsAtStartOfTeleop()
+  {
+      // Stop chassis
+      for(int i = 0; i <=3 ; i++) {
+        RobotContainer.driveSubsystem.stopAngleMotor(i);
+        RobotContainer.driveSubsystem.stopDriveMotor(i);
+      }
+  
+      //Stop intake motors
+      RobotContainer.intakeSubsystem.stopIntake();
+  
+      //Stop shooter motors
+      RobotContainer.shooterSubsystem.stopShooter();
+  
+      //Stop climber motor
+      RobotContainer.climberSubsystem.stopClimbMotor();
+  
+      //Stop arm motor
+      RobotContainer.armSubsystem.stopArmMotors();
+  }
 }
