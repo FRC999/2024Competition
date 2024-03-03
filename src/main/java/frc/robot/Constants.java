@@ -384,7 +384,7 @@ public final class Constants {
 		 * as the teleop logic will simply use it as a point of reference.
 		 * Changing this number will not require any other changes in the teleop code.
 		 */
-		public static final double MAX_VELOCITY = 3.0;
+		public static final double MAX_VELOCITY = 5.0;
 
 		/**
 		 * Radians per second.
@@ -401,7 +401,7 @@ public final class Constants {
 				/ (Math.sqrt(TRACK_WIDTH * TRACK_WIDTH + WHEEL_BASE * WHEEL_BASE) / 2);
 
 		// For trajectory driving.
-		public static final double MAX_ACCELERATION = 0.9;
+		public static final double MAX_ACCELERATION = 3.0;
 
 		/**
 		 * Parameters for BaseMotorTalonFX class
