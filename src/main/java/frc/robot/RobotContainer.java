@@ -624,7 +624,7 @@ public class RobotContainer {
 
       new JoystickButton(driveStick1, 7)
               .whileTrue(new InstantCommand(
-                () -> RobotContainer.shooterSubsystem.runShooterWithPower(gpmHelpers.getGPM60ShooterPower(0))
+                () -> RobotContainer.shooterSubsystem.runShooterWithPower(0.4)
               , shooterSubsystem))
               .onFalse(new ShooterStop());
 
