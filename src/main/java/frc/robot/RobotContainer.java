@@ -556,7 +556,7 @@ public class RobotContainer {
                     (new ArmTurnToAngle(() -> Arm.ARM_INTAKE_ANGLE)
                             .until(intakeSubsystem::isIntakeDown))
                         .andThen(new ArmRelease())
-                )
+                ).alongWith(new ControllerRumbleStop())
             )
         .onFalse(new IntakeStop().andThen(new ArmRelease()).andThen(new ControllerRumbleStop()));
   }
