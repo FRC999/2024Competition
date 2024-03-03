@@ -198,11 +198,11 @@ public final class Constants {
 
 			public static final class ArmPIDConstants {
 
-				public static final double kP = 0.25;
+				public static final double kP = 0.02;
 				public static final double kI = 0.000;
 				public static final double kD = 2.0;
 				public static final double kF = 0;
-				public static final double kMaxOutput = 0.25;
+				public static final double kMaxOutput = 0.6;
 				public static final double Acceleration = 6750; // raw sensor units per 100 ms per second
 				public static final double CruiseVelocity = 6750; // raw sensor units per 100 ms
 				public static final int Smoothing = 3; // CurveStrength. 0 to use Trapezoidal Motion Profile. [1,8] for
