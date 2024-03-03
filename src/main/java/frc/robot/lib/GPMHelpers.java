@@ -84,15 +84,16 @@ public class GPMHelpers {
     }
 
     public void setMeasuredShootingSpeedsFromPower() {   
-        Measured_Shooter_Speeds_From_Power.put(getGPM0ShooterPower(0.0), 0.0);
-        Measured_Shooter_Speeds_From_Power.put(getGPM0ShooterPower(1.0), 0.0);
-        Measured_Shooter_Speeds_From_Power.put(getGPM0ShooterPower(2.0), 0.0);
-        Measured_Shooter_Speeds_From_Power.put(getGPM0ShooterPower(3.0), 0.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM0ShooterPower(0.0), 335.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM0ShooterPower(1.0), 335.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM0ShooterPower(2.0), 384.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM0ShooterPower(3.0), 484.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM0ShooterPower(4.0), 508.0);
 
-        Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(0.0), 0.0);
-        Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(1.0), 0.0);
-        Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(2.0), 0.0);
-        Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(3.0), 0.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(0.0), 360.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(1.0), 360.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(2.0), 408.0);
+        Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(3.0), 484.0);
     }
 
     public double getMeasuredShootingSpeedFromPower(double power)   {

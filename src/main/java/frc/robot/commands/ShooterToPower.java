@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.DebugTelemetrySubsystems;
+import frc.robot.Constants.GPMConstants.Shooter;
 
 
 public class ShooterToPower extends Command {
@@ -31,13 +33,15 @@ public class ShooterToPower extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Shooter is up to power: " + power);
+    if (DebugTelemetrySubsystems.calibrateShooter) {
+      System.out.println("Shooter is up to power: " + power + " " + interrupted);
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return RobotContainer.shooterSubsystem.getRightShooterMotorVelocity() >= 
-      RobotContainer.gpmHelpers.getMeasuredShootingSpeedFromPower(power);
+      RobotContainer.gpmHelpers.getMeasuredShootingSpeedFromPower(power) - Shooter.speedTolerance;
   }
 }

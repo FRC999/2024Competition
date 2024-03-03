@@ -153,7 +153,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
   
   public boolean isIntakeDown() {
-      return(Intake.INTAKE_DOWN_LIMIT_SWITCH_PRESENT && intakeDownLimitSwitch.get());
+      return(Intake.INTAKE_DOWN_LIMIT_SWITCH_PRESENT && ! intakeDownLimitSwitch.get());
   }
 
   @Override

@@ -46,13 +46,13 @@ public final class Constants {
 		public static final boolean imu = false;
 
 		public static final boolean arm = false;
-		public static final boolean intake = false;
-		public static final boolean shooter = false;
+		public static final boolean intake = true;
+		public static final boolean shooter = true;
 
 		// Calibration-only methods
 		public static final boolean calibrateArm = false;
 		public static final boolean calibrateIntake = false;
-		public static final boolean calibrateShooter = false;
+		public static final boolean calibrateShooter = true;
 
 		
 	}
@@ -87,7 +87,7 @@ public final class Constants {
 			public static final int NOTE_SENSOR_SWITCH_DIO_PORT_NUMBER = 4;
 
 			public static final boolean INTAKE_DOWN_LIMIT_SWITCH_PRESENT = true;
-			public static final int INTAKE_DOWN_LIMIT_SWITCH_DIO_PORT_NUMBER = 7;
+			public static final int INTAKE_DOWN_LIMIT_SWITCH_DIO_PORT_NUMBER = 9;
 
 		}
 		public static final class Shooter {
@@ -152,7 +152,7 @@ public final class Constants {
 			public static final double positionConversionFactor = 0;
 			public static final double rampRate = 0.25;
 
-			public static final double speedTolerance = 0.1;
+			public static final double speedTolerance = 15.0;
 
 			// wait time to consider note leaving the shooter after it's not seen by the intake sensor anymore
 			public static final double SHOOT_TIME_DELAY_AFTER_NOTE_LEAVES = 0.2; 
@@ -959,7 +959,7 @@ public final class Constants {
 			BLUE_FAR_LOWER_TAKE_START(7.40, 0.80, 0),
 			BLUE_FAR_LOWER_TAKE_END(7.70, 0.80, 0)
 			;
-			
+
 			private Pose2d pose;
 
 			autoPoses(double x, double y, double angle) {

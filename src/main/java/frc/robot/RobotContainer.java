@@ -23,6 +23,7 @@ import frc.robot.commands.IntakeStop;
 import frc.robot.commands.PosePrinter;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.commands.ShooterStop;
+import frc.robot.commands.ShooterToPower;
 import frc.robot.commands.ShootingAmpSequence;
 import frc.robot.commands.ShootingGPM0Sequence;
 import frc.robot.commands.ShootingSequenceManual;
@@ -618,6 +619,40 @@ public class RobotContainer {
       new JoystickButton(driveStick1, 1)
               .whileTrue(new CalibrateShooterPower())
               .onFalse(new ShooterStop());
+
+      new JoystickButton(driveStick1, 7)
+              .whileTrue(new InstantCommand(
+                () -> RobotContainer.shooterSubsystem.runShooterWithPower(gpmHelpers.getGPM60ShooterPower(0))
+              , shooterSubsystem))
+              .onFalse(new ShooterStop());
+
+      new JoystickButton(driveStick1, 8)
+              .whileTrue(new InstantCommand(
+                () -> RobotContainer.shooterSubsystem.runShooterWithPower(gpmHelpers.getGPM60ShooterPower(1))
+              , shooterSubsystem))
+              .onFalse(new ShooterStop());
+
+      new JoystickButton(driveStick1, 9)
+              .whileTrue(new InstantCommand(
+                () -> RobotContainer.shooterSubsystem.runShooterWithPower(gpmHelpers.getGPM60ShooterPower(2))
+              , shooterSubsystem))
+              .onFalse(new ShooterStop());
+
+      new JoystickButton(driveStick1, 10)
+              .whileTrue(new InstantCommand(
+                () -> RobotContainer.shooterSubsystem.runShooterWithPower(gpmHelpers.getGPM0ShooterPower(3))
+              , shooterSubsystem))
+              .onFalse(new ShooterStop());
+
+    new JoystickButton(driveStick1, 11)
+              .whileTrue(new InstantCommand(
+                () -> RobotContainer.shooterSubsystem.runShooterWithPower(gpmHelpers.getGPM0ShooterPower(4))
+              , shooterSubsystem))
+              .onFalse(new ShooterStop());
+
+    new JoystickButton(driveStick1, 12)
+                .onTrue(new ShooterToPower(gpmHelpers.getGPM0ShooterPower(0)))
+                .onFalse(new ShooterStop());
   }
 
   public void calibrateIntakePower() {

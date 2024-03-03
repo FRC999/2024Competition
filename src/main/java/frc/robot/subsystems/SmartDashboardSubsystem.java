@@ -90,7 +90,7 @@ public class SmartDashboardSubsystem extends SubsystemBase {
       SmartDashboard.putBoolean("Intake sensor : ", RobotContainer.intakeSubsystem.isNoteInIntake());
     }
     if (Constants.GPMConstants.Intake.INTAKE_DOWN_LIMIT_SWITCH_PRESENT) {
-      SmartDashboard.putBoolean("Intake sensor : ", RobotContainer.intakeSubsystem.isIntakeDown());
+      SmartDashboard.putBoolean("Intake Down : ", RobotContainer.intakeSubsystem.isIntakeDown());
     }
   }
 
