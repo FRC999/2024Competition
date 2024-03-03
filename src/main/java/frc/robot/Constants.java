@@ -373,9 +373,9 @@ public final class Constants {
 		 * trajectory with PathPlanner
 		 * even if a trajectory includes a holonomic component.
 		 */
-		public static final double DRIVE_CHASSIS_KP = 2.7;
+		public static final double DRIVE_CHASSIS_KP = 3.5;
 		public static final double DRIVE_CHASSIS_KI = 0.05;
-		public static final double DRIVE_CHASSIS_KD = 0.01;
+		public static final double DRIVE_CHASSIS_KD = 0.02;
 
 		/**
 		 * Maximum linear speed of chassis in meters per second
