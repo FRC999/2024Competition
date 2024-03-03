@@ -23,7 +23,7 @@ public class ArmHoldCurrentPositionWithPID extends Command {
     currentPosition = RobotContainer.armSubsystem.getArmEncoderLeader();
 
     // alex test
-    System.out.println("Hold position: "+currentPosition);
+    //System.out.println("Hold position: "+currentPosition);
 
     RobotContainer.armSubsystem.stopArmMotors();
     RobotContainer.armSubsystem.setArmMotorEncoder(currentPosition);

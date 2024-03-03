@@ -194,7 +194,7 @@ public class ArmSubsystem extends SubsystemBase {
       );
 
     // Alex test
-    System.out.println("ARM0: "+ armEncoderZero);
+    //System.out.println("ARM0: "+ armEncoderZero);
   }
 
   /**

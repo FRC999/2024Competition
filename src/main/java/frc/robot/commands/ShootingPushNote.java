@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.DebugTelemetrySubsystems;
 /**
  * Push note into the shooter, end when note leaves the intake
  */
@@ -21,7 +22,9 @@ public class ShootingPushNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("--- Running intake with speed "+ power);
+    if ( DebugTelemetrySubsystems.intake) {
+      System.out.println("--- Running intake with speed "+ power);
+    }
     RobotContainer.intakeSubsystem.runIntake(power);
   }
 

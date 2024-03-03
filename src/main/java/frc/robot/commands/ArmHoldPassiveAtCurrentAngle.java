@@ -21,7 +21,7 @@ public class ArmHoldPassiveAtCurrentAngle extends Command {
     double holdPower = RobotContainer.armSubsystem.FEED_FORWARD.get(angle);
 
     //Alex test
-    System.out.println("Hold: "+holdPower);
+    //System.out.println("Hold: "+holdPower);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

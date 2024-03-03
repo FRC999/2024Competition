@@ -8,6 +8,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.DebugTelemetrySubsystems;
 import frc.robot.Constants.GPMConstants.Arm.ArmPIDConstants;
 
 public class ArmTurnToAngle extends Command {
@@ -24,7 +25,9 @@ public class ArmTurnToAngle extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Start Arm to angle..");
+    if ( DebugTelemetrySubsystems.calibrateArm) {
+      System.out.println("Start Arm to angle..");
+    }
     angle = angleSupplier.getAsDouble();
     RobotContainer.armSubsystem.setArmMotorAnglesSI(angle);
   }
@@ -36,7 +39,9 @@ public class ArmTurnToAngle extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("ArmToAngleDone: " + interrupted);
+    if ( DebugTelemetrySubsystems.calibrateArm) {
+      System.out.println("ArmToAngleDone: " + interrupted);
+    }
   }
 
   // Returns true when the command should end.
