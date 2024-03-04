@@ -925,6 +925,9 @@ public final class Constants {
 
 		public static double armInPerimeterAngle = -15; // move arm into perimeter
 
+		private static final double fieldSizeX = 16.545814;
+		private static final double fieldSizeY = 8.212;
+
 		public static enum autoPoses {	// important poses
 			BLUE_SPEAKER_HIGHER (0.765, 6.764, 60),
 			BLUE_SPEAKER_MID (1.346, 5.540, 0),
@@ -934,17 +937,21 @@ public final class Constants {
 			BLUE_MID_POS_OUT(3.25,5.540,0),
 			BLUE_LOWER_POS_OUT (3.25, 1.312, 0),
 
-			RED_SPEAKER_HIGHER(15.78, 6.764, 120),
-			RED_SPEAKER_MID(15.19, 5.540, 180),
-			RED_SPEAKER_LOWER(15.78, 4.315, -120),
+			RED_SPEAKER_HIGHER(fieldSizeX-BLUE_SPEAKER_HIGHER.getPose().getX(), BLUE_SPEAKER_HIGHER.getPose().getY(), 120),
+			RED_SPEAKER_MID(fieldSizeX-BLUE_SPEAKER_MID.getPose().getX(), BLUE_SPEAKER_MID.getPose().getY(), 180),
+			RED_SPEAKER_LOWER(fieldSizeX-BLUE_SPEAKER_LOWER.getPose().getX(), BLUE_SPEAKER_LOWER.getPose().getY(), -120),
 
-			RED_HIGHER_POS_OUT(13.3, 7.1, 180),
-			RED_MID_POS_OUT(13.3, 5.540, 180),
-			RED_LOWER_POS_OUT(13.3, 1.312, 180),
+			RED_HIGHER_POS_OUT(fieldSizeX-BLUE_HIGHER_POS_OUT.getPose().getX(), BLUE_HIGHER_POS_OUT.getPose().getY(), 180),
+			RED_MID_POS_OUT(fieldSizeX-BLUE_MID_POS_OUT.getPose().getX(), BLUE_MID_POS_OUT.getPose().getY(), 180),
+			RED_LOWER_POS_OUT(fieldSizeX-BLUE_LOWER_POS_OUT.getPose().getX(), BLUE_LOWER_POS_OUT.getPose().getY(), 180),
 
 			BLUE_HIGHER_RING(2.896,7.0015,0),
 			BLUE_MID_RING(2.896,5.5535,0),
 			BLUE_LOWER_RING(2.896,4.1055,0),
+
+			RED_HIGHER_RING(fieldSizeX-BLUE_HIGHER_RING.getPose().getX(), BLUE_HIGHER_RING.getPose().getY(),180),
+			RED_MID_RING(fieldSizeX-BLUE_MID_RING.getPose().getX(), BLUE_MID_RING.getPose().getY(),180),
+			RED_LOWER_RING(fieldSizeX-BLUE_LOWER_RING.getPose().getX(), BLUE_LOWER_RING.getPose().getY(),180),
 
 			BLUE_HIGHER_RING_TAKE_START(1.909,7.0015,0),
 			BLUE_MID_RING_TAKE_START(1.909,5.5535,0),
@@ -954,10 +961,23 @@ public final class Constants {
 			BLUE_MID_RING_TAKE_END(2.465,5.5535,0),
 			BLUE_LOWER_RING_TAKE_END(2.465,4.1055,0),
 
+			RED_HIGHER_RING_TAKE_START(fieldSizeX-BLUE_HIGHER_RING_TAKE_START.getPose().getX(), BLUE_HIGHER_RING_TAKE_START.getPose().getY(),180),
+			RED_MID_RING_TAKE_START(fieldSizeX-BLUE_MID_RING_TAKE_START.getPose().getX(), BLUE_MID_RING_TAKE_START.getPose().getY(),180),
+			RED_LOWER_RING_TAKE_START(fieldSizeX-BLUE_LOWER_RING_TAKE_START.getPose().getX(), BLUE_LOWER_RING_TAKE_START.getPose().getY(),180),
+
+			RED_HIGHER_RING_TAKE_END(fieldSizeX-BLUE_HIGHER_RING_TAKE_END.getPose().getX(), BLUE_HIGHER_RING_TAKE_END.getPose().getY(),180),
+			RED_MID_RING_TAKE_END(fieldSizeX-BLUE_MID_RING_TAKE_END.getPose().getX(), BLUE_MID_RING_TAKE_END.getPose().getY(),180),
+			RED_LOWER_RING_TAKE_END(fieldSizeX-BLUE_LOWER_RING_TAKE_END.getPose().getX(), BLUE_LOWER_RING_TAKE_END.getPose().getY(),180),
+
 			//Constants to pick up far note
-			BLUE_FAR_DRIVE_W1(3.34, 0.80, 0),
-			BLUE_FAR_LOWER_TAKE_START(7.40, 0.80, 0),
-			BLUE_FAR_LOWER_TAKE_END(7.70, 0.80, 0)
+			BLUE_FAR_DRIVE_W1(5.03, 0.753, 0),
+			BLUE_FAR_LOWER_TAKE_START(7.40, 0.753, 0),
+			BLUE_FAR_LOWER_TAKE_END(7.90, 0.753, 0),
+
+			RED_FAR_DRIVE_W1(fieldSizeX-BLUE_FAR_DRIVE_W1.getPose().getX(), BLUE_FAR_DRIVE_W1.getPose().getY(), 180),
+			RED_FAR_LOWER_TAKE_START(fieldSizeX-BLUE_FAR_LOWER_TAKE_START.getPose().getX(), BLUE_FAR_LOWER_TAKE_START.getPose().getY(), 180),
+			RED_FAR_LOWER_TAKE_END(fieldSizeX-BLUE_FAR_LOWER_TAKE_END.getPose().getX(), BLUE_FAR_LOWER_TAKE_END.getPose().getY(), 180)
+
 			;
 
 			private Pose2d pose;
@@ -970,9 +990,29 @@ public final class Constants {
 			}
 		}
 
+		public static enum centerNotes {	// important poses
+			
+			LOW1 (8.272, 0.753),
+			LOW2 (8.272, 2.411),
+			MID3 (8.272, 4.106),
+			HIGH4 (8.272, 5.782),
+			HIGH5 (8.272, 7.458)
+			;
+
+			private Translation2d translation;
+
+			centerNotes(double x, double y) {
+				this.translation = new Translation2d(x, y);
+			}
+			public Translation2d getTranslation() {
+				return translation;
+			}
+		}
+		
+
 		public static final class BlueSpeakerBottomSideConstants {
 				// Poses for start/end of the trajectory
-				public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, new Rotation2d().fromDegrees(300));
+				public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, Rotation2d.fromDegrees(300));
 				public static final Pose2d t1p2 = new Pose2d(3.25, 0.80, new Rotation2d(0));
 		}
 		public static final class BlueSpeakerMiddleConstants {
@@ -1006,7 +1046,7 @@ public final class Constants {
 				public static final double angleTolerance = 1.0;
 
 				// Poses for start/end of the trajectory
-				public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, new Rotation2d().fromDegrees(300));
+				public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, Rotation2d.fromDegrees(300));
 				public static final Pose2d t1p2 = new Pose2d(3.25, 0.80, new Rotation2d(0));
 			}
 
@@ -1117,8 +1157,8 @@ public final class Constants {
 				public static final double angleTolerance = 1.0;
 
 				// Poses for start/end of the trajectory
-				public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, new Rotation2d().fromDegrees(300));
-				public static final Pose2d t1p2 = new Pose2d(3.25, 0.80, new Rotation2d(0));
+				public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, Rotation2d.fromDegrees(300));
+				public static final Pose2d t1p2 = new Pose2d(3.25, 0.80, Rotation2d.fromDegrees(0));
 			}
 
 			public static final class RedSpeakerMiddleConstants {
