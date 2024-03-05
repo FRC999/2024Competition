@@ -14,9 +14,9 @@ import frc.robot.Constants.AutoConstants.autoPoses;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoBlueMid3Notes extends SequentialCommandGroup {
+public class AutoBlueMid3Notes2 extends SequentialCommandGroup {
   /** Creates a new AutoBlueBottom3Notes. */
-  public AutoBlueMid3Notes() {
+  public AutoBlueMid3Notes2() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -26,12 +26,10 @@ public class AutoBlueMid3Notes extends SequentialCommandGroup {
         .andThen(new ShooterStop()) // stop shooter
         .andThen(new IntakeStop()), // stop intake
       new ArmDownToIntake(),
-      new AutonomousTrajectory2Poses( // drive to 1st note pickup
+      (new AutonomousTrajectory3Poses( // drive to 1st note pickup
         autoPoses.BLUE_SPEAKER_MID.getPose(),
-        autoPoses.BLUE_MID_RING_TAKE_START.getPose()),
-      new AutonomousTrajectory2Poses( // drive and run intake to pickup 1st note
         autoPoses.BLUE_MID_RING_TAKE_START.getPose(),
-        autoPoses.BLUE_MID_RING_TAKE_END.getPose())
+        autoPoses.BLUE_MID_RING_TAKE_END.getPose()))
           .deadlineWith(new IntakeGrabNote()),
       new IntakeStop(), // in case we did not grab the note
       new ControllerRumbleStop(),
@@ -45,21 +43,23 @@ public class AutoBlueMid3Notes extends SequentialCommandGroup {
               .andThen(new ShootingGPM0Sequence(0)) // shoot
               .andThen(new ShooterStop()) // stop shooter
               .andThen(new IntakeStop()) // stop intake
-              .andThen( new AutonomousTrajectory2Poses( // drive to 2nd pickup point
-                 autoPoses.BLUE_SPEAKER_MID.getPose(),
-                 autoPoses.BLUE_HIGHER_RING_TAKE_START.getPose())
-              ),
+             // .andThen( new AutonomousTrajectory2Poses( // drive to 2nd pickup point
+             //    autoPoses.BLUE_SPEAKER_MID.getPose(),
+             //    autoPoses.BLUE_HIGHER_RING_TAKE_START.getPose())
+              //)
+              ,
         new PrintCommand("Did not pickup Mid Note")
-          .andThen(
-            new AutonomousTrajectory2Poses( // drive to 2nd pickup point
-                 autoPoses.BLUE_MID_RING_TAKE_END.getPose(),
-                 autoPoses.BLUE_HIGHER_RING_TAKE_START.getPose())
-          )
+         // .andThen(
+         //   new AutonomousTrajectory2Poses( // drive to 2nd pickup point
+         //        autoPoses.BLUE_MID_RING_TAKE_END.getPose(),
+         //        autoPoses.BLUE_HIGHER_RING_TAKE_START.getPose())
+         // )
         , 
         RobotContainer.intakeSubsystem::isNoteInIntake
       ), // now we're at the 2nd pickup point
       new ArmDownToIntake(),
-      new AutonomousTrajectory2Poses( // drive and run intake to pickup 2nd note
+      new AutonomousTrajectory3Poses( // drive and run intake to pickup 2nd note
+        autoPoses.BLUE_SPEAKER_MID.getPose(),
         autoPoses.BLUE_HIGHER_RING_TAKE_START.getPose(),
         autoPoses.BLUE_HIGHER_RING_TAKE_END.getPose())
           .alongWith(new IntakeGrabNote()),
@@ -75,21 +75,23 @@ public class AutoBlueMid3Notes extends SequentialCommandGroup {
               .andThen(new ShootingGPM0Sequence(0)) // shoot
               .andThen(new ShooterStop()) // stop shooter
               .andThen(new IntakeStop()) // stop intake
-              .andThen( new AutonomousTrajectory2Poses( // drive to 3rd pickup point
-                 autoPoses.BLUE_SPEAKER_MID.getPose(),
-                 autoPoses.BLUE_LOWER_RING_TAKE_START.getPose())
-              ),
+             // .andThen( new AutonomousTrajectory2Poses( // drive to 3rd pickup point
+             //    autoPoses.BLUE_SPEAKER_MID.getPose(),
+             //    autoPoses.BLUE_LOWER_RING_TAKE_START.getPose())
+            //)
+              ,
         new PrintCommand("Did not pickup Higher Note")
-          .andThen(
-            new AutonomousTrajectory2Poses( // drive to 3rd pickup point
-                 autoPoses.BLUE_HIGHER_RING_TAKE_END.getPose(),
-                 autoPoses.BLUE_LOWER_RING_TAKE_START.getPose())
-          )
+          //.andThen(
+          //  new AutonomousTrajectory2Poses( // drive to 3rd pickup point
+          //       autoPoses.BLUE_HIGHER_RING_TAKE_END.getPose(),
+          //       autoPoses.BLUE_LOWER_RING_TAKE_START.getPose())
+          //)
         , 
         RobotContainer.intakeSubsystem::isNoteInIntake
       ),
       new ArmDownToIntake(),
-      new AutonomousTrajectory2Poses( // drive and run intake to pickup 3rd note
+      new AutonomousTrajectory3Poses( // drive and run intake to pickup 3rd note
+        autoPoses.BLUE_SPEAKER_MID.getPose(),
         autoPoses.BLUE_LOWER_RING_TAKE_START.getPose(),
         autoPoses.BLUE_LOWER_RING_TAKE_END.getPose())
           .alongWith(new IntakeGrabNote()),
@@ -110,11 +112,11 @@ public class AutoBlueMid3Notes extends SequentialCommandGroup {
                  autoPoses.BLUE_MID_POS_OUT.getPose())
               ),
         new PrintCommand("Did not pickup Higher Note")
-          .andThen(
-            new AutonomousTrajectory2Poses( // drive to 3rd pickup point
-                 autoPoses.BLUE_LOWER_RING_TAKE_END.getPose(),
-                 autoPoses.BLUE_LOWER_POS_OUT.getPose())
-          )
+         // .andThen(
+         //   new AutonomousTrajectory2Poses( // drive to 3rd pickup point
+         //        autoPoses.BLUE_LOWER_RING_TAKE_END.getPose(),
+         //        autoPoses.BLUE_LOWER_POS_OUT.getPose())
+         // )
         , 
         RobotContainer.intakeSubsystem::isNoteInIntake
       )

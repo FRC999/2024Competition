@@ -46,7 +46,7 @@ public final class Constants {
 		public static final boolean imu = false;
 
 		public static final boolean arm = false;
-		public static final boolean intake = true;
+		public static final boolean intake = false;
 		public static final boolean shooter = false;
 
 		// Calibration-only methods
@@ -945,21 +945,21 @@ public final class Constants {
 			RED_MID_POS_OUT(fieldSizeX-BLUE_MID_POS_OUT.getPose().getX(), BLUE_MID_POS_OUT.getPose().getY(), 180),
 			RED_LOWER_POS_OUT(fieldSizeX-BLUE_LOWER_POS_OUT.getPose().getX(), BLUE_LOWER_POS_OUT.getPose().getY(), 180),
 
-			BLUE_HIGHER_RING(2.896,7.0015,0),
+			BLUE_HIGHER_RING(2.896,6.8515,0),
 			BLUE_MID_RING(2.896,5.5535,0),
-			BLUE_LOWER_RING(2.896,4.1055,0),
+			BLUE_LOWER_RING(2.896,4.0055,0),
 
 			RED_HIGHER_RING(fieldSizeX-BLUE_HIGHER_RING.getPose().getX(), BLUE_HIGHER_RING.getPose().getY(),180),
 			RED_MID_RING(fieldSizeX-BLUE_MID_RING.getPose().getX(), BLUE_MID_RING.getPose().getY(),180),
 			RED_LOWER_RING(fieldSizeX-BLUE_LOWER_RING.getPose().getX(), BLUE_LOWER_RING.getPose().getY(),180),
 
-			BLUE_HIGHER_RING_TAKE_START(1.909,7.0015,0),
+			BLUE_HIGHER_RING_TAKE_START(1.909,6.8515,0),
 			BLUE_MID_RING_TAKE_START(1.909,5.5535,0),
 			BLUE_LOWER_RING_TAKE_START(1.909,4.1055,0),
 
-			BLUE_HIGHER_RING_TAKE_END(2.465,7.0015,0),
+			BLUE_HIGHER_RING_TAKE_END(2.465,6.8515,0),
 			BLUE_MID_RING_TAKE_END(2.465,5.5535,0),
-			BLUE_LOWER_RING_TAKE_END(2.465,4.1055,0),
+			BLUE_LOWER_RING_TAKE_END(2.465,4.0055,0),
 
 			RED_HIGHER_RING_TAKE_START(fieldSizeX-BLUE_HIGHER_RING_TAKE_START.getPose().getX(), BLUE_HIGHER_RING_TAKE_START.getPose().getY(),180),
 			RED_MID_RING_TAKE_START(fieldSizeX-BLUE_MID_RING_TAKE_START.getPose().getX(), BLUE_MID_RING_TAKE_START.getPose().getY(),180),
@@ -970,9 +970,10 @@ public final class Constants {
 			RED_LOWER_RING_TAKE_END(fieldSizeX-BLUE_LOWER_RING_TAKE_END.getPose().getX(), BLUE_LOWER_RING_TAKE_END.getPose().getY(),180),
 
 			//Constants to pick up far note
-			BLUE_FAR_DRIVE_W1(5.03, 0.753, 0),
-			BLUE_FAR_LOWER_TAKE_START(7.40, 0.753, 0),
-			BLUE_FAR_LOWER_TAKE_END(7.90, 0.753, 0),
+			BLUE_FAR_DRIVE_W1(5.03, 0.453, 0),
+			BLUE_FAR_LOWER_TAKE_START(7.40, 0.453, 0),
+			BLUE_FAR_LOWER_TAKE_END(7.90, 0.453, 0),
+			BLUE_SPEAKER_LOWER_2(1.065, 4.315, -60),
 
 			RED_FAR_DRIVE_W1(fieldSizeX-BLUE_FAR_DRIVE_W1.getPose().getX(), BLUE_FAR_DRIVE_W1.getPose().getY(), 180),
 			RED_FAR_LOWER_TAKE_START(fieldSizeX-BLUE_FAR_LOWER_TAKE_START.getPose().getX(), BLUE_FAR_LOWER_TAKE_START.getPose().getY(), 180),

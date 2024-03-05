@@ -16,7 +16,11 @@ import frc.robot.commands.ArmHoldCurrentPositionWithPID;
 import frc.robot.commands.ArmRelease;
 import frc.robot.commands.ArmStop;
 import frc.robot.commands.ArmTurnToAngle;
+import frc.robot.commands.AutoBlueCalibrationLowCenterFromBottom;
+import frc.robot.commands.AutoBlueMid3Notes;
+import frc.robot.commands.AutoBlueMid3Notes2;
 import frc.robot.commands.AutoRedCalibration;
+import frc.robot.commands.AutoRedCalibration2;
 import frc.robot.commands.AutoRedSpeakerMidShootLeave;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.DriveManuallyCommand;
@@ -679,6 +683,18 @@ public class RobotContainer {
     
     new JoystickButton(driveStick, 8)
         .whileTrue(new AutoRedCalibration())
+        .onFalse(new StopAllMotorsCommand());
+    
+    new JoystickButton(driveStick,9)
+        .whileTrue(new AutoBlueCalibrationLowCenterFromBottom())
+        .onFalse(new StopAllMotorsCommand());
+
+    new JoystickButton(driveStick,10)
+        .whileTrue(new AutoBlueMid3Notes())
+        .onFalse(new StopAllMotorsCommand());
+
+    new JoystickButton(driveStick, 11)
+        .whileTrue(new AutoBlueMid3Notes2())
         .onFalse(new StopAllMotorsCommand());
   }
 
