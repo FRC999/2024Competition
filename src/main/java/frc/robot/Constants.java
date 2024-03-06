@@ -38,6 +38,8 @@ public final class Constants {
 		public static final boolean shooter = true;
 		public static final boolean climber = true;
 		public static final boolean candle = false;
+		public static final boolean driverCamera =  false;
+		public static final boolean noteHuntingCamera = false;
 	}
 
 	public static final class DebugTelemetrySubsystems {
@@ -87,7 +89,7 @@ public final class Constants {
 			public static final int NOTE_SENSOR_SWITCH_DIO_PORT_NUMBER = 4;
 
 			public static final boolean INTAKE_DOWN_LIMIT_SWITCH_PRESENT = true;
-			public static final int INTAKE_DOWN_LIMIT_SWITCH_DIO_PORT_NUMBER = 9;
+			public static final int INTAKE_DOWN_LIMIT_SWITCH_DIO_PORT_NUMBER = 8; // DIO port number for the intake limit switch
 
 		}
 		public static final class Shooter {
