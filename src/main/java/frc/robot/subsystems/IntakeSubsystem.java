@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -16,7 +17,7 @@ import frc.robot.Constants.GPMConstants.Intake;
 public class IntakeSubsystem extends SubsystemBase {
 
   // 775 connected to TalonSRX
-  private WPI_VictorSPX intakeMotor; // TalonSRX
+  private WPI_TalonFX intakeMotor; // TalonSRX
   
 
   public static DigitalInput noteSensor; // connected to the DIO iinput
@@ -34,7 +35,8 @@ public class IntakeSubsystem extends SubsystemBase {
     // === INTAKE initiatization
     // ==========================
 
-    intakeMotor = new WPI_VictorSPX(Intake.INTAKE_MOTOR_CAN_ID);
+    //intakeMotor = new WPI_VictorSPX(Intake.INTAKE_MOTOR_CAN_ID);
+    intakeMotor = new WPI_TalonFX(Intake.INTAKE_MOTOR_CAN_ID);
 
     configureIntakeMotor();
 
