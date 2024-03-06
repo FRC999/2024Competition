@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -18,7 +18,8 @@ import frc.robot.Constants.GPMConstants.Intake;
 public class IntakeSubsystem extends SubsystemBase {
 
   // 775 connected to TalonSRX
-  private TalonFX intakeMotor; // TalonSRX
+  private TalonFX intakeMotor; // Kraken
+   private final CurrentLimitsConfigs currentLimits = new CurrentLimitsConfigs();
   
 
   public static DigitalInput noteSensor; // connected to the DIO iinput
@@ -66,10 +67,23 @@ public class IntakeSubsystem extends SubsystemBase {
   private void configureIntakeMotor() {
 
     //intakeMotor.configFactoryDefault();
+    intakeMotor.getConfigurator().apply(new TalonFXConfiguration()); // reset the motor to defaults
     intakeMotor.setSafetyEnabled(false);
 
     // Configure motor and controller
     intakeMotor.setInverted(Intake.INTAKE_INVERTED);
+
+
+    TalonFXConfiguration toConfigure = new TalonFXConfiguration();
+    currentLimits.SupplyCurrentLimit = 40; // Limit to 40 amps
+    currentLimits.SupplyCurrentThreshold = 50; // If we exceed 50 amps
+    currentLimits.SupplyTimeThreshold = 1.0; // For at least 1 second
+    currentLimits.SupplyCurrentLimitEnable = true; // And enable it
+    currentLimits.StatorCurrentLimit = 40; // Limit stator to 40 amps
+    currentLimits.StatorCurrentLimitEnable = true; // And enable it
+    toConfigure.CurrentLimits = currentLimits;
+    intakeMotor.getConfigurator().apply(toConfigure);
+
 
     // We may not have any encoder on the intake, so no encoder of any kind
     // TODO: Check if intake motor has encoder
