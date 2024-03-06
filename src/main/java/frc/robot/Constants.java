@@ -38,7 +38,7 @@ public final class Constants {
 		public static final boolean shooter = true;
 		public static final boolean climber = true;
 		public static final boolean candle = false;
-		public static final boolean driverCamera =  false;
+		public static final boolean driverCamera =  true;
 		public static final boolean noteHuntingCamera = false;
 	}
 
@@ -48,12 +48,12 @@ public final class Constants {
 		public static final boolean imu = false;
 
 		public static final boolean arm = false;
-		public static final boolean intake = false;
+		public static final boolean intake = true;
 		public static final boolean shooter = false;
 
 		// Calibration-only methods
 		public static final boolean calibrateArm = false;
-		public static final boolean calibrateIntake = false;
+		public static final boolean calibrateIntake = true;
 		public static final boolean calibrateShooter = false;
 
 		
@@ -81,9 +81,9 @@ public final class Constants {
 			public static final boolean INTAKE_INVERTED = true; // positive power - note in
 			//public static final double INTAKE_NEUTRAL_DEADBAND = 0.001;
 			//public static final int INTAKE_TIMEOUT = 30; //in ms
-			public static final double INTAKE_NOTE_GRAB_POWER = 0.7;
-			public static final double INTAKE_NOTE_FORWARD_POWER = 0.5;
-			public static final double INTAKE_NOTE_SPEW_POWER = 0.5;
+			public static final double INTAKE_NOTE_GRAB_POWER = 0.35;
+			public static final double INTAKE_NOTE_FORWARD_POWER = 0.35;
+			public static final double INTAKE_NOTE_SPEW_POWER = 0.35;
 
 			public static final boolean NOTE_SENSOR_PRESENT = true; // turn to TRUE when sensor will be configured
 			public static final int NOTE_SENSOR_SWITCH_DIO_PORT_NUMBER = 4;

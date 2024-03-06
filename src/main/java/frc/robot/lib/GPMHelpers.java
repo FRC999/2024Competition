@@ -47,11 +47,11 @@ public class GPMHelpers {
     }
 
     public void setGPM0IntakePower() {
-        GPM_0_IntakePower.put(0.0, 0.34);
-        GPM_0_IntakePower.put(1.0, 0.51);
-        GPM_0_IntakePower.put(2.0, 0.51);
-        GPM_0_IntakePower.put(3.0, 0.55);
-        GPM_0_IntakePower.put(4.0, 0.60);
+        GPM_0_IntakePower.put(0.0, 0.17);
+        GPM_0_IntakePower.put(1.0, 0.24);
+        GPM_0_IntakePower.put(2.0, 0.24);
+        GPM_0_IntakePower.put(3.0, 0.25);
+        GPM_0_IntakePower.put(4.0, 0.27);
     }
 
     public void setGPM0ShooterPower() {
@@ -70,10 +70,10 @@ public class GPMHelpers {
     }
 
     public void setGPM60IntakePower() {
-        GPM_60_IntakePower.put(0.0, 0.51);
-        GPM_60_IntakePower.put(1.0, 0.51);
-        GPM_60_IntakePower.put(2.0, 0.51);
-        GPM_60_IntakePower.put(3.0, 0.51);
+        GPM_60_IntakePower.put(0.0, 0.30);
+        GPM_60_IntakePower.put(1.0, 0.30);
+        GPM_60_IntakePower.put(2.0, 0.30);
+        GPM_60_IntakePower.put(3.0, 0.30);
     }
 
     public void setGPM60ShooterPower() {
