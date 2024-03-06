@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -14,23 +13,24 @@ import frc.robot.Constants.AutoConstants.autoPoses;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoBlueBottomShootLeave extends SequentialCommandGroup {
+public class AutoCRedBottomShootLeave extends SequentialCommandGroup {
   /** Creates a new AutoBlueSpeakerBottomShootLeave. */
 
-  public AutoBlueBottomShootLeave() {
+  public AutoCRedBottomShootLeave() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(  //steps to shoot preloaded note into speaker
       new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(
-          autoPoses.BLUE_SPEAKER_LOWER.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
+          autoPoses.RED_SPEAKER_LOWER.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
       new WaitCommand(10).deadlineWith(
         (new ShootingGPM0Sequence(0))
           .andThen(new ShooterStop()) // stop shooter
           .andThen(new IntakeStop())) // stop intake
         ,   // shoot
+      new WaitCommand(5.0), //wait 5 seconds to give time for other
       new AutonomousTrajectory2Poses(
-        autoPoses.BLUE_SPEAKER_LOWER.getPose(),
-        autoPoses.BLUE_LOWER_POS_OUT.getPose()
+        autoPoses.RED_SPEAKER_LOWER.getPose(),
+        autoPoses.RED_LOWER_POS_OUT.getPose()
       )  //this will be our trajectory where we go from (0.46, 4.722478) to (3.25, 0.8) to leave community
       
     );

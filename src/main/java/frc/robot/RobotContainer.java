@@ -16,12 +16,25 @@ import frc.robot.commands.ArmHoldCurrentPositionWithPID;
 import frc.robot.commands.ArmRelease;
 import frc.robot.commands.ArmStop;
 import frc.robot.commands.ArmTurnToAngle;
-import frc.robot.commands.AutoBlueCalibrationLowCenterFromBottom;
-import frc.robot.commands.AutoBlueMid3Notes;
+import frc.robot.commands.AutoCBlue2CenterFromBottom;
+import frc.robot.commands.AutoCBlueMid4Notes;
 import frc.robot.commands.AutoBlueMid3Notes2;
+import frc.robot.commands.AutoCBlueBottomShootLeave;
+import frc.robot.commands.AutoCBlueHigher2;
+import frc.robot.commands.AutoCBlueLower2;
+import frc.robot.commands.AutoCBlueMid2;
+import frc.robot.commands.AutoCBlueMidShootLeave;
+import frc.robot.commands.AutoCBlueTopShootLeave;
+import frc.robot.commands.AutoCRed2CenterFromBottom;
+import frc.robot.commands.AutoCRedBottomShootLeave;
+import frc.robot.commands.AutoCRedHigher2;
+import frc.robot.commands.AutoCRedLower2;
+import frc.robot.commands.AutoCRedMid2;
+import frc.robot.commands.AutoCRedMid4Notes;
 import frc.robot.commands.AutoRedCalibration;
 import frc.robot.commands.AutoRedCalibration2;
-import frc.robot.commands.AutoRedSpeakerMidShootLeave;
+import frc.robot.commands.AutoCRedMidShootLeave;
+import frc.robot.commands.AutoCRedTopShootLeave;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.IntakeGrabNote;
@@ -62,7 +75,9 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -119,6 +134,8 @@ public class RobotContainer {
   public static boolean isAlianceRed = false;
   public static boolean isReversingControllerAndIMUForRed = true;
 
+  public static SendableChooser<Command> autoChooser = new SendableChooser<>();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -145,6 +162,30 @@ public class RobotContainer {
             () -> getDriverOmegaAxis(),
             () -> getDriverFieldCentric()));
 
+  }
+
+  public void AutonomousConfigure() {
+    //port autonomous routines as commands
+    //sets the default option of the SendableChooser to the simplest autonomous command. (from touching the hub, drive until outside the tarmac zone) 
+    autoChooser.addOption("BLUE TOP 1", new AutoCBlueTopShootLeave());
+    autoChooser.addOption("BLUE MID 1", new AutoCBlueMidShootLeave());
+    autoChooser.addOption("BLUE BOTTOM 1", new AutoCBlueBottomShootLeave());
+    autoChooser.addOption("BLUE TOP 2", new AutoCBlueHigher2());
+    autoChooser.addOption("BLUE MID 2", new AutoCBlueMid2());
+    autoChooser.addOption("BLUE BOTTOM 2", new AutoCBlueLower2());
+    autoChooser.addOption("BLUE *FAR* BOTTOM 2", new AutoCBlue2CenterFromBottom());
+    autoChooser.addOption("BLUE MID 3-4 !!", new AutoCBlueMid4Notes());
+    autoChooser.addOption("RED TOP 1", new AutoCRedTopShootLeave());
+    autoChooser.addOption("RED MID 1", new AutoCRedMidShootLeave());
+    autoChooser.addOption("RED BOTTOM 1", new AutoCRedBottomShootLeave());
+    autoChooser.addOption("RED TOP 2", new AutoCRedHigher2());
+    autoChooser.addOption("RED MID 2", new AutoCRedMid2());
+    autoChooser.addOption("RED BOTTOM 2", new AutoCRedLower2());
+    autoChooser.addOption("RED *FAR* BOTTOM 2", new AutoCRed2CenterFromBottom());
+    autoChooser.addOption("RED MID 3-4 !!", new AutoCRedMid4Notes());
+
+    //port SendableChooser data to the SmartDashboard
+    SmartDashboard.putData(autoChooser);
   }
 
   /**
@@ -678,7 +719,7 @@ public class RobotContainer {
 
   public void testAuto() {
     new JoystickButton(driveStick, 7)
-        .whileTrue(new AutoRedSpeakerMidShootLeave())
+        .whileTrue(new AutoCRedMidShootLeave())
         .onFalse(new StopAllMotorsCommand());
     
     new JoystickButton(driveStick, 8)
@@ -686,11 +727,11 @@ public class RobotContainer {
         .onFalse(new StopAllMotorsCommand());
     
     new JoystickButton(driveStick,9)
-        .whileTrue(new AutoBlueCalibrationLowCenterFromBottom())
+        .whileTrue(new AutoCBlue2CenterFromBottom())
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick,10)
-        .whileTrue(new AutoBlueMid3Notes())
+        .whileTrue(new AutoCBlueMid4Notes())
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick, 11)

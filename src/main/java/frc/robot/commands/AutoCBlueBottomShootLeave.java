@@ -13,23 +13,27 @@ import frc.robot.Constants.AutoConstants.autoPoses;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoRedSpeakerBottomShootLeave extends SequentialCommandGroup {
-  /** Creates a new AutoRedSpeakerBottomShootLeave. */
-  public AutoRedSpeakerBottomShootLeave() {
+public class AutoCBlueBottomShootLeave extends SequentialCommandGroup {
+  /** Creates a new AutoBlueSpeakerBottomShootLeave. */
+
+  public AutoCBlueBottomShootLeave() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
+    addCommands(  //steps to shoot preloaded note into speaker
       new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(
-          autoPoses.RED_SPEAKER_LOWER.getPose().getRotation().getDegrees())), // set yaw to the start pose yaw
-      new WaitCommand(20).deadlineWith(
+          autoPoses.BLUE_SPEAKER_LOWER.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
+      new WaitCommand(10).deadlineWith(
         (new ShootingGPM0Sequence(0))
           .andThen(new ShooterStop()) // stop shooter
           .andThen(new IntakeStop())) // stop intake
-        ,   // shoot from closest shooting distance
+        ,   // shoot
+      new WaitCommand(5.0), //wait 5 seconds to give time for other
       new AutonomousTrajectory2Poses(
-        autoPoses.RED_SPEAKER_LOWER.getPose(),
-        autoPoses.RED_LOWER_POS_OUT.getPose()
-      )  //this will be our trajectory where we go from (13.992, 4.667) to (11.453, 1.32) to leave community
+        autoPoses.BLUE_SPEAKER_LOWER.getPose(),
+        autoPoses.BLUE_LOWER_POS_OUT.getPose()
+      )  //this will be our trajectory where we go from (0.46, 4.722478) to (3.25, 0.8) to leave community
+      
     );
+
   }
 }

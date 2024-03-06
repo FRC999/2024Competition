@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
@@ -14,30 +13,25 @@ import frc.robot.Constants.AutoConstants.autoPoses;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoRedSpeakerMidShootLeave extends SequentialCommandGroup {
-  /** Creates a new AutoRedSpeakerMidShootLeave. */
-  public AutoRedSpeakerMidShootLeave() {
+public class AutoCBlueTopShootLeave extends SequentialCommandGroup {
+  /** Creates a new AutoBlueSpeakerMidShootLeave. */
+  
+  public AutoCBlueTopShootLeave() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new PrintCommand("Starting AutoRedSpeakerMidShoot"),
-       new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(
-        autoPoses.RED_SPEAKER_MID.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
-      new PrintCommand("Auto yaw set"),
-      new WaitCommand(20).raceWith(
+      new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(
+          autoPoses.BLUE_SPEAKER_HIGHER.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
+      new WaitCommand(10).deadlineWith(
         (new ShootingGPM0Sequence(0))
           .andThen(new ShooterStop()) // stop shooter
           .andThen(new IntakeStop())) // stop intake
         ,   // shoot
-      new PrintCommand("Shooting done"),
-      new WaitCommand(1.0), //wait 5 seconds to give time for other ; ADJUST BASED ON HOW LONG IT TAKES TO LEAVE COMMUNITY
-      new PrintCommand("Wait done"),
+      new WaitCommand(5.0), //wait 5 seconds to give time for other
       new AutonomousTrajectory2Poses(
-        autoPoses.RED_SPEAKER_MID.getPose(),
-        autoPoses.RED_MID_POS_OUT.getPose()
-      ),
-      new PrintCommand("Trajectory done")
-        //this will be our trajectory where we go from (13.789, 5.514) to (11.453, 5.540) to leave community
+        autoPoses.BLUE_SPEAKER_HIGHER.getPose(),
+        autoPoses.BLUE_HIGHER_POS_OUT.getPose()
+      )  //this will be our trajectory where we go from (6,) to (3.25, 0.8) to leave community
     );
   }
 }
