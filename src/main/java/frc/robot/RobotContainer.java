@@ -162,6 +162,8 @@ public class RobotContainer {
             () -> getDriverOmegaAxis(),
             () -> getDriverFieldCentric()));
 
+    AutonomousConfigure();
+
   }
 
   public void AutonomousConfigure() {
@@ -279,8 +281,8 @@ public class RobotContainer {
 
     //testIntake();
     //testArm();
-    //testClimber();
-    testAuto();
+    testClimber();
+    //testAuto();
 
     // Mohawk, practice and competition
     competitionCommandsForDriverController();

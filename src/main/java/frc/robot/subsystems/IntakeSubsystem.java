@@ -73,7 +73,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // Configure motor and controller
     intakeMotor.setInverted(Intake.INTAKE_INVERTED);
 
-
+/* 
     TalonFXConfiguration toConfigure = new TalonFXConfiguration();
     currentLimits.SupplyCurrentLimit = 40; // Limit to 40 amps
     currentLimits.SupplyCurrentThreshold = 50; // If we exceed 50 amps
@@ -83,7 +83,7 @@ public class IntakeSubsystem extends SubsystemBase {
     currentLimits.StatorCurrentLimitEnable = true; // And enable it
     toConfigure.CurrentLimits = currentLimits;
     intakeMotor.getConfigurator().apply(toConfigure);
-
+*/
 
     // We may not have any encoder on the intake, so no encoder of any kind
     // TODO: Check if intake motor has encoder
