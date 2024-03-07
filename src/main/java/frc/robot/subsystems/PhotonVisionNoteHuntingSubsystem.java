@@ -16,10 +16,10 @@ public class PhotonVisionNoteHuntingSubsystem extends SubsystemBase {
   PhotonCamera camera;
 
   /** Creates a new PhotonVisionNoteHuntingSubsystem. */
-  public PhotonVisionNoteHuntingSubsystem() {
+  public PhotonVisionNoteHuntingSubsystem(String cameraName) {
           if (! EnabledSubsystems.noteHuntingCamera) { return; }
 
-      camera = new PhotonCamera("OV..."); // TODO: check camera name
+      camera = new PhotonCamera(cameraName); // TODO: check camera name
   }
 
   public boolean isNoteDetected() {

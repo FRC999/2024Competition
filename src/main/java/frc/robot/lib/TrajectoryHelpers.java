@@ -6,6 +6,8 @@ import edu.wpi.first.math.geometry.Transform2d;
 
 public class TrajectoryHelpers {
 
+    public static Pose2d correctedPose = new Pose2d();
+
     /**
      * This method will adjust the endPose based on the angle.
      * For now it will siply turn it to the specified angle using the startPose as origin.
@@ -18,6 +20,14 @@ public class TrajectoryHelpers {
         Transform2d t = relativePoseTurned.minus(new Pose2d()); // converts relative pose to a transformation
         return startPose.transformBy(t);
         
+    }
+
+    public static void setCorrectedPose(Pose2d startPose, Pose2d endPose, double angle) {
+        correctedPose = correctEndingPoseBasedOnNoteLocation(startPose, endPose, angle);
+    }
+
+    public static Pose2d getCorrectedPose() {
+        return correctedPose;
     }
 
 }

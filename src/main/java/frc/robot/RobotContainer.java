@@ -65,6 +65,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LLDetectorSubsystem;
 import frc.robot.subsystems.LLVisionSubsystem;
 import frc.robot.subsystems.NetworkTablesSubsystem;
+import frc.robot.subsystems.PhotonVisionNoteHuntingSubsystem;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SmartDashboardSubsystem;
@@ -110,6 +111,7 @@ public class RobotContainer {
 
   public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
   public final static PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem(PhotonVisionConstants.PVCameraName);
+  public final static PhotonVisionNoteHuntingSubsystem photonVisionNoteHuntingSubsystem = new PhotonVisionNoteHuntingSubsystem(PhotonVisionConstants.NoteCameraName);
   public final static LLDetectorSubsystem llDetectorSubsystem = new LLDetectorSubsystem();
   public final static CANdleSubsystem candleSubsystem = new CANdleSubsystem();
   public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
