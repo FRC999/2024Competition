@@ -19,6 +19,7 @@ import frc.robot.commands.ArmTurnToAngle;
 import frc.robot.commands.AutoCBlue2CenterFromBottom;
 import frc.robot.commands.AutoCBlueMid4Notes;
 import frc.robot.commands.AutoBlueMid3Notes2;
+import frc.robot.commands.AutoBlueMidCalibrationCameraAdjustment;
 import frc.robot.commands.AutoCBlueBottomShootLeave;
 import frc.robot.commands.AutoCBlueHigher2;
 import frc.robot.commands.AutoCBlueLower2;
@@ -741,6 +742,10 @@ public class RobotContainer {
     new JoystickButton(driveStick, 11)
         .whileTrue(new AutoBlueMid3Notes2())
         .onFalse(new StopAllMotorsCommand());
+
+    new JoystickButton(driveStick, 12)
+            .whileTrue(new AutoBlueMidCalibrationCameraAdjustment())
+            .onFalse(new StopAllMotorsCommand());
   }
 
   // Aliiance color determination

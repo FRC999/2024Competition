@@ -50,6 +50,7 @@ public final class Constants {
 		public static final boolean arm = false;
 		public static final boolean intake = true;
 		public static final boolean shooter = false;
+		public static final boolean noteHunting = true;
 
 		// Calibration-only methods
 		public static final boolean calibrateArm = false;

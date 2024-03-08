@@ -116,9 +116,10 @@ public class SmartDashboardSubsystem extends SubsystemBase {
       updateIntakeTelemetry();
     }
 
-    // Test vision
-    //updateVisionTelemetryLL();
-    updateVisionDetectorTelemetry();
+    if (EnabledSubsystems.noteHuntingCamera && DebugTelemetrySubsystems.noteHunting)  {
+      updateVisionDetectorTelemetry();
+    }
+    
   }
   @Override
   public void periodic() {
