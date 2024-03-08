@@ -50,7 +50,7 @@ public final class Constants {
 		public static final boolean arm = false;
 		public static final boolean intake = true;
 		public static final boolean shooter = false;
-		public static final boolean noteHunting = true;
+		public static final boolean noteHunting = false;
 
 		// Calibration-only methods
 		public static final boolean calibrateArm = false;
@@ -239,7 +239,7 @@ public final class Constants {
 			public static final double ARM_MAX_ANGLE = 15.0;
 			public static final double ARM_INTAKE_ANGLE = -83.0;
 			public static final double ARM_AMP_ANGLE = 15.0;
-			public static final double ARM_NOTE_VISION_ANGLE = -63.0;
+			public static final double ARM_NOTE_VISION_ANGLE = -43.0;
 		}
 
 	}
@@ -919,7 +919,7 @@ public final class Constants {
 
 			public static final boolean PV_PRESENT = false;
 			public static final String PVCameraName = "Razor_Kiyo";
-			public static final String NoteCameraName = "OV...";
+			public static final String NoteCameraName = "Arducam_OV9281_USB_Camera";
 			// Camera position from center of the chassis / floor (for Z) point of view; it's looking backwards
 			public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,Math.PI));
 
