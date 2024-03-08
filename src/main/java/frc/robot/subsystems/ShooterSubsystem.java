@@ -7,12 +7,16 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CurrentLimiter;
+import frc.robot.Constants.EnableCurrentLimiter;
 import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.GPMConstants.Shooter;
 import frc.robot.Constants.GPMConstants.Shooter.ShooterMotorConstantsEnum;
@@ -34,6 +38,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private SparkPIDController shooterPIDControllerLeft;
   private SparkPIDController shooterPIDControllerRight;
 
+  private InterpolatingDoubleTreeMap SHOOTER_POWER = new InterpolatingDoubleTreeMap();
+
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
 
@@ -43,6 +49,9 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotorLeft = new CANSparkMax(ShooterMotorConstantsEnum.LEFTMOTOR.getShooterMotorID(), MotorType.kBrushless);
     shooterMotorRight = new CANSparkMax(ShooterMotorConstantsEnum.RIGHTMOTOR.getShooterMotorID(), MotorType.kBrushless);
 
+    shooterPIDControllerLeft = shooterMotorLeft.getPIDController();
+    shooterPIDControllerRight = shooterMotorRight.getPIDController();
+
     shooterEncoderLeft = shooterMotorLeft.getEncoder();
     shooterEncoderRight = shooterMotorRight.getEncoder();
 
@@ -51,7 +60,11 @@ public class ShooterSubsystem extends SubsystemBase {
     // Follower Motor
     configureshooterMotors(shooterMotorRight, shooterEncoderRight, shooterPIDControllerRight, ShooterMotorConstantsEnum.RIGHTMOTOR,
         shooterMotorLeft);
+    
+    //shooterMotorLeft.setIdleMode(IdleMode.kCoast);
 
+    setShooterPower();
+    
     System.out.println("*** Shooter initialized");
 
   }
@@ -79,15 +92,29 @@ public class ShooterSubsystem extends SubsystemBase {
     motor.setCANTimeout(0);
 
     motor.enableVoltageCompensation(Shooter.nominalVoltage);
-    motor.setSmartCurrentLimit(Shooter.shooterMotorCurrentLimit);
+
+    if (EnableCurrentLimiter.shooter) {
+      motor.setSmartCurrentLimit(CurrentLimiter.shooter);
+    }
+    
     motor.setOpenLoopRampRate(Shooter.rampRate);
     motor.setClosedLoopRampRate(Shooter.rampRate);
 
     // sets which motor is the leader and follower; set follower inversion if needed
     if (c.getShooterMotorFollower()) {
       motor.follow(motorToFollow,c.getShooterMotorInverted());
+
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 250);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 250);
+
     } else {
       shooterMotorLeader = motor;
+
+      //motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 25);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 50);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
+
     }
 
     // PID Controller setup
@@ -114,13 +141,18 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   // TODO: Modify this
+  
+  /* 
   public double convertShooterPowerIntoShooterSpeed(double power) {
     return power;
   }
+  */
 
+  /* 
   public double convertShooterSpeedIntoShooterPower(double speed) {
     return speed;
   }
+  */
 
   /**
    * Run shooter with NON-PID power -1..1
@@ -147,7 +179,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void stopShooter() {
-    shooterMotorLeader.getPIDController().setReference((0), ControlType.kVelocity);
+    //shooterMotorLeader.getPIDController().setReference((0), ControlType.kVelocity);
+    shooterMotorLeader.set(0);
   }
 
   // ===============================
@@ -168,6 +201,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getRightShooterMotorEncoder() {
     return shooterEncoderRight.getPosition();
+  }
+
+  public void setShooterPower() {
+    SHOOTER_POWER.put(0.0, 0.0); //TODO: need to calibrate
+    SHOOTER_POWER.put(6.0, 0.8); 
   }
 
   @Override

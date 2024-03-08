@@ -1,0 +1,42 @@
+half-field len 8.308975 (8.272 - onshape)
+half-field width (onshape) 4.106
+
+wall-to-wall - -16.545814
+
+speaker from wall - 0.914
+
+from wall to the RED amp - 15.627
+
+robot len half 17" = 0.432
+
+red-mid = 15.627-0.432=15.195
+
+Strip len - 0.341 /2 = 0.1705
+
+x rings-to-wall = 2.896
+bottom note to bottom = 4.1055
+midnote Y = 5.5535
+
+intake from mid-robot = 24" = 0.609
+
+note half=size =7" = 0.178
+
+x-offset of the robot in top/bottom position = 0.149
+
+
+============
+
+Shooter distance/speed
+
+0 335
+1 335
+2 384
+3 484
+4 508
+
+60.0 360
+60.1 360
+60.2 408
+60.3 484
+
+

@@ -19,21 +19,28 @@ public class CalibrateArmPowerFF extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double armPower = RobotContainer.driveStick.getRawAxis(OIConstants.CALIBRATION_JOYSTICK_SLIDER_AXLE);
+    System.out.println("**** Calibrating Arm ...");
+    double armPower = RobotContainer.driveStick3.getRawAxis(OIConstants.CALIBRATION_JOYSTICK_SLIDER_AXLE);
     RobotContainer.armSubsystem.runArmMotors(armPower);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double armPower = RobotContainer.driveStick.getRawAxis(OIConstants.CALIBRATION_JOYSTICK_SLIDER_AXLE);
+    double armPower = RobotContainer.driveStick3.getRawAxis(OIConstants.CALIBRATION_JOYSTICK_SLIDER_AXLE);
     RobotContainer.armSubsystem.runArmMotors(armPower);
     SmartDashboard.putNumber("Calibration - Arm power FF", armPower);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    
+    // alex test
+    //System.out.println("HoldP: " + RobotContainer.armSubsystem.getFormFeedPowerForCurrentAngle());
+
+    RobotContainer.armSubsystem.runArmMotors(0);
+  }
 
   // Returns true when the command should end.
   @Override

@@ -16,7 +16,7 @@ public class ClimbDown extends InstantCommand {
   public ClimbDown() {
 
     // Use addRequirements() here to declare subsystem dependencies.
-    this(-Climber.CLIMBER_UP_DEFAULT_POWER);
+    this(Climber.CLIMBER_UP_DEFAULT_POWER);
   }
 
    public ClimbDown(double p) {

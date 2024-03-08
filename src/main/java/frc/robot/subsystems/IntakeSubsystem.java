@@ -4,9 +4,11 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.GPMConstants.Intake;
@@ -16,33 +18,72 @@ import frc.robot.Constants.GPMConstants.Intake;
 public class IntakeSubsystem extends SubsystemBase {
 
   // 775 connected to TalonSRX
-  private WPI_VictorSPX intakeMotor; // TalonSRX
+  private TalonFX intakeMotor; // Kraken
+   private final CurrentLimitsConfigs currentLimits = new CurrentLimitsConfigs();
+  
+
+  public static DigitalInput noteSensor; // connected to the DIO iinput
+  private DigitalInput intakeDownLimitSwitch;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
 
     // Check if need to initialize intake
-    if (! EnabledSubsystems.intake) { return; }
+    if (!EnabledSubsystems.intake) {
+      return;
+    }
 
     // ==========================
     // === INTAKE initiatization
     // ==========================
 
-    intakeMotor = new WPI_VictorSPX(Intake.INTAKE_MOTOR_CAN_ID);
+    //intakeMotor = new WPI_VictorSPX(Intake.INTAKE_MOTOR_CAN_ID);
+    intakeMotor = new TalonFX(Intake.INTAKE_MOTOR_CAN_ID);
 
     configureIntakeMotor();
 
     System.out.println("*** Intake initialized");
 
+    if (Intake.NOTE_SENSOR_PRESENT) {
+      try {
+        noteSensor = new DigitalInput(Intake.NOTE_SENSOR_SWITCH_DIO_PORT_NUMBER);
+        System.out.println("*** Note sensor initialized");
+      } catch (Exception e) {
+        System.out.println("Unable to get note sensor value");
+      }
+    }
+
+    if (Intake.INTAKE_DOWN_LIMIT_SWITCH_PRESENT) {
+      try {
+        intakeDownLimitSwitch = new DigitalInput(Intake.INTAKE_DOWN_LIMIT_SWITCH_DIO_PORT_NUMBER);
+        System.out.println("*** Intake Down Limit Switch initialized");
+      } catch (Exception e) {
+        System.out.println("Unable to get intake down limit switch value");
+      }
+    }
+
   }
 
   private void configureIntakeMotor() {
 
-    intakeMotor.configFactoryDefault();
+    //intakeMotor.configFactoryDefault();
+    intakeMotor.getConfigurator().apply(new TalonFXConfiguration()); // reset the motor to defaults
     intakeMotor.setSafetyEnabled(false);
 
     // Configure motor and controller
     intakeMotor.setInverted(Intake.INTAKE_INVERTED);
+
+/* 
+    TalonFXConfiguration toConfigure = new TalonFXConfiguration();
+    currentLimits.SupplyCurrentLimit = 40; // Limit to 40 amps
+    currentLimits.SupplyCurrentThreshold = 50; // If we exceed 50 amps
+    currentLimits.SupplyTimeThreshold = 1.0; // For at least 1 second
+    currentLimits.SupplyCurrentLimitEnable = true; // And enable it
+    currentLimits.StatorCurrentLimit = 40; // Limit stator to 40 amps
+    currentLimits.StatorCurrentLimitEnable = true; // And enable it
+    toConfigure.CurrentLimits = currentLimits;
+    intakeMotor.getConfigurator().apply(toConfigure);
+*/
 
     // We may not have any encoder on the intake, so no encoder of any kind
     // TODO: Check if intake motor has encoder
@@ -120,10 +161,15 @@ public class IntakeSubsystem extends SubsystemBase {
   //TODO: This will work using the sensor; modify the code as needed.
   /**
    * Check if note is in the intake
+   * If sensor is not present, always return TRUE
    * @return
    */
   public boolean isNoteInIntake() {
-    return true;
+      return (! Intake.NOTE_SENSOR_PRESENT) || ! noteSensor.get() ;
+  }
+  
+  public boolean isIntakeDown() {
+      return(Intake.INTAKE_DOWN_LIMIT_SWITCH_PRESENT && ! intakeDownLimitSwitch.get());
   }
 
   @Override

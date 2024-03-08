@@ -5,24 +5,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-public class ShooterToSpeed extends Command {
-
-  double speed;
-  /** Creates a new ShooterToSpeed. */
-  public ShooterToSpeed(double s) {
+public class ArmHoldPassiveAtCurrentAngle extends Command {
+  /** Creates a new ArmHoldAtCurrentAngle. */
+  public ArmHoldPassiveAtCurrentAngle() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.shooterSubsystem);
-    speed = s;
+    addRequirements(RobotContainer.armSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.shooterSubsystem.runShooterWithPower(
-      RobotContainer.shooterSubsystem.convertShooterSpeedIntoShooterPower(speed));
+    double angle = RobotContainer.armSubsystem.getArmAngleSI();
+    double holdPower = RobotContainer.armSubsystem.FEED_FORWARD.get(angle);
+
+    //Alex test
+    //System.out.println("Hold: "+holdPower);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,14 +30,11 @@ public class ShooterToSpeed extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    System.out.println("Shooter is up to speed: " + speed);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(RobotContainer.shooterSubsystem.getRightShooterMotorVelocity() - speed)
-       <= Constants.AutoConstants.BlueSpeakerBottomSideConstants.speedTolerance;
+    return false;
   }
 }

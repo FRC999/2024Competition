@@ -4,10 +4,10 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.GPMConstants;
+import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.GPMConstants.Intake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -19,8 +19,12 @@ public class IntakeGrabNote extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      // new PrintCommand("Grabbing Note..."),
       new IntakeRun(Intake.INTAKE_NOTE_GRAB_POWER).until(RobotContainer.intakeSubsystem::isNoteInIntake),
-      new IntakeStop()
+      new IntakeStop(),
+      (new ControllerRumbleCommandDriver(0.1) // rumble driver controller if got the note in
+        .onlyIf(() -> RobotContainer.intakeSubsystem.isNoteInIntake() && DriverStation.isTeleopEnabled() ))
+          .alongWith(new LEDBlink().onlyIf(()->EnabledSubsystems.candle)) // Blink LEDs if installed
     );
   }
 }

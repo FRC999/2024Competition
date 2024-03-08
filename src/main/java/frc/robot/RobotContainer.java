@@ -4,18 +4,51 @@
 
 package frc.robot;
 
+import frc.robot.Constants.DebugTelemetrySubsystems;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OIConstants.ControllerDevice;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.Constants.GPMConstants.Arm;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
+import frc.robot.commands.ArmDownToIntake;
+import frc.robot.commands.ArmHoldCurrentPositionWithPID;
+import frc.robot.commands.ArmRelease;
 import frc.robot.commands.ArmStop;
+import frc.robot.commands.ArmTurnToAngle;
+import frc.robot.commands.AutoCBlue2CenterFromBottom;
+import frc.robot.commands.AutoCBlueMid4Notes;
+import frc.robot.commands.AutoBlueMid3Notes2;
+import frc.robot.commands.AutoBlueMidCalibrationCameraAdjustment;
+import frc.robot.commands.AutoCBlueBottomShootLeave;
+import frc.robot.commands.AutoCBlueHigher2;
+import frc.robot.commands.AutoCBlueLower2;
+import frc.robot.commands.AutoCBlueMid2;
+import frc.robot.commands.AutoCBlueMidShootLeave;
+import frc.robot.commands.AutoCBlueTopShootLeave;
+import frc.robot.commands.AutoCRed2CenterFromBottom;
+import frc.robot.commands.AutoCRedBottomShootLeave;
+import frc.robot.commands.AutoCRedHigher2;
+import frc.robot.commands.AutoCRedLower2;
+import frc.robot.commands.AutoCRedMid2;
+import frc.robot.commands.AutoCRedMid4Notes;
+import frc.robot.commands.AutoRedCalibration;
+import frc.robot.commands.AutoRedCalibration2;
+import frc.robot.commands.AutoCRedMidShootLeave;
+import frc.robot.commands.AutoCRedTopShootLeave;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.DriveManuallyCommand;
+import frc.robot.commands.IntakeGrabNote;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.PosePrinter;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.commands.ShooterStop;
+import frc.robot.commands.ShooterToPower;
+import frc.robot.commands.ShootingAmpSequence;
+import frc.robot.commands.ShootingGPM0Sequence;
+import frc.robot.commands.ShootingSequenceManual;
+import frc.robot.commands.StopAllMotorsCommand;
+import frc.robot.lib.GPMHelpers;
 import frc.robot.commands.AutonomousTrajectory2PosesDynamic;
 import frc.robot.commands.CalibrateArmPowerFF;
 import frc.robot.commands.CalibrateIntakePower;
@@ -23,14 +56,17 @@ import frc.robot.commands.CalibrateShooterPower;
 import frc.robot.commands.ClimbDown;
 import frc.robot.commands.ClimbStop;
 import frc.robot.commands.ClimbUp;
+import frc.robot.commands.ControllerRumbleStop;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CANdleSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IMUSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LLDetectorSubsystem;
 import frc.robot.subsystems.LLVisionSubsystem;
 import frc.robot.subsystems.NetworkTablesSubsystem;
+import frc.robot.subsystems.PhotonVisionNoteHuntingSubsystem;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SmartDashboardSubsystem;
@@ -41,9 +77,12 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -63,7 +102,8 @@ public class RobotContainer {
   public final static IMUSubsystem imuSubsystem = new IMUSubsystem();
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
   //public final static SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
-  public final static ArmSubsystem gpmSubsystem = new ArmSubsystem();
+
+  public final static GPMHelpers gpmHelpers = new GPMHelpers();
   public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public final static ArmSubsystem armSubsystem = new ArmSubsystem();
@@ -72,15 +112,32 @@ public class RobotContainer {
 
   public final static LLVisionSubsystem llVisionSubsystem = new LLVisionSubsystem();
   public final static PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem(PhotonVisionConstants.PVCameraName);
+  public final static PhotonVisionNoteHuntingSubsystem photonVisionNoteHuntingSubsystem = new PhotonVisionNoteHuntingSubsystem(PhotonVisionConstants.NoteCameraName);
   public final static LLDetectorSubsystem llDetectorSubsystem = new LLDetectorSubsystem();
+  public final static CANdleSubsystem candleSubsystem = new CANdleSubsystem();
   public final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
   
-  public static Controller xboxController;
+  public static Controller xboxDriveController;
+  public static Controller xboxGPMController;
 
   public static Controller driveStick; // for robot testing only
+  public static Controller driveStick1; // for robot testing only
+  public static Controller driveStick2; // for robot testing only
+  public static Controller driveStick3; // for robot testing only
 
   // A Data Log Manager file handle
   public static StringLogEntry myStringLog;
+
+  // ========================================
+  // === Variables for the alliance color ===
+  // ========================================
+  // If Apriltag detection is in place, need to track joystick directions in reverse so
+  // from the RED alliance side the forward is back, right is left, and IMU is + 180 degrees
+
+  public static boolean isAlianceRed = false;
+  public static boolean isReversingControllerAndIMUForRed = true;
+
+  public static SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -108,6 +165,32 @@ public class RobotContainer {
             () -> getDriverOmegaAxis(),
             () -> getDriverFieldCentric()));
 
+    AutonomousConfigure();
+
+  }
+
+  public void AutonomousConfigure() {
+    //port autonomous routines as commands
+    //sets the default option of the SendableChooser to the simplest autonomous command. (from touching the hub, drive until outside the tarmac zone) 
+    autoChooser.addOption("BLUE TOP 1", new AutoCBlueTopShootLeave());
+    autoChooser.addOption("BLUE MID 1", new AutoCBlueMidShootLeave());
+    autoChooser.addOption("BLUE BOTTOM 1", new AutoCBlueBottomShootLeave());
+    autoChooser.addOption("BLUE TOP 2", new AutoCBlueHigher2());
+    autoChooser.addOption("BLUE MID 2", new AutoCBlueMid2());
+    autoChooser.addOption("BLUE BOTTOM 2", new AutoCBlueLower2());
+    autoChooser.addOption("BLUE *FAR* BOTTOM 2", new AutoCBlue2CenterFromBottom());
+    autoChooser.addOption("BLUE MID 3-4 !!", new AutoCBlueMid4Notes());
+    autoChooser.addOption("RED TOP 1", new AutoCRedTopShootLeave());
+    autoChooser.addOption("RED MID 1", new AutoCRedMidShootLeave());
+    autoChooser.addOption("RED BOTTOM 1", new AutoCRedBottomShootLeave());
+    autoChooser.addOption("RED TOP 2", new AutoCRedHigher2());
+    autoChooser.addOption("RED MID 2", new AutoCRedMid2());
+    autoChooser.addOption("RED BOTTOM 2", new AutoCRedLower2());
+    autoChooser.addOption("RED *FAR* BOTTOM 2", new AutoCRed2CenterFromBottom());
+    autoChooser.addOption("RED MID 3-4 !!", new AutoCRedMid4Notes());
+
+    //port SendableChooser data to the SmartDashboard
+    SmartDashboard.putData(autoChooser);
   }
 
   /**
@@ -124,8 +207,18 @@ public class RobotContainer {
        * commands that need manual control input (e.g. DriveManuallyCommand)
        */
       driveStick = new Controller(ControllerDevice.DRIVESTICK);  // disable joysticks for driver practice code
+
+      // Calibrate-only joysticks
+      if (DebugTelemetrySubsystems.calibrateShooter)
+        driveStick1 = new Controller(ControllerDevice.DRIVESTICK1);
+      if (DebugTelemetrySubsystems.calibrateIntake)
+        driveStick2 = new Controller(ControllerDevice.DRIVESTICK2);
+      if (DebugTelemetrySubsystems.calibrateArm)
+        driveStick3 = new Controller(ControllerDevice.DRIVESTICK3);
+
       //turnStick = new Controller(ControllerDevice.TURNSTICK);   // disable joysticks for driver practice code
-      xboxController = new Controller(ControllerDevice.XBOX_CONTROLLER);
+      xboxDriveController = new Controller(ControllerDevice.XBOX_CONTROLLER);
+      xboxGPMController = new Controller(ControllerDevice.XBOX_CONTROLLER_GPM);
       // bbl = new Joystick(OIConstants.bblPort);
       // bbr = new Joystick(OIConstants.bbrPort);
 
@@ -147,8 +240,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-
-    helperButtons();
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     //new Trigger(m_exampleSubsystem::exampleCondition)
@@ -172,18 +263,50 @@ public class RobotContainer {
     // Test Vision
     // visionTesting();
 
+    // ============================
+    // === Calibration bindings ===
+    // ============================
+
+    // Calibrate intake
+    if (DebugTelemetrySubsystems.calibrateIntake) {
+        calibrateIntakePower();
+    }
+
+    // Calibrate shooter
+    if (DebugTelemetrySubsystems.calibrateShooter) {
+        calibrateShooterPower();
+    }
+
+    // Calibrate arm
+    if (DebugTelemetrySubsystems.calibrateArm) {
+        calibrateArmPowerFF();
+    }
+
+    //testIntake();
+    //testArm();
+    testClimber();
+    //testAuto();
+
+    // Mohawk, practice and competition
+    competitionCommandsForDriverController();
+    competitionCommandsForGPMController();
+    
   }
 
+  // Driver preferred controls
   private double getDriverXAxis() {
-    return -xboxController.getLeftStickY();
+    //return -xboxController.getLeftStickY();
+    return -xboxDriveController.getRightStickY();
   }
 
   private double getDriverYAxis() {
-    return -xboxController.getLeftStickX();
+    //return -xboxController.getLeftStickX();
+    return -xboxDriveController.getRightStickX();
   }
 
   private double getDriverOmegaAxis() {
-    return -xboxController.getLeftStickOmega();
+    //return -xboxController.getLeftStickOmega();
+    return -xboxDriveController.getLeftStickX() * 0.6;
   }
 
     /**
@@ -197,7 +320,7 @@ public class RobotContainer {
    * @return - true if robot-centric swerve should be used
    */
   private boolean getDriverFieldCentric() {
-      return !xboxController.getRawButton(OIConstants.robotCentricButton);
+      return !xboxDriveController.getRawButton(OIConstants.robotCentricButton);
   }
 
   /**
@@ -420,17 +543,38 @@ public class RobotContainer {
   }
 
   public void testIntake() {
-      new JoystickButton(driveStick, 3)
-              .whileTrue(new InstantCommand(() -> RobotContainer.intakeSubsystem.runIntake(0.2)))
+
+
+
+      new JoystickButton(driveStick2, 3)
+              .whileTrue(new InstantCommand(() -> RobotContainer.intakeSubsystem.runIntake(0.5)))
+              .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
+      new JoystickButton(driveStick2, 4)
+              .whileTrue(new InstantCommand(() -> RobotContainer.intakeSubsystem.runIntake(-0.5)))
+              .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
+      new JoystickButton(driveStick2, 11)
+              .whileTrue(new IntakeGrabNote())
               .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
   }
 
   public void testArm() {
+
+      new JoystickButton(driveStick, 2)
+              .whileTrue(new ArmRelease());
+
       new JoystickButton(driveStick, 3)
-              .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(0.2)))
-              .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
+              .onTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(0.04),armSubsystem))
+              .onFalse(new ArmHoldCurrentPositionWithPID());
+              //.onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
       new JoystickButton(driveStick, 4)
-              .whileTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(-0.2)))
+              .onTrue(new InstantCommand(() -> RobotContainer.armSubsystem.runArmMotors(-0.04),armSubsystem))
+              .onFalse(new ArmHoldCurrentPositionWithPID());
+              //.onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
+      new JoystickButton(driveStick, 11)
+              .whileTrue(new ArmTurnToAngle( ()-> -10.0 ))
+              .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
+      new JoystickButton(driveStick, 12)
+              .whileTrue(new ArmTurnToAngle( ()-> -50.0 ))
               .onFalse(new InstantCommand(RobotContainer.armSubsystem::stopArmMotors));
   }
 
@@ -443,37 +587,184 @@ public class RobotContainer {
               .onFalse(new ClimbStop());
   }
 
+
+  // =========================================
+  // === Competition and driver training binds
+  // =========================================
+
+  public void competitionCommandsForDriverController() {
+
+    // START button on the DRIVE controller - reset YAW to 0  
+    new JoystickButton(xboxDriveController, 8)
+        .onTrue(new InstantCommand(RobotContainer.imuSubsystem::zeroYaw));
+
+    // R2 on driver xbox - intake grab note
+    new Trigger(() -> xboxDriveController.getRawAxis(3) > 0.3)
+        .onTrue(new IntakeGrabNote().
+            alongWith
+                (
+                    (new ArmTurnToAngle(() -> Arm.ARM_INTAKE_ANGLE)
+                            .until(intakeSubsystem::isIntakeDown))
+                        .andThen(new ArmRelease())
+                ).alongWith(new ControllerRumbleStop())
+            )
+        .onFalse(new IntakeStop().andThen(new ArmRelease()).andThen(new ControllerRumbleStop()));
+  }
+
+  public void competitionCommandsForGPMController() {
+
+      // Shooting amp
+      new JoystickButton(xboxGPMController, 1) // Button A - double-check
+              .onTrue(new ShootingAmpSequence())
+              .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
+
+      // Shooting Speaker Close Range
+      new JoystickButton(xboxGPMController, 2) // Button B
+              .onTrue(new ShootingGPM0Sequence(0))
+              .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
+
+      // Shooting Speaker Mid Range
+      new JoystickButton(xboxGPMController, 3) // Button X
+              .onTrue(new ShootingGPM0Sequence(1))
+              .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
+
+    // Shooting Speaker Far Range
+    new JoystickButton(xboxGPMController, 4)    // Button Y
+        .onTrue(new ShootingGPM0Sequence(2.0))
+        .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
+
+    // L1 + L-DOWN = run arm DOWN manually 0.5 speed
+    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawAxis(1) > 0.3) ))
+        .onTrue(new StartEndCommand(() -> armSubsystem.runArmMotors(-0.5) ,
+            () -> {    double currentPosition = armSubsystem.getArmEncoderLeader();
+                armSubsystem.stopArmMotors();
+                armSubsystem.setArmMotorEncoder(currentPosition);} ,
+            armSubsystem))
+        .onFalse(new ArmHoldCurrentPositionWithPID());
+
+    // L1 + L-UP = run arm UP manually 0.5 speed
+    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawAxis(1) < -0.3) ))
+        .onTrue(new StartEndCommand(() -> armSubsystem.runArmMotors(0.5) ,
+            () -> {    double currentPosition = RobotContainer.armSubsystem.getArmEncoderLeader();
+                RobotContainer.armSubsystem.stopArmMotors();
+                RobotContainer.armSubsystem.setArmMotorEncoder(currentPosition);} ,
+            armSubsystem))
+        .onFalse(new ArmHoldCurrentPositionWithPID());
+
+    // Manual shooting with 0-distance power; no arm - pivot it separately
+    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawAxis(2) > 0.3) ) )
+        .onTrue(new ShootingSequenceManual()) // Manual shooting sequence - 2m parameters
+        .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmHoldCurrentPositionWithPID()));
+
+     new JoystickButton(xboxGPMController, 9)    // Button Y
+        .onTrue(new ArmDownToIntake())
+        .onFalse(new ArmRelease());
+
+  }
+
+  // =========================================
+
   Pose2d testPoseSupplier(double x, double y, double angle) {
       return new Pose2d(x, y, new Rotation2d().fromDegrees(angle));
   }
 
-  public void helperButtons() {
-      new JoystickButton(driveStick, 12)
-              .onTrue(new InstantCommand(RobotContainer.imuSubsystem::zeroYaw));
+  // GPM Calibration
 
+  public void calibrateShooterPower() {
+      new JoystickButton(driveStick1, 1)
+              .whileTrue(new CalibrateShooterPower())
+              .onFalse(new ShooterStop());
+
+      new JoystickButton(driveStick1, 7)
+              .whileTrue(new InstantCommand(
+                () -> RobotContainer.shooterSubsystem.runShooterWithPower(0.4)
+              , shooterSubsystem))
+              .onFalse(new ShooterStop());
+
+      new JoystickButton(driveStick1, 8)
+              .whileTrue(new InstantCommand(
+                () -> RobotContainer.shooterSubsystem.runShooterWithPower(gpmHelpers.getGPM60ShooterPower(1))
+              , shooterSubsystem))
+              .onFalse(new ShooterStop());
+
+      new JoystickButton(driveStick1, 9)
+              .whileTrue(new InstantCommand(
+                () -> RobotContainer.shooterSubsystem.runShooterWithPower(gpmHelpers.getGPM60ShooterPower(2))
+              , shooterSubsystem))
+              .onFalse(new ShooterStop());
+
+      new JoystickButton(driveStick1, 10)
+              .whileTrue(new InstantCommand(
+                () -> RobotContainer.shooterSubsystem.runShooterWithPower(gpmHelpers.getGPM0ShooterPower(3))
+              , shooterSubsystem))
+              .onFalse(new ShooterStop());
+
+    new JoystickButton(driveStick1, 11)
+              .whileTrue(new InstantCommand(
+                () -> RobotContainer.shooterSubsystem.runShooterWithPower(gpmHelpers.getGPM0ShooterPower(4))
+              , shooterSubsystem))
+              .onFalse(new ShooterStop());
+
+    new JoystickButton(driveStick1, 12)
+                .onTrue(new ShooterToPower(gpmHelpers.getGPM0ShooterPower(0)))
+                .onFalse(new ShooterStop());
   }
 
-  // GPM Calibration
   public void calibrateIntakePower() {
-      new JoystickButton(driveStick, 1)
+      new JoystickButton(driveStick2, 1)
               .whileTrue(new CalibrateIntakePower())
               .onFalse(new IntakeStop());
   }
 
   public void calibrateArmPowerFF() {
-      new JoystickButton(driveStick, 1)
+      new JoystickButton(driveStick3, 1)
               .whileTrue(new CalibrateArmPowerFF())
               .onFalse(new ArmStop());
   }
 
-  public void calibrateShooterPower() {
-      new JoystickButton(driveStick, 1)
-              .whileTrue(new CalibrateShooterPower())
-              .onFalse(new ShooterStop());
+  public void testAuto() {
+    new JoystickButton(driveStick, 7)
+        .whileTrue(new AutoCRedMidShootLeave())
+        .onFalse(new StopAllMotorsCommand());
+    
+    new JoystickButton(driveStick, 8)
+        .whileTrue(new AutoRedCalibration())
+        .onFalse(new StopAllMotorsCommand());
+    
+    new JoystickButton(driveStick,9)
+        .whileTrue(new AutoCBlue2CenterFromBottom())
+        .onFalse(new StopAllMotorsCommand());
+
+    new JoystickButton(driveStick,10)
+        .whileTrue(new AutoCBlueMid4Notes())
+        .onFalse(new StopAllMotorsCommand());
+
+    new JoystickButton(driveStick, 11)
+        .whileTrue(new AutoBlueMid3Notes2())
+        .onFalse(new StopAllMotorsCommand());
+
+    new JoystickButton(driveStick, 12)
+            .whileTrue(new AutoBlueMidCalibrationCameraAdjustment())
+            .onFalse(new StopAllMotorsCommand());
   }
 
+  // Aliiance color determination
   public void checkAllianceColor() {
     SmartDashboard.putString("AllianceColor", DriverStation.getAlliance().toString());
   }
+
+  public static void setIfAllianceRed() {
+    var alliance = DriverStation.getAlliance();
+    if (! alliance.isPresent()) {
+        System.out.println("=== !!! Alliance not present !!! === Staying with the BLUE system");
+    } else {
+        isAlianceRed = alliance.get() == DriverStation.Alliance.Red;
+        System.out.println("*** RED Alliance: "+isAlianceRed);
+    }
+  }
+  public static void toggleReversingControllerAndIMUForRed() {
+    isReversingControllerAndIMUForRed = !isReversingControllerAndIMUForRed;
+  }
+
 
 }

@@ -22,14 +22,15 @@ public class CalibrateIntakePower extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double intakePower = RobotContainer.driveStick.getRawAxis(OIConstants.CALIBRATION_JOYSTICK_SLIDER_AXLE);
+    System.out.println("**** Calibrating Intake ...");
+    double intakePower = RobotContainer.driveStick2.getRawAxis(OIConstants.CALIBRATION_JOYSTICK_SLIDER_AXLE);
     RobotContainer.intakeSubsystem.runIntake(intakePower);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double intakePower = RobotContainer.driveStick.getRawAxis(OIConstants.CALIBRATION_JOYSTICK_SLIDER_AXLE);
+    double intakePower = RobotContainer.driveStick2.getRawAxis(OIConstants.CALIBRATION_JOYSTICK_SLIDER_AXLE);
     RobotContainer.intakeSubsystem.runIntake(intakePower);
     SmartDashboard.putNumber("Calibration - Intake power", intakePower);
     SmartDashboard.putBoolean("Calibration - Intake sensor", RobotContainer.intakeSubsystem.isNoteInIntake());
@@ -37,7 +38,9 @@ public class CalibrateIntakePower extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    RobotContainer.intakeSubsystem.runIntake(0);
+  }
 
   // Returns true when the command should end.
   @Override

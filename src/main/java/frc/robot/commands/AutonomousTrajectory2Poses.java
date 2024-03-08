@@ -44,8 +44,8 @@ public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
 
     System.out.println("******* Start 2 Pose Trajectory ");
-    System.out.println(startPose.toString());
-    System.out.println(endPose.toString());
+    //System.out.println(startPose.toString());
+    //System.out.println(endPose.toString());
 
     addCommands(
       new RunTrajectorySequenceRobotAtStartPoint(

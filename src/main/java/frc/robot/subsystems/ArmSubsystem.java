@@ -11,9 +11,13 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.CurrentLimiter;
+import frc.robot.Constants.EnableCurrentLimiter;
 import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.GPMConstants.Arm;
 
@@ -25,6 +29,8 @@ import frc.robot.Constants.GPMConstants.Arm.ArmPIDConstants;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new GPMSubsystem. */
 
+  public InterpolatingDoubleTreeMap FEED_FORWARD = new InterpolatingDoubleTreeMap();
+
   // === ARM ====
 
   // NEO motors connected to Spark Max
@@ -34,6 +40,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private SparkPIDController armPIDControllerLeft;
   private SparkPIDController armPIDControllerRight;
+  private SparkPIDController armPidControllerLeader;
 
   // We wii use built-in NEO encoders for now
   // They're relative, but we can calibrate them based on second Pigeon on the arm
@@ -52,6 +59,8 @@ public class ArmSubsystem extends SubsystemBase {
     if (!EnabledSubsystems.arm) {
       return;
     }
+
+    System.out.println("*** Initializing Arm Subsystem...");
 
     // ==========================
     // === ARM initialization
@@ -75,6 +84,8 @@ public class ArmSubsystem extends SubsystemBase {
     // Follower Motor
     configureArmMotors(armMotorRight, armEncoderRight, armPIDControllerRight, ArmMotorConstantsEnum.RIGHTMOTOR, armMotorLeft);
 
+    //armMotorRight.setIdleMode(IdleMode.kCoast);
+
     // ==========================
     // === ARM IMU initialization
     // ==========================
@@ -84,6 +95,10 @@ public class ArmSubsystem extends SubsystemBase {
     armImu = new WPI_Pigeon2(Arm.PIGEON2_ARM_CAN_ID);
 
     calibrateArmEncoderToPitch();
+
+    setArmFeedForward();
+
+    System.out.println("*** Arm Subsystem Initialized");
 
   }
 
@@ -103,22 +118,42 @@ public class ArmSubsystem extends SubsystemBase {
     motor.setInverted(c.getArmMotorInverted()); //sets motor inverted if getArmMotorInverted() returns true
 
     motor.setIdleMode(IdleMode.kBrake); //sets motor into brake mode
+    //motor.setIdleMode(IdleMode.kCoast); 
 
     encoder.setPositionConversionFactor(Arm.POSITION_CONVERSION_FACTOR);  //sets conversion between NEO units to necessary unit for positon
 
     motor.setCANTimeout(0); //sets up timeout
 
     motor.enableVoltageCompensation(Arm.nominalVoltage);  //enables voltage compensation for set voltage [12v]
-    motor.setSmartCurrentLimit(Arm.shooterMotorCurrentLimit); // sets current limit to 40 amps
+   
+    if (EnableCurrentLimiter.arm) {
+      motor.setSmartCurrentLimit(CurrentLimiter.arm); // sets current limit to 40 amps
+    }
+    
     motor.setOpenLoopRampRate(Arm.rampRate);  // sets the rate to go from 0 to full throttle on open loop
     motor.setClosedLoopRampRate(Arm.rampRate);  // sets the rate to go from 0 to full throttle on open loop
 
     // sets which motor is the leader and follower; set follower inversion if needed
     if (c.getArmMotorFollower()) {
       motor.follow(motorToFollow,c.getArmMotorInverted());
+
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 250);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 250);
+
     } else {
+
+      System.out.println("*** Set Arm Leader " + motor.getDeviceId());
+
       armMotorLeader = motor;
       armEncoderLeader = motor.getEncoder();
+      armPidControllerLeader = p;
+
+      //motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 25);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 50);
+      motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
+
+
     }
 
     // --- PID Setup
@@ -157,6 +192,9 @@ public class ArmSubsystem extends SubsystemBase {
           ((Arm.USE_PAN_IMU_FOR_CORRECTION) ? RobotContainer.imuSubsystem.getPitch() : 0))  // pan IMU Pitch-based correction for uneven surface
             * Arm.ARM_ENCODER_CHANGE_PER_DEGREE
       );
+
+    // Alex test
+    //System.out.println("ARM0: "+ armEncoderZero);
   }
 
   /**
@@ -196,6 +234,10 @@ public class ArmSubsystem extends SubsystemBase {
     return armEncoderLeader.getPosition();
   }
 
+  public double getFormFeedPowerForCurrentAngle() {
+    return FEED_FORWARD.get(getArmAngleSI());
+  }
+
   /**
    * Set Arm motor to degrees Angle using PID
    * Positive Pitch angle increases is when arm is going from front towards the
@@ -204,13 +246,23 @@ public class ArmSubsystem extends SubsystemBase {
    * @param angle
    */
   public void setArmMotorAnglesSI(double angle) {
+    //armPidControllerLeader.setFF(FEED_FORWARD.get(angle));
     armMotorLeader.getPIDController().setReference(
         // armEncoderZero is encoder position at ZERO degrees
         // So, the expected encoder position is armEncoderZero plus
         // the degrees angle multiplied by ARM_ENCODER_CHANGE_PER_DEGREE
         (Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero,
-        ControlType.kPosition);
+           ControlType.kPosition);
+
+    //System.out.println("AENC-FIN:"+((Arm.ARM_ENCODER_CHANGE_PER_DEGREE * angle) + armEncoderZero));
   }
+
+   public void setArmMotorEncoder(double position) {
+    // hold position for encoder value
+    armMotorLeader.getPIDController().setReference(
+        position,
+           ControlType.kPosition);
+  } 
 
   public void stopArmPID() {
     armMotorLeader.getPIDController().setReference((0), ControlType.kVoltage);
@@ -226,10 +278,14 @@ public class ArmSubsystem extends SubsystemBase {
   // ==================================
   public void runArmMotors(double power) {
     armMotorLeader.set(power);
+    //armMotorLeft.set(power);
+    //armMotorRight.set(power);
   }
 
   public void stopArmMotors() {
-    armMotorLeader.set(0);
+    //armMotorLeader.set(0);
+    armMotorLeft.set(0);
+    armMotorRight.set(0);
   }
 
   public double getLeftArmMotorEncoder() {
@@ -240,8 +296,29 @@ public class ArmSubsystem extends SubsystemBase {
     return armEncoderRight.getPosition();
   }
 
+  public double getLeftArmMotorVelocity() {
+    return armEncoderLeft.getVelocity();
+  }
+
+  public double getRightArmMotorVelocity() {
+    return armEncoderRight.getVelocity();
+  }
+
   public double getLeaderArmMotorEncoder() {
     return armEncoderLeader.getPosition();
+  }
+
+  public void setArmFeedForward() {
+    FEED_FORWARD.put(-90.0,0.015);
+    FEED_FORWARD.put(-82.7,0.015);
+    FEED_FORWARD.put(-25.0,0.015);
+    FEED_FORWARD.put(-20.0,0.015);
+    FEED_FORWARD.put(-10.0,0.007);
+    FEED_FORWARD.put(-5.0,0.007);
+    FEED_FORWARD.put(0.0,0.0);
+    FEED_FORWARD.put(5.0, -0.007);
+    FEED_FORWARD.put(15.0, -0.007);
+    FEED_FORWARD.put(20.0, -0.009);
   }
 
   @Override

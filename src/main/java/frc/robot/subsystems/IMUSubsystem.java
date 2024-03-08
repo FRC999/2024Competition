@@ -104,7 +104,11 @@ public class IMUSubsystem extends SubsystemBase {
    */
   public double zeroYaw() {
     double previousYaw = getYaw();
-    imu.setYaw(0);
+    if (RobotContainer.isAlianceRed && RobotContainer.isReversingControllerAndIMUForRed)  {
+      imu.setYaw(180.0);
+    } else {
+      imu.setYaw(0);
+    }
     return previousYaw;
   }
 
@@ -120,7 +124,11 @@ public class IMUSubsystem extends SubsystemBase {
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    imu.setYaw(0);
+    if (RobotContainer.isAlianceRed && RobotContainer.isReversingControllerAndIMUForRed)  {
+      imu.setYaw(180.0);
+    } else {
+      imu.setYaw(0);
+    }
     System.out.println("Yaw and Fused Heading set");
   }
 

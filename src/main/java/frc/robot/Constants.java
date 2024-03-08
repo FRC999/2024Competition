@@ -33,10 +33,13 @@ public final class Constants {
 
 	// ====== MAKE SURE all necessary subsystems are enabled ===
 	public static final class EnabledSubsystems {
-		public static final boolean arm = false;
-		public static final boolean intake = false;
-		public static final boolean shooter = false;
-		public static final boolean climber = false;
+		public static final boolean arm = true;
+		public static final boolean intake = true;
+		public static final boolean shooter = true;
+		public static final boolean climber = true;
+		public static final boolean candle = false;
+		public static final boolean driverCamera =  true;
+		public static final boolean noteHuntingCamera = false;
 	}
 
 	public static final class DebugTelemetrySubsystems {
@@ -45,55 +48,61 @@ public final class Constants {
 		public static final boolean imu = false;
 
 		public static final boolean arm = false;
-		public static final boolean intake = false;
+		public static final boolean intake = true;
 		public static final boolean shooter = false;
+		public static final boolean noteHunting = true;
+
+		// Calibration-only methods
+		public static final boolean calibrateArm = false;
+		public static final boolean calibrateIntake = false;
+		public static final boolean calibrateShooter = false;
+
+		
+	}
+
+	public static final class EnableCurrentLimiter {
+		public static final boolean drive = true;
+		public static final boolean intake = true;
+		public static final boolean arm = true;
+		public static final boolean shooter = true;
+	}
+
+	public static final class CurrentLimiter {
+		public static int drive = 45;
+		public static int intake = 0;
+		public static int arm = 40;
+		public static int shooter = 40;
 	}
 
 	public static final class GPMConstants {
 
 		public static final class Intake {
-			public static final int INTAKE_MOTOR_CAN_ID = 29;
-			public static final boolean INTAKE_SENSOR_PHASE = false;
-			public static final boolean INTAKE_INVERTED = true;
-			public static final double INTAKE_NEUTRAL_DEADBAND = 0.001;
-			public static final int INTAKE_TIMEOUT = 30; //in ms
-			public static final double INTAKE_NOTE_GRAB_POWER = 0.5;
-			public static final double INTAKE_NOTE_FORWARD_POWER = 0.5;
-			public static final double INTAKE_NOTE_SPEW_POWER = 0.5;
+			public static final int INTAKE_MOTOR_CAN_ID = 51;
+			//public static final boolean INTAKE_SENSOR_PHASE = false;
+			public static final boolean INTAKE_INVERTED = false; // positive power - note in
+			//public static final double INTAKE_NEUTRAL_DEADBAND = 0.001;
+			//public static final int INTAKE_TIMEOUT = 30; //in ms
+			public static final double INTAKE_NOTE_GRAB_POWER = 0.55;
+			public static final double INTAKE_NOTE_FORWARD_POWER = 0.35;
+			public static final double INTAKE_NOTE_SPEW_POWER = 0.35;
 
-			public static final class IntakePIDConstants {
-				public static final int pidIntakeIdx = 0;
-				public static final int intakeSlot0 = 0;
-				public static final double kP = 0.75;
-				public static final double kI = 0.005;
-				public static final double kD = 0.01;
-				public static final double kF = 0;
-				public static final double kMaxOutput = 1;
-				public static final double Acceleration = 6750; // raw sensor units per 100 ms per second
-				public static final double CruiseVelocity = 6750; // raw sensor units per 100 ms
-				public static final int Smoothing = 3; // CurveStrength. 0 to use Trapezoidal Motion Profile. [1,8] for
-														// S-Curve (greater value yields greater smoothing).
-				public static final double DefaultAcceptableError = 5; // Sensor units
-				public static final double Izone = 500;
-				public static final double PeakOutput = 0.5; // Closed Loop peak output
-				public static final double NeutralDeadband = 0.001;
-				public static final int periodMs = 10; // status frame period
-				public static final int timeoutMs = 30; // status frame timeout
-				public static final int closedLoopPeriod = 1; // 1ms for TalonSRX and locally connected encoder
-				public static final int intakeSmoothing = 3;
-			}
+			public static final boolean NOTE_SENSOR_PRESENT = true; // turn to TRUE when sensor will be configured
+			public static final int NOTE_SENSOR_SWITCH_DIO_PORT_NUMBER = 4;
+
+			public static final boolean INTAKE_DOWN_LIMIT_SWITCH_PRESENT = true;
+			public static final int INTAKE_DOWN_LIMIT_SWITCH_DIO_PORT_NUMBER = 8; // DIO port number for the intake limit switch
 
 		}
 		public static final class Shooter {
 
 			public static enum ShooterMotorConstantsEnum {
 				LEFTMOTOR( // Front Left - main motor
-						25, // CANID
+						33, // CANID
 						false, // Inversion
 						false // Follower
 				),
 				RIGHTMOTOR( // Front Left
-						26, // CANID
+						34, // CANID
 						true, // Inversion
 						true // Follower
 				);
@@ -143,9 +152,13 @@ public final class Constants {
 			public static final double POSITION_CONVERSION_FACTOR = 2*Math.PI;
 			public static final double VELOCITY_CONVERSION_FACTOR = 2*Math.PI/60;
 			public static final double nominalVoltage = 12.0;
-			public static final int shooterMotorCurrentLimit = 40;
 			public static final double positionConversionFactor = 0;
 			public static final double rampRate = 0.25;
+
+			public static final double speedTolerance = 15.0;
+
+			// wait time to consider note leaving the shooter after it's not seen by the intake sensor anymore
+			public static final double SHOOT_TIME_DELAY_AFTER_NOTE_LEAVES = 0.2; 
 		}
 
 
@@ -153,12 +166,12 @@ public final class Constants {
 
 			public static enum ArmMotorConstantsEnum {
 				LEFTMOTOR( // Front Left - main motor
-						27, // CANID
-						false, // Inversion
+						32, // CANID
+						true, // Inversion
 						false // Follower
 				),
 				RIGHTMOTOR( // Front Left
-						28, // CANID
+						31, // CANID
 						true, // Inversion
 						true // Follower
 				);
@@ -188,11 +201,11 @@ public final class Constants {
 
 			public static final class ArmPIDConstants {
 
-				public static final double kP = 0.75;
-				public static final double kI = 0.005;
-				public static final double kD = 0.01;
+				public static final double kP = 0.02;
+				public static final double kI = 0.000;
+				public static final double kD = 2.0;
 				public static final double kF = 0;
-				public static final double kMaxOutput = 1;
+				public static final double kMaxOutput = 0.6;
 				public static final double Acceleration = 6750; // raw sensor units per 100 ms per second
 				public static final double CruiseVelocity = 6750; // raw sensor units per 100 ms
 				public static final int Smoothing = 3; // CurveStrength. 0 to use Trapezoidal Motion Profile. [1,8] for
@@ -209,9 +222,9 @@ public final class Constants {
 			}
 
 			// Arm IMU
-			public static final int PIGEON2_ARM_CAN_ID = 15;
+			public static final int PIGEON2_ARM_CAN_ID = 16;
 			public static final boolean USE_PAN_IMU_FOR_CORRECTION = true; // Correct Arm IMU with Pan IMU if game surface is uneven
-			public static final double ARM_ENCODER_CHANGE_PER_DEGREE = 1.0; //TODO: test and correct as needed
+			public static final double ARM_ENCODER_CHANGE_PER_DEGREE = 3.862568732		; //TODO: test and correct as needed
 
 			//TODO: Check conversion factors; find the ones that work best with PID
 			public static final double POSITION_CONVERSION_FACTOR = 2*Math.PI;
@@ -222,10 +235,11 @@ public final class Constants {
 			public static final double rampRate = 0.25;
 
 			// TODO: Calibrate all these angles
-			public static final double ARM_MIN_ANGLE = 0;
-			public static final double ARM_MAX_ANGLE = 95;
-			public static final double ARM_INTAKE_ANGLE = 0;
-			public static final double ARM_AMP_ANGLE = 95;
+			public static final double ARM_MIN_ANGLE = -83.0;
+			public static final double ARM_MAX_ANGLE = 15.0;
+			public static final double ARM_INTAKE_ANGLE = -83.0;
+			public static final double ARM_AMP_ANGLE = 15.0;
+			public static final double ARM_NOTE_VISION_ANGLE = -63.0;
 		}
 
 	}
@@ -234,12 +248,12 @@ public final class Constants {
 
 		public static enum ClimbMotorConstantsEnum {
 			FRONTMOTOR( // Front - main motor
-					40, // CANID
+					52, // CANID
 					false, // Inversion
 					false // Follower
 			),
 			BACKMOTOR( // Back
-					41, // CANID
+					53, // CANID
 					false, // Inversion
 					true // Follower
 			);
@@ -328,8 +342,8 @@ public final class Constants {
 		 */
 		public static final double DRIVE_CLOSED_LOOP_RAMP = 0;
 		public static final double DRIVE_OPEN_LOOP_RAMP = 0.25;
-		public static final int ANGLE_MOTOR_SMART_CURRENT = 25;
-		public static final double ANGLE_MOTOR_SECONDARY_LIMIT = 40;
+		//public static final int ANGLE_MOTOR_SMART_CURRENT = 25;
+		//public static final double ANGLE_MOTOR_SECONDARY_LIMIT = 40;
 		public static final int DRIVE_MOTOR_SMART_CURRENT = 40;
 		public static final double DRIVE_MOTOR_SECONDARY_LIMIT = 60;
 
@@ -363,9 +377,9 @@ public final class Constants {
 		 * trajectory with PathPlanner
 		 * even if a trajectory includes a holonomic component.
 		 */
-		public static final double DRIVE_CHASSIS_KP = 2.7;
+		public static final double DRIVE_CHASSIS_KP = 3.5;
 		public static final double DRIVE_CHASSIS_KI = 0.05;
-		public static final double DRIVE_CHASSIS_KD = 0.01;
+		public static final double DRIVE_CHASSIS_KD = 0.02;
 
 		/**
 		 * Maximum linear speed of chassis in meters per second
@@ -374,7 +388,7 @@ public final class Constants {
 		 * as the teleop logic will simply use it as a point of reference.
 		 * Changing this number will not require any other changes in the teleop code.
 		 */
-		public static final double MAX_VELOCITY = 3.0;
+		public static final double MAX_VELOCITY = 5.0;
 
 		/**
 		 * Radians per second.
@@ -391,7 +405,7 @@ public final class Constants {
 				/ (Math.sqrt(TRACK_WIDTH * TRACK_WIDTH + WHEEL_BASE * WHEEL_BASE) / 2);
 
 		// For trajectory driving.
-		public static final double MAX_ACCELERATION = 0.9;
+		public static final double MAX_ACCELERATION = 3.0;
 
 		/**
 		 * Parameters for BaseMotorTalonFX class
@@ -459,7 +473,7 @@ public final class Constants {
 			public static final int angleContinuousCurrentLimit = 40; // amperes
 			public static final int anglePeakCurrentLimit = 60; // amperes
 			public static final int anglePeakCurrentDuration = 1; // Seconds
-			public static final boolean angleEnableCurrentLimit = true;
+			public static final boolean angleEnableCurrentLimit = false;
 
 			public static final double driveContinuousCurrentLimit = 40; // amperes
 			public static final double drivePeakCurrentLimit = 60; // amperes
@@ -734,8 +748,39 @@ public final class Constants {
 					true // cubeControllerRight
 			),
 
-			TURNSTICK( // Controls the rotation of the swervebot
+			// DRIVESTICK1,2,3 are used only for GPM calibration
+			DRIVESTICK1(
 					1, // Port Number
+					ControllerDeviceType.LOGITECH,
+					0.02, // deadband X
+					0.02, // deadband Y
+					0.02, // deadband Omega
+					true, // cubeControllerLeft
+					true // cubeControllerRight
+			),
+
+			DRIVESTICK2(
+					2, // Port Number
+					ControllerDeviceType.LOGITECH,
+					0.02, // deadband X
+					0.02, // deadband Y
+					0.02, // deadband Omega
+					true, // cubeControllerLeft
+					true // cubeControllerRight
+			),
+
+			DRIVESTICK3(
+					3, // Port Number
+					ControllerDeviceType.LOGITECH,
+					0.02, // deadband X
+					0.02, // deadband Y
+					0.02, // deadband Omega
+					true, // cubeControllerLeft
+					true // cubeControllerRight
+			),
+
+			TURNSTICK( // Controls the rotation of the swervebot
+					2, // Port Number
 					ControllerDeviceType.LOGITECH,
 					0.02, // deadband X
 					0.02, // deadband Y
@@ -751,7 +796,17 @@ public final class Constants {
 					0.03, // deadband Y for Xbox //TODO: ALL DEADBAND FOR XBOX IS PLACEHOLDER
 					0.03, // deadband Omega for Xbox
 					false, // No cube controller configuration for Xbox yet
+					false),
+
+			XBOX_CONTROLLER_GPM(
+					4,  // Port Number for Xbox controller
+					ControllerDeviceType.XBOX,
+					0.03, // deadband X for Xbox
+					0.03, // deadband Y for Xbox //TODO: ALL DEADBAND FOR XBOX IS PLACEHOLDER
+					0.03, // deadband Omega for Xbox
+					false, // No cube controller configuration for Xbox yet
 					false);
+
 
 			private ControllerDeviceType controllerDeviceType;
 			private int portNumber;
@@ -864,6 +919,7 @@ public final class Constants {
 
 			public static final boolean PV_PRESENT = false;
 			public static final String PVCameraName = "Razor_Kiyo";
+			public static final String NoteCameraName = "OV...";
 			// Camera position from center of the chassis / floor (for Z) point of view; it's looking backwards
 			public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,Math.PI));
 
@@ -871,75 +927,104 @@ public final class Constants {
 	}
 
 	public static final class AutoConstants {
-		public static final class BlueSpeakerBottomSideConstants {
-			public static final double yaw = -60;
-			public static final double angle = 0.0;  //TODO : figure this out lol
-			public static final double power = 0.0;
-			public static final double speedTolerance = 0.1;
-			public static final double angleTolerance = 1.0;
 
-			// Poses for start/end of the trajectory
-			public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, new Rotation2d().fromDegrees(300));
-			public static final Pose2d t1p2 = new Pose2d(3.25, 0.80, new Rotation2d(0));
+		public static double armInPerimeterAngle = -15; // move arm into perimeter
+
+		private static final double fieldSizeX = 16.545814;
+		private static final double fieldSizeY = 8.212;
+
+		public static enum autoPoses {	// important poses
+			BLUE_SPEAKER_HIGHER (0.765, 6.764, 60),
+			BLUE_SPEAKER_MID (1.346, 5.540, 0),
+			BLUE_SPEAKER_LOWER (0.765, 4.315, -60),
+
+			BLUE_HIGHER_POS_OUT(3.25, 7.1,0),
+			BLUE_MID_POS_OUT(3.25,5.540,0),
+			BLUE_LOWER_POS_OUT (3.25, 1.312, 0),
+
+			RED_SPEAKER_HIGHER(fieldSizeX-BLUE_SPEAKER_HIGHER.getPose().getX(), BLUE_SPEAKER_HIGHER.getPose().getY(), 120),
+			RED_SPEAKER_MID(fieldSizeX-BLUE_SPEAKER_MID.getPose().getX(), BLUE_SPEAKER_MID.getPose().getY(), 180),
+			RED_SPEAKER_LOWER(fieldSizeX-BLUE_SPEAKER_LOWER.getPose().getX(), BLUE_SPEAKER_LOWER.getPose().getY(), -120),
+
+			RED_HIGHER_POS_OUT(fieldSizeX-BLUE_HIGHER_POS_OUT.getPose().getX(), BLUE_HIGHER_POS_OUT.getPose().getY(), 180),
+			RED_MID_POS_OUT(fieldSizeX-BLUE_MID_POS_OUT.getPose().getX(), BLUE_MID_POS_OUT.getPose().getY(), 180),
+			RED_LOWER_POS_OUT(fieldSizeX-BLUE_LOWER_POS_OUT.getPose().getX(), BLUE_LOWER_POS_OUT.getPose().getY(), 180),
+
+			BLUE_HIGHER_RING(2.896,6.8515,0),
+			BLUE_MID_RING(2.896,5.5535,0),
+			BLUE_LOWER_RING(2.896,4.0055,0),
+
+			RED_HIGHER_RING(fieldSizeX-BLUE_HIGHER_RING.getPose().getX(), BLUE_HIGHER_RING.getPose().getY(),180),
+			RED_MID_RING(fieldSizeX-BLUE_MID_RING.getPose().getX(), BLUE_MID_RING.getPose().getY(),180),
+			RED_LOWER_RING(fieldSizeX-BLUE_LOWER_RING.getPose().getX(), BLUE_LOWER_RING.getPose().getY(),180),
+
+			BLUE_HIGHER_RING_TAKE_START(1.909,6.8515,0),
+			BLUE_MID_RING_TAKE_START(1.909,5.5535,0),
+			BLUE_LOWER_RING_TAKE_START(1.909,4.1055,0),
+
+			BLUE_HIGHER_RING_TAKE_END(2.465,6.8515,0),
+			BLUE_MID_RING_TAKE_END(2.465,5.5535,0),
+			BLUE_LOWER_RING_TAKE_END(2.465,4.0055,0),
+
+			RED_HIGHER_RING_TAKE_START(fieldSizeX-BLUE_HIGHER_RING_TAKE_START.getPose().getX(), BLUE_HIGHER_RING_TAKE_START.getPose().getY(),180),
+			RED_MID_RING_TAKE_START(fieldSizeX-BLUE_MID_RING_TAKE_START.getPose().getX(), BLUE_MID_RING_TAKE_START.getPose().getY(),180),
+			RED_LOWER_RING_TAKE_START(fieldSizeX-BLUE_LOWER_RING_TAKE_START.getPose().getX(), BLUE_LOWER_RING_TAKE_START.getPose().getY(),180),
+
+			RED_HIGHER_RING_TAKE_END(fieldSizeX-BLUE_HIGHER_RING_TAKE_END.getPose().getX(), BLUE_HIGHER_RING_TAKE_END.getPose().getY(),180),
+			RED_MID_RING_TAKE_END(fieldSizeX-BLUE_MID_RING_TAKE_END.getPose().getX(), BLUE_MID_RING_TAKE_END.getPose().getY(),180),
+			RED_LOWER_RING_TAKE_END(fieldSizeX-BLUE_LOWER_RING_TAKE_END.getPose().getX(), BLUE_LOWER_RING_TAKE_END.getPose().getY(),180),
+
+			//Constants to pick up far note
+			BLUE_FAR_DRIVE_W1(5.03, 0.453, 0),
+			BLUE_FAR_LOWER_TAKE_START(7.40, 0.453, 0),
+			BLUE_FAR_LOWER_TAKE_END(7.90, 0.453, 0),
+			BLUE_SPEAKER_LOWER_2(1.065, 4.315, -60),
+
+			RED_FAR_DRIVE_W1(fieldSizeX-BLUE_FAR_DRIVE_W1.getPose().getX(), BLUE_FAR_DRIVE_W1.getPose().getY(), 180),
+			RED_FAR_LOWER_TAKE_START(fieldSizeX-BLUE_FAR_LOWER_TAKE_START.getPose().getX(), BLUE_FAR_LOWER_TAKE_START.getPose().getY(), 180),
+			RED_FAR_LOWER_TAKE_END(fieldSizeX-BLUE_FAR_LOWER_TAKE_END.getPose().getX(), BLUE_FAR_LOWER_TAKE_END.getPose().getY(), 180),
+			RED_SPEAKER_LOWER_2(fieldSizeX-BLUE_SPEAKER_LOWER_2.getPose().getX(), BLUE_SPEAKER_LOWER_2.getPose().getY(), -120)
+
+			;
+
+			private Pose2d pose;
+
+			autoPoses(double x, double y, double angle) {
+				this.pose = new Pose2d(x, y, Rotation2d.fromDegrees(angle));
+			}
+			public Pose2d getPose() {
+				return pose;
+			}
 		}
 
-		public static final class BlueSpeakerMiddleConstants {
-			public static final double yaw = 0;
-			public static final double angle = 0.0;  //TODO : figure this out lol
-			public static final double power = 0.0;
-			public static final double speedTolerance = 0.1;
-			public static final double angleTolerance = 1.0;
+		public static enum centerNotes {	// important poses
+			
+			LOW1 (8.272, 0.753),
+			LOW2 (8.272, 2.411),
+			MID3 (8.272, 4.106),
+			HIGH4 (8.272, 5.782),
+			HIGH5 (8.272, 7.458)
+			;
 
-			// Poses for start/end of the trajectory
-			public static final Pose2d t1p1 = new Pose2d();
-			public static final Pose2d t1p2 = new Pose2d();
+			private Translation2d translation;
+
+			centerNotes(double x, double y) {
+				this.translation = new Translation2d(x, y);
+			}
+			public Translation2d getTranslation() {
+				return translation;
+			}
 		}
-		public static final class BlueSpeakerTopSideConstants {
-			public static final double yaw = 60;
-			public static final double angle = 0.0;  //TODO : figure this out lol
-			public static final double power = 0.0;
-			public static final double speedTolerance = 0.1;
-			public static final double angleTolerance = 1.0;
+		
+	}
 
-			// Poses for start/end of the trajectory
-			public static final Pose2d t1p1 = new Pose2d();
-			public static final Pose2d t1p2 = new Pose2d();
-		}
+	public class CANdleConstants {
 
-		public static final class RedSpeakerBottomSideConstants {
-			public static final double yaw = 120;
-			public static final double angle = 0.0;  //TODO : figure this out lol
-			public static final double power = 0.0;
-			public static final double speedTolerance = 0.1;
-			public static final double angleTolerance = 1.0;
-
-			// Poses for start/end of the trajectory
-			public static final Pose2d t1p1 = new Pose2d(0.46, 4.72, new Rotation2d().fromDegrees(300));
-			public static final Pose2d t1p2 = new Pose2d(3.25, 0.80, new Rotation2d(0));
-		}
-		public static final class RedSpeakerMiddleConstants {
-			public static final double yaw = 180;
-			public static final double angle = 0.0;  //TODO : figure this out lol
-			public static final double power = 0.0;
-			public static final double speedTolerance = 0.1;
-			public static final double angleTolerance = 1.0;
-
-			// Poses for start/end of the trajectory
-			public static final Pose2d t1p1 = new Pose2d();
-			public static final Pose2d t1p2 = new Pose2d();
-		}
-		public static final class RedSpeakerTopSideConstants {
-			public static final double yaw = -120;
-			public static final double angle = 0.0;  //TODO : figure this out lol
-			public static final double power = 0.0;
-			public static final double speedTolerance = 0.1;
-			public static final double angleTolerance = 1.0;
-
-			// Poses for start/end of the trajectory
-			public static final Pose2d t1p1 = new Pose2d();
-			public static final Pose2d t1p2 = new Pose2d();
-		}
-
+		public static final int CANdleCANID = 60;
+		public static final int LedCount = 8+16; // 8 on the controller + 8x32 panel
+		public static final int MaxBrightnessAngle = 90;
+		public static final int MidBrightnessAngle = 180;
+		public static final int ZeroBrightnessAngle = 270;
 
 	}
 }

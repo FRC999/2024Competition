@@ -19,21 +19,24 @@ public class CalibrateShooterPower extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double shooterPower = RobotContainer.driveStick.getRawAxis(OIConstants.CALIBRATION_JOYSTICK_SLIDER_AXLE);
+    System.out.println("**** Calibrating Shooter ...");
+    double shooterPower = RobotContainer.driveStick1.getRawAxis(OIConstants.CALIBRATION_JOYSTICK_SLIDER_AXLE);
     RobotContainer.shooterSubsystem.runShooterWithPower(shooterPower);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double shooterPower = RobotContainer.driveStick.getRawAxis(OIConstants.CALIBRATION_JOYSTICK_SLIDER_AXLE);
+    double shooterPower = RobotContainer.driveStick1.getRawAxis(OIConstants.CALIBRATION_JOYSTICK_SLIDER_AXLE);
     RobotContainer.shooterSubsystem.runShooterWithPower(shooterPower);
     SmartDashboard.putNumber("Calibration - Shooter Power", shooterPower);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    RobotContainer.shooterSubsystem.runShooterWithPower(0);
+  }
 
   // Returns true when the command should end.
   @Override
