@@ -175,11 +175,15 @@ public class RobotContainer {
     autoChooser.addOption("BLUE TOP 1", new AutoCBlueTopShootLeave());
     autoChooser.addOption("BLUE MID 1", new AutoCBlueMidShootLeave());
     autoChooser.addOption("BLUE BOTTOM 1", new AutoCBlueBottomShootLeave());
+
     autoChooser.addOption("BLUE TOP 2", new AutoCBlueHigher2());
     autoChooser.addOption("BLUE MID 2", new AutoCBlueMid2());
     autoChooser.addOption("BLUE BOTTOM 2", new AutoCBlueLower2());
+
     autoChooser.addOption("BLUE *FAR* BOTTOM 2", new AutoCBlue2CenterFromBottom());
+
     autoChooser.addOption("BLUE MID 3-4 !!", new AutoCBlueMid4Notes());
+
     autoChooser.addOption("RED TOP 1", new AutoCRedTopShootLeave());
     autoChooser.addOption("RED MID 1", new AutoCRedMidShootLeave());
     autoChooser.addOption("RED BOTTOM 1", new AutoCRedBottomShootLeave());
@@ -656,9 +660,17 @@ public class RobotContainer {
         .onTrue(new ShootingSequenceManual()) // Manual shooting sequence - 2m parameters
         .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmHoldCurrentPositionWithPID()));
 
-     new JoystickButton(xboxGPMController, 9)    // Button Y
+    new JoystickButton(xboxGPMController, 9)    // Button Y
         .onTrue(new ArmDownToIntake())
         .onFalse(new ArmRelease());
+
+    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getPOV() == 0)))
+            .onTrue(new ClimbUp())
+            .onFalse(new ClimbStop());
+
+    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getPOV() == 180)))
+            .onTrue(new ClimbDown())
+            .onFalse(new ClimbStop());
 
   }
 
