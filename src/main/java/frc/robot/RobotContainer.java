@@ -778,5 +778,11 @@ public class RobotContainer {
     isReversingControllerAndIMUForRed = !isReversingControllerAndIMUForRed;
   }
 
+  public Command getAutonomousCommand() {
+    // An example command will be run in autonomous
+
+    //return new AutonomousBottomRow();
+    return autoChooser.getSelected();
+  }
 
 }
