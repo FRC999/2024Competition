@@ -281,7 +281,7 @@ public final class Constants {
 			}
 		}
 
-		public static final double CLIMBER_UP_DEFAULT_POWER = 0.2;
+		public static final double CLIMBER_UP_DEFAULT_POWER = 0.4;
 	}
 	public static class IMUConstants {
 		public static final int PIGEON2_CAN_ID = 15;
