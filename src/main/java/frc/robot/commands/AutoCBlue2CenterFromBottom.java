@@ -50,9 +50,10 @@ public class AutoCBlue2CenterFromBottom extends SequentialCommandGroup {
               .andThen(new ShooterStop()) // stop shooter
               .andThen(new IntakeStop()) // stop intakE
               ,
-        new PrintCommand("Did not pickup MidField Note").andThen(
+        new PrintCommand("Did not pickup MidField Note")
+        .andThen(
           new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
-            autoPoses.BLUE_SPEAKER_LOWER_2.getPose(),
+            autoPoses.BLUE_FAR_LOWER_TAKE_END.getPose(),
             autoPoses.BLUE_FAR_DRIVE_W1.getPose()
             )
         )

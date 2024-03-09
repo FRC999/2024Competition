@@ -52,7 +52,7 @@ public class AutoCRed2CenterFromBottom extends SequentialCommandGroup {
               ,
         new PrintCommand("Did not pickup MidField Note").andThen(
           new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
-            autoPoses.RED_SPEAKER_LOWER_2.getPose(),
+            autoPoses.RED_FAR_LOWER_TAKE_END.getPose(),
             autoPoses.RED_FAR_DRIVE_W1.getPose()
             )
         )
