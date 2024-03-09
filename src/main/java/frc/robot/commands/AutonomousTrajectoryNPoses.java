@@ -26,7 +26,7 @@ public class AutonomousTrajectoryNPoses extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     //this(startPose, midPose, endPose, SwerveChassis.MAX_VELOCITY, SwerveChassis.MAX_ACCELERATION);
-    System.out.println("******* Start N Pose Trajectory ");
+    //System.out.println("******* Start N Pose Trajectory ");
     List<PathPoint> plist = new ArrayList<>();
 
     for (Pose2d pose : poses) {

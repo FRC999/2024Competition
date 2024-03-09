@@ -16,6 +16,6 @@
 32 - Arm Left (Spark/NEO)
 33 - Shooter Left (Spark/NEO)
 34 - Shooter Right (Spark/NEO)
-51 - Intake (Victor/775)
+51 - Intake (Kraken)
 52 - Climber Front (Talon/775)
 53 - Climber Back (Talon/775)

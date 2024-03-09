@@ -44,7 +44,7 @@ public class AutonomousTrajectory3Poses extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    System.out.println("******* Start 3 Pose Trajectory ");
+    //System.out.println("******* Start 3 Pose Trajectory ");
     //System.out.println(startPose.toString());
     //System.out.println(endPose.toString());
 
