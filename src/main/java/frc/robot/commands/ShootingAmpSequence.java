@@ -18,7 +18,7 @@ public class ShootingAmpSequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // Spin the shooter and raise arm
-      new WaitCommand(2.7).raceWith( // race wait with the shooter/arm commands
+      new WaitCommand(2.3).raceWith( // race wait with the shooter/arm commands
         // Shooter to power
         new ShooterToPower(RobotContainer.gpmHelpers.getShooterPowerTouchingAmp()).
           alongWith(
