@@ -82,7 +82,7 @@ public final class Constants {
 			public static final boolean INTAKE_INVERTED = false; // positive power - note in
 			//public static final double INTAKE_NEUTRAL_DEADBAND = 0.001;
 			//public static final int INTAKE_TIMEOUT = 30; //in ms
-			public static final double INTAKE_NOTE_GRAB_POWER = 0.55;
+			public static final double INTAKE_NOTE_GRAB_POWER = 0.45;
 			public static final double INTAKE_NOTE_FORWARD_POWER = 0.35;
 			public static final double INTAKE_NOTE_SPEW_POWER = 0.35;
 
