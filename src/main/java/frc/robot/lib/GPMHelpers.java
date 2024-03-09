@@ -35,7 +35,7 @@ public class GPMHelpers {
     }
 
     public double getShooterPowerTouchingAmp() {
-        return 0.32;
+        return 0.35;
     }
 
     public void setGPM0Angle() {
