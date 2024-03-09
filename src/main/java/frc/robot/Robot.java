@@ -54,7 +54,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -70,6 +72,12 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
   }
+
+  @Override
+  public void autonomousExit() {
+      stopAllMotorsAtStartOfTeleop(); // to avoid unfortunate accidents; note it does not necessarily stop commands, just PID
+  }
+
 
   /** This function is called periodically during autonomous. */
   @Override
@@ -88,7 +96,7 @@ public class Robot extends TimedRobot {
     // Set alliance color before periodic
     RobotContainer.setIfAllianceRed(); // check if red alliance
 
-    stopAllMotorsAtStartOfTeleop(); // to avoid unfortunate accidents; note it does not necessarily stop commands, just PID
+    //stopAllMotorsAtStartOfTeleop(); // to avoid unfortunate accidents; note it does not necessarily stop commands, just PID
 
   }
 
