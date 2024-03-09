@@ -115,7 +115,7 @@ public class AutoCBlueMid4Notes extends SequentialCommandGroup {
                  autoPoses.BLUE_SPEAKER_MID.getPose(),
                  autoPoses.BLUE_MID_POS_OUT.getPose())
               ),
-        new PrintCommand("Did not pickup Higher Note")
+        new PrintCommand("Did not pickup Lower Note")
           .andThen(
             new AutonomousTrajectory2Poses( // drive to 3rd pickup point
                  autoPoses.BLUE_LOWER_RING_TAKE_END.getPose(),
