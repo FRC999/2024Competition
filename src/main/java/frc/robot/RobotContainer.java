@@ -24,6 +24,7 @@ import frc.robot.commands.AutoCBlueBottomShootLeave;
 import frc.robot.commands.AutoCBlueHigher2;
 import frc.robot.commands.AutoCBlueLower2;
 import frc.robot.commands.AutoCBlueMid2;
+import frc.robot.commands.AutoCBlueMid3Notes;
 import frc.robot.commands.AutoCBlueMidShootLeave;
 import frc.robot.commands.AutoCBlueTopShootLeave;
 import frc.robot.commands.AutoCRed2CenterFromBottom;
@@ -31,6 +32,7 @@ import frc.robot.commands.AutoCRedBottomShootLeave;
 import frc.robot.commands.AutoCRedHigher2;
 import frc.robot.commands.AutoCRedLower2;
 import frc.robot.commands.AutoCRedMid2;
+import frc.robot.commands.AutoCRedMid3Notes;
 import frc.robot.commands.AutoCRedMid4Notes;
 import frc.robot.commands.AutoRedCalibration;
 import frc.robot.commands.AutoRedCalibration2;
@@ -182,16 +184,23 @@ public class RobotContainer {
 
     autoChooser.addOption("BLUE *FAR* BOTTOM 2", new AutoCBlue2CenterFromBottom());
 
-    autoChooser.addOption("BLUE MID 3-4 !!", new AutoCBlueMid4Notes());
+    autoChooser.addOption("BLUE MID 3 !!", new AutoCBlueMid3Notes());
+
+    // autoChooser.addOption("BLUE MID 3-4 !!", new AutoCBlueMid4Notes());
 
     autoChooser.addOption("RED TOP 1", new AutoCRedTopShootLeave());
     autoChooser.addOption("RED MID 1", new AutoCRedMidShootLeave());
     autoChooser.addOption("RED BOTTOM 1", new AutoCRedBottomShootLeave());
+
     autoChooser.addOption("RED TOP 2", new AutoCRedHigher2());
     autoChooser.addOption("RED MID 2", new AutoCRedMid2());
     autoChooser.addOption("RED BOTTOM 2", new AutoCRedLower2());
+
     autoChooser.addOption("RED *FAR* BOTTOM 2", new AutoCRed2CenterFromBottom());
-    autoChooser.addOption("RED MID 3-4 !!", new AutoCRedMid4Notes());
+
+    autoChooser.addOption("RED MID 3 !!", new AutoCRedMid3Notes());
+
+   //  autoChooser.addOption("RED MID 3-4 !!", new AutoCRedMid4Notes());
 
     //port SendableChooser data to the SmartDashboard
     SmartDashboard.putData(autoChooser);

@@ -45,7 +45,7 @@ public final class Constants {
 	public static final class DebugTelemetrySubsystems {
 		
 		public static final boolean odometry = false;
-		public static final boolean imu = false;
+		public static final boolean imu = true;
 
 		public static final boolean arm = false;
 		public static final boolean intake = true;
@@ -958,11 +958,11 @@ public final class Constants {
 			RED_MID_RING(fieldSizeX-BLUE_MID_RING.getPose().getX(), BLUE_MID_RING.getPose().getY(),180),
 			RED_LOWER_RING(fieldSizeX-BLUE_LOWER_RING.getPose().getX(), BLUE_LOWER_RING.getPose().getY(),180),
 
-			BLUE_HIGHER_RING_TAKE_START(1.909,6.8515,0),
+			BLUE_HIGHER_RING_TAKE_START(1.909,7.0115,0),
 			BLUE_MID_RING_TAKE_START(1.909,5.5535,0),
 			BLUE_LOWER_RING_TAKE_START(1.909,4.1055,0),
 
-			BLUE_HIGHER_RING_TAKE_END(2.465,6.8515,0),
+			BLUE_HIGHER_RING_TAKE_END(2.465,7.0115,0),
 			BLUE_MID_RING_TAKE_END(2.465,5.5535,0),
 			BLUE_LOWER_RING_TAKE_END(2.465,4.0055,0),
 
