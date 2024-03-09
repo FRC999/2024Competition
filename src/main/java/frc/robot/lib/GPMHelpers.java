@@ -95,6 +95,7 @@ public class GPMHelpers {
         Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(2.0), 408.0);
         Measured_Shooter_Speeds_From_Power.put(getGPM60ShooterPower(3.0), 484.0);
         Measured_Shooter_Speeds_From_Power.put(0.4, 214.0);
+        Measured_Shooter_Speeds_From_Power.put(0.3, 195.0);
     }
 
     public double getMeasuredShootingSpeedFromPower(double power)   {
