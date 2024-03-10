@@ -18,7 +18,7 @@ import frc.robot.commands.ArmRelease;
 import frc.robot.commands.ArmStop;
 import frc.robot.commands.ArmTurnToAngle;
 import frc.robot.commands.AutoCBlue2CenterFromBottom;
-import frc.robot.commands.AutoCBlueMid4NotesLow;
+import frc.robot.commands.AutoCBlueMid3NotesLow;
 import frc.robot.commands.AutoBlueMid3Notes2;
 import frc.robot.commands.AutoBlueMidCalibrationCameraAdjustment;
 import frc.robot.commands.AutoCBlueBottomShootLeave;
@@ -190,6 +190,10 @@ public class RobotContainer {
 
     // autoChooser.addOption("BLUE MID 3-4 !!", new AutoCBlueMid4Notes());
 
+    autoChooser.addOption("*SPECIAL* BLUE MID 3 LOW", new AutoCBlueMid3NotesLow());
+
+    //==============================================================================
+
     autoChooser.addOption("RED TOP 1", new AutoCRedTopShootLeave());
     autoChooser.addOption("RED MID 1", new AutoCRedMidShootLeave());
     autoChooser.addOption("RED BOTTOM 1", new AutoCRedBottomShootLeave());
@@ -203,6 +207,8 @@ public class RobotContainer {
     autoChooser.addOption("RED MID 3 !!", new AutoCRedMid3Notes());
 
    //  autoChooser.addOption("RED MID 3-4 !!", new AutoCRedMid4Notes());
+
+   autoChooser.addOption("*SPECIAL* RED MID 3 LOW", new AutoCRedMid3NotesLow());
 
     //port SendableChooser data to the SmartDashboard
     SmartDashboard.putData(autoChooser);
@@ -763,7 +769,7 @@ public class RobotContainer {
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick,10)
-        .whileTrue(new AutoCBlueMid4NotesLow())
+        .whileTrue(new AutoCBlueMid3NotesLow())
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick, 11)
