@@ -84,7 +84,7 @@ public final class Constants {
 			//public static final int INTAKE_TIMEOUT = 30; //in ms
 			public static final double INTAKE_NOTE_GRAB_POWER = 0.45;
 			public static final double INTAKE_NOTE_FORWARD_POWER = 0.35;
-			public static final double INTAKE_NOTE_SPEW_POWER = 0.35;
+			public static final double INTAKE_NOTE_SPEW_POWER = -0.35;
 
 			public static final boolean NOTE_SENSOR_PRESENT = true; // turn to TRUE when sensor will be configured
 			public static final int NOTE_SENSOR_SWITCH_DIO_PORT_NUMBER = 4;

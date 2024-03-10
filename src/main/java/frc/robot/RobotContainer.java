@@ -9,6 +9,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OIConstants.ControllerDevice;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.GPMConstants.Arm;
+import frc.robot.Constants.GPMConstants.Intake;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
 import frc.robot.commands.ArmDownToIntake;
@@ -17,14 +18,14 @@ import frc.robot.commands.ArmRelease;
 import frc.robot.commands.ArmStop;
 import frc.robot.commands.ArmTurnToAngle;
 import frc.robot.commands.AutoCBlue2CenterFromBottom;
-import frc.robot.commands.AutoCBlueMid4Notes;
+import frc.robot.commands.AutoCBlueMid4NotesLow;
 import frc.robot.commands.AutoBlueMid3Notes2;
 import frc.robot.commands.AutoBlueMidCalibrationCameraAdjustment;
 import frc.robot.commands.AutoCBlueBottomShootLeave;
 import frc.robot.commands.AutoCBlueHigher2;
 import frc.robot.commands.AutoCBlueLower2;
 import frc.robot.commands.AutoCBlueMid2;
-import frc.robot.commands.AutoCBlueMid3Notes;
+import frc.robot.commands.AutoCRedMid3NotesLow;
 import frc.robot.commands.AutoCBlueMidShootLeave;
 import frc.robot.commands.AutoCBlueTopShootLeave;
 import frc.robot.commands.AutoCRed2CenterFromBottom;
@@ -41,6 +42,7 @@ import frc.robot.commands.AutoCRedTopShootLeave;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.IntakeGrabNote;
+import frc.robot.commands.IntakeRun;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.PosePrinter;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
@@ -184,7 +186,7 @@ public class RobotContainer {
 
     autoChooser.addOption("BLUE *FAR* BOTTOM 2", new AutoCBlue2CenterFromBottom());
 
-    autoChooser.addOption("BLUE MID 3 !!", new AutoCBlueMid3Notes());
+    autoChooser.addOption("BLUE MID 3 !!", new AutoCRedMid3NotesLow());
 
     // autoChooser.addOption("BLUE MID 3-4 !!", new AutoCBlueMid4Notes());
 
@@ -681,6 +683,10 @@ public class RobotContainer {
             .onTrue(new ClimbDown())
             .onFalse(new ClimbStop());
 
+    new Trigger(() -> xboxGPMController.getRawAxis(3) > 0.3)
+        .onTrue(new IntakeRun(Intake.INTAKE_NOTE_SPEW_POWER))
+        .onFalse(new IntakeStop());
+
   }
 
   // =========================================
@@ -757,7 +763,7 @@ public class RobotContainer {
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick,10)
-        .whileTrue(new AutoCBlueMid4Notes())
+        .whileTrue(new AutoCBlueMid4NotesLow())
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick, 11)
