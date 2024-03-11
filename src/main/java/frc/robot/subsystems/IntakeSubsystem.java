@@ -158,18 +158,24 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(0);
   }
 
-  //TODO: This will work using the sensor; modify the code as needed.
+  // TODO: This will work using the sensor; modify the code as needed.
   /**
    * Check if note is in the intake
    * If sensor is not present, always return TRUE
+   * 
    * @return
    */
   public boolean isNoteInIntake() {
-      return (! Intake.NOTE_SENSOR_PRESENT) || ! noteSensor.get() ;
+    return (!Intake.NOTE_SENSOR_PRESENT) || !noteSensor.get();
   }
-  
+
   public boolean isIntakeDown() {
-      return(Intake.INTAKE_DOWN_LIMIT_SWITCH_PRESENT && ! intakeDownLimitSwitch.get());
+    return (Intake.INTAKE_DOWN_LIMIT_SWITCH_PRESENT && !intakeDownLimitSwitch.get());
+  }
+
+  // Intake motor temperature telemetry
+  public double getIntakeMotorTemp() {
+    return intakeMotor.getDeviceTemp().getValueAsDouble();
   }
 
   @Override

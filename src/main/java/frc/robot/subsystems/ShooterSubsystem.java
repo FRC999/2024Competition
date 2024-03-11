@@ -208,6 +208,15 @@ public class ShooterSubsystem extends SubsystemBase {
     SHOOTER_POWER.put(6.0, 0.8); 
   }
 
+  public double getLeftShooterMotorTemp() {
+    return shooterMotorLeft.getMotorTemperature();
+  }
+
+  public double getRightShooterMotorTemp() {
+    return shooterMotorRight.getMotorTemperature();
+  }
+
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

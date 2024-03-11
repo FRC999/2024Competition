@@ -83,6 +83,8 @@ public class SmartDashboardSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ShooterRightEncoder", RobotContainer.shooterSubsystem.getRightShooterMotorEncoder());
     SmartDashboard.putNumber("ShooterLeftVelocity", RobotContainer.shooterSubsystem.getLeftShooterMotorVelocity());
     SmartDashboard.putNumber("ShooterRightVelocity", RobotContainer.shooterSubsystem.getRightShooterMotorVelocity());
+    SmartDashboard.putNumber("ShooterLeftTemp", RobotContainer.shooterSubsystem.getLeftShooterMotorTemp());
+    SmartDashboard.putNumber("ShooterRightTemp", RobotContainer.shooterSubsystem.getRightShooterMotorTemp());
   }
 
   public void updateIntakeTelemetry() {
@@ -92,6 +94,7 @@ public class SmartDashboardSubsystem extends SubsystemBase {
     if (Constants.GPMConstants.Intake.INTAKE_DOWN_LIMIT_SWITCH_PRESENT) {
       SmartDashboard.putBoolean("Intake Down : ", RobotContainer.intakeSubsystem.isIntakeDown());
     }
+    SmartDashboard.putNumber("IntakeTemp : ", RobotContainer.intakeSubsystem.getIntakeMotorTemp());
   }
 
   public void updateAllDisplays(){
