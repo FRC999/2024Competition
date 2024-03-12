@@ -14,12 +14,17 @@ import frc.robot.Constants.EnabledSubsystems;
 public class PhotonVisionNoteHuntingSubsystem extends SubsystemBase {
 
   PhotonCamera camera;
+  private boolean cameraConnected;
 
   /** Creates a new PhotonVisionNoteHuntingSubsystem. */
   public PhotonVisionNoteHuntingSubsystem(String cameraName) {
           if (! EnabledSubsystems.noteHuntingCamera) { return; }
 
       camera = new PhotonCamera(cameraName); // TODO: check camera name
+
+      cameraConnected = camera.isConnected();
+
+      System.out.println("C:"+cameraConnected);
   }
 
   public boolean isNoteDetected() {

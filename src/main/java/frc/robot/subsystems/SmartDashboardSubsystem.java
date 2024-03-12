@@ -57,10 +57,9 @@ public class SmartDashboardSubsystem extends SubsystemBase {
 
   // Note tracking
   public void updateVisionDetectorTelemetry() {
-    SmartDashboard.putBoolean("Note Present", RobotContainer.llDetectorSubsystem.isNoteVisible());
-    SmartDashboard.putNumber("Note THorizontal", RobotContainer.llDetectorSubsystem.getHorizontalSide());
-    SmartDashboard.putNumber("Note TX", RobotContainer.llDetectorSubsystem.getHorizontalOffset());
-    SmartDashboard.putNumber("Note TY", RobotContainer.llDetectorSubsystem.getVerticalOffset());
+    SmartDashboard.putBoolean("Note Present", RobotContainer.photonVisionNoteHuntingSubsystem.isNoteDetected());
+    SmartDashboard.putNumber("Note YAW", RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNote());
+
   }
 
   public void updateIMUTelemetry() {
