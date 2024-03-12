@@ -7,38 +7,59 @@ package frc.robot.subsystems;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EnabledSubsystems;
 
 public class PhotonVisionNoteHuntingSubsystem extends SubsystemBase {
 
   PhotonCamera camera;
-  private boolean cameraConnected;
+  private boolean cameraConnected = true;
 
   /** Creates a new PhotonVisionNoteHuntingSubsystem. */
   public PhotonVisionNoteHuntingSubsystem(String cameraName) {
-          if (! EnabledSubsystems.noteHuntingCamera) { return; }
+      if (! EnabledSubsystems.noteHuntingCamera) { return; }
 
+      try {
       camera = new PhotonCamera(cameraName); // TODO: check camera name
-
       cameraConnected = camera.isConnected();
+      } catch(Exception e) {
+        cameraConnected =  false;
+      }
 
-      System.out.println("C:"+cameraConnected);
+      System.out.println("Camera connected:"+camera.isConnected());
   }
 
   public boolean isNoteDetected() {
-    var result = camera.getLatestResult();
-    return result.hasTargets();
+
+    //if (!cameraConnected) {
+    //  return false;
+    //}
+
+    try {
+      var result = camera.getLatestResult();
+      return cameraConnected && result.hasTargets(); // if camera is not connected, return FALSE
+    } catch (Exception e) {
+      return false;
+    }
   }
 
   public double xAngleToNote() {
-    var result = camera.getLatestResult();
-    if (!result.hasTargets()) { // if I do not see notes return 0 angle
+
+    //if (!cameraConnected) {
+    //  return 0;
+    //}
+
+    try {
+      var result = camera.getLatestResult();
+
+      if (!result.hasTargets()) { // I do not see notes return 0 angle
+        return 0;
+      }
+      PhotonTrackedTarget target = result.getBestTarget();
+      return -target.getYaw(); // getYaw here returns positive right
+    } catch (Exception e) {
       return 0;
     }
-    PhotonTrackedTarget target = result.getBestTarget();
-    return -target.getYaw(); // getYaw here returns positive right
 
   }
 
