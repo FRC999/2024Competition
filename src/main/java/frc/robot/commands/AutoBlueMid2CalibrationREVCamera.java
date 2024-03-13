@@ -35,42 +35,42 @@ public class AutoBlueMid2CalibrationREVCamera extends SequentialCommandGroup {
      
             .andThen(new IntakeStop()), // stop intake
 
-        // arm down
-        new ArmDownToNoteVision(),
-
-        // ============================= SPEAKER TO START POINT MID NOTE ================================================================
+       
+        // ============================= SPEAKER TO START POINT MID NOTE WHILE LOWERING THE INTAKE TO CAMERA ANGLE ================================================
        
         // drive to 2nd note pickup point
-        new AutonomousTrajectory2Poses( // drive to 1st note pickup
+        (new AutonomousTrajectory2Poses( // drive to 1st note pickup
             autoPoses.BLUE_SPEAKER_MID.getPose(),
-            autoPoses.BLUE_MID_RING_TAKE_START.getPose()),
+            autoPoses.BLUE_MID_RING_TAKE_START.getPose()))
+        .alongWith(new ArmDownToNoteVision())
+        ,
 
-        // pickup note
-
-        // ============================= DRIVE TO CORRECTED POSE FROM CAMERA TRAJECTORY ================================================================
+        // ============================= LOOK FOR THE NOTE< LOWER INTAKE ALL THE WAY AND DRIVE TO CORRECTED POSE FROM CAMERA TRAJECTORY =============================
 
         // Check if the note is visible, save the corrected pose endpoint
         new InstantCommand(() -> TrajectoryHelpers.setCorrectedPose(
             autoPoses.BLUE_MID_RING_TAKE_START.getPose(),
             autoPoses.BLUE_MID_RING_TAKE_END.getPose(),
-            RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNote())).alongWith(
-              new ArmDownToIntake()),
+            RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNote()))
+        ,
 
         // pickup note, correct for the camera if possible
-        new DeferredCommand(
+        (new DeferredCommand(
             () -> new AutonomousTrajectory2Poses( //DRIVE TO INTAKE MID NOTE
                 autoPoses.BLUE_MID_RING_TAKE_START.getPose(), //START POSE
                 TrajectoryHelpers.getCorrectedPose()) //CORRECTED END POSE
 
             , Set.of()).deadlineWith(
-                new IntakeGrabNote())
+                new IntakeGrabNote()))
+        .alongWith(
+              new ArmDownToIntake())
 
         ,
         // stop intake
         new IntakeStop(), // in case we did not grab the note
         new ControllerRumbleStop(),
 
-// =============================  COME BACK 2 SPEAKER AND SHOOT ================================================================
+        // =============================  COME BACK 2 SPEAKER AND SHOOT ================================================================
 
         // go back to speaker
         new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce
