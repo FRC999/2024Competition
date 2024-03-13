@@ -16,7 +16,7 @@ public class TrajectoryHelpers {
      * In other words, this routine willl turn endPose by angle using startPose as origin
      */
     public static Pose2d correctEndingPoseBasedOnNoteLocation(Pose2d startPose, Pose2d endPose, double angle) {
-        Pose2d relativePoseTurned = endPose.relativeTo(startPose).rotateBy(Rotation2d.fromDegrees(angle));
+        Pose2d relativePoseTurned = endPose.relativeTo(startPose).rotateBy(Rotation2d.fromDegrees(angle));  //NEW POSE BASED ON ANGLE RELATIVE 2 STARTING POSE
         Transform2d t = relativePoseTurned.minus(new Pose2d()); // converts relative pose to a transformation
         return startPose.transformBy(t);
         

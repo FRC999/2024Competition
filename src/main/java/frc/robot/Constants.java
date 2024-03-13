@@ -239,7 +239,7 @@ public final class Constants {
 			public static final double ARM_MAX_ANGLE = 15.0;
 			public static final double ARM_INTAKE_ANGLE = -83.0;
 			public static final double ARM_AMP_ANGLE = 15.0;
-			public static final double ARM_NOTE_VISION_ANGLE = -69.0;
+			public static final double ARM_NOTE_VISION_ANGLE = -69.0;	//BASED ON TESTING MAR 11
 		}
 
 	}
