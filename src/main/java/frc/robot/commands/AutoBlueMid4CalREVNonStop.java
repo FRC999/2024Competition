@@ -150,7 +150,7 @@ public class AutoBlueMid4CalREVNonStop  extends SequentialCommandGroup {
       // =============================  IF HIGHER NOTE PICKED UP : SHOOT  ===============================
 
         (new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
-            autoPoses.BLUE_LOWER_RING_TAKE_END.getPose(),
+            autoPoses.BLUE_HIGHER_RING_TAKE_END.getPose(),
             autoPoses.BLUE_SPEAKER_MID.getPose())
             .deadlineWith(
               new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM0Angle(0))
