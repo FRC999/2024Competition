@@ -22,6 +22,8 @@ public class AutoCBlueMid4Notes extends SequentialCommandGroup {
     addCommands(
       new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(
         autoPoses.BLUE_SPEAKER_MID.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
+
+
       new ShootingGPM0Sequence(0)   // shoot
         .andThen(new ShooterStop()) // stop shooter
         .andThen(new IntakeStop()), // stop intake
@@ -37,6 +39,7 @@ public class AutoCBlueMid4Notes extends SequentialCommandGroup {
             ),
       new IntakeStop(), // in case we did not grab the note
       new ControllerRumbleStop(),
+
       new ConditionalCommand( // only shoot if picked up the note
         (new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
             autoPoses.BLUE_MID_RING_TAKE_END.getPose(),
@@ -69,6 +72,7 @@ public class AutoCBlueMid4Notes extends SequentialCommandGroup {
             ),
       new IntakeStop(), // in case we did not grab the note
       new ControllerRumbleStop(),
+
       new ConditionalCommand( // only shoot if picked up the note
         (new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
             autoPoses.BLUE_HIGHER_RING_TAKE_END.getPose(),
@@ -101,6 +105,7 @@ public class AutoCBlueMid4Notes extends SequentialCommandGroup {
           ),
       new IntakeStop(), // in case we did not grab the note
       new ControllerRumbleStop(),
+      
       new ConditionalCommand( // only shoot if picked up the note
         (new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
             autoPoses.BLUE_LOWER_RING_TAKE_END.getPose(),
