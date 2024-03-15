@@ -243,6 +243,7 @@ public final class Constants {
 			public static final double ARM_INTAKE_ANGLE = -83.0;
 			public static final double ARM_AMP_ANGLE = 15.0;
 			public static final double ARM_NOTE_VISION_ANGLE = -69.0;	//BASED ON TESTING MAR 11
+			public static final double ARM_CLIMB_ANGLE = 0;	//TODO: test this
 		}
 
 	}
@@ -921,29 +922,43 @@ public final class Constants {
 			public static final double MOTOR_SPEED = 0.5;
 			public static final double VELOCITY_TO_AUTO_NOTE = 0.5;
 
-			public static final Translation2d robotBeforeApriltagForClimbing = new Translation2d(-1.5, new Rotation2d().fromDegrees(0));
+			// Transform to move the robot IN FRONT of the April tag, but 1.5m away
+			public static final Transform2d robotBeforeApriltagForClimbingTransform = new Transform2d(new Translation2d(-1, Rotation2d.fromDegrees(0)), Rotation2d.fromDegrees(0));
+			public static final Transform2d robotBeforeApriltagForPreClimbingTransform = new Transform2d(new Translation2d(-1.5, Rotation2d.fromDegrees(0)), Rotation2d.fromDegrees(0));
+			
 			// Climbing aprilTag poses
 			public static final Map<Double, Pose2d> climbTagPoses = Map.of(
-				14.0, new Pose2d(centerFieldPose.getX() -2.950083, centerFieldPose.getY() -0.000127, new Rotation2d().fromDegrees(180)),
-    			15.0, new Pose2d(centerFieldPose.getX() -3.629533, centerFieldPose.getY() + 0.393065, new Rotation2d().fromDegrees(-60)),
-				16.0, new Pose2d(centerFieldPose.getX() -3.629533, centerFieldPose.getY()  -0.392049, new Rotation2d().fromDegrees(60)), 
-				13.0, new Pose2d(centerFieldPose.getX() +2.950083, centerFieldPose.getY() -0.000127, new Rotation2d().fromDegrees(0)),
-    			12.0, new Pose2d(centerFieldPose.getX() +3.629533, centerFieldPose.getY() + 0.393065, new Rotation2d().fromDegrees(120)),
-				11.0, new Pose2d(centerFieldPose.getX() +3.629533, centerFieldPose.getY()  -0.392049, new Rotation2d().fromDegrees(-60))
+				14.0, new Pose2d(centerFieldPose.getX() -2.950083, centerFieldPose.getY() -0.000127,  Rotation2d.fromDegrees(180)),
+    			15.0, new Pose2d(centerFieldPose.getX() -3.629533, centerFieldPose.getY() + 0.393065, Rotation2d.fromDegrees(-60)),
+				16.0, new Pose2d(centerFieldPose.getX() -3.629533, centerFieldPose.getY()  -0.392049, Rotation2d.fromDegrees(60)), 
+				13.0, new Pose2d(centerFieldPose.getX() +2.950083, centerFieldPose.getY() -0.000127,  Rotation2d.fromDegrees(0)),
+    			12.0, new Pose2d(centerFieldPose.getX() +3.629533, centerFieldPose.getY() + 0.393065, Rotation2d.fromDegrees(-120)),
+				11.0, new Pose2d(centerFieldPose.getX() +3.629533, centerFieldPose.getY()  -0.392049, Rotation2d.fromDegrees(120))
 			);
 
+			// Pose where robot needs to stop before the Apriltag
 			public static final Map<Double, Pose2d> robotClimbingPoses = Map.of(
-				15.0, climbTagPoses.get(15.0).plus(
-					new Transform2d(robotBeforeApriltagForClimbing,climbTagPoses.get(15.0).getRotation())
-				),
-    			//15.0, new Pose2d(centerFieldPose.getX() -3.629533, centerFieldPose.getY() + 0.393065, new Rotation2d().fromDegrees(-60)),
-				16.0, new Pose2d(centerFieldPose.getX() -3.629533, centerFieldPose.getY()  -0.392049, new Rotation2d().fromDegrees(60)), 
-				13.0, new Pose2d(centerFieldPose.getX() +2.950083, centerFieldPose.getY() -0.000127, new Rotation2d().fromDegrees(0)),
-    			12.0, new Pose2d(centerFieldPose.getX() +3.629533, centerFieldPose.getY() + 0.393065, new Rotation2d().fromDegrees(120)),
-				11.0, new Pose2d(centerFieldPose.getX() +3.629533, centerFieldPose.getY()  -0.392049, new Rotation2d().fromDegrees(-60))
+				11.0, climbTagPoses.get(11.0).plus(robotBeforeApriltagForClimbingTransform),
+				12.0, climbTagPoses.get(12.0).plus(robotBeforeApriltagForClimbingTransform),
+				13.0, climbTagPoses.get(13.0).plus(robotBeforeApriltagForClimbingTransform),
+				14.0, climbTagPoses.get(14.0).plus(robotBeforeApriltagForClimbingTransform),
+				15.0, climbTagPoses.get(15.0).plus(robotBeforeApriltagForClimbingTransform),
+				16.0, climbTagPoses.get(16.0).plus(robotBeforeApriltagForClimbingTransform)
 			);
 
-			
+			// Pose where robot needs to stop to raise the arm before the Apriltag
+			public static final Map<Double, Pose2d> robotPreClimbingPoses = Map.of(
+				11.0, climbTagPoses.get(11.0).plus(robotBeforeApriltagForPreClimbingTransform),
+				12.0, climbTagPoses.get(12.0).plus(robotBeforeApriltagForPreClimbingTransform),
+				13.0, climbTagPoses.get(13.0).plus(robotBeforeApriltagForPreClimbingTransform),
+				14.0, climbTagPoses.get(14.0).plus(robotBeforeApriltagForPreClimbingTransform),
+				15.0, climbTagPoses.get(15.0).plus(robotBeforeApriltagForPreClimbingTransform),
+				16.0, climbTagPoses.get(16.0).plus(robotBeforeApriltagForPreClimbingTransform)
+			);
+
+			//TODO: measure and verify this transform
+			public static final Transform2d cameraToRobotTransform = new Transform2d( new Translation2d(-0.27, -0.27), Rotation2d.fromDegrees(180));
+	
 		}
 		public static final class PhotonVisionConstants {
 
