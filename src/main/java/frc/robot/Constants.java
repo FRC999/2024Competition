@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.Map;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -40,24 +42,25 @@ public final class Constants {
 		public static final boolean candle = false;
 		public static final boolean driverCamera =  true;
 		public static final boolean noteHuntingCamera = true;
+		public static final boolean llAprilTagCamera = true;
 	}
 
 	public static final class DebugTelemetrySubsystems {
 		
 		public static final boolean odometry = false;
-		public static final boolean imu = true;
+		public static final boolean imu = false;
 
-		public static final boolean arm = true;
-		public static final boolean intake = true;
-		public static final boolean shooter = true;
-		public static final boolean noteHunting = true;
+		public static final boolean arm = false;
+		public static final boolean intake = false;
+		public static final boolean shooter = false;
+		public static final boolean noteHunting = false;
+		public static final boolean llAprilTag = true;
 
 		// Calibration-only methods
-		public static final boolean calibrateArm = true;
-		public static final boolean calibrateIntake = true;
-		public static final boolean calibrateShooter = true;
+		public static final boolean calibrateArm = false;
+		public static final boolean calibrateIntake = false;
+		public static final boolean calibrateShooter = false;
 
-		
 	}
 
 	public static final class EnableCurrentLimiter {
@@ -906,14 +909,41 @@ public final class Constants {
 			// If changing this value, do not forget to set it in LL
 			public static final String LLAprilTagName = "limelight-at";	// Limelight that will track Apriltags; may decide to use multiple ones
 
+			// centerpose from BLUE coordinate system
+			public static final Pose2d centerFieldPose = new Pose2d(8.308467, 4.098925, new Rotation2d(0));
 			// NEW origin from the old origin point of view in the old coordiinate system
-			public static final Pose2d centerFieldPose = new Pose2d(-8.308467, -4.098925, new Rotation2d(0));
+			public static final Pose2d originFieldPose = new Pose2d(-8.308467, -4.098925, new Rotation2d(0));
+
 
 			// *** LL Detector ***
 			public static final String LLDetectorName = "limelight-d";	// Limelight that will track Apriltags; may decide to use multiple ones
 
 			public static final double MOTOR_SPEED = 0.5;
 			public static final double VELOCITY_TO_AUTO_NOTE = 0.5;
+
+			public static final Translation2d robotBeforeApriltagForClimbing = new Translation2d(-1.5, new Rotation2d().fromDegrees(0));
+			// Climbing aprilTag poses
+			public static final Map<Double, Pose2d> climbTagPoses = Map.of(
+				14.0, new Pose2d(centerFieldPose.getX() -2.950083, centerFieldPose.getY() -0.000127, new Rotation2d().fromDegrees(180)),
+    			15.0, new Pose2d(centerFieldPose.getX() -3.629533, centerFieldPose.getY() + 0.393065, new Rotation2d().fromDegrees(-60)),
+				16.0, new Pose2d(centerFieldPose.getX() -3.629533, centerFieldPose.getY()  -0.392049, new Rotation2d().fromDegrees(60)), 
+				13.0, new Pose2d(centerFieldPose.getX() +2.950083, centerFieldPose.getY() -0.000127, new Rotation2d().fromDegrees(0)),
+    			12.0, new Pose2d(centerFieldPose.getX() +3.629533, centerFieldPose.getY() + 0.393065, new Rotation2d().fromDegrees(120)),
+				11.0, new Pose2d(centerFieldPose.getX() +3.629533, centerFieldPose.getY()  -0.392049, new Rotation2d().fromDegrees(-60))
+			);
+
+			public static final Map<Double, Pose2d> robotClimbingPoses = Map.of(
+				15.0, climbTagPoses.get(15.0).plus(
+					new Transform2d(robotBeforeApriltagForClimbing,climbTagPoses.get(15.0).getRotation())
+				),
+    			//15.0, new Pose2d(centerFieldPose.getX() -3.629533, centerFieldPose.getY() + 0.393065, new Rotation2d().fromDegrees(-60)),
+				16.0, new Pose2d(centerFieldPose.getX() -3.629533, centerFieldPose.getY()  -0.392049, new Rotation2d().fromDegrees(60)), 
+				13.0, new Pose2d(centerFieldPose.getX() +2.950083, centerFieldPose.getY() -0.000127, new Rotation2d().fromDegrees(0)),
+    			12.0, new Pose2d(centerFieldPose.getX() +3.629533, centerFieldPose.getY() + 0.393065, new Rotation2d().fromDegrees(120)),
+				11.0, new Pose2d(centerFieldPose.getX() +3.629533, centerFieldPose.getY()  -0.392049, new Rotation2d().fromDegrees(-60))
+			);
+
+			
 		}
 		public static final class PhotonVisionConstants {
 

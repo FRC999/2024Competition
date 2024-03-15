@@ -314,6 +314,9 @@ public class RobotContainer {
     // Mohawk, practice and competition
     competitionCommandsForDriverController();
     competitionCommandsForGPMController();
+
+    // test climber poses
+    System.out.println("****====CP14:"+Constants.VisionConstants.LimeLightConstants.robotClimbingPoses.get(15.0));
     
   }
 

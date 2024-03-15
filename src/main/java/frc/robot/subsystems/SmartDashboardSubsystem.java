@@ -45,6 +45,7 @@ public class SmartDashboardSubsystem extends SubsystemBase {
       SmartDashboard.putString("LL RobotPose2d", llPose.toString());
       SmartDashboard.putNumber("LL Distance BlueS", RobotContainer.llVisionSubsystem.getDistanceToBlueSpeaker(llPose));
       SmartDashboard.putNumber("LL AngleD BlueS", RobotContainer.llVisionSubsystem.getAngleToBlueSpeaker(llPose).getDegrees());
+      SmartDashboard.putNumber("LL Fiducial ID BlueS", RobotContainer.llVisionSubsystem.getFiducialId());
     }
   }
 
@@ -120,6 +121,10 @@ public class SmartDashboardSubsystem extends SubsystemBase {
 
     if (EnabledSubsystems.noteHuntingCamera && DebugTelemetrySubsystems.noteHunting)  {
       updateVisionDetectorTelemetry();
+    }
+
+    if (EnabledSubsystems.llAprilTagCamera && DebugTelemetrySubsystems.llAprilTag)  {
+      updateVisionTelemetryLL();
     }
     
   }

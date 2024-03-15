@@ -42,6 +42,10 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
     return LimelightHelpers.getTV(LimeLightConstants.LLAprilTagName);
   }
 
+  public double getFiducialId() {
+    return LimelightHelpers.getFiducialID(LimeLightConstants.LLAprilTagName);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
