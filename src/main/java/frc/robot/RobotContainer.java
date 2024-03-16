@@ -579,9 +579,11 @@ public class RobotContainer {
       new JoystickButton(driveStick2, 4)
               .whileTrue(new InstantCommand(() -> RobotContainer.intakeSubsystem.runIntake(-0.5)))
               .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
+
       new JoystickButton(driveStick2, 11)
               .whileTrue(new IntakeGrabNote())
               .onFalse(new InstantCommand(RobotContainer.intakeSubsystem::stopIntake));
+
   }
 
   public void testArm() {
@@ -657,7 +659,7 @@ public class RobotContainer {
 
     // Shooting Speaker Far Range
     new JoystickButton(xboxGPMController, 4)    // Button Y
-        .onTrue(new ShootingGPM0Sequence(2.0))
+        .onTrue(new ShootingGPM0Sequence(1.75))
         .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
 
     // L1 + L-DOWN = run arm DOWN manually 0.5 speed

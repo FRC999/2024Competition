@@ -48,18 +48,18 @@ public final class Constants {
 	public static final class DebugTelemetrySubsystems {
 		
 		public static final boolean odometry = false;
-		public static final boolean imu = false;
+		public static final boolean imu = true;
 
-		public static final boolean arm = false;
-		public static final boolean intake = false;
+		public static final boolean arm = true;
+		public static final boolean intake = true;
 		public static final boolean shooter = false;
 		public static final boolean noteHunting = false;
-		public static final boolean llAprilTag = true;
+		public static final boolean llAprilTag = false;
 
 		// Calibration-only methods
-		public static final boolean calibrateArm = false;
-		public static final boolean calibrateIntake = false;
-		public static final boolean calibrateShooter = false;
+		public static final boolean calibrateArm = true;
+		public static final boolean calibrateIntake = true;
+		public static final boolean calibrateShooter = true;
 
 	}
 
