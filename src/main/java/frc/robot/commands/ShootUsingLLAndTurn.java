@@ -8,11 +8,14 @@ import java.util.Set;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.AutoConstants.autoPoses;
 import frc.robot.lib.LimelightHelpers;
 import frc.robot.lib.TrajectoryHelpers;
 
@@ -25,29 +28,72 @@ public class ShootUsingLLAndTurn extends SequentialCommandGroup {
   public ShootUsingLLAndTurn() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
+    
+    addCommands(  
+
       new ConditionalCommand(
-       new DeferredCommand(() -> new PrintCommand("Shooting Distance : " + (RobotContainer.llVisionSubsystem.getShootingDistance() - 1.1)), 
-       Set.of()).andThen(
-        // Turn to the AT
+
+      // ============================= ON TRUE ================================================
+      new DeferredCommand(
+          () -> 
+          new PrintCommand("Shooting Distance : " + (RobotContainer.llVisionSubsystem.getShootingDistance() - 1.1)), 
+           Set.of()).andThen(
+        
+       // Turn to the AT
+        
         new DeferredCommand(
-          () -> new AutonomousTrajectory2Poses(
-            originPose,
-            new Pose2d(0,0,TrajectoryHelpers.rotateToPointToSecondPose(originPose, RobotContainer.llVisionSubsystem.getRobotFieldPoseLL())
+          // ========= ROTATE TO THE NEW POSE USING TURN TO REL ANGLE ========
+          () -> new TurnToRelativeAngleSoftwarePIDCommand(
+            () -> new Pose2d(
+                0,  // x
+                0,  // y
+                TrajectoryHelpers.rotateToPointToSecondPose(
+                  RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().plus
+                    (new Transform2d
+                      (new Translation2d(), 
+                      Rotation2d.fromDegrees(180)
+                      )
+                    ) ,
+                    autoPoses.BLUE_SPEAKER_TAG.getPose()
+                )
+              )  //rotation
+              .getRotation()  // as Rotation2d
             )
-          ), Set.of())
-        // Shoot
-        ).andThen(
-          new DeferredCommand(
-            () -> new ShootingGPM0Sequence(RobotContainer.llVisionSubsystem.distanceToShoot - 1.1), 
+            , 
             Set.of()
-          )
+            )
         )
-      ,
+        .andThen(
+
+          new ShootUsingLL()
+          
+        ) ,
+
+       // FOR TESTING THE CORRECT ROTATIONS AND POSES
+         /*  new DeferredCommand(
+            () -> new PrintCommand("FP: " + autoPoses.BLUE_SPEAKER_TAG.getPose() + 
+            " \n" + "SP:"+ 
+              new Pose2d(0,0,
+                TrajectoryHelpers.rotateToPointToSecondPose(
+                  RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().plus(new Transform2d(new Translation2d(), Rotation2d.fromDegrees(180))),
+                  autoPoses.BLUE_SPEAKER_TAG.getPose()
+                  )
+              )+" \n"+"RP:"+RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().plus(new Transform2d(new Translation2d(), Rotation2d.fromDegrees(180)))
+            ), 
+            Set.of()
+          ) */
+          
+          
+        // ====================== ON FALSE ======================================================
         new PrintCommand("No AT Visible"),
 
-          () -> RobotContainer.llVisionSubsystem.isApriltagVisible() && LimelightHelpers.isInRange(RobotContainer.llVisionSubsystem.getShootingDistance(), 0.0, 4.0)
+        // ========================= CONDITIONAL ==============================================
+
+        () -> RobotContainer.llVisionSubsystem.isApriltagVisible() && LimelightHelpers.isInRange(RobotContainer.llVisionSubsystem.getShootingDistance(), 0.0, 4.0)
+      
       )
+    
     );
+      
   }
 }

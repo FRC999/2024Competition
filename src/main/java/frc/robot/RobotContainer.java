@@ -19,6 +19,7 @@ import frc.robot.commands.ArmStop;
 import frc.robot.commands.ArmTurnToAngle;
 import frc.robot.commands.AutoBlueMid2CalibrationREV;
 import frc.robot.commands.AutoBlueMid2CalibrationREVNonStop;
+import frc.robot.commands.AutoBlueMid3CalHighREVNonStop;
 import frc.robot.commands.AutoBlueMid3CalLowREVNonStop;
 import frc.robot.commands.AutoCBlue2CenterFromBottom;
 import frc.robot.commands.AutoCBlueMid3NotesLow;
@@ -50,12 +51,16 @@ import frc.robot.commands.IntakeStop;
 import frc.robot.commands.PosePrinter;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.commands.ShootUsingLL;
+import frc.robot.commands.ShootUsingLLAndTurn;
 import frc.robot.commands.ShooterStop;
 import frc.robot.commands.ShooterToPower;
+import frc.robot.commands.ShootingAmpPostSequence;
+import frc.robot.commands.ShootingAmpPreSequence;
 import frc.robot.commands.ShootingAmpSequence;
 import frc.robot.commands.ShootingGPM0Sequence;
 import frc.robot.commands.ShootingSequenceManual;
 import frc.robot.commands.StopAllMotorsCommand;
+import frc.robot.commands.TurnToRelativeAngleSoftwarePIDCommand;
 import frc.robot.lib.GPMHelpers;
 import frc.robot.commands.AutonomousTrajectory2PosesDynamic;
 import frc.robot.commands.CalibrateArmPowerFF;
@@ -310,7 +315,7 @@ public class RobotContainer {
     //testIntake();
     //testArm();
     //testClimber();
-    testAuto();
+    //testAuto();
 
     // Mohawk, practice and competition
     competitionCommandsForDriverController();
@@ -646,7 +651,7 @@ public class RobotContainer {
       // Shooting amp
       new JoystickButton(xboxGPMController, 1) // Button A - double-check
               .onTrue(new ShootingAmpSequence())
-              .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
+              .onFalse(new ShootingAmpPostSequence().andThen(new IntakeStop()).andThen(new ArmStop()));
 
       // Shooting Speaker Close Range
       new JoystickButton(xboxGPMController, 2) // Button B
@@ -655,12 +660,12 @@ public class RobotContainer {
 
       // Shooting Speaker Mid Range
       new JoystickButton(xboxGPMController, 3) // Button X
-              .onTrue(new ShootingGPM0Sequence(1))
-              .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
+              .onTrue(new ShootingAmpPreSequence())
+              .onFalse(new IntakeStop().andThen(new ArmStop()));
 
     // Shooting Speaker Custom
     new JoystickButton(xboxGPMController, 4)    // Button Y
-        .onTrue(new ShootUsingLL())
+        .onTrue(new ShootUsingLLAndTurn())
         .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
 
     // L1 + L-DOWN = run arm DOWN manually 0.5 speed
@@ -766,7 +771,7 @@ public class RobotContainer {
 
   public void testAuto() {
     new JoystickButton(driveStick, 7)
-        .whileTrue(new AutoBlueMid2CalibrationREV())
+        .onTrue(new TurnToRelativeAngleSoftwarePIDCommand(() -> Rotation2d.fromDegrees(15.0)))
         .onFalse(new StopAllMotorsCommand());
     
     new JoystickButton(driveStick, 8)
@@ -778,11 +783,11 @@ public class RobotContainer {
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick,10)
-        .whileTrue(new AutoCBlueMid3NotesLow())
+        .whileTrue(new ShootUsingLLAndTurn())
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick, 11)
-        .whileTrue(new AutoCBlueMid2())
+        .whileTrue(new AutoBlueMid3CalHighREVNonStop())
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick, 12)
@@ -794,9 +799,6 @@ public class RobotContainer {
         .onFalse(new StopAllMotorsCommand());
         
   }
-
-  
-
 
   // Aliiance color determination
   public void checkAllianceColor() {

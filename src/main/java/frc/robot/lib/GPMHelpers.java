@@ -27,7 +27,13 @@ public class GPMHelpers {
     }
 
     public double getAngleTouchingAmp() {
-        return 2.42;
+        //return 2.42;
+        return 8.5;
+    }
+
+    public double getAngleBeforeTouchingAmp() {
+        //return 2.42;
+        return 0;
     }
 
     public double getIntakePowerTouchingAmp() {
