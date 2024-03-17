@@ -6,31 +6,45 @@ package frc.robot.commands;
 
 import java.util.Set;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.lib.LimelightHelpers;
+import frc.robot.lib.TrajectoryHelpers;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShootUsingLL extends SequentialCommandGroup {
+public class ShootUsingLLAndTurn extends SequentialCommandGroup {
+  private Pose2d originPose = new Pose2d(0,0,Rotation2d.fromDegrees(0));
   /** Creates a new ShootUsingLL. */
-  public ShootUsingLL() {
+  public ShootUsingLLAndTurn() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ConditionalCommand(
        new DeferredCommand(() -> new PrintCommand("Shooting Distance : " + (RobotContainer.llVisionSubsystem.getShootingDistance() - 1.1)), 
-       Set.of()).andThen( 
-      new DeferredCommand(
-
-          () -> new ShootingGPM0Sequence(RobotContainer.llVisionSubsystem.distanceToShoot - 1.1), 
-          Set.of())),
-
-          new PrintCommand("No AT Visible"),
+       Set.of()).andThen(
+        // Turn to the AT
+        new DeferredCommand(
+          () -> new AutonomousTrajectory2Poses(
+            originPose,
+            new Pose2d(0,0,TrajectoryHelpers.rotateToPointToSecondPose(originPose, RobotContainer.llVisionSubsystem.getRobotFieldPoseLL())
+            )
+          ), Set.of())
+        // Shoot
+        ).andThen(
+          new DeferredCommand(
+            () -> new ShootingGPM0Sequence(RobotContainer.llVisionSubsystem.distanceToShoot - 1.1), 
+            Set.of()
+          )
+        )
+      ,
+        new PrintCommand("No AT Visible"),
 
           () -> RobotContainer.llVisionSubsystem.isApriltagVisible() && LimelightHelpers.isInRange(RobotContainer.llVisionSubsystem.getShootingDistance(), 0.0, 4.0)
       )

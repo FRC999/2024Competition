@@ -781,4 +781,8 @@ public class LimelightHelpers {
 
         return results;
     }
+
+    public static boolean isInRange(double value, double start, double end) {
+        return start<=value && value <= end;
+    }
 }

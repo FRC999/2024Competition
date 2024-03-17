@@ -31,11 +31,13 @@ public class GPMHelpers {
     }
 
     public double getIntakePowerTouchingAmp() {
-        return 0.34;
+        // return 0.34
+        return 0.5;
     }
 
     public double getShooterPowerTouchingAmp() {
-        return 0.32;
+        // return 0.32
+        return 0.4;
     }
 
     public void setGPM0Angle() {

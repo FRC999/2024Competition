@@ -30,4 +30,9 @@ public class TrajectoryHelpers {
         return correctedPose;
     }
 
+    // How much do I need to rotate from current pose to point to the second pose
+    public static Rotation2d rotateToPointToSecondPose(Pose2d currentPose, Pose2d secondPose) {
+        return secondPose.relativeTo(currentPose).getTranslation().getAngle();
+    }
+
 }

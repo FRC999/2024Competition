@@ -658,9 +658,9 @@ public class RobotContainer {
               .onTrue(new ShootingGPM0Sequence(1))
               .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
 
-    // Shooting Speaker Far Range
+    // Shooting Speaker Custom
     new JoystickButton(xboxGPMController, 4)    // Button Y
-        .onTrue(new ShootingGPM0Sequence(1.75))
+        .onTrue(new ShootUsingLL())
         .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
 
     // L1 + L-DOWN = run arm DOWN manually 0.5 speed

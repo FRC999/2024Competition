@@ -47,6 +47,11 @@ public class AutonomousTrajectory2Poses extends SequentialCommandGroup {
     //System.out.println(startPose.toString());
     //System.out.println(endPose.toString());
 
+    // Making sure not to drive non-existing poses; can happen with camera-aided navigation
+    if (startPose ==  null || endPose ==  null) {
+      return;
+    }
+
     addCommands(
       new RunTrajectorySequenceRobotAtStartPoint(
         PathPlanner.generatePath(

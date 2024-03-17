@@ -33,7 +33,9 @@ public class AutoBlueMidCalibrationCameraAdjustment extends SequentialCommandGro
         // shoot
           
         new ShootingGPM0Sequence(0) // shoot
-            .andThen(new ShooterStop()) // stop shooter
+
+            // TRY without stopping the shooter
+            //.andThen(new ShooterStop()) // stop shooter
             .andThen(new IntakeStop()), // stop intake
           
 // =============================  SPEAKER TO START POINT ================================================================

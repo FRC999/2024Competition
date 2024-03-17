@@ -61,7 +61,7 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
 
   public double getShootingDistance() {
     if (isApriltagVisible()) {
-      distanceToShoot = getShootingDistance(getRobotFieldPoseLL());
+      distanceToShoot = Math.abs(getShootingDistance(getRobotFieldPoseLL())); // use absolute distance, so works on both RED and BLUE
     } else {
       distanceToShoot = -1;
     }
