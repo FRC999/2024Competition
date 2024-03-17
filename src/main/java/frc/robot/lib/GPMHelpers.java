@@ -41,8 +41,12 @@ public class GPMHelpers {
     public void setGPM0Angle() {
         GPM_0_Angle.put(0.0, -78.00);
         GPM_0_Angle.put(1.0, -62.7);
-        GPM_0_Angle.put(1.75, -53.00);
-        GPM_0_Angle.put(2.0, -52.20);
+        GPM_0_Angle.put(1.44, -58.6);
+        GPM_0_Angle.put(1.69, -56.50);
+        GPM_0_Angle.put(1.75, -55.50);
+        GPM_0_Angle.put(1.82, -54.00);
+        GPM_0_Angle.put(2.0, -54.00);
+        //-52.20
         GPM_0_Angle.put(3.0, -44.25);
         GPM_0_Angle.put(4.0, -37.81);
     }

@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
 import frc.robot.lib.VisionHelpers;
 
@@ -40,17 +41,19 @@ public class PhotonVisionSubsystem extends SubsystemBase implements VisionHelper
   // private Field2d apriltaField2d = new Field2d();
 
   /** Creates a new PhotonVisionSubsystem. */
-  public PhotonVisionSubsystem(String cameraName) {
+  public PhotonVisionSubsystem(String cn) {
 
     // Check if we have PV installed
-    if (! PhotonVisionConstants.PV_PRESENT) {
+    if (! EnabledSubsystems.pvAprilTagCamera) {
       return;
     }
 
-    this.cameraName = cameraName;
+    this.cameraName = cn;
     camera = new PhotonCamera(cameraName);
     aprilTagResult = new PhotonPipelineResult();
     aprilTagHasTargets = false;
+
+    System.out.println("CPV"+camera);
 
     // aprilTagFieldLayout = new
     // AprilTagFieldLayout(AprilTagFields.k2024Crescendo.m_resourceFile);
@@ -58,12 +61,21 @@ public class PhotonVisionSubsystem extends SubsystemBase implements VisionHelper
     // poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
     // PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, robotToCam);
 
+    //System.out.println("Res:"+camera.getLatestResult().hasTargets());
+
+    System.out.println("PV AprilTag Camera initialized...");
+
   }
 
   public Pose2d getRobotFieldPosePV() {
 
+    try {
     aprilTagResult = camera.getLatestResult();
     aprilTagHasTargets = aprilTagResult.hasTargets();
+    } catch (Exception e) {
+      System.out.println("Camera not accessible");
+      return null;
+    }
 
     if (aprilTagHasTargets) {
       aprilTagTargets = aprilTagResult.getTargets();
@@ -81,6 +93,7 @@ public class PhotonVisionSubsystem extends SubsystemBase implements VisionHelper
         globalPoseEstimate = new Pose2d(fieldToCamera.getX(), fieldToCamera.getY(),
           new Rotation2d(fieldToCamera.getRotation().getX(), fieldToCamera.getRotation().getY()));
           // apriltaField2d.setRobotPose(globalPoseEstimate);
+        //return globalPoseEstimate.plus(PhotonVisionConstants.robotToCam);
         return globalPoseEstimate;
       } 
 

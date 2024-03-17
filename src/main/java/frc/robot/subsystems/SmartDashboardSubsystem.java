@@ -46,14 +46,17 @@ public class SmartDashboardSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("LL Distance BlueS", RobotContainer.llVisionSubsystem.getDistanceToBlueSpeaker(llPose));
       SmartDashboard.putNumber("LL AngleD BlueS", RobotContainer.llVisionSubsystem.getAngleToBlueSpeaker(llPose).getDegrees());
       SmartDashboard.putNumber("LL Fiducial ID BlueS", RobotContainer.llVisionSubsystem.getFiducialId());
+       SmartDashboard.putNumber("LL Distance To Shoot", RobotContainer.llVisionSubsystem.getShootingDistance());
     }
   }
 
   public void updateVisionTelemetryPV() {
+    try {
     SmartDashboard.putBoolean("PV AT present", RobotContainer.photonVisionSubsystem.isApriltagVisible());
     SmartDashboard.putString("PV RobotPose2d", RobotContainer.photonVisionSubsystem.getRobotFieldPosePV().toString());
     SmartDashboard.putNumber("PV Distance BlueS", RobotContainer.photonVisionSubsystem.getDistanceToBlueSpeaker(RobotContainer.photonVisionSubsystem.getRobotFieldPosePV()));
     SmartDashboard.putNumber("PV AngleD BlueS", RobotContainer.photonVisionSubsystem.getAngleToBlueSpeaker(RobotContainer.photonVisionSubsystem.getRobotFieldPosePV()).getDegrees());
+    } catch (Exception e) {}
   }
 
   // Note tracking
@@ -125,6 +128,10 @@ public class SmartDashboardSubsystem extends SubsystemBase {
 
     if (EnabledSubsystems.llAprilTagCamera && DebugTelemetrySubsystems.llAprilTag)  {
       updateVisionTelemetryLL();
+    }
+
+    if (EnabledSubsystems.pvAprilTagCamera && DebugTelemetrySubsystems.pvAprilTag)  {
+      updateVisionTelemetryPV();
     }
     
   }

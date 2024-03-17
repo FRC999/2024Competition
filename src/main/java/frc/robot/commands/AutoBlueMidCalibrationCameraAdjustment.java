@@ -31,19 +31,22 @@ public class AutoBlueMidCalibrationCameraAdjustment extends SequentialCommandGro
 // =============================  SHOOT PRELOADED NOTE ================================================================
 
         // shoot
+          
         new ShootingGPM0Sequence(0) // shoot
             .andThen(new ShooterStop()) // stop shooter
             .andThen(new IntakeStop()), // stop intake
-            
+          
 // =============================  SPEAKER TO START POINT ================================================================
 
         // arm down to vision, drive to 2nd note pickup point
-        new ArmDownToNoteVision().alongWith(
+         new ArmDownToNoteVision().alongWith(
             new AutonomousTrajectory2Poses( // drive to 1st note pickup
                 autoPoses.BLUE_SPEAKER_MID.getPose(),
                 autoPoses.BLUE_MID_RING_TAKE_START.getPose())
-            ),
+            ), 
 
+        // alex test
+        new ArmDownToNoteVision(),
 // =============================  SAVE CORRECTED START AND END ================================================================
 
         // Check if the note is visible, save the corrected pose endpoint
@@ -54,6 +57,14 @@ public class AutoBlueMidCalibrationCameraAdjustment extends SequentialCommandGro
                     RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNote()
             )
         ),
+        new DeferredCommand(
+           () -> new PrintCommand("N:"+RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNote()),
+           Set.of()),
+        new DeferredCommand(
+           () -> new PrintCommand("P:"+TrajectoryHelpers.getCorrectedPose()),
+           Set.of()),
+
+         
         new ArmDownToIntake(),
         // pickup note, correct for the camera if possible
         new DeferredCommand(
@@ -71,14 +82,17 @@ public class AutoBlueMidCalibrationCameraAdjustment extends SequentialCommandGro
         // stop intake
         new IntakeStop(), // in case we did not grab the note
         new ControllerRumbleStop(),
-
+         
 // =============================  COME BACK 2 SPEAKER AND SHOOT ================================================================
 
         // go back to speaker
-        new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce
+        new DeferredCommand(
+            () -> new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce
                                         // shooting cycle
-            autoPoses.BLUE_MID_RING_TAKE_END.getPose(),
+            TrajectoryHelpers.getCorrectedPose(),
             autoPoses.BLUE_SPEAKER_MID.getPose())
+            , Set.of()
+            )
             .deadlineWith(
                 new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM0Angle(0))),
 
@@ -91,10 +105,13 @@ public class AutoBlueMidCalibrationCameraAdjustment extends SequentialCommandGro
         new ControllerRumbleStop(),
 
         // drive out
+        /* 
         new AutonomousTrajectory2Poses( // drive to 2nd pickup point
             autoPoses.BLUE_SPEAKER_MID.getPose(),
             autoPoses.BLUE_MID_POS_OUT.getPose()),
+        */
         new PrintCommand("Auto DONE")
+        
     );
   }
 }

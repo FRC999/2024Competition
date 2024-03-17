@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
+import frc.robot.Constants.AutoConstants.autoPoses;
 import frc.robot.Constants.VisionConstants.LimeLightConstants;
 import frc.robot.lib.LimelightHelpers;
 import frc.robot.lib.VisionHelpers;
@@ -13,6 +15,7 @@ import frc.robot.lib.VisionHelpers;
 public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
   public static double joystickDirectionDegrees;
   public static Pose2d robotCurrentPoseBeforeClimb;
+  public static double distanceToShoot = -1;
 
   /** Creates a new LLVisionSubsystem. 
    * AprilTag Vision Subsystem based on LimeLight.
@@ -36,11 +39,33 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
   public boolean isApriltagClimbVisible() {
     if (isApriltagVisible()) {
       // save the robot pose if we see LL
-      robotCurrentPoseBeforeClimb = LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName).transformBy(LimeLightConstants.cameraToRobotTransform);
+      robotCurrentPoseBeforeClimb = LimelightHelpers.getBotPose2d_wpiBlue(LimeLightConstants.LLAprilTagName);
+      //.transformBy(LimeLightConstants.cameraToRobotTransform);
       double fid = getFiducialId();
       return fid>=11.0 && fid <=16.0;
     }
     return false; // if no apriltag visible
+  }
+
+  public double getShootingDistance(Pose2d pose) {
+    if (RobotContainer.isAlianceRed) {
+      return autoPoses.RED_SPEAKER_TAG.getPose().getTranslation().getDistance(
+         pose.getTranslation()
+      );
+    } else {
+        return autoPoses.BLUE_SPEAKER_TAG.getPose().getTranslation().getDistance(
+         pose.getTranslation()
+      );
+    }
+  }
+
+  public double getShootingDistance() {
+    if (isApriltagVisible()) {
+      distanceToShoot = getShootingDistance(getRobotFieldPoseLL());
+    } else {
+      distanceToShoot = -1;
+    }
+    return distanceToShoot;
   }
 
   public Pose2d getRobotFieldPoseLLBeforeClimb() {

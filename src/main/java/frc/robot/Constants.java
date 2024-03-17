@@ -43,6 +43,7 @@ public final class Constants {
 		public static final boolean driverCamera =  true;
 		public static final boolean noteHuntingCamera = true;
 		public static final boolean llAprilTagCamera = true;
+		public static final boolean pvAprilTagCamera = false;
 	}
 
 	public static final class DebugTelemetrySubsystems {
@@ -54,12 +55,13 @@ public final class Constants {
 		public static final boolean intake = true;
 		public static final boolean shooter = false;
 		public static final boolean noteHunting = false;
-		public static final boolean llAprilTag = false;
+		public static final boolean llAprilTag = true;
+		public static final boolean pvAprilTag = false;
 
 		// Calibration-only methods
-		public static final boolean calibrateArm = true;
-		public static final boolean calibrateIntake = true;
-		public static final boolean calibrateShooter = true;
+		public static final boolean calibrateArm = false;
+		public static final boolean calibrateIntake = false;
+		public static final boolean calibrateShooter = false;
 
 	}
 
@@ -957,16 +959,15 @@ public final class Constants {
 			);
 
 			//TODO: measure and verify this transform
-			public static final Transform2d cameraToRobotTransform = new Transform2d( new Translation2d(-0.27, -0.27), Rotation2d.fromDegrees(180));
+			public static final Transform2d cameraToRobotTransform = new Transform2d( new Translation2d(-0.23, -0.21), Rotation2d.fromDegrees(180));
 	
 		}
 		public static final class PhotonVisionConstants {
 
-			public static final boolean PV_PRESENT = false;
-			public static final String PVCameraName = "Razor_Kiyo";
+			public static final String PVCameraName = "Razer_Kiyo";
 			public static final String NoteCameraName = "Arducam_OV9782_USB_Camera";
 			// Camera position from center of the chassis / floor (for Z) point of view; it's looking backwards
-			public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,Math.PI));
+			public static final Transform2d robotToCam = new Transform2d(new Translation2d(0.22, -0.25), Rotation2d.fromDegrees(180));
 
 		}
 	}
@@ -979,6 +980,14 @@ public final class Constants {
 		private static final double fieldSizeY = 8.212;
 
 		public static enum autoPoses {	// important poses
+
+			// SPEAKER TAGS
+
+			BLUE_SPEAKER_TAG (0, 4.986, 180),
+			RED_SPEAKER_TAG (16.545814, 4.986, 0),
+
+			// ========================================= AUTO POSES ======================================
+
 			BLUE_SPEAKER_HIGHER (0.765, 6.764, 60),
 			BLUE_SPEAKER_MID (1.346, 5.540, 0),
 			BLUE_SPEAKER_LOWER (0.765, 4.315, -60),

@@ -49,6 +49,7 @@ import frc.robot.commands.IntakeRun;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.PosePrinter;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
+import frc.robot.commands.ShootUsingLL;
 import frc.robot.commands.ShooterStop;
 import frc.robot.commands.ShooterToPower;
 import frc.robot.commands.ShootingAmpSequence;
@@ -309,7 +310,7 @@ public class RobotContainer {
     //testIntake();
     //testArm();
     //testClimber();
-    //testAuto();
+    testAuto();
 
     // Mohawk, practice and competition
     competitionCommandsForDriverController();
@@ -787,7 +788,15 @@ public class RobotContainer {
     new JoystickButton(driveStick, 12)
             .whileTrue(new AutoBlueMidCalibrationCameraAdjustment())
             .onFalse(new StopAllMotorsCommand());
+
+    new JoystickButton(driveStick, 6)
+        .whileTrue(new ShootUsingLL())
+        .onFalse(new StopAllMotorsCommand());
+        
   }
+
+  
+
 
   // Aliiance color determination
   public void checkAllianceColor() {

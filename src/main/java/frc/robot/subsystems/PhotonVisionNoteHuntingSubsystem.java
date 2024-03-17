@@ -22,6 +22,7 @@ public class PhotonVisionNoteHuntingSubsystem extends SubsystemBase {
       try {
       camera = new PhotonCamera(cameraName); // TODO: check camera name
       cameraConnected = camera.isConnected();
+      camera.setDriverMode(false);
       } catch(Exception e) {
         cameraConnected =  false;
       }
