@@ -959,7 +959,7 @@ public final class Constants {
 			);
 
 			//TODO: measure and verify this transform
-			public static final Transform2d cameraToRobotTransform = new Transform2d( new Translation2d(-0.23, -0.21), Rotation2d.fromDegrees(180));
+			public static final Transform2d cameraToRobotTransform = new Transform2d( new Translation2d(-0.30, -0.23), Rotation2d.fromDegrees(180));
 	
 		}
 		public static final class PhotonVisionConstants {
@@ -967,7 +967,7 @@ public final class Constants {
 			public static final String PVCameraName = "Razer_Kiyo";
 			public static final String NoteCameraName = "Arducam_OV9782_USB_Camera";
 			// Camera position from center of the chassis / floor (for Z) point of view; it's looking backwards
-			public static final Transform2d robotToCam = new Transform2d(new Translation2d(0.22, -0.25), Rotation2d.fromDegrees(180));
+			public static final Transform2d robotToCam = new Transform2d(new Translation2d(0.22, 0.25), Rotation2d.fromDegrees(180));
 
 		}
 	}

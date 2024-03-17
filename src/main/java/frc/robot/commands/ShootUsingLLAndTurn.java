@@ -43,7 +43,7 @@ public class ShootUsingLLAndTurn extends SequentialCommandGroup {
         
         new DeferredCommand(
           // ========= ROTATE TO THE NEW POSE USING TURN TO REL ANGLE ========
-          () -> new TurnToRelativeAngleSoftwarePIDCommand(
+        /*   () -> new TurnToRelativeAngleSoftwarePIDCommand(
             () -> new Pose2d(
                 0,  // x
                 0,  // y
@@ -59,13 +59,37 @@ public class ShootUsingLLAndTurn extends SequentialCommandGroup {
               )  //rotation
               .getRotation()  // as Rotation2d
             )
+            */
+            () -> new PrintCommand( "A:"+
+               TrajectoryHelpers.rotateToPointToSecondPose(
+                  RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().plus
+                    (new Transform2d
+                      (new Translation2d(), 
+                      Rotation2d.fromDegrees(180)
+                      )
+                    ) ,
+                    autoPoses.BLUE_SPEAKER_TAG.getPose()
+               
+                
+                //rotation
+             
+                )
+            )
             , 
             Set.of()
             )
         )
         .andThen(
 
-          new ShootUsingLL()
+        new PrintCommand(
+          RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().toString()
+        
+          
+          ) 
+        )
+        .andThen(
+
+         // new ShootUsingLL()
           
         ) ,
 
