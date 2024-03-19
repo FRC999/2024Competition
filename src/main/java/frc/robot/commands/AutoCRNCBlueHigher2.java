@@ -13,9 +13,9 @@ import frc.robot.Constants.AutoConstants.autoPoses;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoCBlueHigher2REVNonStop extends SequentialCommandGroup {
+public class AutoCRNCBlueHigher2 extends SequentialCommandGroup {
   /** Creates a new AutoBlueBottom3Notes. */
-  public AutoCBlueHigher2REVNonStop() {
+  public AutoCRNCBlueHigher2() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
