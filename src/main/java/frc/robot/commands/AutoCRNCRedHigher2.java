@@ -17,16 +17,16 @@ import frc.robot.Constants.AutoConstants.autoPoses;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoCRNCBlueHigher2 extends SequentialCommandGroup {
-  /** Creates a new AutoBlueBottom3Notes. */
-  public AutoCRNCBlueHigher2() {
+public class AutoCRNCRedHigher2 extends SequentialCommandGroup {
+  /** Creates a new AutoREDBottom3Notes. */
+  public AutoCRNCRedHigher2() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
         // set yaw
         new InstantCommand(() -> RobotContainer.imuSubsystem.setYaw(
-            autoPoses.BLUE_SPEAKER_HIGHER.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
+            autoPoses.RED_SPEAKER_HIGHER.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
 
         // ========================= SHOOT PRELOADED NOTE ===========================================
         new ShootingGPM0Sequence(0) // shoot
@@ -34,8 +34,8 @@ public class AutoCRNCBlueHigher2 extends SequentialCommandGroup {
 
         // ============================ DRIVE 2 HIGH NOTE =========================================
         new AutonomousTrajectory2Poses( // drive to 1st note pickup
-            autoPoses.BLUE_SPEAKER_HIGHER.getPose(),
-            autoPoses.BLUE_HIGHER_RING_TAKE_START.getPose())
+            autoPoses.RED_SPEAKER_HIGHER.getPose(),
+            autoPoses.RED_HIGHER_RING_TAKE_START.getPose())
                 .alongWith(new ArmDownToNoteVision())
             ,
       
@@ -44,8 +44,8 @@ public class AutoCRNCBlueHigher2 extends SequentialCommandGroup {
 
         // Check if the note is visible, save the corrected pose endpoint
         new InstantCommand(() -> TrajectoryHelpers.setCorrectedPose(
-            autoPoses.BLUE_HIGHER_RING_TAKE_START.getPose(),
-            autoPoses.BLUE_HIGHER_RING_TAKE_END.getPose(),
+            autoPoses.RED_HIGHER_RING_TAKE_START.getPose(),
+            autoPoses.RED_HIGHER_RING_TAKE_END.getPose(),
             RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNote())),
         new DeferredCommand(
             () -> new PrintCommand("NoteAngle:" + RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNote()),
@@ -61,8 +61,8 @@ public class AutoCRNCBlueHigher2 extends SequentialCommandGroup {
         // pickup note, correct for the camera if possible
         new DeferredCommand(
             () -> new AutonomousTrajectory2Poses( // drive and run intake to pickup 1st note
-                autoPoses.BLUE_HIGHER_RING_TAKE_START.getPose(),
-                //autoPoses.BLUE_HIGHER_RING_TAKE_END.getPose()
+                autoPoses.RED_HIGHER_RING_TAKE_START.getPose(),
+                //autoPoses.RED_HIGHER_RING_TAKE_END.getPose()
                 TrajectoryHelpers.getCorrectedPose() // we corrected that via TrajectoryHelpers.setCorrectedPos
                 )
 
@@ -82,7 +82,7 @@ public class AutoCRNCBlueHigher2 extends SequentialCommandGroup {
             () -> new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce
                                         // shooting cycle
             TrajectoryHelpers.getCorrectedPose(),
-            autoPoses.BLUE_SPEAKER_HIGHER.getPose())
+            autoPoses.RED_SPEAKER_HIGHER.getPose())
             , Set.of()
             )
             .deadlineWith(
@@ -99,8 +99,8 @@ public class AutoCRNCBlueHigher2 extends SequentialCommandGroup {
         // ========================= DRIVE OUT - NO NEED =============================================
         /*
         new AutonomousTrajectory2Poses( // drive to 2nd pickup point
-            autoPoses.BLUE_SPEAKER_HIGHER.getPose(),
-            autoPoses.BLUE_HIGHER_POS_OUT.getPose()),
+            autoPoses.RED_SPEAKER_HIGHER.getPose(),
+            autoPoses.RED_HIGHER_POS_OUT.getPose()),
         */
         new PrintCommand("Auto DONE"));
   }
