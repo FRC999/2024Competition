@@ -23,7 +23,9 @@ import frc.robot.commands.AutoBlueMid3CalHighREVNonStop;
 import frc.robot.commands.AutoBlueMid3CalLowREVNonStop;
 import frc.robot.commands.AutoCBlue2CenterFromBottom;
 import frc.robot.commands.AutoCBlueMid3NotesLow;
+import frc.robot.commands.AutoCBlueMid4Notes;
 import frc.robot.commands.AutoBlueMid3Notes2;
+import frc.robot.commands.AutoBlueMid4CalREVNonStop;
 import frc.robot.commands.AutoBlueMidCalibrationCameraAdjustment;
 import frc.robot.commands.AutoCBlueBottomShootLeave;
 import frc.robot.commands.AutoCBlueHigher2;
@@ -32,6 +34,10 @@ import frc.robot.commands.AutoCBlueMid2;
 import frc.robot.commands.AutoCRedMid3NotesLow;
 import frc.robot.commands.AutoCBlueMidShootLeave;
 import frc.robot.commands.AutoCBlueTopShootLeave;
+import frc.robot.commands.AutoCRNCBlue2CenterFromBottom;
+import frc.robot.commands.AutoCRNCBlueMid3High;
+import frc.robot.commands.AutoCRNCBlueMid3Low;
+import frc.robot.commands.AutoCRNCRedMid3High;
 import frc.robot.commands.AutoCRed2CenterFromBottom;
 import frc.robot.commands.AutoCRedBottomShootLeave;
 import frc.robot.commands.AutoCRedHigher2;
@@ -315,7 +321,7 @@ public class RobotContainer {
     //testIntake();
     //testArm();
     //testClimber();
-    //testAuto();
+    testAuto();
 
     // Mohawk, practice and competition
     competitionCommandsForDriverController();
@@ -770,20 +776,30 @@ public class RobotContainer {
   }
 
   public void testAuto() {
+    /*
     new JoystickButton(driveStick, 7)
         .onTrue(new TurnToRelativeAngleSoftwarePIDCommand(() -> Rotation2d.fromDegrees(15.0)))
         .onFalse(new StopAllMotorsCommand());
-    
+    */
+
+    // Bottom-center
     new JoystickButton(driveStick, 8)
-        .whileTrue(new AutoBlueMid2CalibrationREVNonStop())
-        .onFalse(new StopAllMotorsCommand());
-    
-    new JoystickButton(driveStick,9)
-        .whileTrue(new AutoBlueMid3CalLowREVNonStop())
+        .whileTrue(new AutoCRNCBlue2CenterFromBottom())
         .onFalse(new StopAllMotorsCommand());
 
+    // 4 notes
+    new JoystickButton(driveStick, 8)
+        .whileTrue(new AutoBlueMid4CalREVNonStop())
+        .onFalse(new StopAllMotorsCommand());
+    
+    // 2 Mid High
+    new JoystickButton(driveStick,9)
+        .whileTrue(new AutoCRNCBlueMid3High())
+        .onFalse(new StopAllMotorsCommand());
+
+    // 2 Mid Low
     new JoystickButton(driveStick,10)
-        .whileTrue(new ShootUsingLLAndTurn())
+        .whileTrue(new AutoCRNCBlueMid3Low())
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick, 11)
