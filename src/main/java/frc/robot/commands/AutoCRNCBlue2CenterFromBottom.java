@@ -4,19 +4,23 @@
 
 package frc.robot.commands;
 
+import java.util.Set;
+
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
+import frc.robot.lib.TrajectoryHelpers;
 import frc.robot.Constants.AutoConstants.autoPoses;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoCBlue2CenterFromBottomREVNonStop extends SequentialCommandGroup {
+public class AutoCRNCBlue2CenterFromBottom extends SequentialCommandGroup {
   /** Creates a new AutoBlueCalibrationLowCenterFromBottom. */
-  public AutoCBlue2CenterFromBottomREVNonStop() {
+  public AutoCRNCBlue2CenterFromBottom() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -26,22 +30,49 @@ public class AutoCBlue2CenterFromBottomREVNonStop extends SequentialCommandGroup
     // ======================= SHOOT PRELOADED NOTE ===================================
       new ShootingGPM0Sequence(0)   // shoot
         .andThen(new IntakeStop()), // stop intake
-      new ArmDownToIntake(),
 
-    // ======================== DRIVE TO START TAKING NOTE ==============================
+    // ======================== DRIVE TO START TAKING NOTE, INTAKE TO NOTE SEEKING POSITION ==============================
       new AutonomousTrajectory3Poses( // drive to 1st note pickup
         autoPoses.BLUE_SPEAKER_LOWER.getPose(),
         autoPoses.BLUE_FAR_DRIVE_W1.getPose(),
         autoPoses.BLUE_FAR_LOWER_TAKE_START.getPose()
-        ),
+        )
+        .alongWith(new ArmDownToNoteVision())
+        ,
+      // Just in case if the amr position is wrong - should finish pretty much instantaneously
+        new ArmDownToNoteVision(),
 
-    // ========================== INTAKE LOW NOTE =============================================
-      new AutonomousTrajectory2Poses( // drive and run intake to pickup 1st note
-        autoPoses.BLUE_FAR_LOWER_TAKE_START.getPose(),
-        autoPoses.BLUE_FAR_LOWER_TAKE_END.getPose())
-          .deadlineWith(new IntakeGrabNote()),
-      new IntakeStop(), // in case we did not grab the note
-      new ControllerRumbleStop(),
+        // Check if the note is visible, save the corrected pose endpoint
+        new InstantCommand(() -> TrajectoryHelpers.setCorrectedPose(
+            autoPoses.BLUE_FAR_LOWER_TAKE_START.getPose(),
+            autoPoses.BLUE_FAR_LOWER_TAKE_END.getPose(),
+            RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNote())),
+        new DeferredCommand(
+            () -> new PrintCommand("NoteAngle:" + RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNote()),
+            Set.of()),
+        new DeferredCommand(
+            () -> new PrintCommand("CameraCorrectedPose:" + TrajectoryHelpers.getCorrectedPose()),
+            Set.of()),
+
+        // ========================== INTAKE LOW NOTE =============================================
+        
+        new ArmDownToIntake(), // now drop the intake all the way down
+
+        // pickup note, correct for the camera if possible
+        new DeferredCommand(
+            () -> new AutonomousTrajectory2Poses( // drive and run intake to pickup 1st note
+                autoPoses.BLUE_FAR_LOWER_TAKE_START.getPose(),
+                //autoPoses.BLUE_FAR_LOWER_TAKE_END.getPose()
+                TrajectoryHelpers.getCorrectedPose() // we corrected that via TrajectoryHelpers.setCorrectedPos
+                )
+
+            , Set.of()
+        ).deadlineWith(
+            new IntakeGrabNote())
+        ,
+
+        new IntakeStop(), // in case we did not grab the note
+        new ControllerRumbleStop(),
 
     
       new ConditionalCommand( // only shoot if picked up the note
