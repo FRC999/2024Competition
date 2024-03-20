@@ -97,11 +97,11 @@ public class AutoCRNCBlueMid3High extends SequentialCommandGroup {
               ,
 
         new PrintCommand("Did not pickup Mid Note")
-          .andThen(
+          .andThen((
             new AutonomousTrajectory2Poses( // drive to 2nd pickup point
                  autoPoses.BLUE_MID_RING_TAKE_END.getPose(),
                  autoPoses.BLUE_HIGHER_RING_TAKE_START.getPose())
-            ) .alongWith(new ArmDownToNoteVision())
+            ) .alongWith(new ArmDownToNoteVision()))
         , 
         RobotContainer.intakeSubsystem::isNoteInIntake
       ), // now we're at the 2nd pickup point

@@ -75,11 +75,11 @@ public class AutoCRNCRed2CenterFromBottom extends SequentialCommandGroup {
         new ControllerRumbleStop(),
 
     
-      new ConditionalCommand( // only shoot if picked up the note
+        new ConditionalCommand( // only shoot if picked up the note
 
     // ====================== ON TRUE ================================================
         (new AutonomousTrajectory3Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
-            autoPoses.RED_FAR_LOWER_TAKE_END.getPose(),
+            TrajectoryHelpers.getCorrectedPose(),
             autoPoses.RED_FAR_DRIVE_W1.getPose(),
             autoPoses.RED_SPEAKER_LOWER_2.getPose()
             )
@@ -87,8 +87,6 @@ public class AutoCRNCRed2CenterFromBottom extends SequentialCommandGroup {
               new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM0Angle(0))
             ))
               .andThen(new ShootingGPM0Sequence(0)) // shoot
-              .andThen(new ShooterStop()) // stop shooter
-              .andThen(new IntakeStop()) // stop intakE
               ,
 
       // ================== ON FALSE ====================================================
@@ -103,7 +101,11 @@ public class AutoCRNCRed2CenterFromBottom extends SequentialCommandGroup {
       // ================= CONDITION ====================================================================
         , 
         RobotContainer.intakeSubsystem::isNoteInIntake
-      )
+      ),
+      // ================================= CLEAN UP =======================================
+      new ShooterStop(), // stop shooter
+      new IntakeStop(), // stop intake
+      new ControllerRumbleStop()
     );
   }
 }
