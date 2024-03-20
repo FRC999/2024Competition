@@ -37,7 +37,9 @@ import frc.robot.commands.AutoCBlueTopShootLeave;
 import frc.robot.commands.AutoCRNCBlue2CenterFromBottom;
 import frc.robot.commands.AutoCRNCBlueMid3High;
 import frc.robot.commands.AutoCRNCBlueMid3Low;
+import frc.robot.commands.AutoCRNCRed2CenterFromBottom;
 import frc.robot.commands.AutoCRNCRedMid3High;
+import frc.robot.commands.AutoCRNCRedMid3Low;
 import frc.robot.commands.AutoCRed2CenterFromBottom;
 import frc.robot.commands.AutoCRedBottomShootLeave;
 import frc.robot.commands.AutoCRedHigher2;
@@ -47,6 +49,7 @@ import frc.robot.commands.AutoCRedMid3Notes;
 import frc.robot.commands.AutoCRedMid4Notes;
 import frc.robot.commands.AutoRedCalibration;
 import frc.robot.commands.AutoRedCalibration2;
+import frc.robot.commands.AutoRedMid4CalREVNonStop;
 import frc.robot.commands.AutoCRedMidShootLeave;
 import frc.robot.commands.AutoCRedTopShootLeave;
 import frc.robot.commands.AutonomousTrajectory2Poses;
@@ -783,23 +786,24 @@ public class RobotContainer {
     */
 
     // Bottom-center
-    new JoystickButton(driveStick, 8)
-        .whileTrue(new AutoCRNCBlue2CenterFromBottom())
+    new JoystickButton(driveStick, 7)
+        .whileTrue(new AutoCRNCRed2CenterFromBottom())
         .onFalse(new StopAllMotorsCommand());
 
     // 4 notes
     new JoystickButton(driveStick, 8)
-        .whileTrue(new AutoBlueMid4CalREVNonStop())
+        .whileTrue(new AutoRedMid4CalREVNonStop())
         .onFalse(new StopAllMotorsCommand());
     
     // 2 Mid High
+     
     new JoystickButton(driveStick,9)
-        .whileTrue(new AutoCRNCBlueMid3High())
+        .whileTrue(new AutoCRNCRedMid3High())
         .onFalse(new StopAllMotorsCommand());
-
+  
     // 2 Mid Low
     new JoystickButton(driveStick,10)
-        .whileTrue(new AutoCRNCBlueMid3Low())
+        .whileTrue(new AutoCRNCRedMid3Low())
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick, 11)
@@ -807,12 +811,14 @@ public class RobotContainer {
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick, 12)
-            .whileTrue(new AutoBlueMidCalibrationCameraAdjustment())
+            .whileTrue(new AutoCRNCRed2CenterFromBottom())
             .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick, 6)
         .whileTrue(new ShootUsingLL())
         .onFalse(new StopAllMotorsCommand());
+
+    
         
   }
 

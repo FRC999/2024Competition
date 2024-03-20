@@ -90,18 +90,18 @@ public class AutoCRNCRedMid3Low extends SequentialCommandGroup {
         )
           .andThen(new ShootingGPM0Sequence(0)) // shoot
           .andThen(new IntakeStop()) // stop intake
-          .andThen( new AutonomousTrajectory2Poses( // drive to 2nd pickup point
+          .andThen(( new AutonomousTrajectory2Poses( // drive to 2nd pickup point
                  autoPoses.RED_SPEAKER_MID.getPose(),
                  autoPoses.RED_LOWER_RING_TAKE_START.getPose())
-              ) .alongWith(new ArmDownToNoteVision())
+              ) .alongWith(new ArmDownToNoteVision()))
               ,
 
         new PrintCommand("Did not pickup Mid Note")
-          .andThen(
+          .andThen((
             new AutonomousTrajectory2Poses( // drive to 2nd pickup point
                  autoPoses.RED_MID_RING_TAKE_END.getPose(),
                  autoPoses.RED_LOWER_RING_TAKE_START.getPose())
-            ) .alongWith(new ArmDownToNoteVision())
+            ) .alongWith(new ArmDownToNoteVision()))
         , 
         RobotContainer.intakeSubsystem::isNoteInIntake
       ), // now we're at the 2nd pickup point

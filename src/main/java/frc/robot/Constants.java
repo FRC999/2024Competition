@@ -1031,8 +1031,8 @@ public final class Constants {
 			//Constants to pick up far note
 			BLUE_FAR_DRIVE_W1(5.03, 0.453, 0),
 			BLUE_FAR_LOWER_TAKE_START(7.40, 0.453, 0),
-			BLUE_FAR_LOWER_TAKE_END(7.90, 0.453, 0),
-			BLUE_SPEAKER_LOWER_2(1.065, 4.315, -60),
+			BLUE_FAR_LOWER_TAKE_END(8.2, 0.453, 0),
+			BLUE_SPEAKER_LOWER_2(1.165, 4.315, -60),
 
 			RED_FAR_DRIVE_W1(fieldSizeX-BLUE_FAR_DRIVE_W1.getPose().getX(), BLUE_FAR_DRIVE_W1.getPose().getY(), 180),
 			RED_FAR_LOWER_TAKE_START(fieldSizeX-BLUE_FAR_LOWER_TAKE_START.getPose().getX(), BLUE_FAR_LOWER_TAKE_START.getPose().getY(), 180),

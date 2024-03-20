@@ -90,10 +90,10 @@ public class AutoCRNCBlueMid3Low extends SequentialCommandGroup {
         )
           .andThen(new ShootingGPM0Sequence(0)) // shoot
           .andThen(new IntakeStop()) // stop intake
-          .andThen( new AutonomousTrajectory2Poses( // drive to 2nd pickup point
+          .andThen( (new AutonomousTrajectory2Poses( // drive to 2nd pickup point
                  autoPoses.BLUE_SPEAKER_MID.getPose(),
                  autoPoses.BLUE_LOWER_RING_TAKE_START.getPose())
-              ) .alongWith(new ArmDownToNoteVision())
+              ) .alongWith(new ArmDownToNoteVision()))
               ,
 
         new PrintCommand("Did not pickup Mid Note")
