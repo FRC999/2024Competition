@@ -17,16 +17,9 @@ import frc.robot.commands.ArmHoldCurrentPositionWithPID;
 import frc.robot.commands.ArmRelease;
 import frc.robot.commands.ArmStop;
 import frc.robot.commands.ArmTurnToAngle;
-import frc.robot.commands.AutoBlueMid2CalibrationREV;
-import frc.robot.commands.AutoBlueMid2CalibrationREVNonStop;
 import frc.robot.commands.AutoBlueMid3CalHighREVNonStop;
-import frc.robot.commands.AutoBlueMid3CalLowREVNonStop;
 import frc.robot.commands.AutoCBlue2CenterFromBottom;
 import frc.robot.commands.AutoCBlueMid3NotesLow;
-import frc.robot.commands.AutoCBlueMid4Notes;
-import frc.robot.commands.AutoBlueMid3Notes2;
-import frc.robot.commands.AutoBlueMid4CalREVNonStop;
-import frc.robot.commands.AutoBlueMidCalibrationCameraAdjustment;
 import frc.robot.commands.AutoCBlueBottomShootLeave;
 import frc.robot.commands.AutoCBlueHigher2;
 import frc.robot.commands.AutoCBlueLower2;
@@ -35,8 +28,9 @@ import frc.robot.commands.AutoCRedMid3NotesLow;
 import frc.robot.commands.AutoCBlueMidShootLeave;
 import frc.robot.commands.AutoCBlueTopShootLeave;
 import frc.robot.commands.AutoCRNCBlue2CenterFromBottom;
-import frc.robot.commands.AutoCRNCBlueMid3High;
-import frc.robot.commands.AutoCRNCBlueMid3Low;
+import frc.robot.commands.AutoCRNCBlueHigher2;
+import frc.robot.commands.AutoCRNCBlueLower2;
+import frc.robot.commands.AutoCRNCBlueMid2;
 import frc.robot.commands.AutoCRNCRed2CenterFromBottom;
 import frc.robot.commands.AutoCRNCRedMid3High;
 import frc.robot.commands.AutoCRNCRedMid3Low;
@@ -46,9 +40,6 @@ import frc.robot.commands.AutoCRedHigher2;
 import frc.robot.commands.AutoCRedLower2;
 import frc.robot.commands.AutoCRedMid2;
 import frc.robot.commands.AutoCRedMid3Notes;
-import frc.robot.commands.AutoCRedMid4Notes;
-import frc.robot.commands.AutoRedCalibration;
-import frc.robot.commands.AutoRedCalibration2;
 import frc.robot.commands.AutoRedMid4CalREVNonStop;
 import frc.robot.commands.AutoCRedMidShootLeave;
 import frc.robot.commands.AutoCRedTopShootLeave;
@@ -227,6 +218,17 @@ public class RobotContainer {
    //  autoChooser.addOption("RED MID 3-4 !!", new AutoCRedMid4Notes());
 
    autoChooser.addOption("*SPECIAL* RED MID 3 LOW", new AutoCRedMid3NotesLow());
+
+   //=============================== NEW CAMERA-AIDED ROUTINES ====================
+    autoChooser.addOption("CAMERA - BLUE TOP 2", new AutoCRNCBlueHigher2());
+    autoChooser.addOption("CAMERA - BLUE MID 2", new AutoCRNCBlueMid2());
+    autoChooser.addOption("CAMERA - BLUE BOTTOM 2", new AutoCRNCBlueLower2());
+    autoChooser.addOption("CAMERA - BLUE *FAR* BOTTOM 2", new AutoCRNCBlue2CenterFromBottom());
+    autoChooser.addOption("CAMERA - RED TOP 2", new AutoCRNCBlueHigher2());
+    autoChooser.addOption("CAMERA - RED MID 2", new AutoCRNCBlueMid2());
+    autoChooser.addOption("CAMERA - RED BOTTOM 2", new AutoCRNCBlueLower2());
+    autoChooser.addOption("CAMERA - RED *FAR* BOTTOM 2", new AutoCRNCRed2CenterFromBottom());
+
 
     //port SendableChooser data to the SmartDashboard
     SmartDashboard.putData(autoChooser);
