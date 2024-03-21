@@ -51,11 +51,11 @@ public final class Constants {
 		public static final boolean odometry = false;
 		public static final boolean imu = true;
 
-		public static final boolean arm = true;
+		public static final boolean arm = false;
 		public static final boolean intake = true;
 		public static final boolean shooter = false;
 		public static final boolean noteHunting = false;
-		public static final boolean llAprilTag = true;
+		public static final boolean llAprilTag = false;
 		public static final boolean pvAprilTag = false;
 
 		// Calibration-only methods
