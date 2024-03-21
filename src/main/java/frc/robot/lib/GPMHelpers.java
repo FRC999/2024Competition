@@ -50,10 +50,12 @@ public class GPMHelpers {
         GPM_0_Angle.put(0.0, -76.00);
         GPM_0_Angle.put(1.0, -62.7);
         GPM_0_Angle.put(1.44, -58.6);
+        GPM_0_Angle.put(1.57, -56.99);
         GPM_0_Angle.put(1.69, -56.50);
         GPM_0_Angle.put(1.75, -55.50);
         GPM_0_Angle.put(1.82, -54.00);
         GPM_0_Angle.put(2.0, -54.00);
+        GPM_0_Angle.put(2.6, -51.50);
         //-52.20
         GPM_0_Angle.put(3.0, -44.25);
         GPM_0_Angle.put(4.0, -37.81);
@@ -86,12 +88,22 @@ public class GPMHelpers {
     }
  */
     public void setGPM0ShooterPower() {
-        GPM_0_ShooterPower.put(0.0, 0.60);
-        GPM_0_ShooterPower.put(1.0, 0.63);
-        GPM_0_ShooterPower.put(1.75, 0.67);
-        GPM_0_ShooterPower.put(2.0, 0.67);
-        GPM_0_ShooterPower.put(3.0, 0.81);
-        GPM_0_ShooterPower.put(4.0, 0.9);
+        // GPM_0_ShooterPower.put(0.0, 0.60);
+        // GPM_0_ShooterPower.put(1.0, 0.63);
+        // GPM_0_ShooterPower.put(1.57, 0.90);
+        // GPM_0_ShooterPower.put(1.75, 0.67);
+        // GPM_0_ShooterPower.put(2.0, 0.67);
+        // GPM_0_ShooterPower.put(3.0, 0.81);
+        // GPM_0_ShooterPower.put(4.0, 0.9);
+
+        GPM_0_ShooterPower.put(0.0, 0.65);
+        GPM_0_ShooterPower.put(1.0, 0.80);
+        GPM_0_ShooterPower.put(1.57, 0.80);
+        GPM_0_ShooterPower.put(1.75, 0.80);
+        GPM_0_ShooterPower.put(2.0, 0.85);
+        GPM_0_ShooterPower.put(2.6, 0.90);
+        GPM_0_ShooterPower.put(3.0, 0.90);
+        GPM_0_ShooterPower.put(4.0, 0.90);
     }
 
     /*public void setGPM0ShooterPower() {

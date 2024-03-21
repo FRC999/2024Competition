@@ -798,7 +798,7 @@ public class RobotContainer {
 
     // Bottom-center
     new JoystickButton(driveStick, 7)
-        .whileTrue(new AutoCRNCRed2CenterFromBottom())
+        .whileTrue(new AutoCRNCBlueMid2())
         .onFalse(new StopAllMotorsCommand());
 
     // 4 notes
