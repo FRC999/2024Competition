@@ -234,8 +234,8 @@ public class RobotContainer {
     autoChooser.addOption("CAMERA - RED TOP 2", new AutoCRNCRedHigher2());
     autoChooser.addOption("CAMERA - RED MID 2", new AutoCRNCRedMid2());
     autoChooser.addOption("CAMERA - RED BOTTOM 2", new AutoCRNCRedLower2());
-    autoChooser.addOption("CAMERA - BLUE HIGH 3", new AutoCRNCRedMid3High());
-    autoChooser.addOption("CAMERA - BLUE LOW 3", new AutoCRNCRedMid3Low());
+    autoChooser.addOption("CAMERA - RED HIGH 3", new AutoCRNCRedMid3High());
+    autoChooser.addOption("CAMERA - RED LOW 3", new AutoCRNCRedMid3Low());
     autoChooser.addOption("CAMERA - RED *FAR* BOTTOM 2", new AutoCRNCRed2CenterFromBottom());
 
 
