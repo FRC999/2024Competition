@@ -49,6 +49,9 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
 
   public double getShootingDistance(Pose2d pose) {
     if (RobotContainer.isAlianceRed) {
+
+      // alex test
+      //System.out.println("RP:"+pose);
       return autoPoses.RED_SPEAKER_TAG.getPose().getTranslation().getDistance(
          pose.getTranslation()
       );
@@ -65,6 +68,9 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
     } else {
       distanceToShoot = -1;
     }
+
+    // alex test
+    //System.out.println("ATV0-D:"+distanceToShoot);
     return distanceToShoot;
   }
 
