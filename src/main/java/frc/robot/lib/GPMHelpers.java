@@ -55,8 +55,8 @@ public class GPMHelpers {
         GPM_0_Angle.put(1.75, -55.50);
         GPM_0_Angle.put(1.82, -54.00);
         GPM_0_Angle.put(2.0, -54.00);
-        GPM_0_Angle.put(2.6, -51.50);
-        //-52.20
+         GPM_0_Angle.put(2.13, -53.40);
+        GPM_0_Angle.put(2.6, -50.00);
         GPM_0_Angle.put(3.0, -44.25);
         GPM_0_Angle.put(4.0, -37.81);
     }
@@ -101,7 +101,7 @@ public class GPMHelpers {
         GPM_0_ShooterPower.put(1.57, 0.80);
         GPM_0_ShooterPower.put(1.75, 0.80);
         GPM_0_ShooterPower.put(2.0, 0.85);
-        GPM_0_ShooterPower.put(2.6, 0.90);
+        GPM_0_ShooterPower.put(2.6, 0.95);
         GPM_0_ShooterPower.put(3.0, 0.90);
         GPM_0_ShooterPower.put(4.0, 0.90);
     }
