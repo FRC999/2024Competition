@@ -18,14 +18,14 @@ import frc.robot.Constants.AutoConstants.autoPoses;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoCRNCRedLower2 extends SequentialCommandGroup {
-  /** Creates a new AutoBlueBottom3Notes. */
+  /** Creates a new AutoREDBottom3Notes. */
   public AutoCRNCRedLower2() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         // set yaw
         new InstantCommand(() -> RobotContainer.imuSubsystem.setYaw(
-            autoPoses.BLUE_SPEAKER_LOWER.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
+            autoPoses.RED_SPEAKER_LOWER.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
 
         // ================================= SHOOT PRELOADED NOTE =============================================
         new ShootingGPM0Sequence(0) // shoot
@@ -33,8 +33,8 @@ public class AutoCRNCRedLower2 extends SequentialCommandGroup {
 
         // =========================== START 2 DRIVE OUT 2 LOW NOTE ======================================
         new AutonomousTrajectory2Poses( // drive to 1st note pickup
-            autoPoses.BLUE_SPEAKER_LOWER.getPose(),
-            autoPoses.BLUE_LOWER_RING_TAKE_START.getPose())
+            autoPoses.RED_SPEAKER_LOWER.getPose(),
+            autoPoses.RED_LOWER_RING_TAKE_START.getPose())
                 .alongWith(new ArmDownToNoteVision())
         ,
 
@@ -43,8 +43,8 @@ public class AutoCRNCRedLower2 extends SequentialCommandGroup {
 
         // Check if the note is visible, save the corrected pose endpoint
         new InstantCommand(() -> TrajectoryHelpers.setCorrectedPose(
-            autoPoses.BLUE_LOWER_RING_TAKE_START.getPose(),
-            autoPoses.BLUE_LOWER_RING_TAKE_END.getPose(),
+            autoPoses.RED_LOWER_RING_TAKE_START.getPose(),
+            autoPoses.RED_LOWER_RING_TAKE_END.getPose(),
             RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNote())),
         new DeferredCommand(
             () -> new PrintCommand("NoteAngle:" + RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNote()),
@@ -59,8 +59,8 @@ public class AutoCRNCRedLower2 extends SequentialCommandGroup {
         // pickup note, correct for the camera if possible
         new DeferredCommand(
             () -> new AutonomousTrajectory2Poses( // drive and run intake to pickup 1st note
-                autoPoses.BLUE_LOWER_RING_TAKE_START.getPose(),
-                //autoPoses.BLUE_LOWER_RING_TAKE_END.getPose()
+                autoPoses.RED_LOWER_RING_TAKE_START.getPose(),
+                //autoPoses.RED_LOWER_RING_TAKE_END.getPose()
                 TrajectoryHelpers.getCorrectedPose() // we corrected that via TrajectoryHelpers.setCorrectedPos
                 )
 
@@ -79,7 +79,7 @@ public class AutoCRNCRedLower2 extends SequentialCommandGroup {
         new DeferredCommand(
             () -> new AutonomousTrajectory2Poses( // drive to original mid position and turn arm to angle preemptively to reduce shooting cycle
             TrajectoryHelpers.getCorrectedPose(),
-            autoPoses.BLUE_SPEAKER_LOWER.getPose())
+            autoPoses.RED_SPEAKER_LOWER.getPose())
             , Set.of()
             )
             .deadlineWith(
@@ -96,8 +96,8 @@ public class AutoCRNCRedLower2 extends SequentialCommandGroup {
         // =========================== DRIVE OUT - NO NEED ========================================================
         /*
         new AutonomousTrajectory2Poses( // drive to 2nd pickup point
-            autoPoses.BLUE_SPEAKER_LOWER.getPose(),
-            autoPoses.BLUE_LOWER_POS_OUT.getPose()),
+            autoPoses.RED_SPEAKER_LOWER.getPose(),
+            autoPoses.RED_LOWER_POS_OUT.getPose()),
         */
         new PrintCommand("Auto DONE"));
   }
