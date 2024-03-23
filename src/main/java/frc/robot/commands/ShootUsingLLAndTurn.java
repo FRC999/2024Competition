@@ -37,79 +37,30 @@ public class ShootUsingLLAndTurn extends SequentialCommandGroup {
       new DeferredCommand(
           () -> 
           new PrintCommand("Shooting Distance : " + (RobotContainer.llVisionSubsystem.getShootingDistance() - 1.1)), 
-           Set.of()).andThen(
-        
-       // Turn to the AT
-        
+           Set.of())
+      .andThen(
+        new DeferredCommand(
+            () -> 
+            new PrintCommand("Shooting Turn : " + (RobotContainer.llVisionSubsystem.getRotationAngleToSpeaker())), 
+            Set.of())
+      )
+      .andThen(
+        // Turn to the AT
         new DeferredCommand(
           // ========= ROTATE TO THE NEW POSE USING TURN TO REL ANGLE ========
-        /*   () -> new TurnToRelativeAngleSoftwarePIDCommand(
-            () -> new Pose2d(
-                0,  // x
-                0,  // y
-                TrajectoryHelpers.rotateToPointToSecondPose(
-                  RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().plus
-                    (new Transform2d
-                      (new Translation2d(), 
-                      Rotation2d.fromDegrees(180)
-                      )
-                    ) ,
-                    autoPoses.BLUE_SPEAKER_TAG.getPose()
-                )
-              )  //rotation
-              .getRotation()  // as Rotation2d
-            )
-            */
-            () -> new PrintCommand( "A:"+
-               TrajectoryHelpers.rotateToPointToSecondPose(
-                  RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().plus
-                    (new Transform2d
-                      (new Translation2d(), 
-                      Rotation2d.fromDegrees(180)
-                      )
-                    ) ,
-                    autoPoses.BLUE_SPEAKER_TAG.getPose()
-               
-                
-                //rotation
-             
-                )
-            )
-            , 
-            Set.of()
-            )
+          () -> new TurnToRelativeAngleSoftwarePIDCommand(
+              () -> RobotContainer.llVisionSubsystem.getRotationAngleToSpeaker()
+              ),
+          Set.of()
         )
-        .andThen(
+      )
+      .andThen(
+        // Shooting sequence if still see Apriltag
+        new ShootUsingLL()
+      ),
 
-        new PrintCommand(
-          RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().toString()
-        
-          
-          ) 
-        )
-        .andThen(
-
-         // new ShootUsingLL()
-          
-        ) ,
-
-       // FOR TESTING THE CORRECT ROTATIONS AND POSES
-         /*  new DeferredCommand(
-            () -> new PrintCommand("FP: " + autoPoses.BLUE_SPEAKER_TAG.getPose() + 
-            " \n" + "SP:"+ 
-              new Pose2d(0,0,
-                TrajectoryHelpers.rotateToPointToSecondPose(
-                  RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().plus(new Transform2d(new Translation2d(), Rotation2d.fromDegrees(180))),
-                  autoPoses.BLUE_SPEAKER_TAG.getPose()
-                  )
-              )+" \n"+"RP:"+RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().plus(new Transform2d(new Translation2d(), Rotation2d.fromDegrees(180)))
-            ), 
-            Set.of()
-          ) */
-          
-          
         // ====================== ON FALSE ======================================================
-        new PrintCommand("No AT Visible"),
+        new PrintCommand("No AT Visible for Shoot/turn"),
 
         // ========================= CONDITIONAL ==============================================
 

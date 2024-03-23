@@ -5,11 +5,15 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants.autoPoses;
 import frc.robot.Constants.VisionConstants.LimeLightConstants;
 import frc.robot.lib.LimelightHelpers;
+import frc.robot.lib.TrajectoryHelpers;
 import frc.robot.lib.VisionHelpers;
 
 public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
@@ -82,6 +86,21 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
     return LimelightHelpers.getFiducialID(LimeLightConstants.LLAprilTagName);
   }
 
+  // Rotate to point to the center of the speaker, considering the al;liance color
+  public Rotation2d getRotationAngleToSpeaker() {
+    return TrajectoryHelpers.rotateToPointToSecondPose(
+      // First parameter - current robot pose (center of the robot)
+      RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().plus
+        (new Transform2d
+          (new Translation2d(), 
+            Rotation2d.fromDegrees(180)
+            )
+          ) ,
+        // Second parameter - pose to point to
+        (RobotContainer.isAlianceRed)? autoPoses.RED_SPEAKER_TAG.getPose():autoPoses.BLUE_SPEAKER_TAG.getPose()
+      );
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
