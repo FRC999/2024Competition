@@ -88,6 +88,7 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
 
   // Rotate to point to the center of the speaker, considering the al;liance color
   public Rotation2d getRotationAngleToSpeaker() {
+    if (RobotContainer.llVisionSubsystem.isApriltagVisible()) {
     return TrajectoryHelpers.rotateToPointToSecondPose(
       // First parameter - current robot pose (center of the robot)
       RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().plus
@@ -98,7 +99,10 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
           ) ,
         // Second parameter - pose to point to
         (RobotContainer.isAlianceRed)? autoPoses.RED_SPEAKER_TAG.getPose():autoPoses.BLUE_SPEAKER_TAG.getPose()
-      );
+      );}
+      else { // if you do not see it, do not rotate
+        return Rotation2d.fromDegrees(0);
+      }
   }
   
   @Override
