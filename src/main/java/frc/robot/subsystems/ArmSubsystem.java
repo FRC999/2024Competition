@@ -197,6 +197,21 @@ public class ArmSubsystem extends SubsystemBase {
     //System.out.println("ARM0: "+ armEncoderZero);
   }
 
+   public void resetArmEncoderToPitch() {
+    // The 0-degree encoder position is current encoder value minus (degrees times encoderchange_per_degree)
+    // We also may decide to apply a correction for an uneven floor by subtracting pan IMU pitch from
+    // arm IMU pitch, which gives us relative angle of the arm to the pan
+    armEncoderZero = getArmEncoderLeader() -
+      (
+       (Arm.ARM_IMU_RESET_ANGLE - 
+          ((Arm.USE_PAN_IMU_FOR_CORRECTION) ? RobotContainer.imuSubsystem.getPitch() : 0))  // pan IMU Pitch-based correction for uneven surface
+            * Arm.ARM_ENCODER_CHANGE_PER_DEGREE
+      );
+
+    // Alex test
+    //System.out.println("ARM0: "+ armEncoderZero);
+  }
+
   /**
    * Get Arm IMU pitch in degrees.
    * IMU is pointed to the FRONT of the robot with the X and left with Y
