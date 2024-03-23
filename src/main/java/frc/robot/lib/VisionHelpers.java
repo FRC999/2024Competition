@@ -42,14 +42,14 @@ public interface VisionHelpers {
 
   public default Rotation2d getAngleToRedSpeaker(Pose2d robotPose) {
     if (robotPose == null) {  // return NaN if the camera cannot determine the pose
-      return null;
+      return Rotation2d.fromDegrees(0);
     }
     return robotPose.relativeTo(VisionConstants.redSpeakerPose).getRotation();
   }
 
   public default Rotation2d getAngleToBlueSpeaker(Pose2d robotPose) {
     if (robotPose == null) {  // return NaN if the camera cannot determine the pose
-      return null;
+      return Rotation2d.fromDegrees(0);
     }
     return robotPose.relativeTo(VisionConstants.blueSpeakerPose).getRotation();
   }

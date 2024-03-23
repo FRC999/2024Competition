@@ -225,12 +225,14 @@ public class RobotContainer {
    autoChooser.addOption("*SPECIAL* RED MID 3 LOW", new AutoCRedMid3NotesLow());
 
    //=============================== NEW CAMERA-AIDED ROUTINES ====================
+   // ========= BLUE
     autoChooser.addOption("CAMERA - BLUE TOP 2", new AutoCRNCBlueHigher2());
     autoChooser.addOption("CAMERA - BLUE MID 2", new AutoCRNCBlueMid2());
     autoChooser.addOption("CAMERA - BLUE BOTTOM 2", new AutoCRNCBlueLower2());
     autoChooser.addOption("CAMERA - BLUE HIGH 3", new AutoCRNCBlueMid3High());
     autoChooser.addOption("CAMERA - BLUE LOW 3", new AutoCRNCBlueMid3Low());
     autoChooser.addOption("CAMERA - BLUE *FAR* BOTTOM 2", new AutoCRNCBlue2CenterFromBottom());
+    //========= RED
     autoChooser.addOption("CAMERA - RED TOP 2", new AutoCRNCRedHigher2());
     autoChooser.addOption("CAMERA - RED MID 2", new AutoCRNCRedMid2());
     autoChooser.addOption("CAMERA - RED BOTTOM 2", new AutoCRNCRedLower2());
