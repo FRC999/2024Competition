@@ -28,7 +28,8 @@ public class GPMHelpers {
 
     public double getAngleTouchingAmp() {
         //return 2.42;
-        return 8.5;
+        //return 8.5;
+        return 5.5;
     }
 
     public double getAngleBeforeTouchingAmp() {

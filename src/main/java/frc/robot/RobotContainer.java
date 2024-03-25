@@ -50,6 +50,7 @@ import frc.robot.commands.AutoCRedMidShootLeave;
 import frc.robot.commands.AutoCRedTopShootLeave;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.DriveManuallyCommand;
+import frc.robot.commands.IMUArmReset;
 import frc.robot.commands.IntakeGrabNote;
 import frc.robot.commands.IntakeRun;
 import frc.robot.commands.IntakeStop;
@@ -698,6 +699,9 @@ public class RobotContainer {
                 armSubsystem.setArmMotorEncoder(currentPosition);} ,
             armSubsystem))
         .onFalse(new ArmHoldCurrentPositionWithPID());
+
+    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawButtonPressed(7) )))
+            .onTrue(new IMUArmReset());
 
     // L1 + L-UP = run arm UP manually 0.5 speed
     new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawAxis(1) < -0.3) ))
