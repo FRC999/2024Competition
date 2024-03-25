@@ -39,7 +39,7 @@ public final class Constants {
 		public static final boolean intake = true;
 		public static final boolean shooter = true;
 		public static final boolean climber = true;
-		public static final boolean candle = false;
+		public static final boolean candle = true;
 		public static final boolean driverCamera =  true;
 		public static final boolean noteHuntingCamera = true;
 		public static final boolean llAprilTagCamera = true;
@@ -1078,8 +1078,8 @@ public final class Constants {
 
 	public class CANdleConstants {
 
-		public static final int CANdleCANID = 60;
-		public static final int LedCount = 8+16; // 8 on the controller + 8x32 panel
+		public static final int CANdleCANID = 45;
+		public static final int LedCount = 8+22; // 8 on the controller + 8x32 panel
 		public static final int MaxBrightnessAngle = 90;
 		public static final int MidBrightnessAngle = 180;
 		public static final int ZeroBrightnessAngle = 270;

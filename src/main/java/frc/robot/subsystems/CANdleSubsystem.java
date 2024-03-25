@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.StrobeAnimation;
+import com.ctre.phoenix.led.CANdle.LEDStripType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANdleConstants;
@@ -40,6 +41,7 @@ public class CANdleSubsystem extends SubsystemBase {
     System.out.println("Initializing CANdle");
 
     candle = new CANdle(CANdleConstants.CANdleCANID);
+    candle.configLEDType(LEDStripType.GRB);
 
   }
 
@@ -51,7 +53,7 @@ public class CANdleSubsystem extends SubsystemBase {
 
   public void setLEDRed()
   {
-    candle.setLEDs(200,10,10);
+    candle.setLEDs(220,0,0);
     candle.modulateVBatOutput(0.9);
   }
 
@@ -63,9 +65,13 @@ public class CANdleSubsystem extends SubsystemBase {
 
   public void blinkGreen()
   {
-    candle.animate(new StrobeAnimation(10, 200, 10, 0, 98.0 / 256.0, CANdleConstants.LedCount));
+    candle.animate(new StrobeAnimation(57, 128, 13, 0, 98.0 / 256.0, CANdleConstants.LedCount));
   }
 
+    public void blinkRed()
+  {
+    candle.animate(new StrobeAnimation(220, 0, 0, 0, 1.0 / 2560000.0, CANdleConstants.LedCount));
+  }
     public void stopBlinking() {
       candle.animate(null);
     }

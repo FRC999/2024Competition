@@ -22,9 +22,9 @@ public class IntakeGrabNote extends SequentialCommandGroup {
       // new PrintCommand("Grabbing Note..."),
       new IntakeRun(Intake.INTAKE_NOTE_GRAB_POWER).until(RobotContainer.intakeSubsystem::isNoteInIntake),
       new IntakeStop(),
-      (new ControllerRumbleStop() // rumble driver controller if got the note in
+      (new ControllerRumble() // rumble driver controller if got the note in
         .onlyIf(() -> RobotContainer.intakeSubsystem.isNoteInIntake() && DriverStation.isTeleopEnabled() ))
-          .alongWith(new LEDBlink().onlyIf(()->EnabledSubsystems.candle)) // Blink LEDs if installed
+         // .alongWith(new LEDBlink().onlyIf(()->EnabledSubsystems.candle)) // Blink LEDs if installed
     );
   }
 }

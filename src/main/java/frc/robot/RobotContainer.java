@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.DebugTelemetrySubsystems;
+import frc.robot.Constants.EnabledSubsystems;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OIConstants.ControllerDevice;
 import frc.robot.Constants.VisionConstants;
@@ -177,6 +178,7 @@ public class RobotContainer {
 
     // Configure the trigger bindings
     configureBindings();
+    configureTrigger();
 
     driveSubsystem.setDefaultCommand(
         new DriveManuallyCommand(
@@ -737,6 +739,11 @@ public class RobotContainer {
 
   }
 
+  public void configureTrigger() {
+    new Trigger(() -> intakeSubsystem.isNoteInIntake())
+        .onTrue(new InstantCommand(RobotContainer.candleSubsystem::setLEDRed).onlyIf(()->EnabledSubsystems.candle))
+        .onFalse(new InstantCommand(RobotContainer.candleSubsystem::setLEDOff).onlyIf(()->EnabledSubsystems.candle));
+  }
   // =========================================
 
   Pose2d testPoseSupplier(double x, double y, double angle) {
