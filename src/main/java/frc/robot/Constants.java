@@ -224,6 +224,7 @@ public final class Constants {
 				public static final int closedLoopPeriod = 1; // 1ms for TalonSRX and locally connected encoder
 
 				public static final double anglePIDTolerance = 0.5; // degree tolerance when rotating arm to angle using PID
+
 			}
 
 			// Arm IMU
@@ -246,6 +247,9 @@ public final class Constants {
 			public static final double ARM_AMP_ANGLE = 15.0;
 			public static final double ARM_NOTE_VISION_ANGLE = -69.0;	//BASED ON TESTING MAR 11
 			public static final double ARM_CLIMB_ANGLE = 0;	//TODO: test this
+			public static final double ARM_IMU_RESET_ANGLE = -83.0;
+
+			public static final double armDownPowerForRecalibration = -0.2;
 		}
 
 	}

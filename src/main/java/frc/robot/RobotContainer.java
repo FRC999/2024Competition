@@ -13,6 +13,7 @@ import frc.robot.Constants.GPMConstants.Intake;
 import frc.robot.Constants.SwerveChassis.SwerveTelemetry;
 import frc.robot.Constants.VisionConstants.PhotonVisionConstants;
 import frc.robot.commands.ArmDownToIntake;
+import frc.robot.commands.ArmDownToSwitch;
 import frc.robot.commands.ArmHoldCurrentPositionWithPID;
 import frc.robot.commands.ArmRelease;
 import frc.robot.commands.ArmStop;
@@ -50,6 +51,7 @@ import frc.robot.commands.AutoCRedMidShootLeave;
 import frc.robot.commands.AutoCRedTopShootLeave;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.DriveManuallyCommand;
+import frc.robot.commands.IMUReset;
 import frc.robot.commands.IntakeGrabNote;
 import frc.robot.commands.IntakeRun;
 import frc.robot.commands.IntakeStop;
@@ -728,6 +730,10 @@ public class RobotContainer {
     new Trigger(() -> xboxGPMController.getRawAxis(3) > 0.3)
         .onTrue(new IntakeRun(Intake.INTAKE_NOTE_SPEW_POWER))
         .onFalse(new IntakeStop());
+    
+    new Trigger(() -> (xboxDriveController.getRawButton(5) && (xboxDriveController.getRawButtonPressed(7))))
+        .onTrue(new ArmDownToSwitch())
+        .onFalse(new ArmStop().andThen(new IMUReset()));
 
   }
 
