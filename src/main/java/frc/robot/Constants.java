@@ -1029,34 +1029,18 @@ public final class Constants {
 
 			// TAKE_START pose rotated using the note center as origin, to the number of degrees - from the center of the speaker looking forward to point to the note
 			BLUE_HIGHER_RING_TAKE_START_OPTIMIZED(
-				TrajectoryHelpers.getCorrectedX(
+				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
 					BLUE_HIGHER_RING.getPose(),
 					BLUE_HIGHER_RING_TAKE_START.getPose(),
-					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()
+					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()  // angle to point from middle of the speaker to the ring
 				)
-				,
-				TrajectoryHelpers.getCorrectedY(
-					BLUE_HIGHER_RING.getPose(),
-					BLUE_HIGHER_RING_TAKE_START.getPose(),
-					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()
-				)
-				,
-				TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees() // angle to point from middle of the speaker to the ring
 			),
 			BLUE_HIGHER_RING_TAKE_END_OPTIMIZED(
-				TrajectoryHelpers.getCorrectedX(
+				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
 					BLUE_HIGHER_RING.getPose(),
 					BLUE_HIGHER_RING_TAKE_END.getPose(),
 					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()
 				)
-				,
-				TrajectoryHelpers.getCorrectedY(
-					BLUE_HIGHER_RING.getPose(),
-					BLUE_HIGHER_RING_TAKE_END.getPose(),
-					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()
-				)
-				,
-				TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees() // angle to point from middle of the speaker to the ring
 			),
 
 			RED_HIGHER_RING_TAKE_START(fieldSizeX-BLUE_HIGHER_RING_TAKE_START.getPose().getX(), BLUE_HIGHER_RING_TAKE_START.getPose().getY(),180),
@@ -1084,6 +1068,9 @@ public final class Constants {
 
 			autoPoses(double x, double y, double angle) {
 				this.pose = new Pose2d(x, y, Rotation2d.fromDegrees(angle));
+			}
+			autoPoses(Pose2d p) {
+				this.pose = p;
 			}
 			public Pose2d getPose() {
 				return pose;
