@@ -341,7 +341,7 @@ public class RobotContainer {
     //testIntake();
     //testArm();
     //testClimber();
-    //testAuto();
+    testAuto();
 
     // Mohawk, practice and competition
     competitionCommandsForDriverController();
@@ -841,7 +841,7 @@ public class RobotContainer {
             .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick, 6)
-        .whileTrue(new ShootUsingLL())
+        .whileTrue(new ShootUsingLLAndTurn())
         .onFalse(new StopAllMotorsCommand());
 
     
