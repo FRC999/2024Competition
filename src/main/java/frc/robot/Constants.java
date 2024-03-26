@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import frc.robot.lib.TrajectoryHelpers;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -1008,7 +1009,7 @@ public final class Constants {
 			RED_MID_POS_OUT(fieldSizeX-BLUE_MID_POS_OUT.getPose().getX(), BLUE_MID_POS_OUT.getPose().getY(), 180),
 			RED_LOWER_POS_OUT(fieldSizeX-BLUE_LOWER_POS_OUT.getPose().getX(), BLUE_LOWER_POS_OUT.getPose().getY(), 180),
 
-			BLUE_HIGHER_RING(2.896,6.8515,0),
+			BLUE_HIGHER_RING(2.896,7.015,0),
 			BLUE_MID_RING(2.896,5.5535,0),
 			BLUE_LOWER_RING(2.896,4.0055,0),
 
@@ -1023,6 +1024,40 @@ public final class Constants {
 			BLUE_HIGHER_RING_TAKE_END(2.465,7.0115,0),
 			BLUE_MID_RING_TAKE_END(2.465,5.5535,0),
 			BLUE_LOWER_RING_TAKE_END(2.465,4.0055,0),
+
+			// alex new
+
+			// TAKE_START pose rotated using the note center as origin, to the number of degrees - from the center of the speaker looking forward to point to the note
+			BLUE_HIGHER_RING_TAKE_START_OPTIMIZED(
+				TrajectoryHelpers.getCorrectedX(
+					BLUE_HIGHER_RING.getPose(),
+					BLUE_HIGHER_RING_TAKE_START.getPose(),
+					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()
+				)
+				,
+				TrajectoryHelpers.getCorrectedY(
+					BLUE_HIGHER_RING.getPose(),
+					BLUE_HIGHER_RING_TAKE_START.getPose(),
+					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()
+				)
+				,
+				TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees() // angle to point from middle of the speaker to the ring
+			),
+			BLUE_HIGHER_RING_TAKE_END_OPTIMIZED(
+				TrajectoryHelpers.getCorrectedX(
+					BLUE_HIGHER_RING.getPose(),
+					BLUE_HIGHER_RING_TAKE_END.getPose(),
+					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()
+				)
+				,
+				TrajectoryHelpers.getCorrectedY(
+					BLUE_HIGHER_RING.getPose(),
+					BLUE_HIGHER_RING_TAKE_END.getPose(),
+					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()
+				)
+				,
+				TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees() // angle to point from middle of the speaker to the ring
+			),
 
 			RED_HIGHER_RING_TAKE_START(fieldSizeX-BLUE_HIGHER_RING_TAKE_START.getPose().getX(), BLUE_HIGHER_RING_TAKE_START.getPose().getY(),180),
 			RED_MID_RING_TAKE_START(fieldSizeX-BLUE_MID_RING_TAKE_START.getPose().getX(), BLUE_MID_RING_TAKE_START.getPose().getY(),180),

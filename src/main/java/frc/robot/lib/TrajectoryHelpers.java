@@ -22,6 +22,19 @@ public class TrajectoryHelpers {
         
     }
 
+    // get corrected X of the pose when turning the endpose using startpose as origin
+    // Used to get part of the Transform
+    public static double getCorrectedX(Pose2d startPose, Pose2d endPose, double angle) {
+        return correctEndingPoseBasedOnNoteLocation(startPose, endPose, angle).getX();
+    }
+
+    // get corrected X of the pose when turning the endpose using startpose as origin
+    // Used to get part of the Transform
+    public static double getCorrectedY(Pose2d startPose, Pose2d endPose, double angle) {
+        return correctEndingPoseBasedOnNoteLocation(startPose, endPose, angle).getY();
+    }
+
+
     public static void setCorrectedPose(Pose2d startPose, Pose2d endPose, double angle) {
         correctedPose = correctEndingPoseBasedOnNoteLocation(startPose, endPose, angle);
     }
