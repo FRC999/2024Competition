@@ -78,15 +78,25 @@ public class AutoCRNCBlue2CenterFromBottom extends SequentialCommandGroup {
         new ConditionalCommand( // only shoot if picked up the note
 
     // ====================== ON TRUE ================================================
-        (new AutonomousTrajectory3Poses( // drive to original mid position and turn arm to angle preemptively to BLUEuce shooting cycle
+      new DeferredCommand (  
+       () -> ((new AutonomousTrajectoryNPoses( // drive to original mid position and turn arm to angle preemptively to BLUEuce shooting cycle
             TrajectoryHelpers.getCorrectedPose(),
+            autoPoses.BLUE_FAR_LOWER_TAKE_START.getPose(),
             autoPoses.BLUE_FAR_DRIVE_W1.getPose(),
             autoPoses.BLUE_SPEAKER_LOWER_2.getPose()
             )
             .deadlineWith(
               new ArmTurnToAngle(() -> RobotContainer.gpmHelpers.getGPM0Angle(0))
             ))
-              .andThen(new ShootingGPM0Sequence(0)) // shoot
+              .andThen(new ShootingGPM0Sequence(0))) // shoot
+          , Set.of())
+             
+
+         /*  (new PrintCommand("P1 :" + TrajectoryHelpers.getCorrectedPose()))
+          .andThen(new PrintCommand("P2 :" +  autoPoses.BLUE_FAR_DRIVE_W1.getPose()))
+          .andThen(new PrintCommand("P3 :" +  autoPoses.BLUE_SPEAKER_LOWER_2.getPose()))
+
+          */
               ,
 
       // ================== ON FALSE ====================================================
