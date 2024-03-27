@@ -46,6 +46,10 @@ public class GPMHelpers {
         return 0.4;
     }
 
+    public double getShooterPowerPreRev() {
+        return GPM_0_ShooterPower.get(0.0); // should be the lowest value of GPM_0_ShooterPower
+    }
+
     public void setGPM0Angle() {
         GPM_0_Angle.put(0.0, -76.00);
         GPM_0_Angle.put(1.0, -62.7);

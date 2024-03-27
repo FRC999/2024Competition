@@ -66,6 +66,10 @@ public final class Constants {
 
 	}
 
+	public static final class EnabledFeatures {
+		public static final boolean shooterPreRev =  true;
+	}
+
 	public static final class EnableCurrentLimiter {
 		public static final boolean drive = true;
 		public static final boolean intake = true;
