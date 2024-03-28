@@ -14,14 +14,14 @@ import frc.robot.Constants.AutoConstants.autoPoses;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoCBlueMid4NotesOptimized extends SequentialCommandGroup {
-  /** Creates a new AutoBlueBottom3Notes. */
-  public AutoCBlueMid4NotesOptimized() {
+public class AutoCRedMid4NotesOptimized extends SequentialCommandGroup {
+  /** Creates a new AutoREDBottom3Notes. */
+  public AutoCRedMid4NotesOptimized() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand( () -> RobotContainer.imuSubsystem.setYaw(
-        autoPoses.BLUE_SPEAKER_MID.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
+        autoPoses.RED_SPEAKER_MID.getPose().getRotation().getDegrees())), // set yaw to the one in the initial pose
 
 
       new ShootingGPM0Sequence(0)   // shoot
@@ -32,16 +32,16 @@ public class AutoCBlueMid4NotesOptimized extends SequentialCommandGroup {
       // ############ DRIVE TO MID PICKUP POINT ####################
 
       new AutonomousTrajectory2Poses( // drive to 1st note pickup
-        autoPoses.BLUE_SPEAKER_MID.getPose(),
-        autoPoses.BLUE_MID_RING_TAKE_START.getPose())
+        autoPoses.RED_SPEAKER_MID.getPose(),
+        autoPoses.RED_MID_RING_TAKE_START.getPose())
           .alongWith(new ArmDownToIntake())
         ,
 
       // ############ PICKUP MID NOTE ####################
 
       new AutonomousTrajectory2Poses( // drive and run intake to pickup 1st note
-        autoPoses.BLUE_MID_RING_TAKE_START.getPose(),
-        autoPoses.BLUE_MID_RING_TAKE_END.getPose())
+        autoPoses.RED_MID_RING_TAKE_START.getPose(),
+        autoPoses.RED_MID_RING_TAKE_END.getPose())
           .deadlineWith(
               new IntakeGrabNote()
             ),
@@ -52,8 +52,8 @@ public class AutoCBlueMid4NotesOptimized extends SequentialCommandGroup {
 
       new ConditionalCommand( // only shoot if picked up the note
         (new ShootingGPM0Sequence( // shoot at distance
-            autoPoses.BLUE_SPEAKER_TAG.getPose().getTranslation().getDistance(
-                 autoPoses.BLUE_MID_RING_TAKE_END.getPose().getTranslation())
+            autoPoses.RED_SPEAKER_TAG.getPose().getTranslation().getDistance(
+                 autoPoses.RED_MID_RING_TAKE_END.getPose().getTranslation())
             )
         ) 
             .andThen(new IntakeStop()) // stop intake
@@ -66,16 +66,16 @@ public class AutoCBlueMid4NotesOptimized extends SequentialCommandGroup {
       // ############ DRIVE TO HIGH PICKUP POINT ################
 
       new AutonomousTrajectory2Poses(
-          autoPoses.BLUE_MID_RING_TAKE_END.getPose(),
-          autoPoses.BLUE_HIGHER_RING_TAKE_START_OPTIMIZED.getPose())
+          autoPoses.RED_MID_RING_TAKE_END.getPose(),
+          autoPoses.RED_HIGHER_RING_TAKE_START_OPTIMIZED.getPose())
         .alongWith(new ArmDownToIntake())
       ,
       
       // ############ PICKUP HIGH NOTE ####################
 
       new AutonomousTrajectory2Poses( // drive and run intake to pickup 2nd note
-        autoPoses.BLUE_HIGHER_RING_TAKE_START_OPTIMIZED.getPose(),
-        autoPoses.BLUE_HIGHER_RING_TAKE_END_OPTIMIZED.getPose())
+        autoPoses.RED_HIGHER_RING_TAKE_START_OPTIMIZED.getPose(),
+        autoPoses.RED_HIGHER_RING_TAKE_END_OPTIMIZED.getPose())
           .deadlineWith(
               new IntakeGrabNote()
             ),
@@ -86,8 +86,8 @@ public class AutoCBlueMid4NotesOptimized extends SequentialCommandGroup {
 
       new ConditionalCommand( // only shoot if picked up the note
         (new ShootingGPM0Sequence( // shoot at distance
-            autoPoses.BLUE_SPEAKER_TAG.getPose().getTranslation().getDistance(
-                 autoPoses.BLUE_HIGHER_RING_TAKE_END_OPTIMIZED.getPose().getTranslation())
+            autoPoses.RED_SPEAKER_TAG.getPose().getTranslation().getDistance(
+                 autoPoses.RED_HIGHER_RING_TAKE_END_OPTIMIZED.getPose().getTranslation())
             )
         ) 
             .andThen(new IntakeStop()) // stop intake
@@ -100,16 +100,16 @@ public class AutoCBlueMid4NotesOptimized extends SequentialCommandGroup {
       // ############ DRIVE TO LOW PICKUP POINT ################
 
       new AutonomousTrajectory2Poses(
-          autoPoses.BLUE_HIGHER_RING_TAKE_END_OPTIMIZED.getPose(),
-          autoPoses.BLUE_LOWER_RING_TAKE_START_OPTIMIZED.getPose())
+          autoPoses.RED_HIGHER_RING_TAKE_END_OPTIMIZED.getPose(),
+          autoPoses.RED_LOWER_RING_TAKE_START_OPTIMIZED.getPose())
         .alongWith(new ArmDownToIntake())
       ,
 
       // ############ PICKUP LOW NOTE ####################
 
       new AutonomousTrajectory2Poses( // drive and run intake to pickup 3rd note
-        autoPoses.BLUE_LOWER_RING_TAKE_START_OPTIMIZED.getPose(),
-        autoPoses.BLUE_LOWER_RING_TAKE_END_OPTIMIZED.getPose())
+        autoPoses.RED_LOWER_RING_TAKE_START_OPTIMIZED.getPose(),
+        autoPoses.RED_LOWER_RING_TAKE_END_OPTIMIZED.getPose())
           .deadlineWith(
             new IntakeGrabNote()
           ),
@@ -120,8 +120,8 @@ public class AutoCBlueMid4NotesOptimized extends SequentialCommandGroup {
       
       new ConditionalCommand( // only shoot if picked up the note
         (new ShootingGPM0Sequence( // shoot at distance
-            autoPoses.BLUE_SPEAKER_TAG.getPose().getTranslation().getDistance(
-                 autoPoses.BLUE_LOWER_RING_TAKE_END_OPTIMIZED.getPose().getTranslation())
+            autoPoses.RED_SPEAKER_TAG.getPose().getTranslation().getDistance(
+                 autoPoses.RED_LOWER_RING_TAKE_END_OPTIMIZED.getPose().getTranslation())
             )
         ) 
             .andThen(new IntakeStop()) // stop intake
