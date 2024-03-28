@@ -93,7 +93,7 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
       // First parameter - current robot pose (center of the robot)
       RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().plus
         (new Transform2d
-          (new Translation2d(), 
+          (new Translation2d(0.29, 0.24), 
             Rotation2d.fromDegrees(180)
             )
           ) ,
