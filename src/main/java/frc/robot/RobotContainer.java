@@ -349,7 +349,7 @@ public class RobotContainer {
     competitionCommandsForGPMController();
 
     // test climber poses
-    System.out.println("****====CP14:"+Constants.VisionConstants.LimeLightConstants.robotClimbingPoses.get(15.0));
+    //System.out.println("****====CP14:"+Constants.VisionConstants.LimeLightConstants.robotClimbingPoses.get(15.0));
     
   }
 
@@ -806,17 +806,17 @@ public class RobotContainer {
   }
 
   public void testAuto() {
-    /*
+    
     new JoystickButton(driveStick, 7)
-        .onTrue(new TurnToRelativeAngleSoftwarePIDCommand(() -> Rotation2d.fromDegrees(15.0)))
+        .onTrue(new TurnToRelativeAngleSoftwarePIDCommand(() -> Rotation2d.fromDegrees(25.0)))
         .onFalse(new StopAllMotorsCommand());
-    */
+    
 
     // Bottom-center
-    new JoystickButton(driveStick, 7)
+    /*new JoystickButton(driveStick, 7)
         .whileTrue(new AutoCRNCBlueMid2())
         .onFalse(new StopAllMotorsCommand());
-
+    */
     // 4 notes
     new JoystickButton(driveStick, 8)
         .whileTrue(new AutoRedMid4CalREVNonStop())
@@ -824,7 +824,7 @@ public class RobotContainer {
     
     // Check turn via PP 
     new JoystickButton(driveStick,9)
-        .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023-90-turn",1.0,0.2, false))
+        .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023-90-turn",0.5,0.1, false))
         .onFalse(new StopAllMotorsCommand());
   
     // 2 Mid Low

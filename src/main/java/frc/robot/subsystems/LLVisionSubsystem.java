@@ -20,6 +20,7 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
   public static double joystickDirectionDegrees;
   public static Pose2d robotCurrentPoseBeforeClimb;
   public static double distanceToShoot = -1;
+  private static double llDirectionCorrection = 5.5; // LL angle correction because LL is not pointing straight
 
   /** Creates a new LLVisionSubsystem. 
    * AprilTag Vision Subsystem based on LimeLight.
@@ -93,13 +94,14 @@ public class LLVisionSubsystem extends SubsystemBase implements VisionHelpers {
       // First parameter - current robot pose (center of the robot)
       RobotContainer.llVisionSubsystem.getRobotFieldPoseLL().plus
         (new Transform2d
-          (new Translation2d(0.29, 0.24), 
+          (new Translation2d(0.28, 0.25), 
             Rotation2d.fromDegrees(180)
             )
           ) ,
         // Second parameter - pose to point to
         (RobotContainer.isAlianceRed)? autoPoses.RED_SPEAKER_TAG.getPose():autoPoses.BLUE_SPEAKER_TAG.getPose()
-      );}
+      ).plus(new Rotation2d().fromDegrees(llDirectionCorrection))
+      ;}
       else { // if you do not see it, do not rotate
         return Rotation2d.fromDegrees(0);
       }

@@ -83,6 +83,9 @@ public class DriveSubsystem extends SubsystemBase {
   public void drive(double xVelocity_m_per_s, double yVelocity_m_per_s, double omega_rad_per_s, boolean fieldcentric) {
     SwerveModuleState[] swerveModuleStates;
 
+    //alex text
+    //System.out.println("O:"+omega_rad_per_s);
+
     if (fieldcentric) { // field-centric swerve
       if (RobotContainer.isAlianceRed && RobotContainer.isReversingControllerAndIMUForRed)  { // On red alliance reverse X and Y directions to preserve BLUE coordinate system
         xVelocity_m_per_s = -xVelocity_m_per_s;
