@@ -18,10 +18,10 @@ public class TurnToRelativeAngleSoftwarePIDCommand extends Command {
 	private final double kD = 0.0;
 	Rotation2d angle;
 	Supplier<Rotation2d> angleSupplier;
-	//private double kMaxSpeed = Constants.SwerveChassis.MAX_ANGULAR_VELOCITY;
-	//private double kMaxAccel = Constants.SwerveChassis.MAX_ACCELERATION;
-	private double kMaxSpeed = 360;
-	private double kMaxAccel = 720;
+	private double kMaxSpeed = SwerveChassis.MAX_ANGULAR_VELOCITY; // radians per second
+	private double kMaxAccel = Math.PI * 16; // radians per second square
+	//private double kMaxSpeed = 360;
+	//private double kMaxAccel = 720;
 	private TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(kMaxSpeed, kMaxAccel);
 	private ProfiledPIDController profiledPID = new ProfiledPIDController(kP, kI, kD, constraints);
 	private double tolerance = 0.5; // degrees of tolerance to end the command
@@ -37,6 +37,8 @@ public class TurnToRelativeAngleSoftwarePIDCommand extends Command {
 		angleSupplier = a;
 		addRequirements(RobotContainer.driveSubsystem);
 		//profiledPID.enableContinuousInput(0, 360);
+		profiledPID.disableContinuousInput();
+		profiledPID.setTolerance(tolerance);
 	}
 
 	@Override
@@ -50,8 +52,8 @@ public class TurnToRelativeAngleSoftwarePIDCommand extends Command {
 	@Override
 	public void execute() {
 		double omegaDegPerSec = profiledPID.calculate(RobotContainer.imuSubsystem.getYaw());
-		System.out.println("******yaw: " + RobotContainer.imuSubsystem.getYaw() + " a: " + angle.getDegrees() + " g: " +finalGoal + " o: " + omegaDegPerSec);
-		RobotContainer.driveSubsystem.drive(0, 0, Units.degreesToRadians(omegaDegPerSec)* SwerveChassis.MAX_ANGULAR_VELOCITY, true);
+		System.out.println("******yaw: " + RobotContainer.imuSubsystem.getYaw() + " a: " + angle.getDegrees() + " g: " +finalGoal + " o: " + Units.degreesToRadians(omegaDegPerSec)/ SwerveChassis.MAX_ANGULAR_VELOCITY);
+		RobotContainer.driveSubsystem.drive(0, 0, Units.degreesToRadians(omegaDegPerSec)/ SwerveChassis.MAX_ANGULAR_VELOCITY, true);
 		//profiledPID.setGoal(RobotContainer.imuSubsystem.getYaw()+angle.getDegrees());  // get new YAW
 	}
 
@@ -64,6 +66,6 @@ public class TurnToRelativeAngleSoftwarePIDCommand extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-  	  return Math.abs(RobotContainer.imuSubsystem.getYaw()-finalGoal)<tolerance ;
+  	  return profiledPID.atGoal() ;
   	}
 }

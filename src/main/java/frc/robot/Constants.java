@@ -1046,6 +1046,20 @@ public final class Constants {
 					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()
 				)
 			),
+			BLUE_LOWER_RING_TAKE_START_OPTIMIZED(
+				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
+					BLUE_LOWER_RING.getPose(),
+					BLUE_LOWER_RING_TAKE_START.getPose(),
+					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_LOWER_RING.getPose()).getDegrees()  // angle to point from middle of the speaker to the ring
+				)
+			),
+			BLUE_LOWER_RING_TAKE_END_OPTIMIZED(
+				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
+					BLUE_LOWER_RING.getPose(),
+					BLUE_LOWER_RING_TAKE_END.getPose(),
+					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_LOWER_RING.getPose()).getDegrees()
+				)
+			),
 
 			RED_HIGHER_RING_TAKE_START(fieldSizeX-BLUE_HIGHER_RING_TAKE_START.getPose().getX(), BLUE_HIGHER_RING_TAKE_START.getPose().getY(),180),
 			RED_MID_RING_TAKE_START(fieldSizeX-BLUE_MID_RING_TAKE_START.getPose().getX(), BLUE_MID_RING_TAKE_START.getPose().getY(),180),
@@ -1054,6 +1068,36 @@ public final class Constants {
 			RED_HIGHER_RING_TAKE_END(fieldSizeX-BLUE_HIGHER_RING_TAKE_END.getPose().getX(), BLUE_HIGHER_RING_TAKE_END.getPose().getY(),180),
 			RED_MID_RING_TAKE_END(fieldSizeX-BLUE_MID_RING_TAKE_END.getPose().getX(), BLUE_MID_RING_TAKE_END.getPose().getY(),180),
 			RED_LOWER_RING_TAKE_END(fieldSizeX-BLUE_LOWER_RING_TAKE_END.getPose().getX(), BLUE_LOWER_RING_TAKE_END.getPose().getY(),180),
+
+			// TAKE_START pose rotated using the note center as origin, to the number of degrees - from the center of the speaker looking forward to point to the note
+			RED_HIGHER_RING_TAKE_START_OPTIMIZED(
+				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
+					RED_HIGHER_RING.getPose(),
+					RED_HIGHER_RING_TAKE_START.getPose(),
+					TrajectoryHelpers.rotateToPointToSecondPose(RED_SPEAKER_MID.getPose(), RED_HIGHER_RING.getPose()).getDegrees()  // angle to point from middle of the speaker to the ring
+				)
+			),
+			RED_HIGHER_RING_TAKE_END_OPTIMIZED(
+				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
+					RED_HIGHER_RING.getPose(),
+					RED_HIGHER_RING_TAKE_END.getPose(),
+					TrajectoryHelpers.rotateToPointToSecondPose(RED_SPEAKER_MID.getPose(), RED_HIGHER_RING.getPose()).getDegrees()
+				)
+			),
+			RED_LOWER_RING_TAKE_START_OPTIMIZED(
+				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
+					RED_LOWER_RING.getPose(),
+					RED_LOWER_RING_TAKE_START.getPose(),
+					TrajectoryHelpers.rotateToPointToSecondPose(RED_SPEAKER_MID.getPose(), RED_LOWER_RING.getPose()).getDegrees()  // angle to point from middle of the speaker to the ring
+				)
+			),
+			RED_LOWER_RING_TAKE_END_OPTIMIZED(
+				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
+					RED_LOWER_RING.getPose(),
+					RED_LOWER_RING_TAKE_END.getPose(),
+					TrajectoryHelpers.rotateToPointToSecondPose(RED_SPEAKER_MID.getPose(), RED_LOWER_RING.getPose()).getDegrees()
+				)
+			),
 
 			//Constants to pick up far note
 			BLUE_FAR_DRIVE_W1(5.03, 0.453, 0),
