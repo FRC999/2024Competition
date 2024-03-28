@@ -822,10 +822,9 @@ public class RobotContainer {
         .whileTrue(new AutoRedMid4CalREVNonStop())
         .onFalse(new StopAllMotorsCommand());
     
-    // 2 Mid High
-     
+    // Check turn via PP 
     new JoystickButton(driveStick,9)
-        .whileTrue(new AutoCRNCRedMid3High())
+        .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023-90-turn",1.0,0.2, false))
         .onFalse(new StopAllMotorsCommand());
   
     // 2 Mid Low
