@@ -747,8 +747,17 @@ public class RobotContainer {
         .onFalse(new InstantCommand(RobotContainer.candleSubsystem::setLEDOff).onlyIf(()->EnabledSubsystems.candle));
 
     new Trigger(() -> TrajectoryHelpers.isValueBetween(llVisionSubsystem.getShootingDistance(), 0.0, 3.5 ))
-        .onTrue(new InstantCommand(RobotContainer.candleSubsystem::setLEDGreen).onlyIf(()->EnabledSubsystems.candle))
+        .onTrue(
+            new InstantCommand(RobotContainer.candleSubsystem::setLEDGreen).onlyIf(()->EnabledSubsystems.candle)
+        )
         .onFalse(new InstantCommand(RobotContainer.candleSubsystem::setLEDOffGreen).onlyIf(()->EnabledSubsystems.candle));
+    new Trigger(() -> TrajectoryHelpers.isValueBetween(llVisionSubsystem.getShootingDistance(), 0.0, 3.5 ) 
+                    && Math.abs(llVisionSubsystem.getRotationAngleToSpeaker().getDegrees())<3)
+        .onTrue(
+            new InstantCommand(RobotContainer.candleSubsystem::setLEDGreen).onlyIf(()->EnabledSubsystems.candle)
+        )
+        .onFalse(new InstantCommand(RobotContainer.candleSubsystem::setLEDOffGreen).onlyIf(()->EnabledSubsystems.candle));
+
   }
   // =========================================
 
