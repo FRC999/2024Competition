@@ -47,31 +47,31 @@ public class CANdleSubsystem extends SubsystemBase {
 
   public void setLEDBlue()
   {
-    candle.setLEDs(10,10,200, 0, 12, CANdleConstants.LedCount - 10);
+    candle.setLEDs(10,10,200, 0, 13, CANdleConstants.LedCount - 10);
     candle.modulateVBatOutput(0.9);
   }
 
   public void setLEDRed()
   {
-    candle.setLEDs(220,0,0, 0, 12, CANdleConstants.LedCount - 10);
+    candle.setLEDs(220,0,0, 0, 15, CANdleConstants.LedCount - 10);
     candle.modulateVBatOutput(0.9);
   }
 
   public void setLEDGreen()
   {
-    candle.setLEDs(10,200,10, 0, 1, 11);
+    candle.setLEDs(10,200,10, 0, 1, 12);
     candle.modulateVBatOutput(0.9);
   }
 
   public void setLEDAngle()
   {
-    candle.setLEDs(10,200,10, 0, 12, 1);
+    candle.setLEDs(10,10,200, 0, 13, 2);
     candle.modulateVBatOutput(0.9);
   }
 
   public void setLEDAngleOff()
   {
-    candle.setLEDs(10,10,100, 0, 12, 1);
+    candle.setLEDs(0,0,0, 0, 13, 2);
     candle.modulateVBatOutput(0);
   }
 
@@ -96,7 +96,7 @@ public class CANdleSubsystem extends SubsystemBase {
 
   public void setLEDOffGreen()
   {
-    candle.setLEDs(0,0,0, 0, 1, 11);
+    candle.setLEDs(0,0,0, 0, 1, 12);
     candle.modulateVBatOutput(0);
   }
 
