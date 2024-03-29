@@ -754,9 +754,9 @@ public class RobotContainer {
     new Trigger(() -> TrajectoryHelpers.isValueBetween(llVisionSubsystem.getShootingDistance(), 0.0, 3.5 ) 
                     && Math.abs(llVisionSubsystem.getRotationAngleToSpeaker().getDegrees())<3)
         .onTrue(
-            new InstantCommand(RobotContainer.candleSubsystem::setLEDGreen).onlyIf(()->EnabledSubsystems.candle)
+            new InstantCommand(RobotContainer.candleSubsystem::setLEDAngle).onlyIf(()->EnabledSubsystems.candle)
         )
-        .onFalse(new InstantCommand(RobotContainer.candleSubsystem::setLEDOffGreen).onlyIf(()->EnabledSubsystems.candle));
+        .onFalse(new InstantCommand(RobotContainer.candleSubsystem::setLEDAngleOff).onlyIf(()->EnabledSubsystems.candle));
 
   }
   // =========================================
