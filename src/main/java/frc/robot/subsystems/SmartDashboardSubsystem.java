@@ -46,7 +46,7 @@ public class SmartDashboardSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("LL Distance BlueS", RobotContainer.llVisionSubsystem.getDistanceToBlueSpeaker(llPose));
       SmartDashboard.putNumber("LL AngleD BlueS", RobotContainer.llVisionSubsystem.getAngleToBlueSpeaker(llPose).getDegrees());
       SmartDashboard.putNumber("LL Fiducial ID BlueS", RobotContainer.llVisionSubsystem.getFiducialId());
-       SmartDashboard.putNumber("LL Distance To Shoot", RobotContainer.llVisionSubsystem.getShootingDistance());
+      SmartDashboard.putNumber("LL Distance To Shoot", RobotContainer.llVisionSubsystem.getShootingDistance());
     }
   }
 

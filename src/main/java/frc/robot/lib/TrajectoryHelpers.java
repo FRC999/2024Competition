@@ -48,4 +48,8 @@ public class TrajectoryHelpers {
         return secondPose.relativeTo(currentPose).getTranslation().getAngle();
     }
 
+    public static boolean isValueBetween(double v, double min, double max) {
+        return v >= min && v <= max;
+    }
+
 }

@@ -67,7 +67,7 @@ public final class Constants {
 	}
 
 	public static final class EnabledFeatures {
-		public static final boolean shooterPreRev =  true;
+		public static final boolean shooterPreRev =  false;
 	}
 
 	public static final class EnableCurrentLimiter {

@@ -71,6 +71,7 @@ import frc.robot.commands.ShootingSequenceManual;
 import frc.robot.commands.StopAllMotorsCommand;
 import frc.robot.commands.TurnToRelativeAngleSoftwarePIDCommand;
 import frc.robot.lib.GPMHelpers;
+import frc.robot.lib.TrajectoryHelpers;
 import frc.robot.commands.AutonomousTrajectory2PosesDynamic;
 import frc.robot.commands.CalibrateArmPowerFF;
 import frc.robot.commands.CalibrateIntakePower;
@@ -744,6 +745,10 @@ public class RobotContainer {
     new Trigger(() -> intakeSubsystem.isNoteInIntake())
         .onTrue(new InstantCommand(RobotContainer.candleSubsystem::setLEDRed).onlyIf(()->EnabledSubsystems.candle))
         .onFalse(new InstantCommand(RobotContainer.candleSubsystem::setLEDOff).onlyIf(()->EnabledSubsystems.candle));
+
+    new Trigger(() -> TrajectoryHelpers.isValueBetween(llVisionSubsystem.getShootingDistance(), 0.0, 3.5 ))
+        .onTrue(new InstantCommand(RobotContainer.candleSubsystem::setLEDGreen).onlyIf(()->EnabledSubsystems.candle))
+        .onFalse(new InstantCommand(RobotContainer.candleSubsystem::setLEDOffGreen).onlyIf(()->EnabledSubsystems.candle));
   }
   // =========================================
 
