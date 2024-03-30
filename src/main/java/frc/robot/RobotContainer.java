@@ -23,6 +23,7 @@ import frc.robot.commands.AutoBlueHigher2CalibrationCorrected;
 import frc.robot.commands.AutoBlueMid3CalHighREVNonStop;
 import frc.robot.commands.AutoCBlue2CenterFromBottom;
 import frc.robot.commands.AutoCBlueMid3NotesLow;
+import frc.robot.commands.AutoCBlueMid4NotesOptimized;
 import frc.robot.commands.AutoCBlueBottomShootLeave;
 import frc.robot.commands.AutoCBlueHigher2;
 import frc.robot.commands.AutoCBlueLower2;
@@ -343,7 +344,7 @@ public class RobotContainer {
     //testIntake();
     //testArm();
     //testClimber();
-    testAuto();
+    //testAuto();
 
     // Mohawk, practice and competition
     competitionCommandsForDriverController();
@@ -672,6 +673,13 @@ public class RobotContainer {
                 ).alongWith(new ControllerRumbleStop())
             )
         .onFalse(new IntakeStop().andThen(new ArmRelease()).andThen(new ControllerRumbleStop()));
+
+
+
+
+    new Trigger(() -> xboxDriveController.getRawAxis(2) > 0.3) // L2 trigger - spit out note
+        .onTrue(new IntakeRun(Intake.INTAKE_NOTE_SPEW_POWER))
+        .onFalse(new IntakeStop());
   }
 
   public void competitionCommandsForGPMController() {
@@ -723,6 +731,11 @@ public class RobotContainer {
         .onTrue(new ArmDownToIntake())
         .onFalse(new ArmRelease());
 
+    new Trigger(() -> xboxGPMController.getRawAxis(3) > 0.3) // L2 trigger - spit out note
+        .onTrue(new ShootUsingLLAndTurn())
+        .onFalse(new StopAllMotorsCommand());
+        
+
     new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getPOV() == 0)))
             .onTrue(new ClimbUp())
             .onFalse(new ClimbStop());
@@ -731,9 +744,7 @@ public class RobotContainer {
             .onTrue(new ClimbDown())
             .onFalse(new ClimbStop());
 
-    new Trigger(() -> xboxGPMController.getRawAxis(3) > 0.3)
-        .onTrue(new IntakeRun(Intake.INTAKE_NOTE_SPEW_POWER))
-        .onFalse(new IntakeStop());
+
     
     new Trigger(() -> (xboxDriveController.getRawButton(5) && (xboxDriveController.getRawButtonPressed(7))))
         .onTrue(new ArmDownToSwitch())
@@ -752,11 +763,11 @@ public class RobotContainer {
         )
         .onFalse(new InstantCommand(RobotContainer.candleSubsystem::setLEDOffGreen).onlyIf(()->EnabledSubsystems.candle));
     new Trigger(() -> TrajectoryHelpers.isValueBetween(llVisionSubsystem.getShootingDistance(), 0.0, 3.5 ) 
-                    && Math.abs(llVisionSubsystem.getRotationAngleToSpeaker().getDegrees())<3)
-        .onTrue(
-            new InstantCommand(RobotContainer.candleSubsystem::setLEDAngle).onlyIf(()->EnabledSubsystems.candle)
-        )
-        .onFalse(new InstantCommand(RobotContainer.candleSubsystem::setLEDAngleOff).onlyIf(()->EnabledSubsystems.candle));
+               && Math.abs(llVisionSubsystem.getRotationAngleToSpeaker().getDegrees())<3)
+          .onTrue(
+             new InstantCommand(RobotContainer.candleSubsystem::setLEDAngle).onlyIf(()->EnabledSubsystems.candle)
+           )
+          .onFalse(new InstantCommand(RobotContainer.candleSubsystem::setLEDAngleOff).onlyIf(()->EnabledSubsystems.candle));
 
   }
   // =========================================
@@ -847,7 +858,7 @@ public class RobotContainer {
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick, 11)
-        .whileTrue(new AutoCBlue2CenterFromBottom())
+        .whileTrue(new AutoCBlueMid4NotesOptimized())
         .onFalse(new StopAllMotorsCommand());
 
     new JoystickButton(driveStick, 12)

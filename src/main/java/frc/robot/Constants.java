@@ -67,7 +67,7 @@ public final class Constants {
 	}
 
 	public static final class EnabledFeatures {
-		public static final boolean shooterPreRev =  false;
+		public static final boolean shooterPreRev =  true;
 	}
 
 	public static final class EnableCurrentLimiter {
@@ -1110,8 +1110,12 @@ public final class Constants {
 			RED_FAR_DRIVE_W1(fieldSizeX-BLUE_FAR_DRIVE_W1.getPose().getX(), BLUE_FAR_DRIVE_W1.getPose().getY(), 180),
 			RED_FAR_LOWER_TAKE_START(fieldSizeX-BLUE_FAR_LOWER_TAKE_START.getPose().getX(), BLUE_FAR_LOWER_TAKE_START.getPose().getY(), 180),
 			RED_FAR_LOWER_TAKE_END(fieldSizeX-BLUE_FAR_LOWER_TAKE_END.getPose().getX(), BLUE_FAR_LOWER_TAKE_END.getPose().getY(), 180),
-			RED_SPEAKER_LOWER_2(fieldSizeX-BLUE_SPEAKER_LOWER_2.getPose().getX(), BLUE_SPEAKER_LOWER_2.getPose().getY(), -120)
+			RED_SPEAKER_LOWER_2(fieldSizeX-BLUE_SPEAKER_LOWER_2.getPose().getX(), BLUE_SPEAKER_LOWER_2.getPose().getY(), -120),
 
+
+			TARGET_NOTE_START(0,0,0),
+			TARGET_NOTE_TAKE_START(0.556,0,0),
+			TARGET_NOTE_TAKE_END(3,0,0)
 			;
 
 			private Pose2d pose;

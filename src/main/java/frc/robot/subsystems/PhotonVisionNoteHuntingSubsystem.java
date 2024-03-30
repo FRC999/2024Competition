@@ -14,6 +14,7 @@ public class PhotonVisionNoteHuntingSubsystem extends SubsystemBase {
 
   PhotonCamera camera;
   private boolean cameraConnected = true;
+  private double xAngleToNoteSaved = 0;
 
   /** Creates a new PhotonVisionNoteHuntingSubsystem. */
   public PhotonVisionNoteHuntingSubsystem(String cameraName) {
@@ -62,6 +63,30 @@ public class PhotonVisionNoteHuntingSubsystem extends SubsystemBase {
       return 0;
     }
 
+  }
+
+  public void xAngleToNoteSaved() {
+
+    //if (!cameraConnected) {
+    //  return 0;
+    //}
+
+    try {
+      var result = camera.getLatestResult();
+
+      if (!result.hasTargets()) { // I do not see notes return 0 angle
+        xAngleToNoteSaved = Double.NaN;
+      }
+      PhotonTrackedTarget target = result.getBestTarget();
+      xAngleToNoteSaved = -target.getYaw(); // getYaw here returns positive right
+    } catch (Exception e) {
+        xAngleToNoteSaved = Double.NaN;
+    }
+
+  }
+
+  public double getxAngleToNoteSaved(){
+    return xAngleToNoteSaved;
   }
 
   @Override

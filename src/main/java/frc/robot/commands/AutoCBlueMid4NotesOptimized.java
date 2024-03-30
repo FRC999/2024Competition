@@ -54,7 +54,7 @@ public class AutoCBlueMid4NotesOptimized extends SequentialCommandGroup {
         (new ShootingGPM0Sequence( // shoot at distance
             autoPoses.BLUE_SPEAKER_TAG.getPose().getTranslation().getDistance(
                  autoPoses.BLUE_MID_RING_TAKE_END.getPose().getTranslation())
-            )
+           -1.1 )
         ) 
             .andThen(new IntakeStop()) // stop intake
         ,
@@ -88,7 +88,7 @@ public class AutoCBlueMid4NotesOptimized extends SequentialCommandGroup {
         (new ShootingGPM0Sequence( // shoot at distance
             autoPoses.BLUE_SPEAKER_TAG.getPose().getTranslation().getDistance(
                  autoPoses.BLUE_HIGHER_RING_TAKE_END_OPTIMIZED.getPose().getTranslation())
-            )
+           -1.1 )
         ) 
             .andThen(new IntakeStop()) // stop intake
         ,
@@ -122,7 +122,7 @@ public class AutoCBlueMid4NotesOptimized extends SequentialCommandGroup {
         (new ShootingGPM0Sequence( // shoot at distance
             autoPoses.BLUE_SPEAKER_TAG.getPose().getTranslation().getDistance(
                  autoPoses.BLUE_LOWER_RING_TAKE_END_OPTIMIZED.getPose().getTranslation())
-            )
+           -1.1 )
         ) 
             .andThen(new IntakeStop()) // stop intake
         ,

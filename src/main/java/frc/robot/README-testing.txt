@@ -10,16 +10,11 @@ Current items to test:
         .onTrue(new ArmDownToSwitch())
         .onFalse(new ArmStop().andThen(new IMUReset()));
 
-== Blue LED ON when turned to Speaker
-    new Trigger(() -> TrajectoryHelpers.isValueBetween(llVisionSubsystem.getShootingDistance(), 0.0, 3.5 ) 
-                    && Math.abs(llVisionSubsystem.getRotationAngleToSpeaker().getDegrees())<3)
-        .onTrue(
-            new InstantCommand(RobotContainer.candleSubsystem::setLEDAngle).onlyIf(()->EnabledSubsystems.candle)
-        )
+
 
 === Check if BOTH Arm NEOs are working (suspiciously 0 power on the second one)
 
-=== Update firmware on NEOs if needed
+
 
 === Update LL version - may be (it seems to work now)
 
@@ -48,3 +43,14 @@ Current items to test:
         .onTrue(
             new InstantCommand(RobotContainer.candleSubsystem::setLEDGreen).onlyIf(()->EnabledSubsystems.candle)
         )
+
+--- TESTED. Works
+== Blue LED ON when turned to Speaker
+    new Trigger(() -> TrajectoryHelpers.isValueBetween(llVisionSubsystem.getShootingDistance(), 0.0, 3.5 ) 
+                    && Math.abs(llVisionSubsystem.getRotationAngleToSpeaker().getDegrees())<3)
+        .onTrue(
+            new InstantCommand(RobotContainer.candleSubsystem::setLEDAngle).onlyIf(()->EnabledSubsystems.candle)
+        )
+        
+--- No need to update firmware, Updated libraries. 
+=== Update firmware on NEOs if needed
