@@ -11,13 +11,13 @@ import frc.robot.Constants.GPMConstants.Arm;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ArmDownToNoteVision2 extends SequentialCommandGroup {
+public class ArmDownToNoteVisionForAutoNotePickup extends SequentialCommandGroup {
   /** Creates a new ArmDownToIntake. */
-  public ArmDownToNoteVision2() {
+  public ArmDownToNoteVisionForAutoNotePickup() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ArmTurnToAngle(() -> Arm.ARM_NOTE_VISION_ANGLE+5)
+      new ArmTurnToAngle(() -> Arm.ARM_NOTE_VISION_ANGLE_FOR_AUTO_NOTE_PICKUP) // tested at 230
     );
   }
 }

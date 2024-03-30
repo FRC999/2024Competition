@@ -24,7 +24,7 @@ public class NotePickupCamera extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ArmDownToNoteVision2(),
+      new ArmDownToNoteVisionForAutoNotePickup(),
       new InstantCommand(() ->
         RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNoteSaved()),
 
