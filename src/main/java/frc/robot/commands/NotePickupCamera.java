@@ -24,12 +24,14 @@ public class NotePickupCamera extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ArmDownToNoteVision(),
+      new ArmDownToNoteVision2(),
       new InstantCommand(() ->
         RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNoteSaved()),
 
+      new PrintCommand("NP-A:"+RobotContainer.photonVisionNoteHuntingSubsystem.getxAngleToNoteSaved()),
+
       new ConditionalCommand( // only shoot if picked up the note
-        new DeferredCommand(
+        (new DeferredCommand(
             () -> new AutonomousTrajectory3Poses( // drive and run intake to pickup 1st note
                 autoPoses.TARGET_NOTE_START.getPose(),
                 TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation (
@@ -38,13 +40,14 @@ public class NotePickupCamera extends SequentialCommandGroup {
                   RobotContainer.photonVisionNoteHuntingSubsystem.getxAngleToNoteSaved()
                 ),
                 TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation (
-                  autoPoses.TARGET_NOTE_START.getPose(),
                   autoPoses.TARGET_NOTE_TAKE_START.getPose(),
+                  autoPoses.TARGET_NOTE_TAKE_END.getPose(),
                   RobotContainer.photonVisionNoteHuntingSubsystem.getxAngleToNoteSaved()
                 )
               )
 
             , Set.of()
+        ).alongWith(new ArmDownToIntake())
         ).raceWith(
             new IntakeGrabNote()),
 

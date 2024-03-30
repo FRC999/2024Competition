@@ -29,6 +29,7 @@ import frc.robot.commands.AutoCBlueHigher2;
 import frc.robot.commands.AutoCBlueLower2;
 import frc.robot.commands.AutoCBlueMid2;
 import frc.robot.commands.AutoCRedMid3NotesLow;
+import frc.robot.commands.AutoCRedMid4NotesOptimized;
 import frc.robot.commands.AutoCBlueMidShootLeave;
 import frc.robot.commands.AutoCBlueTopShootLeave;
 import frc.robot.commands.AutoCRNCBlue2CenterFromBottom;
@@ -58,6 +59,7 @@ import frc.robot.commands.IMUReset;
 import frc.robot.commands.IntakeGrabNote;
 import frc.robot.commands.IntakeRun;
 import frc.robot.commands.IntakeStop;
+import frc.robot.commands.NotePickupCamera;
 import frc.robot.commands.PosePrinter;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.commands.ShootUsingLL;
@@ -746,7 +748,7 @@ public class RobotContainer {
 
 
     
-    new Trigger(() -> (xboxDriveController.getRawButton(5) && (xboxDriveController.getRawButtonPressed(7))))
+    new Trigger(() -> (xboxGPMController.getRawButton(5) && (xboxGPMController.getRawButton(7))))
         .onTrue(new ArmDownToSwitch())
         .onFalse(new ArmStop().andThen(new IMUReset()));
 
@@ -833,7 +835,7 @@ public class RobotContainer {
   public void testAuto() {
     
     new JoystickButton(driveStick, 7)
-        .onTrue(new TurnToRelativeAngleSoftwarePIDCommand(() -> Rotation2d.fromDegrees(25.0)))
+        .onTrue(new AutoCBlueMid4NotesOptimized())
         .onFalse(new StopAllMotorsCommand());
     
 
@@ -847,9 +849,9 @@ public class RobotContainer {
         .whileTrue(new AutoRedMid4CalREVNonStop())
         .onFalse(new StopAllMotorsCommand());
     
-    // Check turn via PP 
+    // Note pickup with camera 
     new JoystickButton(driveStick,9)
-        .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("2023-90-turn",0.5,0.1, false))
+        .whileTrue(new NotePickupCamera())
         .onFalse(new StopAllMotorsCommand());
   
     // 2 Mid Low

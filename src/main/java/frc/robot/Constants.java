@@ -252,7 +252,7 @@ public final class Constants {
 			public static final double ARM_AMP_ANGLE = 15.0;
 			public static final double ARM_NOTE_VISION_ANGLE = -69.0;	//BASED ON TESTING MAR 11
 			public static final double ARM_CLIMB_ANGLE = 0;	//TODO: test this
-			public static final double ARM_IMU_RESET_ANGLE = -83.0;
+			public static final double ARM_IMU_RESET_ANGLE = -82.0;
 
 			public static final double armDownPowerForRecalibration = -0.2;
 		}
@@ -1038,28 +1038,28 @@ public final class Constants {
 				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
 					BLUE_HIGHER_RING.getPose(),
 					BLUE_HIGHER_RING_TAKE_START.getPose(),
-					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()  // angle to point from middle of the speaker to the ring
+					-25+TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()  // angle to point from middle of the speaker to the ring
 				)
 			),
 			BLUE_HIGHER_RING_TAKE_END_OPTIMIZED(
 				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
 					BLUE_HIGHER_RING.getPose(),
 					BLUE_HIGHER_RING_TAKE_END.getPose(),
-					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()
+					-25+TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_HIGHER_RING.getPose()).getDegrees()
 				)
 			),
 			BLUE_LOWER_RING_TAKE_START_OPTIMIZED(
 				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
 					BLUE_LOWER_RING.getPose(),
 					BLUE_LOWER_RING_TAKE_START.getPose(),
-					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_LOWER_RING.getPose()).getDegrees()  // angle to point from middle of the speaker to the ring
+					25+TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_LOWER_RING.getPose()).getDegrees()  // angle to point from middle of the speaker to the ring
 				)
 			),
 			BLUE_LOWER_RING_TAKE_END_OPTIMIZED(
 				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
 					BLUE_LOWER_RING.getPose(),
 					BLUE_LOWER_RING_TAKE_END.getPose(),
-					TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_LOWER_RING.getPose()).getDegrees()
+					25+TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_LOWER_RING.getPose()).getDegrees()
 				)
 			),
 

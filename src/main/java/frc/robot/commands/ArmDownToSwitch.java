@@ -30,6 +30,7 @@ public class ArmDownToSwitch extends Command {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.armSubsystem.stopArmMotors();
+    System.out.println("ArmToSwitch I:"+interrupted);
   }
 
   // Returns true when the command should end.
