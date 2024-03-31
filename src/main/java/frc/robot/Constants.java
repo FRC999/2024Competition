@@ -1035,6 +1035,7 @@ public final class Constants {
 			// alex new
 
 			// TAKE_START pose rotated using the note center as origin, to the number of degrees - from the center of the speaker looking forward to point to the note
+			/* 
 			BLUE_HIGHER_RING_TAKE_START_OPTIMIZED(
 				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
 					BLUE_HIGHER_RING.getPose(),
@@ -1062,7 +1063,12 @@ public final class Constants {
 					BLUE_LOWER_RING_TAKE_END.getPose(),
 					25+TrajectoryHelpers.rotateToPointToSecondPose(BLUE_SPEAKER_MID.getPose(), BLUE_LOWER_RING.getPose()).getDegrees()
 				)
-			),
+			), */
+			BLUE_HIGHER_RING_TAKE_START_OPTIMIZED(2.164,6.433,37.33),
+			BLUE_HIGHER_RING_TAKE_END_OPTIMIZED(2.58,6.774,37.33),
+			BLUE_LOWER_RING_TAKE_START_OPTIMIZED(2.164,4.674,-37.33),
+			BLUE_LOWER_RING_TAKE_END_OPTIMIZED(2.58,4.306,-37.33),
+			
 
 			RED_HIGHER_RING_TAKE_START(fieldSizeX-BLUE_HIGHER_RING_TAKE_START.getPose().getX(), BLUE_HIGHER_RING_TAKE_START.getPose().getY(),180),
 			RED_MID_RING_TAKE_START(fieldSizeX-BLUE_MID_RING_TAKE_START.getPose().getX(), BLUE_MID_RING_TAKE_START.getPose().getY(),180),

@@ -203,17 +203,20 @@ public class RobotContainer {
     autoChooser.addOption("BLUE MID 1", new AutoCBlueMidShootLeave());
     autoChooser.addOption("BLUE BOTTOM 1", new AutoCBlueBottomShootLeave());
 
-    autoChooser.addOption("BLUE TOP 2", new AutoCBlueHigher2());
-    autoChooser.addOption("BLUE MID 2", new AutoCBlueMid2());
-    autoChooser.addOption("BLUE BOTTOM 2", new AutoCBlueLower2());
+    // We tested those with camera pickup, so no need to use those now
+    //autoChooser.addOption("BLUE TOP 2", new AutoCBlueHigher2());
+    //autoChooser.addOption("BLUE MID 2", new AutoCBlueMid2());
+    //autoChooser.addOption("BLUE BOTTOM 2", new AutoCBlueLower2());
 
     autoChooser.addOption("BLUE *FAR* BOTTOM 2", new AutoCBlue2CenterFromBottom());
 
-    autoChooser.addOption("BLUE MID 3 !!", new AutoCRedMid3NotesLow());
+    // We tested this with camera pickup
+    // autoChooser.addOption("BLUE MID 3 !!", new AutoCBlueMid3NotesLow());
 
     // autoChooser.addOption("BLUE MID 3-4 !!", new AutoCBlueMid4Notes());
 
-    autoChooser.addOption("*SPECIAL* BLUE MID 3 LOW", new AutoCBlueMid3NotesLow());
+    // We tested this with camera pickup
+    // autoChooser.addOption("*SPECIAL* BLUE MID 3 LOW", new AutoCBlueMid3NotesLow());
 
     //==============================================================================
 
@@ -221,20 +224,23 @@ public class RobotContainer {
     autoChooser.addOption("RED MID 1", new AutoCRedMidShootLeave());
     autoChooser.addOption("RED BOTTOM 1", new AutoCRedBottomShootLeave());
 
-    autoChooser.addOption("RED TOP 2", new AutoCRedHigher2());
-    autoChooser.addOption("RED MID 2", new AutoCRedMid2());
-    autoChooser.addOption("RED BOTTOM 2", new AutoCRedLower2());
+    // We tested those with camera pickup, so no need to use those now
+    //autoChooser.addOption("RED TOP 2", new AutoCRedHigher2());
+    //autoChooser.addOption("RED MID 2", new AutoCRedMid2());
+    //autoChooser.addOption("RED BOTTOM 2", new AutoCRedLower2());
 
     autoChooser.addOption("RED *FAR* BOTTOM 2", new AutoCRed2CenterFromBottom());
 
-    autoChooser.addOption("RED MID 3 !!", new AutoCRedMid3Notes());
+    // We tested this with camera pickup
+    //autoChooser.addOption("RED MID 3 !!", new AutoCRedMid3Notes());
 
-   //  autoChooser.addOption("RED MID 3-4 !!", new AutoCRedMid4Notes());
+    //  autoChooser.addOption("RED MID 3-4 !!", new AutoCRedMid4Notes());
 
-   autoChooser.addOption("*SPECIAL* RED MID 3 LOW", new AutoCRedMid3NotesLow());
+    // We tested this with camera pickup
+    // autoChooser.addOption("*SPECIAL* RED MID 3 LOW", new AutoCRedMid3NotesLow());
 
-   //=============================== NEW CAMERA-AIDED ROUTINES ====================
-   // ========= BLUE
+    //=============================== NEW CAMERA-AIDED ROUTINES ====================
+    // ========= BLUE
     autoChooser.addOption("CAMERA - BLUE TOP 2", new AutoCRNCBlueHigher2());
     autoChooser.addOption("CAMERA - BLUE MID 2", new AutoCRNCBlueMid2());
     autoChooser.addOption("CAMERA - BLUE BOTTOM 2", new AutoCRNCBlueLower2());
