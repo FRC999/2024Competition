@@ -1078,6 +1078,7 @@ public final class Constants {
 			RED_MID_RING_TAKE_END(fieldSizeX-BLUE_MID_RING_TAKE_END.getPose().getX(), BLUE_MID_RING_TAKE_END.getPose().getY(),180),
 			RED_LOWER_RING_TAKE_END(fieldSizeX-BLUE_LOWER_RING_TAKE_END.getPose().getX(), BLUE_LOWER_RING_TAKE_END.getPose().getY(),180),
 
+			/* 
 			// TAKE_START pose rotated using the note center as origin, to the number of degrees - from the center of the speaker looking forward to point to the note
 			RED_HIGHER_RING_TAKE_START_OPTIMIZED(
 				TrajectoryHelpers.correctEndingPoseBasedOnNoteLocation(
@@ -1107,6 +1108,11 @@ public final class Constants {
 					TrajectoryHelpers.rotateToPointToSecondPose(RED_SPEAKER_MID.getPose(), RED_LOWER_RING.getPose()).getDegrees()
 				)
 			),
+			*/
+			RED_HIGHER_RING_TAKE_START_OPTIMIZED(fieldSizeX-2.164,6.433,180-37.33),
+			RED_HIGHER_RING_TAKE_END_OPTIMIZED(fieldSizeX-2.58,6.774,180-37.33),
+			RED_LOWER_RING_TAKE_START_OPTIMIZED(fieldSizeX-2.164,4.674,180+37.33),
+			RED_LOWER_RING_TAKE_END_OPTIMIZED(fieldSizeX-2.58,4.306,180+37.33),
 
 			//Constants to pick up far note
 			BLUE_FAR_DRIVE_W1(5.03, 0.453, 0),
