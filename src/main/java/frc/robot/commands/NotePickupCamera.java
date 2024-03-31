@@ -55,6 +55,7 @@ public class NotePickupCamera extends SequentialCommandGroup {
         () -> RobotContainer.photonVisionNoteHuntingSubsystem.getxAngleToNoteSaved() != Double.NaN),
 
     // cleanup
+    new StopChassis(), // stop trajectory
     new ShooterStop(), // stop shooter
     new IntakeStop(), // stop intake
     new ControllerRumbleStop(),

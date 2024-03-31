@@ -1,31 +1,21 @@
 Current items to test:
 
-=== AutoCBlueMid4NotesOptimized
-
+=== AutoCBlueMid4NotesOptimized - positions revised to manual; test
 ===AutoCRedMid4NotesOptimized
-
-
-=== ArmDownToSwitch  (Pigeon reset)
-    new Trigger(() -> (xboxDriveController.getRawButton(5) && (xboxDriveController.getRawButtonPressed(7))))
-        .onTrue(new ArmDownToSwitch())
-        .onFalse(new ArmStop().andThen(new IMUReset()));
-
 
 
 === Check if BOTH Arm NEOs are working (suspiciously 0 power on the second one)
 
 
-
 === Update LL version - may be (it seems to work now)
 
-=== Automatic teleop node pickup
 
 #####################
 ###### IN PROGRESS
 #####################
 
---- tested with Software PID. Works. However, may be easily affected by the motors; more testing will be needed
-=== ShootUsingLLAndTurn
+=== Automatic teleop node pickup
+NotePickupCamera - works; added stop after pickup - need to retest
 
 #####################
 ###### TESTED/DONE
@@ -54,3 +44,13 @@ Current items to test:
         
 --- No need to update firmware, Updated libraries. 
 === Update firmware on NEOs if needed
+
+--- TESTED. Works
+=== ArmDownToSwitch  (Pigeon reset)
+    new Trigger(() -> (xboxDriveController.getRawButton(5) && (xboxDriveController.getRawButtonPressed(7))))
+        .onTrue(new ArmDownToSwitch())
+        .onFalse(new ArmStop().andThen(new IMUReset()));
+
+--- Seems unreliable; decided not to use for now
+--- tested with Software PID. Works. However, may be easily affected by the motors; more testing will be needed
+=== ShootUsingLLAndTurn
