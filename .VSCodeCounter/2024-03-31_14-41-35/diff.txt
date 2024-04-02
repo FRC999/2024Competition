@@ -1,0 +1,83 @@
+Date : 2024-03-31 14:41:35
+Directory : t:\Projects\MechaRAMS\2024Competition\src\main
+Total : 38 files,  -362 codes, 172 comments, 99 blanks, all -91 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| Java               |         24 |        512 |        221 |        150 |        883 |
+| Java Properties    |          1 |         -7 |          0 |         -1 |         -8 |
+| JSON with Comments |          1 |        -12 |          0 |          0 |        -12 |
+| Markdown           |          2 |        -23 |          0 |         -3 |        -26 |
+| Batch              |          1 |        -41 |        -30 |        -22 |        -93 |
+| Groovy             |          2 |        -90 |        -19 |        -24 |       -133 |
+| JSON               |          7 |       -701 |          0 |         -1 |       -702 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                              | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                 |         38 |       -362 |        172 |         99 |        -91 |
+| ..                                                                                                                |         14 |       -874 |        -49 |        -51 |       -974 |
+| ..\..                                                                                                             |         14 |       -874 |        -49 |        -51 |       -974 |
+| ..\.. (Files)                                                                                                     |          5 |       -154 |        -49 |        -49 |       -252 |
+| ..\..\.pathplanner                                                                                                |          1 |        -12 |          0 |          0 |        -12 |
+| ..\..\.wpilib                                                                                                     |          1 |         -6 |          0 |          0 |         -6 |
+| ..\..\gradle                                                                                                      |          1 |         -7 |          0 |         -1 |         -8 |
+| ..\..\gradle\wrapper                                                                                              |          1 |         -7 |          0 |         -1 |         -8 |
+| ..\..\vendordeps                                                                                                  |          6 |       -695 |          0 |         -1 |       -696 |
+| java                                                                                                              |         24 |        512 |        221 |        150 |        883 |
+| java\frc                                                                                                          |         24 |        512 |        221 |        150 |        883 |
+| java\frc\robot                                                                                                    |         24 |        512 |        221 |        150 |        883 |
+| java\frc\robot (Files)                                                                                            |          3 |         52 |         83 |         23 |        158 |
+| java\frc\robot\commands                                                                                           |         14 |        377 |        111 |        106 |        594 |
+| java\frc\robot\lib                                                                                                |          2 |         17 |         10 |          6 |         33 |
+| java\frc\robot\subsystems                                                                                         |          5 |         66 |         17 |         15 |         98 |
++-------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                          | language           | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| t:\Projects\MechaRAMS\2024Competition\.pathplanner\settings.json                                                  | JSON with Comments |        -12 |          0 |          0 |        -12 |
+| t:\Projects\MechaRAMS\2024Competition\.wpilib\wpilib_preferences.json                                             | JSON               |         -6 |          0 |          0 |         -6 |
+| t:\Projects\MechaRAMS\2024Competition\README.md                                                                   | Markdown           |         -1 |          0 |          0 |         -1 |
+| t:\Projects\MechaRAMS\2024Competition\WPILib-License.md                                                           | Markdown           |        -22 |          0 |         -3 |        -25 |
+| t:\Projects\MechaRAMS\2024Competition\build.gradle                                                                | Groovy             |        -62 |        -19 |        -21 |       -102 |
+| t:\Projects\MechaRAMS\2024Competition\gradle\wrapper\gradle-wrapper.properties                                    | Java Properties    |         -7 |          0 |         -1 |         -8 |
+| t:\Projects\MechaRAMS\2024Competition\gradlew.bat                                                                 | Batch              |        -41 |        -30 |        -22 |        -93 |
+| t:\Projects\MechaRAMS\2024Competition\settings.gradle                                                             | Groovy             |        -28 |          0 |         -3 |        -31 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\Constants.java                                      | Java               |         21 |         64 |          8 |         93 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\Robot.java                                          | Java               |          1 |         -1 |          0 |          0 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\RobotContainer.java                                 | Java               |         30 |         20 |         15 |         65 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\ArmDownToNoteVisionForAutoNotePickup.java  | Java               |         10 |          9 |          5 |         24 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\ArmDownToSwitch.java                       | Java               |         25 |          9 |          8 |         42 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\AutoBlueHigher2CalibrationCorrected.java   | Java               |         51 |         38 |         21 |        110 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\AutoCBlueMid4NotesOptimized.java           | Java               |         97 |         19 |         27 |        143 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\AutoCRNCBlue2CenterFromBottom.java         | Java               |          4 |          6 |          2 |         12 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\AutoCRNCRed2CenterFromBottom.java          | Java               |          1 |          1 |          0 |          2 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\AutoCRedMid4NotesOptimized.java            | Java               |         97 |         19 |         27 |        143 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\ControllerRumble.java                      | Java               |         12 |          8 |          5 |         25 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\IMUReset.java                              | Java               |         11 |          8 |          5 |         24 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\IntakeGrabNote.java                        | Java               |          7 |          1 |          0 |          8 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\NotePickupCamera.java                      | Java               |         46 |         10 |         12 |         68 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\ShootUsingLLAndTurn.java                   | Java               |         -6 |        -31 |        -12 |        -49 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\StopChassis.java                           | Java               |         15 |          9 |          6 |         30 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\commands\TurnToRelativeAngleSoftwarePIDCommand.java | Java               |          7 |          5 |          0 |         12 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\lib\GPMHelpers.java                                 | Java               |          8 |          6 |          2 |         16 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\lib\TrajectoryHelpers.java                          | Java               |          9 |          4 |          4 |         17 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\subsystems\ArmSubsystem.java                        | Java               |          8 |          5 |          2 |         15 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\subsystems\CANdleSubsystem.java                     | Java               |         21 |          0 |          3 |         24 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\subsystems\DriveSubsystem.java                      | Java               |          0 |          2 |          1 |          3 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\subsystems\LLVisionSubsystem.java                   | Java               |         21 |          7 |          3 |         31 |
+| t:\Projects\MechaRAMS\2024Competition\src\main\java\frc\robot\subsystems\PhotonVisionNoteHuntingSubsystem.java    | Java               |         16 |          3 |          6 |         25 |
+| t:\Projects\MechaRAMS\2024Competition\vendordeps\PathplannerLib2023.json                                          | JSON               |        -36 |          0 |          0 |        -36 |
+| t:\Projects\MechaRAMS\2024Competition\vendordeps\Phoenix5.json                                                    | JSON               |       -151 |          0 |          0 |       -151 |
+| t:\Projects\MechaRAMS\2024Competition\vendordeps\Phoenix6.json                                                    | JSON               |       -339 |          0 |          0 |       -339 |
+| t:\Projects\MechaRAMS\2024Competition\vendordeps\REVLib.json                                                      | JSON               |        -74 |          0 |          0 |        -74 |
+| t:\Projects\MechaRAMS\2024Competition\vendordeps\WPILibNewCommands.json                                           | JSON               |        -38 |          0 |         -1 |        -39 |
+| t:\Projects\MechaRAMS\2024Competition\vendordeps\photonlib.json                                                   | JSON               |        -57 |          0 |          0 |        -57 |
+| Total                                                                                                             |                    |       -362 |        172 |         99 |        -91 |
++-------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
