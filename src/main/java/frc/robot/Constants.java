@@ -1032,6 +1032,16 @@ public final class Constants {
 			BLUE_MID_RING_TAKE_END(2.465,5.5535,0),
 			BLUE_LOWER_RING_TAKE_END(2.465,4.0055,0),
 
+			// ----- CENTER NOTE POSES -----
+			BLUE_CENTER_HIGHER_RING(8.245,8.238,0),
+			BLUE_CENTER_HIGHER_TAKE_NOTE_START(7.689,8.238,0),
+			BLUE_CENTER_HIGHER_TAKE_NOTE_END(8.12,8.238,0),
+
+			BLUE_CENTER_LOWER_RING(8.245,0.75946,0),
+			BLUE_CENTER_LOWER_TAKE_NOTE_START(7.689,0.75946,0),
+			BLUE_CENTER_LOWER_TAKE_NOTE_END(8.12,0.75946,0),
+
+
 			// alex new
 
 			// TAKE_START pose rotated using the note center as origin, to the number of degrees - from the center of the speaker looking forward to point to the note
