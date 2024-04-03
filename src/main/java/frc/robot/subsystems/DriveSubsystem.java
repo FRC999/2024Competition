@@ -249,7 +249,8 @@ public class DriveSubsystem extends SubsystemBase {
 
    // Used only for motor testing; run motor forward, 0.3 power
   public void testDriveMotorEncoderPhase(int modnumber){
-    swerveMods[modnumber].testDriveMotorApplyPower(0.3);
+    //swerveMods[modnumber].testDriveMotorApplyPower(0.3);
+    swerveMods[modnumber].testDriveMotorApplyPower(RobotContainer.driveStick.getRawAxis(3));
   }
 
   // Used only for motor testing; run motor forward, 0.3 power

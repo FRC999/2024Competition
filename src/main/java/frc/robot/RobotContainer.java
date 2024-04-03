@@ -184,7 +184,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     configureTrigger();
-
+ 
     driveSubsystem.setDefaultCommand(
         new DriveManuallyCommand(
             () -> getDriverXAxis(),
@@ -361,6 +361,8 @@ public class RobotContainer {
     // test climber poses
     //System.out.println("****====CP14:"+Constants.VisionConstants.LimeLightConstants.robotClimbingPoses.get(15.0));
     
+    // alex test - motor power
+    // testCalibrateMotorsAndEncodersButtonBindings();
   }
 
   // Driver preferred controls
