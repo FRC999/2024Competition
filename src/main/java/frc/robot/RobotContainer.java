@@ -21,6 +21,7 @@ import frc.robot.commands.ArmStop;
 import frc.robot.commands.ArmTurnToAngle;
 import frc.robot.commands.AutoBlueHigher2CalibrationCorrected;
 import frc.robot.commands.AutoBlueMid3CalHighREVNonStop;
+import frc.robot.commands.AutoBlueMid4CalREVNonStop;
 import frc.robot.commands.AutoCBlue2CenterFromBottom;
 import frc.robot.commands.AutoCBlueMid3NotesLow;
 import frc.robot.commands.AutoCBlueMid4NotesOptimized;
@@ -218,6 +219,8 @@ public class RobotContainer {
     // We tested this with camera pickup
     // autoChooser.addOption("*SPECIAL* BLUE MID 3 LOW", new AutoCBlueMid3NotesLow());
 
+    autoChooser.addOption("BLUE MID 4 AUTO NONSTOP !!", new AutoBlueMid4CalREVNonStop());
+
     //==============================================================================
 
     autoChooser.addOption("RED TOP 1", new AutoCRedTopShootLeave());
@@ -234,7 +237,8 @@ public class RobotContainer {
     // We tested this with camera pickup
     //autoChooser.addOption("RED MID 3 !!", new AutoCRedMid3Notes());
 
-    //  autoChooser.addOption("RED MID 3-4 !!", new AutoCRedMid4Notes());
+    autoChooser.addOption("RED MID 4 AUTO NONSTOP !!", new AutoRedMid4CalREVNonStop());
+    
 
     // We tested this with camera pickup
     // autoChooser.addOption("*SPECIAL* RED MID 3 LOW", new AutoCRedMid3NotesLow());
