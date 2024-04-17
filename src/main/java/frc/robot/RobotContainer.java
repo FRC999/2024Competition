@@ -33,12 +33,14 @@ import frc.robot.commands.AutoCRedMid3NotesLow;
 import frc.robot.commands.AutoCRedMid4NotesOptimized;
 import frc.robot.commands.AutoCBlueMidShootLeave;
 import frc.robot.commands.AutoCBlueTopShootLeave;
+import frc.robot.commands.AutoCBlueTopShootNoLeave;
 import frc.robot.commands.AutoCRNCBlue2CenterFromBottom;
 import frc.robot.commands.AutoCRNCBlueHigher2;
 import frc.robot.commands.AutoCRNCBlueLower2;
 import frc.robot.commands.AutoCRNCBlueMid2;
 import frc.robot.commands.AutoCRNCBlueMid3High;
 import frc.robot.commands.AutoCRNCBlueMid3Low;
+import frc.robot.commands.AutoCRNCBlueMid3LowShootAnyways;
 import frc.robot.commands.AutoCRNCRed2CenterFromBottom;
 import frc.robot.commands.AutoCRNCRedHigher2;
 import frc.robot.commands.AutoCRNCRedLower2;
@@ -54,6 +56,7 @@ import frc.robot.commands.AutoCRedMid3Notes;
 import frc.robot.commands.AutoRedMid4CalREVNonStop;
 import frc.robot.commands.AutoCRedMidShootLeave;
 import frc.robot.commands.AutoCRedTopShootLeave;
+import frc.robot.commands.AutoCRedTopShootNoLeave;
 import frc.robot.commands.AutonomousTrajectory2Poses;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.IMUReset;
@@ -73,6 +76,7 @@ import frc.robot.commands.ShootingAmpSequence;
 import frc.robot.commands.ShootingGPM0Sequence;
 import frc.robot.commands.ShootingSequenceManual;
 import frc.robot.commands.StopAllMotorsCommand;
+import frc.robot.commands.StopChassis;
 import frc.robot.commands.TurnToRelativeAngleSoftwarePIDCommand;
 import frc.robot.lib.GPMHelpers;
 import frc.robot.lib.TrajectoryHelpers;
@@ -204,6 +208,8 @@ public class RobotContainer {
     autoChooser.addOption("BLUE MID 1", new AutoCBlueMidShootLeave());
     autoChooser.addOption("BLUE BOTTOM 1", new AutoCBlueBottomShootLeave());
 
+    autoChooser.addOption("BLUE NUTRON SPECIAL SHOOT !!NO!! LEAVE", new AutoCBlueTopShootNoLeave());
+
     // We tested those with camera pickup, so no need to use those now
     //autoChooser.addOption("BLUE TOP 2", new AutoCBlueHigher2());
     //autoChooser.addOption("BLUE MID 2", new AutoCBlueMid2());
@@ -227,7 +233,10 @@ public class RobotContainer {
     autoChooser.addOption("RED MID 1", new AutoCRedMidShootLeave());
     autoChooser.addOption("RED BOTTOM 1", new AutoCRedBottomShootLeave());
 
-    // We tested those with camera pickup, so no need to use those now
+    autoChooser.addOption("RED NUTRON SPECIAL SHOOT !!NO!! LEAVE", new AutoCRedTopShootNoLeave());
+
+    // We tested those with camera pickup, so no need to use those now.
+
     //autoChooser.addOption("RED TOP 2", new AutoCRedHigher2());
     //autoChooser.addOption("RED MID 2", new AutoCRedMid2());
     //autoChooser.addOption("RED BOTTOM 2", new AutoCRedLower2());
@@ -249,7 +258,7 @@ public class RobotContainer {
     autoChooser.addOption("CAMERA - BLUE MID 2", new AutoCRNCBlueMid2());
     autoChooser.addOption("CAMERA - BLUE BOTTOM 2", new AutoCRNCBlueLower2());
     autoChooser.addOption("CAMERA - BLUE HIGH 3", new AutoCRNCBlueMid3High());
-    autoChooser.addOption("CAMERA - BLUE LOW 3", new AutoCRNCBlueMid3Low());
+    autoChooser.addOption("CAMERA - BLUE LOW 3 EDITED DISTRICT PLAYOFFS", new AutoCRNCBlueMid3LowShootAnyways());
     autoChooser.addOption("CAMERA - BLUE *FAR* BOTTOM 2", new AutoCRNCBlue2CenterFromBottom());
     //========= RED
     autoChooser.addOption("CAMERA - RED TOP 2", new AutoCRNCRedHigher2());
@@ -694,6 +703,12 @@ public class RobotContainer {
     new Trigger(() -> xboxDriveController.getRawAxis(2) > 0.3) // L2 trigger - spit out note
         .onTrue(new IntakeRun(Intake.INTAKE_NOTE_SPEW_POWER))
         .onFalse(new IntakeStop());
+
+    //new JoystickButton(xboxDriveController, 1) // Button A - double-check
+    //          .onTrue(new NotePickupCamera())
+    //          .onFalse(new StopChassis());
+
+
   }
 
   public void competitionCommandsForGPMController() {

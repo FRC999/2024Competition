@@ -86,7 +86,14 @@ public class PhotonVisionNoteHuntingSubsystem extends SubsystemBase {
   }
 
   public double getxAngleToNoteSaved(){
+
+    System.out.println("X : " + xAngleToNoteSaved);
     return xAngleToNoteSaved;
+    
+  }
+
+  public void resetXAngleToNoteSaved() {
+    xAngleToNoteSaved = 0;
   }
 
   @Override

@@ -297,7 +297,7 @@ public final class Constants {
 			}
 		}
 
-		public static final double CLIMBER_UP_DEFAULT_POWER = 0.4;
+		public static final double CLIMBER_UP_DEFAULT_POWER = 0.6;
 	}
 	public static class IMUConstants {
 		public static final int PIGEON2_CAN_ID = 15;
@@ -1003,6 +1003,7 @@ public final class Constants {
 			BLUE_SPEAKER_HIGHER (0.765, 6.764, 60),
 			BLUE_SPEAKER_MID (1.346, 5.540, 0),
 			BLUE_SPEAKER_LOWER (0.765, 4.315, -60),
+			BLUE_SPEAKER_MID_RETURN (1.346, 5.740, 0),
 
 			BLUE_HIGHER_POS_OUT(3.25, 7.1,0),
 			BLUE_MID_POS_OUT(3.25,5.540,0),
