@@ -447,7 +447,7 @@ public final class Constants {
 																// in that time; otherwise assume the error
 
 			// Customize the following values to your prototype
-			public static final double metersPerTickFX = (107.66/100.0)*(1.0 / 48622.0); // measure this number on the robot - remeasure on carpet
+			public static final double metersPerTickFX = (6.75/6.12)*(107.66/100.0)*(1.0 / 48622.0); // measure this number on the robot - remeasure on carpet
 																		// drive motor only
 			public static final double degreePerTickFX = 1.0 / 122.11575; // Angle motor only
 			// On our swerve prototype 1 angular rotation of
