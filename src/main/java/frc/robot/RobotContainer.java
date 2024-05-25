@@ -371,7 +371,8 @@ public class RobotContainer {
 
     // Mohawk, practice and competition
     competitionCommandsForDriverController();
-    competitionCommandsForGPMController();
+    
+    // competitionCommandsForGPMController();
 
     // test climber poses
     //System.out.println("****====CP14:"+Constants.VisionConstants.LimeLightConstants.robotClimbingPoses.get(15.0));
@@ -711,6 +712,9 @@ public class RobotContainer {
     //          .onTrue(new NotePickupCamera())
     //          .onFalse(new StopChassis());
 
+    new JoystickButton(xboxDriveController, 2) // Button B shoot note
+              .onTrue(new ShootingGPM0Sequence(0))
+              .onFalse(new ShooterStop().andThen(new IntakeStop()).andThen(new ArmStop()));
 
   }
 
