@@ -77,6 +77,8 @@ import frc.robot.commands.ShootingGPM0Sequence;
 import frc.robot.commands.ShootingSequenceManual;
 import frc.robot.commands.StopAllMotorsCommand;
 import frc.robot.commands.StopChassis;
+import frc.robot.commands.TestStartTurningCommand;
+import frc.robot.commands.TestStopTurning;
 import frc.robot.commands.TurnToRelativeAngleSoftwarePIDCommand;
 import frc.robot.lib.GPMHelpers;
 import frc.robot.lib.TrajectoryHelpers;
@@ -379,6 +381,7 @@ public class RobotContainer {
     // alex test - motor power
     // testCalibrateMotorsAndEncodersButtonBindings();
     //swerveValuesTesting();
+    testTurnPowers();
   }
 
   // Driver preferred controls
@@ -867,7 +870,7 @@ public class RobotContainer {
     new JoystickButton(driveStick, 7)
         .onTrue(new AutoCBlueMid4NotesOptimized())
         .onFalse(new StopAllMotorsCommand());
-    
+
 
     // Bottom-center
     /*new JoystickButton(driveStick, 7)
@@ -903,6 +906,13 @@ public class RobotContainer {
 
     
         
+  }
+
+  public void testTurnPowers() {
+    new JoystickButton(driveStick, 7)
+        .onTrue(new TestStartTurningCommand());
+    new JoystickButton(driveStick, 8)
+        .onTrue(new TestStopTurning());
   }
 
   // Aliiance color determination

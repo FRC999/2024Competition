@@ -12,6 +12,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PIDConstantsForSwerveModules.FXAngle;
 import frc.robot.Constants;
@@ -87,6 +88,10 @@ public class SwerveRobotModule extends SubsystemBase {
     }
 
     public void driveMotorApplyPower(double power) {
+
+        //TODO: Telemetry - Remove when unused
+       // SmartDashboard.putNumber("T-M" + moduleNumber, power);
+
         driveMotor.set(TalonFXControlMode.PercentOutput, power);
     }
 
