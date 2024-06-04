@@ -14,6 +14,7 @@ import frc.robot.RobotContainer;
 
 public class SmartDashboardSubsystem extends SubsystemBase {
   /** Creates a new SmartDashboardSubsystem. */
+  private short[] acceleration = new short[3];
   public SmartDashboardSubsystem() {
 
   }
@@ -68,6 +69,10 @@ public class SmartDashboardSubsystem extends SubsystemBase {
 
   public void updateIMUTelemetry() {
     SmartDashboard.putNumber("IMU Yaw", RobotContainer.imuSubsystem.getYaw());
+   // acceleration = RobotContainer.imuSubsystem.getAcceleration();
+   // SmartDashboard.putNumber("Acc X: ", acceleration[0]);
+   // SmartDashboard.putNumber("Acc Y: ", acceleration[1]);
+    //SmartDashboard.putNumber("Acc Z: ", acceleration[2]);
   }
 
   public void updateArmTelemetry() {

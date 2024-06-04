@@ -11,6 +11,9 @@ import frc.robot.RobotContainer;
 
 public class TestStartTurningCommand extends Command {
   private double r = 0;
+  private double previousVelocity = 0;
+  private long previousTime;
+  private double maxAcceleration;
   /** Creates a new TestStartTurningCommand. */
   public TestStartTurningCommand() {
     addRequirements(RobotContainer.driveSubsystem);
@@ -19,7 +22,10 @@ public class TestStartTurningCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    previousTime = System.currentTimeMillis();
+    previousVelocity = RobotContainer.imuSubsystem.getTurnRate();
+  }
   
   public double rotatePower() {
     return RobotContainer.driveStick.getRawAxis(3) * 3 + 3;
@@ -31,8 +37,18 @@ public class TestStartTurningCommand extends Command {
     r = rotatePower();
     RobotContainer.driveSubsystem.drive(0, 0,
       r * Constants.SwerveChassis.MAX_ANGULAR_VELOCITY, true);
+    long ct = System.currentTimeMillis();
+    double cv =  RobotContainer.imuSubsystem .getTurnRate();
     SmartDashboard.putNumber("T-JP: " , r);
-    SmartDashboard.putNumber("T-DPS: ", RobotContainer.imuSubsystem .getTurnRate());
+    SmartDashboard.putNumber("T-DPS: ", cv);
+    double acc = (cv - previousVelocity) / (ct - previousTime);
+    if (acc > maxAcceleration) {
+      maxAcceleration = acc;
+    }
+    SmartDashboard.putNumber("T-A-DPSS: ", acc);
+    SmartDashboard.putNumber("T-MA-DPSS: ", maxAcceleration);
+    previousVelocity = cv;
+    previousTime = ct;
   }
 
   // Called once the command ends or is interrupted.

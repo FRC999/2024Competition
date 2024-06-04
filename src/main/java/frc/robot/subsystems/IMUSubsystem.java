@@ -22,6 +22,8 @@ public class IMUSubsystem extends SubsystemBase {
   private static WPI_Pigeon2 imu; // We will use downcasting to set this - it will point to methods either in NavX
   // or Pigeon subsystems
 
+  private short[] acceleration = new short[3];
+
   private double trajectoryAdjustmentIMU; // This is the value we need to adjust the IMU by after Trajectory
   // is completed
 
@@ -175,6 +177,11 @@ public class IMUSubsystem extends SubsystemBase {
   public void restoreYawAfterTrajectory() {
     System.out.println("Restoring original IMU after trajectory "+ (RobotContainer.imuSubsystem.getYaw() + trajectoryAdjustmentIMU));
     imu.setYaw(RobotContainer.imuSubsystem.getYaw() + trajectoryAdjustmentIMU);
+  }
+
+  public short[] getAcceleration() {
+    imu.getBiasedAccelerometer(acceleration);
+    return acceleration;
   }
 
 }
