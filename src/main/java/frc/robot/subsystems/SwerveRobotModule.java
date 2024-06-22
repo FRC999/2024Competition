@@ -7,6 +7,9 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -23,10 +26,10 @@ import frc.robot.Constants.SwerveChassis.TalonFXSwerveConfiguration;
 @SuppressWarnings({ "removal" })
 public class SwerveRobotModule extends SubsystemBase {
 
-    private WPI_TalonFX driveMotor;
-    private WPI_TalonFX angleMotor;
+    private TalonFX driveMotor;
+    private TalonFX angleMotor;
 
-    private WPI_CANCoder cancoder;
+    private CANcoder cancoder;
 
     private int moduleNumber;
     private double angleOffset;
@@ -41,10 +44,10 @@ public class SwerveRobotModule extends SubsystemBase {
         this.moduleNumber = moduleNumber;
         angleOffset = moduleConstants.getAngleOffset();
 
-        driveMotor = new WPI_TalonFX(moduleConstants.getDriveMotorID());
-        angleMotor = new WPI_TalonFX(moduleConstants.getAngleMotorID());
+        driveMotor = new TalonFX(moduleConstants.getDriveMotorID());
+        angleMotor = new TalonFX(moduleConstants.getAngleMotorID());
 
-        cancoder = new WPI_CANCoder(moduleConstants.getCancoderID());
+        cancoder = new CANcoder(moduleConstants.getCancoderID());
 
         configureDriveMotor(moduleConstants);
         configureAngleMotor(moduleConstants);
@@ -75,23 +78,23 @@ public class SwerveRobotModule extends SubsystemBase {
     }
 
     public double telemetryCANCoderSI() {
-        return cancoder.getAbsolutePosition();
+        return cancoder.getAbsolutePosition().getValueAsDouble();
     }
 
     public void testDriveMotorApplyPower(double power) {
-        driveMotor.set(TalonFXControlMode.PercentOutput, power);
+        driveMotor.set(power);
     }
 
     public void testAngleMotorApplyPower(double power) {
-        angleMotor.set(TalonFXControlMode.PercentOutput, power);
+        angleMotor.set(power);
     }
 
     public void driveMotorApplyPower(double power) {
-        driveMotor.set(TalonFXControlMode.PercentOutput, power);
+        driveMotor.set(power);
     }
 
     public void angleMotorApplyPower(double power) {
-        angleMotor.set(TalonFXControlMode.PercentOutput, power);
+        angleMotor.set(power);
     }
 
     public int getModuleNumber() {
@@ -143,15 +146,15 @@ public class SwerveRobotModule extends SubsystemBase {
 
     public void configureDriveMotor(Constants.SwerveChassis.SwerveModuleConstantsEnum c) {
 
-        driveMotor.configFactoryDefault();
+        driveMotor.getConfigurator().apply(new TalonFXConfiguration());
         driveMotor.setInverted(c.isDriveMotorInverted());
 
         // Encoder configuration
-        driveMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-                Constants.SwerveChassis.TalonFXSwerveConfiguration.kPIDLoopIdx,
-                Constants.SwerveChassis.TalonFXSwerveConfiguration.configureTimeoutMs);
+        // driveMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
+        //      Constants.SwerveChassis.TalonFXSwerveConfiguration.kPIDLoopIdx,
+        //      Constants.SwerveChassis.TalonFXSwerveConfiguration.configureTimeoutMs);
 
-        driveMotor.setSensorPhase(c.getDriveMotorSensorPhase());
+        // driveMotor.setSensorPhase(c.getDriveMotorSensorPhase());
 
         configureCurrentLimiterDrive();
 
@@ -161,7 +164,7 @@ public class SwerveRobotModule extends SubsystemBase {
 
     public void configureAngleMotor(SwerveModuleConstantsEnum c) {
 
-        angleMotor.configFactoryDefault();
+        angleMotor.getConfigurator().apply(new TalonFXConfiguration());
         angleMotor.setInverted(c.isAngleMotorInverted());
 
         /**
@@ -171,12 +174,12 @@ public class SwerveRobotModule extends SubsystemBase {
          * time.
          */
 
-         //TODO: Check what TalonFXFeedbackDevice.RemoteSensor0 actually means.
-        angleMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-                Constants.SwerveChassis.TalonFXSwerveConfiguration.kPIDLoopIdx,
-                Constants.SwerveChassis.TalonFXSwerveConfiguration.configureTimeoutMs);
+        // TODO: Check what TalonFXFeedbackDevice.RemoteSensor0 actually means.
+        // angleMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
+        //      Constants.SwerveChassis.TalonFXSwerveConfiguration.kPIDLoopIdx,
+        //      Constants.SwerveChassis.TalonFXSwerveConfiguration.configureTimeoutMs);
 
-        angleMotor.setSensorPhase(c.getAngleMotorSensorPhase());
+        // angleMotor.setSensorPhase(c.getAngleMotorSensorPhase());
 
         configureMotionMagicAngle(c);
 
