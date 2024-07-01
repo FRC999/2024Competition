@@ -197,7 +197,7 @@ public class SwerveRobotModule extends SubsystemBase {
     }
 
     public double getDriveEncoderPosition() {
-        return driveMotor.getSelectedSensorPosition();
+        return driveMotor.getRotorPosition().getValueAsDouble();
     }
 
     /**
@@ -205,29 +205,29 @@ public class SwerveRobotModule extends SubsystemBase {
      * @return
      */
     public double getAngleEncoderPosition() {
-        return angleMotor.getSelectedSensorPosition();
+        return angleMotor.getRotorPosition().getValueAsDouble();
     }
 
     public double getDriveEncoderVelocity() {
-        return driveMotor.getSelectedSensorVelocity();
+        return driveMotor.getRotorVelocity().getValueAsDouble();
     }
 
     public double getAngleEncoderVelocity() {
-        return angleMotor.getSelectedSensorVelocity();
+        return angleMotor.getRotorVelocity().getValueAsDouble();
     }
 
     public double getDriveEncoderPositionSI() {
-        return driveMotor.getSelectedSensorPosition()
+        return driveMotor.getRotorPosition().getValueAsDouble()
                 * TalonFXSwerveConfiguration.metersPerTickFX;
     }
 
     public double getAngleEncoderPositionSI() {
-        return angleMotor.getSelectedSensorPosition()
+        return angleMotor.getRotorPosition().getValueAsDouble()
                 * TalonFXSwerveConfiguration.degreePerTickFX;
     }
 
     public double getAngleEncoderPositionSIAbs() {
-        return (angleMotor.getSelectedSensorPosition()
+        return (angleMotor.getRotorPosition().getValueAsDouble()
                 * TalonFXSwerveConfiguration.degreePerTickFX)
                 %360;
     }
@@ -237,7 +237,7 @@ public class SwerveRobotModule extends SubsystemBase {
      * @return
      */
     public double getDriveEncoderVelocitySI() {
-        return driveMotor.getSelectedSensorVelocity() * 10.0 // convert from RAW units, which are per 100ms
+        return driveMotor.getRotorVelocity().getValueAsDouble() * 10.0 // convert from RAW units, which are per 100ms
                 * Constants.SwerveChassis.TalonFXSwerveConfiguration.metersPerTickFX;
     }
 
@@ -246,12 +246,12 @@ public class SwerveRobotModule extends SubsystemBase {
      * @return
      */
     public double getAngleEncoderVelocitySI() {
-        return angleMotor.getSelectedSensorVelocity() * 10.0 // convert from RAW units, which are per 100ms 
+        return angleMotor.getRotorVelocity().getValueAsDouble() * 10.0 // convert from RAW units, which are per 100ms 
                 * Constants.SwerveChassis.TalonFXSwerveConfiguration.degreePerTickFX;
     }
 
     private double getCancoderAbsEncoderValue() {
-        return cancoder.getAbsolutePosition();
+        return cancoder.getAbsolutePosition().getValueAsDouble();
     }
 
     public void setAngleMotorChassisAngleSI(double angle) {
