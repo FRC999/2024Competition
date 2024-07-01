@@ -8,6 +8,8 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -256,11 +258,14 @@ public class SwerveRobotModule extends SubsystemBase {
 
     public void setAngleMotorChassisAngleSI(double angle) {
         //angleMotor.set(TalonFXControlMode.MotionMagic, degreesToTicks(angle));
-        angleMotor.set(TalonFXControlMode.Position, degreesToTicks(angle));
+        //angleMotor.set(TalonFXControlMode.Position, degreesToTicks(angle));
+
+        angleMotor.setControl(new PositionDutyCycle(degreesToTicks(angle)));
     }
 
     public void applyPower(double power) {
-        angleMotor.set(TalonFXControlMode.PercentOutput, power);
+        //angleMotor.set(TalonFXControlMode.PercentOutput, power);
+        angleMotor.setControl(new DutyCycleOut(power));
     }
 
     private double degreesToTicks(double degrees) {
