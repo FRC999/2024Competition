@@ -199,7 +199,7 @@ public class SwerveRobotModule extends SubsystemBase {
     }
 
     public double getDriveEncoderPosition() {
-        return driveMotor.getRotorPosition().getValueAsDouble();
+        return driveMotor.getRotorPosition().getValue();
     }
 
     /**
@@ -258,13 +258,10 @@ public class SwerveRobotModule extends SubsystemBase {
 
     public void setAngleMotorChassisAngleSI(double angle) {
         //angleMotor.set(TalonFXControlMode.MotionMagic, degreesToTicks(angle));
-        //angleMotor.set(TalonFXControlMode.Position, degreesToTicks(angle));
-
         angleMotor.setControl(new PositionDutyCycle(degreesToTicks(angle)));
     }
 
     public void applyPower(double power) {
-        //angleMotor.set(TalonFXControlMode.PercentOutput, power);
         angleMotor.setControl(new DutyCycleOut(power));
     }
 
