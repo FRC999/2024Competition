@@ -713,6 +713,9 @@ public final class Constants {
 			public static final double kI = 0.000;
 			public static final double kD = 0.5;
 			public static final double kF = 0;
+			public static final double kS = 0.12;
+			public static final double kV = 0.12;
+			public static final double kA = 0.01;
 			public static final double Acceleration = 6750; // raw sensor units per 100 ms per second
 			public static final double CruiseVelocity = 6750; // raw sensor units per 100 ms
 			public static final int Smoothing = 3; // CurveStrength. 0 to use Trapezoidal Motion Profile. [1,8] for

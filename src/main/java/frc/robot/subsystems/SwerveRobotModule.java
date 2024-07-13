@@ -278,35 +278,47 @@ public class SwerveRobotModule extends SubsystemBase {
         // Disable motor safety so we can use hardware PID
         angleMotor.setSafetyEnabled(false);
 
-        angleMotor.configNeutralDeadband(FXAngle.NeutralDeadband, 30);
+        //angleMotor.configNeutralDeadband(FXAngle.NeutralDeadband, 30);
 
         //TODO: Recheck all of these parameters and set them for FALCON motors
 
-        angleMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, FXAngle.periodMs, FXAngle.timeoutMs);
-        angleMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, FXAngle.periodMs, FXAngle.timeoutMs);
+        //angleMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, FXAngle.periodMs, FXAngle.timeoutMs);
+        //angleMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, FXAngle.periodMs, FXAngle.timeoutMs);
 
-        angleMotor.configPeakOutputForward(+1.0, FXAngle.timeoutMs);
-        angleMotor.configPeakOutputReverse(-1.0, FXAngle.timeoutMs);
-        angleMotor.configNominalOutputForward(0, FXAngle.timeoutMs);
-        angleMotor.configNominalOutputReverse(0, FXAngle.timeoutMs);
+        // angleMotor.configPeakOutputForward(+1.0, FXAngle.timeoutMs);
+        // angleMotor.configPeakOutputReverse(-1.0, FXAngle.timeoutMs);
+        // angleMotor.configNominalOutputForward(0, FXAngle.timeoutMs);
+        // angleMotor.configNominalOutputReverse(0, FXAngle.timeoutMs);
 
         /* FPID Gains */
-        angleMotor.selectProfileSlot(FXAngle.SLOT_0, 0);
-        angleMotor.config_kP(FXAngle.SLOT_0, FXAngle.kP, FXAngle.timeoutMs);
-        angleMotor.config_kI(FXAngle.SLOT_0, FXAngle.kI, FXAngle.timeoutMs);
-        angleMotor.config_kD(FXAngle.SLOT_0, FXAngle.kD, FXAngle.timeoutMs);
-        angleMotor.config_kF(FXAngle.SLOT_0, FXAngle.kF, FXAngle.timeoutMs);
 
-        angleMotor.config_IntegralZone(FXAngle.SLOT_0, FXAngle.Izone, FXAngle.timeoutMs);
-        angleMotor.configClosedLoopPeakOutput(FXAngle.SLOT_0, FXAngle.PeakOutput, FXAngle.timeoutMs);
-        angleMotor.configAllowableClosedloopError(FXAngle.SLOT_0, FXAngle.DefaultAcceptableError,
-                FXAngle.timeoutMs);
+        var talonFXConfigs = new TalonFXConfiguration();
 
-        angleMotor.configClosedLoopPeriod(FXAngle.SLOT_0, FXAngle.closedLoopPeriod, FXAngle.timeoutMs);
+        var slot0Configs = talonFXConfigs.Slot0;
+        slot0Configs.kS = FXAngle.kS;
+        slot0Configs.kP = FXAngle.kP;
+        slot0Configs.kI = FXAngle.kI;
+        slot0Configs.kD = FXAngle.kD;
+        slot0Configs.kV = FXAngle.kV;
+        slot0Configs.kA = FXAngle.kA;
+        
 
-        angleMotor.configMotionAcceleration(FXAngle.Acceleration, FXAngle.timeoutMs);
-        angleMotor.configMotionCruiseVelocity(FXAngle.CruiseVelocity, FXAngle.timeoutMs);
-        angleMotor.configMotionSCurveStrength(FXAngle.Smoothing);
+        //angleMotor.selectProfileSlot(FXAngle.SLOT_0, 0);
+        // angleMotor.config_kP(FXAngle.SLOT_0, FXAngle.kP, FXAngle.timeoutMs);
+        // angleMotor.config_kI(FXAngle.SLOT_0, FXAngle.kI, FXAngle.timeoutMs);
+        // angleMotor.config_kD(FXAngle.SLOT_0, FXAngle.kD, FXAngle.timeoutMs);
+        //angleMotor.config_kF(FXAngle.SLOT_0, FXAngle.kF, FXAngle.timeoutMs);
+
+        //angleMotor.config_IntegralZone(FXAngle.SLOT_0, FXAngle.Izone, FXAngle.timeoutMs);
+        //angleMotor.configClosedLoopPeakOutput(FXAngle.SLOT_0, FXAngle.PeakOutput, FXAngle.timeoutMs);
+        // angleMotor.configAllowableClosedloopError(FXAngle.SLOT_0, FXAngle.DefaultAcceptableError,
+        //         FXAngle.timeoutMs);
+
+        //angleMotor.configClosedLoopPeriod(FXAngle.SLOT_0, FXAngle.closedLoopPeriod, FXAngle.timeoutMs);
+
+        // angleMotor.configMotionAcceleration(FXAngle.Acceleration, FXAngle.timeoutMs);
+        // angleMotor.configMotionCruiseVelocity(FXAngle.CruiseVelocity, FXAngle.timeoutMs);
+        // angleMotor.configMotionSCurveStrength(FXAngle.Smoothing);
     }
 
     // Current limiter configuration for the angle motor
