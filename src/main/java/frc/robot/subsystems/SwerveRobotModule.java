@@ -7,11 +7,14 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -112,7 +115,7 @@ public class SwerveRobotModule extends SubsystemBase {
 
                 driveMotorApplyPower(desiredState.speedMetersPerSecond / SwerveChassis.MAX_VELOCITY);
                 setAngleMotorChassisAngleSI(desiredState.angle.getDegrees()); // Rotation2d angle does not
-                                                                                         // give degrees
+                                                                              // give degrees
                 break;
             case TELEMETRY_ONLY:
                 printSwerveModuleState(desiredState);
@@ -122,7 +125,7 @@ public class SwerveRobotModule extends SubsystemBase {
 
                 driveMotorApplyPower(desiredState.speedMetersPerSecond / SwerveChassis.MAX_VELOCITY);
                 setAngleMotorChassisAngleSI(desiredState.angle.getDegrees()); // Rotation2d angle does not
-                                                                                         // give degrees
+                                                                              // give degrees
                 break;
         }
     }
@@ -148,20 +151,23 @@ public class SwerveRobotModule extends SubsystemBase {
 
     public void configureDriveMotor(Constants.SwerveChassis.SwerveModuleConstantsEnum c) {
 
-        driveMotor.getConfigurator().apply(new TalonFXConfiguration());
+        var talonFXConfigs = new TalonFXConfiguration();
+        var slot0Configs = talonFXConfigs.Slot0;
+
         driveMotor.setInverted(c.isDriveMotorInverted());
 
         // Encoder configuration
         // driveMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-        //      Constants.SwerveChassis.TalonFXSwerveConfiguration.kPIDLoopIdx,
-        //      Constants.SwerveChassis.TalonFXSwerveConfiguration.configureTimeoutMs);
+        // Constants.SwerveChassis.TalonFXSwerveConfiguration.kPIDLoopIdx,
+        // Constants.SwerveChassis.TalonFXSwerveConfiguration.configureTimeoutMs);
 
         // driveMotor.setSensorPhase(c.getDriveMotorSensorPhase());
 
-        configureCurrentLimiterDrive();
+        configureCurrentLimiterDrive(talonFXConfigs);
 
         driveMotorBrakeMode();
 
+        driveMotor.getConfigurator().apply(talonFXConfigs);
     }
 
     public void configureAngleMotor(SwerveModuleConstantsEnum c) {
@@ -178,8 +184,8 @@ public class SwerveRobotModule extends SubsystemBase {
 
         // TODO: Check what TalonFXFeedbackDevice.RemoteSensor0 actually means.
         // angleMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-        //      Constants.SwerveChassis.TalonFXSwerveConfiguration.kPIDLoopIdx,
-        //      Constants.SwerveChassis.TalonFXSwerveConfiguration.configureTimeoutMs);
+        // Constants.SwerveChassis.TalonFXSwerveConfiguration.kPIDLoopIdx,
+        // Constants.SwerveChassis.TalonFXSwerveConfiguration.configureTimeoutMs);
 
         // angleMotor.setSensorPhase(c.getAngleMotorSensorPhase());
 
@@ -187,14 +193,14 @@ public class SwerveRobotModule extends SubsystemBase {
 
         setEncoderforWheelCalibration(c);
 
-        //configureCurrentLimiterAngle();
+        // configureCurrentLimiterAngle();
 
         angleMotorBrakeMode();
 
         // Turn all wheels straight when the robot is turned ON
-        //if (c.getAngleMotorID() == 2) {
-        setAngleMotorChassisAngleSI(0); //Initialization turn wheels to 0 degrees
-        //}
+        // if (c.getAngleMotorID() == 2) {
+        setAngleMotorChassisAngleSI(0); // Initialization turn wheels to 0 degrees
+        // }
 
     }
 
@@ -204,6 +210,7 @@ public class SwerveRobotModule extends SubsystemBase {
 
     /**
      * Get encoder value in RAW units
+     * 
      * @return
      */
     public double getAngleEncoderPosition() {
@@ -231,11 +238,12 @@ public class SwerveRobotModule extends SubsystemBase {
     public double getAngleEncoderPositionSIAbs() {
         return (angleMotor.getRotorPosition().getValueAsDouble()
                 * TalonFXSwerveConfiguration.degreePerTickFX)
-                %360;
+                % 360;
     }
 
     /**
      * Retuns a value in m/s
+     * 
      * @return
      */
     public double getDriveEncoderVelocitySI() {
@@ -245,10 +253,11 @@ public class SwerveRobotModule extends SubsystemBase {
 
     /**
      * Retuns a value in m/s
+     * 
      * @return
      */
     public double getAngleEncoderVelocitySI() {
-        return angleMotor.getRotorVelocity().getValueAsDouble() * 10.0 // convert from RAW units, which are per 100ms 
+        return angleMotor.getRotorVelocity().getValueAsDouble() * 10.0 // convert from RAW units, which are per 100ms
                 * Constants.SwerveChassis.TalonFXSwerveConfiguration.degreePerTickFX;
     }
 
@@ -257,7 +266,7 @@ public class SwerveRobotModule extends SubsystemBase {
     }
 
     public void setAngleMotorChassisAngleSI(double angle) {
-        //angleMotor.set(TalonFXControlMode.MotionMagic, degreesToTicks(angle));
+        // angleMotor.set(TalonFXControlMode.MotionMagic, degreesToTicks(angle));
         angleMotor.setControl(new PositionDutyCycle(degreesToTicks(angle)));
     }
 
@@ -271,6 +280,7 @@ public class SwerveRobotModule extends SubsystemBase {
 
     /**
      * Configure MotionMagic for Angle motor
+     * 
      * @param c
      */
     private void configureMotionMagicAngle(Constants.SwerveChassis.SwerveModuleConstantsEnum c) {
@@ -278,12 +288,14 @@ public class SwerveRobotModule extends SubsystemBase {
         // Disable motor safety so we can use hardware PID
         angleMotor.setSafetyEnabled(false);
 
-        //angleMotor.configNeutralDeadband(FXAngle.NeutralDeadband, 30);
+        // angleMotor.configNeutralDeadband(FXAngle.NeutralDeadband, 30);
 
-        //TODO: Recheck all of these parameters and set them for FALCON motors
+        // TODO: Recheck all of these parameters and set them for FALCON motors
 
-        //angleMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, FXAngle.periodMs, FXAngle.timeoutMs);
-        //angleMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, FXAngle.periodMs, FXAngle.timeoutMs);
+        // angleMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0,
+        // FXAngle.periodMs, FXAngle.timeoutMs);
+        // angleMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets,
+        // FXAngle.periodMs, FXAngle.timeoutMs);
 
         // angleMotor.configPeakOutputForward(+1.0, FXAngle.timeoutMs);
         // angleMotor.configPeakOutputReverse(-1.0, FXAngle.timeoutMs);
@@ -301,50 +313,84 @@ public class SwerveRobotModule extends SubsystemBase {
         slot0Configs.kD = FXAngle.kD;
         slot0Configs.kV = FXAngle.kV;
         slot0Configs.kA = FXAngle.kA;
-        
 
-        //angleMotor.selectProfileSlot(FXAngle.SLOT_0, 0);
+        configureCurrentLimiterAngle(talonFXConfigs);
+
+        // angleMotor.selectProfileSlot(FXAngle.SLOT_0, 0);
         // angleMotor.config_kP(FXAngle.SLOT_0, FXAngle.kP, FXAngle.timeoutMs);
         // angleMotor.config_kI(FXAngle.SLOT_0, FXAngle.kI, FXAngle.timeoutMs);
         // angleMotor.config_kD(FXAngle.SLOT_0, FXAngle.kD, FXAngle.timeoutMs);
-        //angleMotor.config_kF(FXAngle.SLOT_0, FXAngle.kF, FXAngle.timeoutMs);
+        // angleMotor.config_kF(FXAngle.SLOT_0, FXAngle.kF, FXAngle.timeoutMs);
 
-        //angleMotor.config_IntegralZone(FXAngle.SLOT_0, FXAngle.Izone, FXAngle.timeoutMs);
-        //angleMotor.configClosedLoopPeakOutput(FXAngle.SLOT_0, FXAngle.PeakOutput, FXAngle.timeoutMs);
-        // angleMotor.configAllowableClosedloopError(FXAngle.SLOT_0, FXAngle.DefaultAcceptableError,
-        //         FXAngle.timeoutMs);
+        // angleMotor.config_IntegralZone(FXAngle.SLOT_0, FXAngle.Izone,
+        // FXAngle.timeoutMs);
+        // angleMotor.configClosedLoopPeakOutput(FXAngle.SLOT_0, FXAngle.PeakOutput,
+        // FXAngle.timeoutMs);
+        // angleMotor.configAllowableClosedloopError(FXAngle.SLOT_0,
+        // FXAngle.DefaultAcceptableError,
+        // FXAngle.timeoutMs);
 
-        //angleMotor.configClosedLoopPeriod(FXAngle.SLOT_0, FXAngle.closedLoopPeriod, FXAngle.timeoutMs);
+        // angleMotor.configClosedLoopPeriod(FXAngle.SLOT_0, FXAngle.closedLoopPeriod,
+        // FXAngle.timeoutMs);
 
         // angleMotor.configMotionAcceleration(FXAngle.Acceleration, FXAngle.timeoutMs);
-        // angleMotor.configMotionCruiseVelocity(FXAngle.CruiseVelocity, FXAngle.timeoutMs);
+        // angleMotor.configMotionCruiseVelocity(FXAngle.CruiseVelocity,
+        // FXAngle.timeoutMs);
         // angleMotor.configMotionSCurveStrength(FXAngle.Smoothing);
+
+        angleMotor.getConfigurator().apply(talonFXConfigs);
     }
 
     // Current limiter configuration for the angle motor
-    private void configureCurrentLimiterAngle() {
-        angleMotor.configSupplyCurrentLimit( 
-            new SupplyCurrentLimitConfiguration( 
-                TalonFXSwerveConfiguration.angleEnableCurrentLimit, // enable current limit for drive motor
-                TalonFXSwerveConfiguration.angleContinuousCurrentLimit, // continuous draw to drop to
-                TalonFXSwerveConfiguration.anglePeakCurrentLimit, // threshold after which drop to continous limit
-                TalonFXSwerveConfiguration.anglePeakCurrentDuration
-            )
-        );
+    private void configureCurrentLimiterAngle(TalonFXConfiguration tFxConfiguration) {
+        // angleMotor.configSupplyCurrentLimit(
+        // new SupplyCurrentLimitConfiguration(
+        // TalonFXSwerveConfiguration.angleEnableCurrentLimit, // enable current limit
+        // for drive motor
+        // TalonFXSwerveConfiguration.angleContinuousCurrentLimit, // continuous draw to
+        // drop to
+        // TalonFXSwerveConfiguration.anglePeakCurrentLimit, // threshold after which
+        // drop to continous limit
+        // TalonFXSwerveConfiguration.anglePeakCurrentDuration
+        // )
+        // );
         // Not limiting OpenLoopRamp as we want the turn to run as fast as possible
+
+        tFxConfiguration.withCurrentLimits(
+                new CurrentLimitsConfigs()
+                        .withStatorCurrentLimit(
+                            TalonFXSwerveConfiguration.anglePeakCurrentLimit)
+                        .withStatorCurrentLimitEnable(
+                            TalonFXSwerveConfiguration.angleEnableCurrentLimit));
     }
 
     // Current limiter configuration for the drive motor
-    private void configureCurrentLimiterDrive() {
-        driveMotor.configSupplyCurrentLimit( 
-            new SupplyCurrentLimitConfiguration( 
-                TalonFXSwerveConfiguration.driveEnableCurrentLimit, // enable current limit for drive motor
-                TalonFXSwerveConfiguration.driveContinuousCurrentLimit, // continuous draw to drop to
-                TalonFXSwerveConfiguration.drivePeakCurrentLimit, // threshold after which drop to continous limit
-                TalonFXSwerveConfiguration.drivePeakCurrentDuration
-            )
-        );
-        driveMotor.configOpenloopRamp(TalonFXSwerveConfiguration.driveSecondsFromNeutralToFull, TalonFXSwerveConfiguration.configureTimeoutMs);
+    private void configureCurrentLimiterDrive(TalonFXConfiguration tFxConfiguration) {
+        // driveMotor.configSupplyCurrentLimit(
+        // new SupplyCurrentLimitConfiguration(
+        // TalonFXSwerveConfiguration.driveEnableCurrentLimit, // enable current limit
+        // for drive motor
+        // TalonFXSwerveConfiguration.driveContinuousCurrentLimit, // continuous draw to
+        // drop to
+        // TalonFXSwerveConfiguration.drivePeakCurrentLimit, // threshold after which
+        // drop to continous limit
+        // TalonFXSwerveConfiguration.drivePeakCurrentDuration
+        // )
+        // );
+        tFxConfiguration.withCurrentLimits(
+                new CurrentLimitsConfigs()
+                        .withStatorCurrentLimit(
+                            TalonFXSwerveConfiguration.drivePeakCurrentLimit)
+                        .withStatorCurrentLimitEnable(
+                            TalonFXSwerveConfiguration.driveEnableCurrentLimit));
+
+        // driveMotor.configOpenloopRamp(
+        // TalonFXSwerveConfiguration.driveSecondsFromNeutralToFull,
+        // TalonFXSwerveConfiguration.configureTimeoutMs);
+
+        tFxConfiguration.withOpenLoopRamps(new OpenLoopRampsConfigs()
+                .withDutyCycleOpenLoopRampPeriod(
+                    TalonFXSwerveConfiguration.driveSecondsFromNeutralToFull));
     }
 
     /**
@@ -359,10 +405,12 @@ public class SwerveRobotModule extends SubsystemBase {
      * We have not found significant drift/discrepancy between absolute and relative
      * encoder increments, so
      * we do not currently recalibrate relative encoders again during the game.
-     * TalonFX rotates more than ones per rotation of the wheel because of the gearbox.
+     * TalonFX rotates more than ones per rotation of the wheel because of the
+     * gearbox.
      * Note that the wheels do not need to be set "forward" at the beginning of the
      * game. The absolute encoder in CANCODER
-     * will set the right angle-related value to the relative encoder in TalonFX, since
+     * will set the right angle-related value to the relative encoder in TalonFX,
+     * since
      * absolute encoders are not set to 0 after
      * power cycle. The drive routines will then change the wheel positions as
      * needed.
@@ -373,7 +421,7 @@ public class SwerveRobotModule extends SubsystemBase {
         double encoderSetting = 0.0;
 
         // alex test
-        //System.out.println(c.getAngleMotorID()+"#"+getCancoderAbsEncoderValue()+"#"+c.getAngleOffset()+"#");
+        // System.out.println(c.getAngleMotorID()+"#"+getCancoderAbsEncoderValue()+"#"+c.getAngleOffset()+"#");
 
         if (difference < 0) {
             difference += TalonFXSwerveConfiguration.clicksFXPerFullRotation;
@@ -386,27 +434,39 @@ public class SwerveRobotModule extends SubsystemBase {
             encoderSetting = difference - TalonFXSwerveConfiguration.clicksFXPerFullRotation;
         }
 
-        angleMotor.setSelectedSensorPosition(encoderSetting);
+       // angleMotor.setSelectedSensorPosition(encoderSetting);
+       TalonFXConfiguration tFxC = new TalonFXConfiguration();
+
+       tFxC.Feedback.withFeedbackRotorOffset(encoderSetting);
+       angleMotor.getConfigurator().apply(tFxC);
 
         System.out.println("Set encoder for motor " + c.getAngleMotorID() + " to " + encoderSetting);
 
     }
 
     private void driveMotorBrakeMode() {
-        driveMotor.setNeutralMode(NeutralMode.Brake);
+        TalonFXConfiguration tFxC = new TalonFXConfiguration();
+        tFxC.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
+        driveMotor.getConfigurator().apply(tFxC);
+        //driveMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     private void angleMotorBrakeMode() {
-        angleMotor.setNeutralMode(NeutralMode.Brake);
+        TalonFXConfiguration tFxC = new TalonFXConfiguration();
+        tFxC.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
+        angleMotor.getConfigurator().apply(tFxC);
+        //angleMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     @Override
     public void periodic() {
 
         // While we update the current angle of the angle motor for telemetry,
-        // It's not used in the teleop driving, as we use real-time update via getState call.
+        // It's not used in the teleop driving, as we use real-time update via getState
+        // call.
         currentAngle = Rotation2d.fromDegrees(getAngleEncoderPositionSI());
 
-        //integratedAngleEncoder.setPosition(cancoder.getAbsolutePosition() - angleOffset);
+        // integratedAngleEncoder.setPosition(cancoder.getAbsolutePosition() -
+        // angleOffset);
     }
 }
