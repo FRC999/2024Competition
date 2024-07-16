@@ -40,6 +40,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private SparkPIDController armPIDControllerLeft;
   private SparkPIDController armPIDControllerRight;
+  private SparkPIDController armPidControllerLeader;
 
   // We wii use built-in NEO encoders for now
   // They're relative, but we can calibrate them based on second Pigeon on the arm
