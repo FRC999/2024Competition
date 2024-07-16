@@ -1,11 +1,13 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.ctre.phoenix6.configs.Pigeon2Configuration;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.IMUConstants;
 
 @SuppressWarnings({ "removal" })
 
@@ -19,8 +21,9 @@ import frc.robot.RobotContainer;
 
 public class IMUSubsystem extends SubsystemBase {
 
-  private static WPI_Pigeon2 imu; // We will use downcasting to set this - it will point to methods either in NavX
+  // private static WPI_Pigeon2 imu; // We will use downcasting to set this - it will point to methods either in NavX
   // or Pigeon subsystems
+  private static Pigeon2 imu;
 
   private double trajectoryAdjustmentIMU; // This is the value we need to adjust the IMU by after Trajectory
   // is completed
@@ -40,7 +43,12 @@ public class IMUSubsystem extends SubsystemBase {
    */
   public IMUSubsystem() {
 
-    imu = new WPI_Pigeon2(Constants.IMUConstants.PIGEON2_CAN_ID);
+    // imu = new WPI_Pigeon2(Constants.IMUConstants.PIGEON2_CAN_ID);
+    imu = new Pigeon2(Constants.IMUConstants.PIGEON2_CAN_ID, "rio");
+
+    var toApply = new Pigeon2Configuration();
+
+    imu.getConfigurator().apply(toApply, IMUConstants.pigeon2TimeOut);
     
     //I am calling this because for some reason zeroYaw gives error for 
     //  "The method zeroYaw() is undefined for the type WPI_Pigeon2"
@@ -60,7 +68,7 @@ public class IMUSubsystem extends SubsystemBase {
     // return ypr[1];
 
     // Front UP - positive Pitch
-    return -imu.getPitch();
+    return -imu.getPitch().getValueAsDouble();
   }
 
   /**
@@ -75,7 +83,7 @@ public class IMUSubsystem extends SubsystemBase {
     // return ypr[2];
 
     // Left UP - positive Roll
-    return imu.getRoll();
+    return imu.getRoll().getValueAsDouble();
   }
 
   /**
@@ -90,7 +98,7 @@ public class IMUSubsystem extends SubsystemBase {
     // System.out.println(ypr[0]);
     // return ypr[0];
 
-    return imu.getYaw(); // With Pigeon2 this method returns values in degrees
+    return imu.getYaw().getValueAsDouble(); // With Pigeon2 this method returns values in degrees
   }
 
   public Rotation2d getYawRotation2d() {

@@ -301,6 +301,7 @@ public final class Constants {
 	}
 	public static class IMUConstants {
 		public static final int PIGEON2_CAN_ID = 15;
+		public static final double pigeon2TimeOut = 30;
 	}
 
 	public static final class SwerveChassis {
