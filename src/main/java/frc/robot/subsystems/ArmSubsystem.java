@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -40,7 +40,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   private SparkPIDController armPIDControllerLeft;
   private SparkPIDController armPIDControllerRight;
-  private SparkPIDController armPidControllerLeader;
 
   // We wii use built-in NEO encoders for now
   // They're relative, but we can calibrate them based on second Pigeon on the arm
@@ -48,7 +47,7 @@ public class ArmSubsystem extends SubsystemBase {
   private RelativeEncoder armEncoderRight;
   private RelativeEncoder armEncoderLeader;
 
-  private WPI_Pigeon2 armImu;
+  private Pigeon2 armImu;
   private double armEncoderZero;
 
   // private SparkLimitSwitch noteSensor; //limit switch
@@ -92,7 +91,7 @@ public class ArmSubsystem extends SubsystemBase {
     // This IMU should be attached FLAT to the ARM, with X pointing straight
     // forward.
     // The IMU angle will allow us to calibrate NEO encoders rotating the arm.
-    armImu = new WPI_Pigeon2(Arm.PIGEON2_ARM_CAN_ID);
+    armImu = new Pigeon2(Arm.PIGEON2_ARM_CAN_ID, "rio");
 
     calibrateArmEncoderToPitch();
 
@@ -220,7 +219,7 @@ public class ArmSubsystem extends SubsystemBase {
    * @return
    */
   public double getArmIMUPitch() {
-    return -armImu.getPitch();
+    return -armImu.getPitch().getValueAsDouble();
   }
 
   /**
