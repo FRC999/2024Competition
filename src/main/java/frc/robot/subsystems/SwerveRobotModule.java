@@ -227,17 +227,17 @@ public class SwerveRobotModule extends SubsystemBase {
 
     public double getDriveEncoderPositionSI() {
         return driveMotor.getRotorPosition().getValueAsDouble()
-                * TalonFXSwerveConfiguration.metersPerTickFX;
+                * TalonFXSwerveConfiguration.metersPerRotationFX;
     }
 
     public double getAngleEncoderPositionSI() {
         return angleMotor.getRotorPosition().getValueAsDouble()
-                * TalonFXSwerveConfiguration.degreePerTickFX;
+                * TalonFXSwerveConfiguration.degreePerRotationFX;
     }
 
     public double getAngleEncoderPositionSIAbs() {
         return (angleMotor.getRotorPosition().getValueAsDouble()
-                * TalonFXSwerveConfiguration.degreePerTickFX)
+                * TalonFXSwerveConfiguration.degreePerRotationFX)
                 % 360;
     }
 
@@ -248,7 +248,7 @@ public class SwerveRobotModule extends SubsystemBase {
      */
     public double getDriveEncoderVelocitySI() {
         return driveMotor.getRotorVelocity().getValueAsDouble() * 10.0 // convert from RAW units, which are per 100ms
-                * Constants.SwerveChassis.TalonFXSwerveConfiguration.metersPerTickFX;
+                * Constants.SwerveChassis.TalonFXSwerveConfiguration.metersPerRotationFX;
     }
 
     /**
@@ -258,7 +258,7 @@ public class SwerveRobotModule extends SubsystemBase {
      */
     public double getAngleEncoderVelocitySI() {
         return angleMotor.getRotorVelocity().getValueAsDouble() * 10.0 // convert from RAW units, which are per 100ms
-                * Constants.SwerveChassis.TalonFXSwerveConfiguration.degreePerTickFX;
+                * Constants.SwerveChassis.TalonFXSwerveConfiguration.degreePerRotationFX;
     }
 
     private double getCancoderAbsEncoderValue() {
@@ -275,7 +275,7 @@ public class SwerveRobotModule extends SubsystemBase {
     }
 
     private double degreesToTicks(double degrees) {
-        return degrees / TalonFXSwerveConfiguration.degreePerTickFX;
+        return degrees / TalonFXSwerveConfiguration.degreePerRotationFX;
     }
 
     /**
@@ -417,7 +417,7 @@ public class SwerveRobotModule extends SubsystemBase {
      */
     public void setEncoderforWheelCalibration(SwerveModuleConstantsEnum c) {
         double difference = (getCancoderAbsEncoderValue() - c.getAngleOffset())
-                / TalonFXSwerveConfiguration.degreePerTickFX; // cancoder returns Abs value in Degrees
+                / TalonFXSwerveConfiguration.degreePerRotationFX; // cancoder returns Abs value in Degrees
         double encoderSetting = 0.0;
 
         // alex test

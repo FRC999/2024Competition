@@ -382,9 +382,13 @@ public final class Constants {
 
 		public static final double ANGLE_MOTOR_PID_TIMEOUT = 30; // milliseconds
 
-		public static final double ANGLE_MOTOR_VELOCITY_CONVERSION = (360.0 * 10.0) / 4096.0; // conversion factor from
+		//public static final double ANGLE_MOTOR_VELOCITY_CONVERSION = (360.0 * 10.0) / 4096.0; // conversion factor from
 																								// tick/100ms to
 																								// degree/s
+
+		public static final double ANGLE_MOTOR_VELOCITY_CONVERSION = 360.0; // conversion factor from
+																			// rotations/second to
+																			// degree/s
 
 		/**
 		 * Drive Motor PID. Assumed to be the same for all drive motors
@@ -448,9 +452,9 @@ public final class Constants {
 																// in that time; otherwise assume the error
 
 			// Customize the following values to your prototype
-			public static final double metersPerTickFX = (6.75/6.12)*(107.66/100.0)*(1.0 / 48622.0); // measure this number on the robot - remeasure on carpet
+			public static final double metersPerRotationFX = ( (6.75/6.12)*(107.66/100.0)*(1.0 / 48622.0) ) * 2048.0; // measure this number on the robot - remeasure on carpet
 																		// drive motor only
-			public static final double degreePerTickFX = 1.0 / 122.11575; // Angle motor only
+			public static final double degreePerRotationFX = (1.0 / 122.11575) * 2048; // Angle motor only
 			// On our swerve prototype 1 angular rotation of
 			// the wheel = 1 full rotation of the encoder
 
@@ -458,7 +462,7 @@ public final class Constants {
 			public static final boolean kDiscontinuityPresent = true;
 			public static final int kBookEnd_0 = 910; /* 80 deg */
 			public static final int kBookEnd_1 = 1137; /* 100 deg */
-			public static final double clicksFXPerFullRotation = 360.0/degreePerTickFX; // rollover on 999 swerve encoder - we use Falcon FX
+			public static final double clicksFXPerFullRotation = 360.0/degreePerRotationFX; // rollover on 999 swerve encoder - we use Falcon FX
 																	// relative encoders for angle with x:x ratio
 																	// TODO: find out and fix that ratio
 
