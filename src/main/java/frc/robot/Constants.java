@@ -49,7 +49,7 @@ public final class Constants {
 
 	public static final class DebugTelemetrySubsystems {
 		
-		public static final boolean odometry = false;
+		public static final boolean odometry = true;
 		public static final boolean imu = true;
 
 		public static final boolean arm = false;
@@ -587,7 +587,7 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					1, // driveMotorID
 					2, // angleMotorID
-					101.338, // angleOffset of cancoder to mark zero-position
+					101.338 + 180.0, // angleOffset of cancoder to mark zero-position
 					false, // Inversion for drive motor
 					true, // Inversion for angle motor
 					false, // Sensor phase for drive motor
@@ -599,7 +599,7 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					3, // driveMotorID
 					4, // angleMotorID
-					167.6, // angleOffset of cancoder to mark zero-position
+					167.6 + 180.0, // angleOffset of cancoder to mark zero-position
 					false, // Inversion for drive motor
 					true, // Inversion for angle motor
 					false, // Sensor phase for drive motor

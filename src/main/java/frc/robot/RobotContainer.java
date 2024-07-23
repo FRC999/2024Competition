@@ -189,15 +189,14 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     configureTrigger();
- // /* 
+  /* 
     driveSubsystem.setDefaultCommand(
         new DriveManuallyCommand(
             () -> getDriverXAxis(),
             () -> getDriverYAxis(),
             () -> getDriverOmegaAxis(),
             () -> getDriverFieldCentric()));
-
-// */
+- */
 
     AutonomousConfigure();
 
@@ -334,7 +333,7 @@ public class RobotContainer {
 
 
     // Test Motor working, Inversion, and Encder phase - DONE
-    // testCalibrateMotorsAndEncodersButtonBindings();
+    testCalibrateMotorsAndEncodersButtonBindings();
 
     // Test Swerve drive routines - DONE
     // swerveValuesTesting();
