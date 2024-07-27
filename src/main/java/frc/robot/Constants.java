@@ -588,7 +588,7 @@ public final class Constants {
 					1, // driveMotorID
 					2, // angleMotorID
 					101.338 + 180.0, // angleOffset of cancoder to mark zero-position
-					false, // Inversion for drive motor
+					true, // Inversion for drive motor
 					true, // Inversion for angle motor
 					false, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor
@@ -600,7 +600,7 @@ public final class Constants {
 					3, // driveMotorID
 					4, // angleMotorID
 					167.6 + 180.0, // angleOffset of cancoder to mark zero-position
-					false, // Inversion for drive motor
+					true, // Inversion for drive motor
 					true, // Inversion for angle motor
 					false, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor
@@ -613,7 +613,7 @@ public final class Constants {
 					5, // driveMotorID
 					6, // angleMotorID
 					244.6, // angleOffset of cancoder to mark zero-position 
-					false, // Inversion for drive motor
+					true, // Inversion for drive motor
 					true, // Inversion for angle motor
 					true, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor
@@ -626,7 +626,7 @@ public final class Constants {
 					7, // driveMotorID
 					8, // angleMotorID
 					164.092, // angleOffset of cancoder to mark zero-position
-					false, // Inversion for drive motor
+					true, // Inversion for drive motor
 					true, // Inversion for angle motor
 					true, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor

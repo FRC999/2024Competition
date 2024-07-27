@@ -1,12 +1,17 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+//import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -76,7 +81,7 @@ public class SwerveRobotModule extends SubsystemBase {
     }
 
     public double telemetryCANCoderSI() {
-        return cancoder.getAbsolutePosition().getValueAsDouble();
+        return cancoder.getAbsolutePosition().getValueAsDouble() * 360.0;
     }
 
     public void testDriveMotorApplyPower(double power) {
@@ -147,7 +152,11 @@ public class SwerveRobotModule extends SubsystemBase {
         var talonFXConfigs = new TalonFXConfiguration();
         var slot0Configs = talonFXConfigs.Slot0;
 
-        driveMotor.setInverted(c.isDriveMotorInverted());
+        //driveMotor.setInverted(c.isDriveMotorInverted());
+
+        talonFXConfigs.MotorOutput.Inverted = c.isDriveMotorInverted() ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
+
+        System.out.println("MI: "+c.getDriveMotorID()+" "+c.isDriveMotorInverted());
 
         // Encoder configuration
         // driveMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
@@ -158,15 +167,22 @@ public class SwerveRobotModule extends SubsystemBase {
 
         configureCurrentLimiterDrive(talonFXConfigs);
 
+        driveMotor.getConfigurator().apply(talonFXConfigs);
+
         driveMotorBrakeMode();
 
-        driveMotor.getConfigurator().apply(talonFXConfigs);
     }
 
     public void configureAngleMotor(SwerveModuleConstantsEnum c) {
 
-        angleMotor.getConfigurator().apply(new TalonFXConfiguration());
-        angleMotor.setInverted(c.isAngleMotorInverted());
+        var talonFXConfigs = new TalonFXConfiguration();
+        var slot0Configs = talonFXConfigs.Slot0;
+
+        talonFXConfigs.MotorOutput.Inverted = c.isAngleMotorInverted() ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
+        
+       // angleMotor.setInverted(c.isAngleMotorInverted());
+
+        System.out.println("MAI: "+c.getDriveMotorID()+" "+c.isDriveMotorInverted());
 
         /**
          * Configure encoder
@@ -180,19 +196,21 @@ public class SwerveRobotModule extends SubsystemBase {
         // Constants.SwerveChassis.TalonFXSwerveConfiguration.kPIDLoopIdx,
         // Constants.SwerveChassis.TalonFXSwerveConfiguration.configureTimeoutMs);
 
-        // angleMotor.setSensorPhase(c.getAngleMotorSensorPhase());
+        //angleMotor.setSensorPhase(c.getAngleMotorSensorPhase());
 
-        configureMotionMagicAngle(c);
+        configureMotionMagicAngle(c , talonFXConfigs);
 
-        setEncoderforWheelCalibration(c);
+        setEncoderforWheelCalibration(c, talonFXConfigs);
 
-        // configureCurrentLimiterAngle();
+        //configureCurrentLimiterAngle();
+
+        angleMotor.getConfigurator().apply(talonFXConfigs);
 
         angleMotorBrakeMode();
 
         // Turn all wheels straight when the robot is turned ON
         // if (c.getAngleMotorID() == 2) {
-        setAngleMotorChassisAngleSI(0); // Initialization turn wheels to 0 degrees
+        //setAngleMotorChassisAngleSI(0); // Initialization turn wheels to 0 degrees
         // }
 
     }
@@ -265,6 +283,10 @@ public class SwerveRobotModule extends SubsystemBase {
         return (cancoder.getAbsolutePosition().getValueAsDouble() * 360.0 + 360.0) % 360.0;
     }
 
+    private double getCancoderAbsEncoderValue() {
+        return (cancoder.getAbsolutePosition().getValueAsDouble() + 1.0) % 1.0;
+    }
+
     public void setAngleMotorChassisAngleSI(double angle) {
         // angleMotor.set(TalonFXControlMode.MotionMagic, degreesToTicks(angle));
         angleMotor.setControl(new PositionDutyCycle(degreesToRotations(angle)));
@@ -283,7 +305,7 @@ public class SwerveRobotModule extends SubsystemBase {
      * 
      * @param c
      */
-    private void configureMotionMagicAngle(Constants.SwerveChassis.SwerveModuleConstantsEnum c) {
+    private void configureMotionMagicAngle(Constants.SwerveChassis.SwerveModuleConstantsEnum c , TalonFXConfiguration talonFXConfigs) {
 
         // Disable motor safety so we can use hardware PID
         angleMotor.setSafetyEnabled(false);
@@ -304,7 +326,7 @@ public class SwerveRobotModule extends SubsystemBase {
 
         /* FPID Gains */
 
-        var talonFXConfigs = new TalonFXConfiguration();
+        //var talonFXConfigs = new TalonFXConfiguration();
 
         var slot0Configs = talonFXConfigs.Slot0;
         slot0Configs.kS = FXAngle.kS;
@@ -338,7 +360,7 @@ public class SwerveRobotModule extends SubsystemBase {
         // FXAngle.timeoutMs);
         // angleMotor.configMotionSCurveStrength(FXAngle.Smoothing);
 
-        angleMotor.getConfigurator().apply(talonFXConfigs);
+        //angleMotor.getConfigurator().apply(talonFXConfigs);
     }
 
     // Current limiter configuration for the angle motor
@@ -415,8 +437,8 @@ public class SwerveRobotModule extends SubsystemBase {
      * power cycle. The drive routines will then change the wheel positions as
      * needed.
      */
-    public void setEncoderforWheelCalibration(SwerveModuleConstantsEnum c) {
-        double difference = (getCancoderAbsEncoderValueDegrees() - c.getAngleOffset()); // cancoder Method returns Abs
+    public void setEncoderforWheelCalibration(SwerveModuleConstantsEnum c, TalonFXConfiguration tFxC) {
+        double difference = (getCancoderAbsEncoderValue() - c.getAngleOffset()/360.0); // cancoder Method returns Abs
                                                                                         // value in Degrees
         double encoderSetting = 0.0;
 
@@ -425,7 +447,7 @@ public class SwerveRobotModule extends SubsystemBase {
 
         if (difference < 0) {
             // difference += TalonFXSwerveConfiguration.clicksFXPerFullRotation;
-            difference += 360.0;
+            difference += 1.0;
         }
 
         // if (difference <= TalonFXSwerveConfiguration.clicksFXPerFullRotation / 2) {
@@ -436,46 +458,57 @@ public class SwerveRobotModule extends SubsystemBase {
         // TalonFXSwerveConfiguration.clicksFXPerFullRotation;
         // }
 
-        if (difference <= 360.0 / 2.0) {
+        if (difference <= 1.0 / 2.0) {
             encoderSetting = difference;
 
         } else {
-            encoderSetting = difference - 360.0;
+            encoderSetting = difference - 1.0;
         }
 
         // angleMotor.setSelectedSensorPosition(encoderSetting);
-        TalonFXConfiguration tFxC = new TalonFXConfiguration();
+        //TalonFXConfiguration tFxC = new TalonFXConfiguration();
+        System.out.println("AF: " + c.getAngleMotorID() + " " + encoderSetting);
 
-        tFxC.Feedback.withFeedbackRotorOffset(encoderSetting / 360.0);
-        angleMotor.getConfigurator().apply(tFxC);
+        //tFxC.Feedback.withFeedbackRotorOffset(encoderSetting / 360.0);
+        // angleMotor.getConfigurator().apply(tFxC);
+
+        tFxC.Feedback.FeedbackRotorOffset = 1.0 - getAngleEncoderPosition()%1.0 + encoderSetting ;
 
         System.out.println("Set encoder for motor " + c.getAngleMotorID() + " to " + encoderSetting);
 
     }
 
     private void driveMotorBrakeMode() {
-        TalonFXConfiguration tFxC = new TalonFXConfiguration();
+        TalonFXConfigurator tFxCr = driveMotor.getConfigurator();
+        TalonFXConfiguration tFxC = new TalonFXConfiguration() ;
+        tFxCr.refresh(tFxC);
         tFxC.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
         driveMotor.getConfigurator().apply(tFxC);
         // driveMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     private void angleMotorBrakeMode() {
+        TalonFXConfigurator tFxCr = angleMotor.getConfigurator();
         TalonFXConfiguration tFxC = new TalonFXConfiguration();
+        tFxCr.refresh(tFxC);
         tFxC.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
         angleMotor.getConfigurator().apply(tFxC);
         // angleMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     private void driveMotorCoastMode() {
+        TalonFXConfigurator tFxCr = driveMotor.getConfigurator();
         TalonFXConfiguration tFxC = new TalonFXConfiguration();
+        tFxCr.refresh(tFxC);
         tFxC.MotorOutput.withNeutralMode(NeutralModeValue.Coast);
         driveMotor.getConfigurator().apply(tFxC);
         // driveMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     private void angleMotorCoastMode() {
+        TalonFXConfigurator tFxCr = angleMotor.getConfigurator();
         TalonFXConfiguration tFxC = new TalonFXConfiguration();
+        tFxCr.refresh(tFxC);
         tFxC.MotorOutput.withNeutralMode(NeutralModeValue.Coast);
         angleMotor.getConfigurator().apply(tFxC);
         // angleMotor.setNeutralMode(NeutralMode.Brake);
