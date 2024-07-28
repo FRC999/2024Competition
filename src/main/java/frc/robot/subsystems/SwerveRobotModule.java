@@ -283,6 +283,10 @@ public class SwerveRobotModule extends SubsystemBase {
         return (cancoder.getAbsolutePosition().getValueAsDouble() * 360.0 + 360.0) % 360.0;
     }
 
+    /**
+     * Get Cancoder value in rotations; convert it, so always get positive number
+     * @return
+     */
     private double getCancoderAbsEncoderValue() {
         return (cancoder.getAbsolutePosition().getValueAsDouble() + 1.0) % 1.0;
     }
@@ -438,17 +442,27 @@ public class SwerveRobotModule extends SubsystemBase {
      * needed.
      */
     public void setEncoderforWheelCalibration(SwerveModuleConstantsEnum c, TalonFXConfiguration tFxC) {
-        double difference = (getCancoderAbsEncoderValue() - c.getAngleOffset()/360.0); // cancoder Method returns Abs
-                                                                                        // value in Degrees
-        double encoderSetting = 0.0;
+        double encValue = getCancoderAbsEncoderValue(); // current absolute encodervalue
+        double difference = encValue - (c.getAngleOffset()/360.0); // cancoder Method returns Abs value in Rotations
+
+        /*
+         * "difference" added to current angle encoder RAW value should add to a whole number
+         * That would mean that wheels pointing "straight" would have the whole number of rotations on the encoder.
+         * The actual number does not matter, as long as it's a whole integer.
+         * In Phonenix 6 the reporting adjustment to the encoder can only be a fraction between 0 an 1, so
+         * we cannot zero the encoder, like we can in Phoenix 5. But we do not really need to.
+         * Since we reset the TalonFX to factory settings every time we start the robot, our adjustment is done every time as well.
+         */
+                                                                                        
+        double adjustment = 1.0-((encValue-difference) % 1.0) ;
 
         // alex test
         // System.out.println(c.getAngleMotorID()+"#"+getCancoderAbsEncoderValue()+"#"+c.getAngleOffset()+"#");
 
-        if (difference < 0) {
+        //if (difference < 0) {
             // difference += TalonFXSwerveConfiguration.clicksFXPerFullRotation;
-            difference += 1.0;
-        }
+        //    difference += 1.0;
+        //}
 
         // if (difference <= TalonFXSwerveConfiguration.clicksFXPerFullRotation / 2) {
         // encoderSetting = difference;
@@ -458,23 +472,23 @@ public class SwerveRobotModule extends SubsystemBase {
         // TalonFXSwerveConfiguration.clicksFXPerFullRotation;
         // }
 
-        if (difference <= 1.0 / 2.0) {
-            encoderSetting = difference;
+        //if (difference <= 1.0 / 2.0) {
+        //    encoderSetting = difference;
 
-        } else {
-            encoderSetting = difference - 1.0;
-        }
+        //} else {
+        //    encoderSetting = difference - 1.0;
+        //}
 
         // angleMotor.setSelectedSensorPosition(encoderSetting);
         //TalonFXConfiguration tFxC = new TalonFXConfiguration();
-        System.out.println("AF: " + c.getAngleMotorID() + " " + encoderSetting);
+        System.out.println("AF: " + c.getAngleMotorID() + " " + adjustment);
 
         //tFxC.Feedback.withFeedbackRotorOffset(encoderSetting / 360.0);
         // angleMotor.getConfigurator().apply(tFxC);
 
-        tFxC.Feedback.FeedbackRotorOffset = 1.0 - getAngleEncoderPosition()%1.0 + encoderSetting ;
+        tFxC.Feedback.FeedbackRotorOffset = adjustment ;
 
-        System.out.println("Set encoder for motor " + c.getAngleMotorID() + " to " + encoderSetting);
+        System.out.println("Set encoder adjustment for motor " + c.getAngleMotorID() + " to " + adjustment);
 
     }
 
