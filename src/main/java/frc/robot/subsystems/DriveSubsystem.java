@@ -68,6 +68,10 @@ public class DriveSubsystem extends SubsystemBase {
     return swerveMods[modnumber].telemetryCANCoderSI();
   }
 
+  public double telemetryCANCoder(int modnumber) {
+    return swerveMods[modnumber].telemetryCANCoder();
+  }
+
   public void stopDriveMotor(int modnumber) {
     swerveMods[modnumber].driveMotorApplyPower(0);
   }

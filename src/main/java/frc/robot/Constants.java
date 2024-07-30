@@ -612,7 +612,7 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					5, // driveMotorID
 					6, // angleMotorID
-					244.6, // angleOffset of cancoder to mark zero-position 
+					244.6 - 180.0, // angleOffset of cancoder to mark zero-position 
 					true, // Inversion for drive motor
 					true, // Inversion for angle motor
 					true, // Sensor phase for drive motor
@@ -625,7 +625,7 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					7, // driveMotorID
 					8, // angleMotorID
-					164.092, // angleOffset of cancoder to mark zero-position
+					164.092 + 180.0, // angleOffset of cancoder to mark zero-position
 					true, // Inversion for drive motor
 					true, // Inversion for angle motor
 					true, // Sensor phase for drive motor

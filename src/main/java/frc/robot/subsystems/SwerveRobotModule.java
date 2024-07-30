@@ -84,6 +84,10 @@ public class SwerveRobotModule extends SubsystemBase {
         return cancoder.getAbsolutePosition().getValueAsDouble() * 360.0;
     }
 
+    public double telemetryCANCoder() {
+        return cancoder.getAbsolutePosition().getValueAsDouble();
+    }
+
     public void testDriveMotorApplyPower(double power) {
         driveMotor.set(power);
     }
@@ -176,6 +180,13 @@ public class SwerveRobotModule extends SubsystemBase {
     public void configureAngleMotor(SwerveModuleConstantsEnum c) {
 
         var talonFXConfigs = new TalonFXConfiguration();
+        talonFXConfigs.Feedback.FeedbackRotorOffset = 0;
+        angleMotor.getConfigurator().apply(talonFXConfigs);
+        var rs = angleMotor.getRotorPosition();
+        rs.waitForUpdate(0.2);
+        System.out.println("E:"+getAngleEncoderPosition());
+        //  return;
+         
         var slot0Configs = talonFXConfigs.Slot0;
 
         talonFXConfigs.MotorOutput.Inverted = c.isAngleMotorInverted() ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
@@ -444,6 +455,7 @@ public class SwerveRobotModule extends SubsystemBase {
     public void setEncoderforWheelCalibration(SwerveModuleConstantsEnum c, TalonFXConfiguration tFxC) {
         double encValue = getCancoderAbsEncoderValue(); // current absolute encodervalue
         double difference = encValue - (c.getAngleOffset()/360.0); // cancoder Method returns Abs value in Rotations
+        double mEncValue = getAngleEncoderPosition();
 
         /*
          * "difference" added to current angle encoder RAW value should add to a whole number
@@ -453,11 +465,16 @@ public class SwerveRobotModule extends SubsystemBase {
          * we cannot zero the encoder, like we can in Phoenix 5. But we do not really need to.
          * Since we reset the TalonFX to factory settings every time we start the robot, our adjustment is done every time as well.
          */
-                                                                                        
-        double adjustment = 1.0-((encValue-difference) % 1.0) ;
+
+        double adjustment = ((mEncValue-difference) % 1.0) ;
 
         // alex test
-        // System.out.println(c.getAngleMotorID()+"#"+getCancoderAbsEncoderValue()+"#"+c.getAngleOffset()+"#");
+        // System.out.println(c.getAngleMotorID()
+        //     + " CAE: " + getCancoderAbsEncoderValue()
+        //     + " AO: " + c.getAngleOffset()/360.0 
+        //     + " AEP: " + mEncValue
+        //     + " D: " + difference
+        //     + " A: " + adjustment);
 
         //if (difference < 0) {
             // difference += TalonFXSwerveConfiguration.clicksFXPerFullRotation;
@@ -481,7 +498,7 @@ public class SwerveRobotModule extends SubsystemBase {
 
         // angleMotor.setSelectedSensorPosition(encoderSetting);
         //TalonFXConfiguration tFxC = new TalonFXConfiguration();
-        System.out.println("AF: " + c.getAngleMotorID() + " " + adjustment);
+        System.out.println("AF: " + c.getAngleMotorID() + " " + -adjustment);
 
         //tFxC.Feedback.withFeedbackRotorOffset(encoderSetting / 360.0);
         // angleMotor.getConfigurator().apply(tFxC);
