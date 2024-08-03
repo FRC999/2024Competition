@@ -333,7 +333,7 @@ public class RobotContainer {
 
 
     // Test Motor working, Inversion, and Encder phase - DONE
-    testCalibrateMotorsAndEncodersButtonBindings();
+    //testCalibrateMotorsAndEncodersButtonBindings();
 
     // Test Swerve drive routines - DONE
     // swerveValuesTesting();
@@ -369,8 +369,9 @@ public class RobotContainer {
     //testAuto();
 
     // Mohawk, practice and competition
-    competitionCommandsForDriverController();
-    competitionCommandsForGPMController();
+    //competitionCommandsForDriverController();
+    //competitionCommandsForGPMController();
+
 
     // test climber poses
     //System.out.println("****====CP14:"+Constants.VisionConstants.LimeLightConstants.robotClimbingPoses.get(15.0));
@@ -378,6 +379,7 @@ public class RobotContainer {
     // alex test - motor power
     // testCalibrateMotorsAndEncodersButtonBindings();
     //swerveValuesTesting();
+    anglePIDTesting();
   }
 
   // Driver preferred controls
@@ -456,6 +458,20 @@ public class RobotContainer {
         .whileTrue(new InstantCommand(() -> RobotContainer.driveSubsystem.testAngleMotorEncoderPhase(3)))
         .whileFalse(new InstantCommand(() -> RobotContainer.driveSubsystem.stopAngleMotor(3)));
   }
+
+  private void anglePIDTesting() {
+    new JoystickButton(driveStick, 7)
+        .onTrue(new InstantCommand(() -> RobotContainer.driveSubsystem.testAngleMotorPID(0, 0)))
+        .onFalse(new InstantCommand(() -> RobotContainer.driveSubsystem.stopAngleMotor(0)));
+
+    new JoystickButton(driveStick, 8)
+        .onTrue(new InstantCommand(() -> RobotContainer.driveSubsystem.testAngleMotorPID(0, 45)))
+        .onFalse(new InstantCommand(() -> RobotContainer.driveSubsystem.stopAngleMotor(0)));
+  
+    new JoystickButton(driveStick, 9)
+        .onTrue(new InstantCommand(() -> RobotContainer.driveSubsystem.testAngleMotorPID(0, -45)))
+        .onFalse(new InstantCommand(() -> RobotContainer.driveSubsystem.stopAngleMotor(0)));
+} 
 
   @SuppressWarnings("unused")
   private void swerveValuesTesting() { // Field centric numbers applied

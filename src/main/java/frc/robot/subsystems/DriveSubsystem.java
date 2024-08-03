@@ -262,6 +262,9 @@ public class DriveSubsystem extends SubsystemBase {
     swerveMods[modnumber].testAngleMotorApplyPower(0.3);
   }
 
+  public void testAngleMotorPID(int modnumber, double angle) {
+    swerveMods[modnumber].setAngleMotorChassisAngleSI(angle);
+  }
 
   /**
    * PathPlanner 2024-specific new methods

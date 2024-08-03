@@ -714,9 +714,9 @@ public final class Constants {
 		public static final class FXAngle {
 
 			public static final int SLOT_0 = 0;
-			public static final double kP = 0.5;
+			public static final double kP = 0.3;
 			public static final double kI = 0.000;
-			public static final double kD = 0.5;
+			public static final double kD = 0.005;
 			public static final double kF = 0;
 			public static final double kS = 0.12;
 			public static final double kV = 0.12;

@@ -38,6 +38,8 @@ public class SwerveRobotModule extends SubsystemBase {
     private double angleOffset;
     private double lastAngle;
 
+    private double zeroPosition;
+
     private Rotation2d currentAngle = new Rotation2d();
 
     SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.SwerveChassis.DRIVE_KS,
@@ -180,20 +182,13 @@ public class SwerveRobotModule extends SubsystemBase {
     public void configureAngleMotor(SwerveModuleConstantsEnum c) {
 
         var talonFXConfigs = new TalonFXConfiguration();
-        talonFXConfigs.Feedback.FeedbackRotorOffset = 0;
-        angleMotor.getConfigurator().apply(talonFXConfigs);
-        var rs = angleMotor.getRotorPosition();
-        rs.waitForUpdate(0.2);
-        System.out.println("E:"+getAngleEncoderPosition());
         //  return;
          
         var slot0Configs = talonFXConfigs.Slot0;
 
         talonFXConfigs.MotorOutput.Inverted = c.isAngleMotorInverted() ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
         
-       // angleMotor.setInverted(c.isAngleMotorInverted());
 
-        System.out.println("MAI: "+c.getDriveMotorID()+" "+c.isDriveMotorInverted());
 
         /**
          * Configure encoder
@@ -304,7 +299,9 @@ public class SwerveRobotModule extends SubsystemBase {
 
     public void setAngleMotorChassisAngleSI(double angle) {
         // angleMotor.set(TalonFXControlMode.MotionMagic, degreesToTicks(angle));
-        angleMotor.setControl(new PositionDutyCycle(degreesToRotations(angle)));
+       // angleMotor.setControl(new PositionDutyCycle(degreesToRotations(angle)));
+       angleMotor.setControl(new PositionDutyCycle(zeroPosition + degreesToRotations(angle)));
+      //System.out.println(" R: " + zeroPosition + degreesToRotations(angle));
     }
 
     public void applyPower(double power) {
@@ -455,57 +452,17 @@ public class SwerveRobotModule extends SubsystemBase {
     public void setEncoderforWheelCalibration(SwerveModuleConstantsEnum c, TalonFXConfiguration tFxC) {
         double encValue = getCancoderAbsEncoderValue(); // current absolute encodervalue
         double difference = encValue - (c.getAngleOffset()/360.0); // cancoder Method returns Abs value in Rotations
+        //converting the difference between the straight position to the current position to range -0.5 to 0.5
+        difference = (difference > 0.5) ? (difference - 1.0) : difference;
+        difference = (difference < -0.5) ? (difference + 1.0) : difference;
         double mEncValue = getAngleEncoderPosition();
-
-        /*
-         * "difference" added to current angle encoder RAW value should add to a whole number
-         * That would mean that wheels pointing "straight" would have the whole number of rotations on the encoder.
-         * The actual number does not matter, as long as it's a whole integer.
-         * In Phonenix 6 the reporting adjustment to the encoder can only be a fraction between 0 an 1, so
-         * we cannot zero the encoder, like we can in Phoenix 5. But we do not really need to.
-         * Since we reset the TalonFX to factory settings every time we start the robot, our adjustment is done every time as well.
-         */
-
-        double adjustment = ((mEncValue-difference) % 1.0) ;
-
-        // alex test
-        // System.out.println(c.getAngleMotorID()
-        //     + " CAE: " + getCancoderAbsEncoderValue()
-        //     + " AO: " + c.getAngleOffset()/360.0 
-        //     + " AEP: " + mEncValue
-        //     + " D: " + difference
-        //     + " A: " + adjustment);
-
-        //if (difference < 0) {
-            // difference += TalonFXSwerveConfiguration.clicksFXPerFullRotation;
-        //    difference += 1.0;
-        //}
-
-        // if (difference <= TalonFXSwerveConfiguration.clicksFXPerFullRotation / 2) {
-        // encoderSetting = difference;
-
-        // } else {
-        // encoderSetting = difference -
-        // TalonFXSwerveConfiguration.clicksFXPerFullRotation;
-        // }
-
-        //if (difference <= 1.0 / 2.0) {
-        //    encoderSetting = difference;
-
-        //} else {
-        //    encoderSetting = difference - 1.0;
-        //}
-
-        // angleMotor.setSelectedSensorPosition(encoderSetting);
-        //TalonFXConfiguration tFxC = new TalonFXConfiguration();
-        System.out.println("AF: " + c.getAngleMotorID() + " " + -adjustment);
-
-        //tFxC.Feedback.withFeedbackRotorOffset(encoderSetting / 360.0);
-        // angleMotor.getConfigurator().apply(tFxC);
-
-        tFxC.Feedback.FeedbackRotorOffset = adjustment ;
-
-        System.out.println("Set encoder adjustment for motor " + c.getAngleMotorID() + " to " + adjustment);
+        zeroPosition = mEncValue - difference * 360.0 / TalonFXSwerveConfiguration.degreePerRotationFX;
+        System.out.println("M: " + c.getAngleMotorID() + 
+            " C: " + encValue +
+            " O: " + (c.getAngleOffset()/360.0) +
+            " D: " + difference +
+            " ME: " + mEncValue +
+            " Z: " + zeroPosition);
 
     }
 
