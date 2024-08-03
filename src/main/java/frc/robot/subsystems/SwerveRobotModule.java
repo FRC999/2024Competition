@@ -111,8 +111,11 @@ public class SwerveRobotModule extends SubsystemBase {
     }
 
     public void setDesiredState(SwerveModuleState desiredState) {
-
         desiredState = SwerveModuleState.optimize(desiredState, getState().angle);
+        
+        System.out.println(" M: " + moduleNumber +
+            " OA: " + getState().angle +
+            " DA: " + desiredState.angle);
 
         switch (SwerveTelemetry.swerveDriveOrTelemetry) {
             case DRIVE_ONLY:
@@ -453,8 +456,9 @@ public class SwerveRobotModule extends SubsystemBase {
         double encValue = getCancoderAbsEncoderValue(); // current absolute encodervalue
         double difference = encValue - (c.getAngleOffset()/360.0); // cancoder Method returns Abs value in Rotations
         //converting the difference between the straight position to the current position to range -0.5 to 0.5
-        difference = (difference > 0.5) ? (difference - 1.0) : difference;
-        difference = (difference < -0.5) ? (difference + 1.0) : difference;
+        //difference = (difference > 0.5) ? (difference - 1.0) : difference;
+        //difference = (difference < -0.5) ? (difference + 1.0) : difference;
+        difference = (difference + 2.0) % 1.0;
         double mEncValue = getAngleEncoderPosition();
         zeroPosition = mEncValue - difference * 360.0 / TalonFXSwerveConfiguration.degreePerRotationFX;
         System.out.println("M: " + c.getAngleMotorID() + 

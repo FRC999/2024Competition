@@ -189,14 +189,14 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     configureTrigger();
-  /* 
+   
     driveSubsystem.setDefaultCommand(
         new DriveManuallyCommand(
             () -> getDriverXAxis(),
             () -> getDriverYAxis(),
             () -> getDriverOmegaAxis(),
             () -> getDriverFieldCentric()));
-- */
+
 
     AutonomousConfigure();
 
@@ -369,7 +369,7 @@ public class RobotContainer {
     //testAuto();
 
     // Mohawk, practice and competition
-    //competitionCommandsForDriverController();
+    competitionCommandsForDriverController();
     //competitionCommandsForGPMController();
 
 
@@ -379,7 +379,7 @@ public class RobotContainer {
     // alex test - motor power
     // testCalibrateMotorsAndEncodersButtonBindings();
     //swerveValuesTesting();
-    anglePIDTesting();
+    //anglePIDTesting();
   }
 
   // Driver preferred controls
