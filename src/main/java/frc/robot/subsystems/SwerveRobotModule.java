@@ -113,9 +113,9 @@ public class SwerveRobotModule extends SubsystemBase {
     public void setDesiredState(SwerveModuleState desiredState) {
         desiredState = SwerveModuleState.optimize(desiredState, getState().angle);
         
-        System.out.println(" M: " + moduleNumber +
-            " OA: " + getState().angle +
-            " DA: " + desiredState.angle);
+        // System.out.println(" M: " + moduleNumber +
+        //     " OA: " + getState().angle +
+        //     " DA: " + desiredState.angle);
 
         switch (SwerveTelemetry.swerveDriveOrTelemetry) {
             case DRIVE_ONLY:
@@ -251,7 +251,7 @@ public class SwerveRobotModule extends SubsystemBase {
     }
 
     public double getAngleEncoderPositionSI() {
-        return angleMotor.getRotorPosition().getValueAsDouble()
+        return (angleMotor.getRotorPosition().getValueAsDouble() - zeroPosition)
                 * TalonFXSwerveConfiguration.degreePerRotationFX;
     }
 
