@@ -182,6 +182,13 @@ public class SwerveRobotModule extends SubsystemBase {
 
         driveMotor.getConfigurator().apply(talonFXConfigs);
 
+        // Status frames/updates
+        driveMotor.getPosition().setUpdateFrequency(100, 0.030);
+        driveMotor.getVelocity().setUpdateFrequency(100, 0.030);
+        driveMotor.getRotorPosition().setUpdateFrequency(100, 0.030);
+        driveMotor.getRotorVelocity().setUpdateFrequency(100, 0.030);
+        driveMotor.getDutyCycle().setUpdateFrequency(100, 0.030);
+
         driveMotorBrakeMode();
 
     }
