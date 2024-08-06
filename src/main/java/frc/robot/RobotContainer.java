@@ -366,10 +366,10 @@ public class RobotContainer {
     //testIntake();
     //testArm();
     //testClimber();
-    //testAuto();
+    testAuto();
 
     // Mohawk, practice and competition
-    competitionCommandsForDriverController();
+    //competitionCommandsForDriverController();
     //competitionCommandsForGPMController();
 
 
@@ -878,6 +878,9 @@ public class RobotContainer {
   }
 
   public void testAuto() {
+    new JoystickButton(driveStick, 1)
+        .onTrue(new AutonomousTrajectory2Poses(new Pose2d(), new Pose2d(1, 0, new Rotation2d())))
+        .onFalse(new StopAllMotorsCommand());
     
     new JoystickButton(driveStick, 7)
         .onTrue(new AutoCBlueMid4NotesOptimized())

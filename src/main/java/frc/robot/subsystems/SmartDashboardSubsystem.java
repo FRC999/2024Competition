@@ -30,6 +30,7 @@ public class SmartDashboardSubsystem extends SubsystemBase {
        //SmartDashboard.putNumber("S"+i+" Drive Encoder", RobotContainer.driveSubsystem.telemetryDriveEncoderSI(i));
        SmartDashboard.putNumber("S"+i+" CANCoder", RobotContainer.driveSubsystem.telemetryCANCoder(i));
       
+      SmartDashboard.putNumber("S"+i+" Drive Encoder SI", RobotContainer.driveSubsystem.telemetryDriveEncoderSI(i));
     }
     
   }

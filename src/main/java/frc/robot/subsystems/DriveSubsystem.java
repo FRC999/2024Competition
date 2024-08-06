@@ -64,6 +64,10 @@ public class DriveSubsystem extends SubsystemBase {
     return swerveMods[modnumber].telemetryDriveEncoder();
   }
 
+  public double telemetryDriveEncoderSI(int modnumber) {
+    return swerveMods[modnumber].telemetryDriveEncoderSI();
+  }
+
   public double telemetryCANCoderSI(int modnumber) {
     return swerveMods[modnumber].telemetryCANCoderSI();
   }

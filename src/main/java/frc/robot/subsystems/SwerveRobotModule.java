@@ -82,6 +82,10 @@ public class SwerveRobotModule extends SubsystemBase {
         return getDriveEncoderPosition();
     }
 
+    public double telemetryDriveEncoderSI() {
+        return getDriveEncoderPositionSI();
+    }
+
     public double telemetryCANCoderSI() {
         return cancoder.getAbsolutePosition().getValueAsDouble() * 360.0;
     }
@@ -227,6 +231,7 @@ public class SwerveRobotModule extends SubsystemBase {
     public double getDriveEncoderPosition() {
         return driveMotor.getRotorPosition().getValue();
     }
+
 
     /**
      * Get encoder value in RAW units
