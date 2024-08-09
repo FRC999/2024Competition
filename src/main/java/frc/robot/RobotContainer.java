@@ -81,6 +81,7 @@ import frc.robot.commands.TurnToRelativeAngleSoftwarePIDCommand;
 import frc.robot.lib.GPMHelpers;
 import frc.robot.lib.TrajectoryHelpers;
 import frc.robot.commands.AutonomousTrajectory2PosesDynamic;
+import frc.robot.commands.AutonomousTrajectoryRioCommand;
 import frc.robot.commands.CalibrateArmPowerFF;
 import frc.robot.commands.CalibrateIntakePower;
 import frc.robot.commands.CalibrateShooterPower;
@@ -881,7 +882,19 @@ public class RobotContainer {
     new JoystickButton(driveStick, 1)
         .onTrue(new AutonomousTrajectory2Poses(new Pose2d(), new Pose2d(1, 0, new Rotation2d())))
         .onFalse(new StopAllMotorsCommand());
-    
+
+    new JoystickButton(driveStick, 2)
+        .onTrue(new RunTrajectorySequenceRobotAtStartPoint("2023OneMeterForward"))
+        .onFalse(new StopAllMotorsCommand());
+            
+    new JoystickButton(driveStick, 3)
+        .onTrue(new AutonomousTrajectory2Poses(new Pose2d(), new Pose2d(2, 0, new Rotation2d())))
+        .onFalse(new StopAllMotorsCommand());
+
+    new JoystickButton(driveStick, 4)
+        .onTrue(new AutonomousTrajectory2Poses(new Pose2d(), new Pose2d(1, 1, new Rotation2d())))
+        .onFalse(new StopAllMotorsCommand());
+
     new JoystickButton(driveStick, 7)
         .onTrue(new AutoCBlueMid4NotesOptimized())
         .onFalse(new StopAllMotorsCommand());

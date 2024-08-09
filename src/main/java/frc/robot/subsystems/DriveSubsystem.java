@@ -225,7 +225,7 @@ public class DriveSubsystem extends SubsystemBase {
       System.out.println("PoseSupplier: "+getPose());
       Rotation2d r = RobotContainer.imuSubsystem.getYawRotation2d();
       SwerveModulePosition[] s = getPositions();
-      odometryCommandTelemetry(r, s);
+      //odometryCommandTelemetry(r, s);
       swerveOdometry.update(r, s);
       odometryTelemetry();
     } else {

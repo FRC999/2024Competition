@@ -473,12 +473,12 @@ public class SwerveRobotModule extends SubsystemBase {
         difference = (difference + 2.0) % 1.0;
         double mEncValue = getAngleEncoderPosition();
         zeroPosition = mEncValue - difference * 360.0 / TalonFXSwerveConfiguration.degreePerRotationFX;
-        System.out.println("M: " + c.getAngleMotorID() + 
-            " C: " + encValue +
-            " O: " + (c.getAngleOffset()/360.0) +
-            " D: " + difference +
-            " ME: " + mEncValue +
-            " Z: " + zeroPosition);
+        //System.out.println("M: " + c.getAngleMotorID() + 
+        //    " C: " + encValue +
+        //    " O: " + (c.getAngleOffset()/360.0) +
+        //    " D: " + difference +
+        //    " ME: " + mEncValue +
+        //    " Z: " + zeroPosition);
 
     }
 
