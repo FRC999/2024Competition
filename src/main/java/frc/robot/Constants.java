@@ -587,8 +587,11 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					1, // driveMotorID
 					2, // angleMotorID
-					101.338 + 180.0, // angleOffset of cancoder to mark zero-position
-					true, // Inversion for drive motor
+					//101.338 + 180.0, // angleOffset of cancoder to mark zero-position
+					//258.310595,
+					//-0.484863 + 360,
+					-0.000244 +360,
+					false, // Inversion for drive motor
 					true, // Inversion for angle motor
 					false, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor
@@ -599,7 +602,10 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					3, // driveMotorID
 					4, // angleMotorID
-					167.6 + 180.0, // angleOffset of cancoder to mark zero-position
+					//167.6 + 180.0, // angleOffset of cancoder to mark zero-position
+					//14.765,
+					//0.003662,
+					0.002441,
 					true, // Inversion for drive motor
 					true, // Inversion for angle motor
 					false, // Sensor phase for drive motor
@@ -612,8 +618,11 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					5, // driveMotorID
 					6, // angleMotorID
-					244.6 - 180.0, // angleOffset of cancoder to mark zero-position 
-					true, // Inversion for drive motor
+					//244.6 - 180.0, // angleOffset of cancoder to mark zero-position 
+					//114.16999,
+					//-0.011475 + 360,
+					0.005859,
+					false, // Inversion for drive motor
 					true, // Inversion for angle motor
 					true, // Sensor phase for drive motor
 					false, // Sensor phase for angle motor
@@ -625,7 +634,10 @@ public final class Constants {
 					BaseMotorControllerTypes.TALON_FX, // Angle motor type
 					7, // driveMotorID
 					8, // angleMotorID
-					164.092 + 180.0, // angleOffset of cancoder to mark zero-position
+					//164.092 + 180.0, // angleOffset of cancoder to mark zero-position
+					//20.74218,
+					//-0.453369 + 360,
+					0.016846,
 					true, // Inversion for drive motor
 					true, // Inversion for angle motor
 					true, // Sensor phase for drive motor
