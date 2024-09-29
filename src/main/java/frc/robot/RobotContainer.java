@@ -370,8 +370,8 @@ public class RobotContainer {
     testAuto();
 
     // Mohawk, practice and competition
-    //competitionCommandsForDriverController();
-    //competitionCommandsForGPMController();
+    competitionCommandsForDriverController();
+    competitionCommandsForGPMController();
 
 
     // test climber poses
