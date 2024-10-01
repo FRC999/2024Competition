@@ -367,7 +367,7 @@ public class RobotContainer {
     //testIntake();
     //testArm();
     //testClimber();
-    testAuto();
+    // testAuto();
 
     // Mohawk, practice and competition
     competitionCommandsForDriverController();

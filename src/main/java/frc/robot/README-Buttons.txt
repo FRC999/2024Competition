@@ -10,3 +10,4 @@ Button A - AMP Shooting Sequence
 Button B - Close Speaker Shooting Sequence
 Button X - AMP Shooting PreSequence
 Button Y - Shoot using LimeLight
+Press Left Joystick - Intake down
