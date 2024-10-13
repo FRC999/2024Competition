@@ -15,6 +15,11 @@ public class PhotonVisionNoteHuntingSubsystem extends SubsystemBase {
   PhotonCamera camera;
   private boolean cameraConnected = true;
   private double xAngleToNoteSaved = 0;
+  private double yAngleToNoteSaved = 0;
+
+  private double heightOfCamera = 0.232;
+  private double cameraPitchOffset = 2.519;
+  private double centerOfRobotToCamera = 0.28;
 
   /** Creates a new PhotonVisionNoteHuntingSubsystem. */
   public PhotonVisionNoteHuntingSubsystem(String cameraName) {
@@ -65,6 +70,26 @@ public class PhotonVisionNoteHuntingSubsystem extends SubsystemBase {
 
   }
 
+  public double yAngleToNote() {
+
+    //if (!cameraConnected) {
+    //  return 0;
+    //}
+
+    try {
+      var result = camera.getLatestResult();
+
+      if (!result.hasTargets()) { // I do not see notes return 0 angle
+        return 0;
+      }
+      PhotonTrackedTarget target = result.getBestTarget();
+      return target.getPitch(); 
+    } catch (Exception e) {
+      return 0;
+    }
+
+  }
+
   public void xAngleToNoteSaved() {
 
     //if (!cameraConnected) {
@@ -85,6 +110,29 @@ public class PhotonVisionNoteHuntingSubsystem extends SubsystemBase {
 
   }
 
+   public void xyAngleToNoteSaved() {
+
+    //if (!cameraConnected) {
+    //  return 0;
+    //}
+
+    try {
+      var result = camera.getLatestResult();
+
+      if (!result.hasTargets()) { // I do not see notes return 0 angle
+        xAngleToNoteSaved = Double.NaN;
+        yAngleToNoteSaved = Double.NaN;
+      }
+      PhotonTrackedTarget target = result.getBestTarget();
+      xAngleToNoteSaved = -target.getYaw(); // getYaw here returns negative right
+      yAngleToNoteSaved = target.getPitch();
+    } catch (Exception e) {
+        xAngleToNoteSaved = Double.NaN;
+        yAngleToNoteSaved = Double.NaN;
+    }
+
+  }
+
   public double getxAngleToNoteSaved(){
 
     System.out.println("X : " + xAngleToNoteSaved);
@@ -92,8 +140,36 @@ public class PhotonVisionNoteHuntingSubsystem extends SubsystemBase {
     
   }
 
+  public double getyAngleToNoteSaved(){
+
+    System.out.println("y : " + yAngleToNoteSaved);
+    return yAngleToNoteSaved;
+    
+  }
+
   public void resetXAngleToNoteSaved() {
     xAngleToNoteSaved = 0;
+  }
+
+  public void resetYAngleToNoteSaved() {
+    yAngleToNoteSaved = 0;
+  }
+
+  public double fromCameraToTarget(double pitch, double yaw) {
+    double alpha = Math.toRadians(-pitch + cameraPitchOffset);
+    double yawForCalculation = Math.toRadians(Math.abs(yaw));
+
+    double targetHorizontalDistance = heightOfCamera/Math.tan(alpha);
+
+    return targetHorizontalDistance/Math.cos(yawForCalculation);
+  }
+
+  public double angleToTurnToNote(double yaw, double distance) {
+    double alpha = Math.toRadians(180 - yaw);
+    double centerOfRobotToTarget = Math.pow(centerOfRobotToCamera, 2) + Math.pow(distance, 2) - 
+    2*centerOfRobotToCamera*distance*Math.cos(alpha);
+    double beta = Math.toDegrees(Math.asin((Math.sin(alpha)*distance)/centerOfRobotToTarget));
+    return beta;
   }
 
   @Override

@@ -373,6 +373,7 @@ public class RobotContainer {
     competitionCommandsForDriverController();
     competitionCommandsForGPMController();
 
+    testNotePickup();
 
     // test climber poses
     //System.out.println("****====CP14:"+Constants.VisionConstants.LimeLightConstants.robotClimbingPoses.get(15.0));
@@ -723,9 +724,7 @@ public class RobotContainer {
         .onTrue(new IntakeRun(Intake.INTAKE_NOTE_SPEW_POWER))
         .onFalse(new IntakeStop());
 
-    //new JoystickButton(xboxDriveController, 1) // Button A - double-check
-    //          .onTrue(new NotePickupCamera())
-    //          .onFalse(new StopChassis());
+   
 
 
   }
@@ -934,6 +933,12 @@ public class RobotContainer {
 
     
         
+  }
+
+  public void testNotePickup(){
+    new JoystickButton(xboxDriveController, 1) // Button A - double-check
+            .onTrue(new NotePickupCamera())
+            .onFalse(new StopChassis());
   }
 
   // Aliiance color determination

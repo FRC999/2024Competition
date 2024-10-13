@@ -6,11 +6,13 @@ package frc.robot.commands;
 
 import java.util.Set;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants.autoPoses;
 import frc.robot.lib.TrajectoryHelpers;
@@ -25,11 +27,29 @@ public class NotePickupCamera extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ArmDownToNoteVisionForAutoNotePickup(),
-      new InstantCommand(() ->
-        RobotContainer.photonVisionNoteHuntingSubsystem.xAngleToNoteSaved()),
+      new DeferredCommand(
+        ()-> new InstantCommand(RobotContainer.photonVisionNoteHuntingSubsystem::xyAngleToNoteSaved)
+              .andThen(new PrintCommand("P-A:"
+                +RobotContainer.photonVisionNoteHuntingSubsystem.getxAngleToNoteSaved()
+                +","+RobotContainer.photonVisionNoteHuntingSubsystem.getyAngleToNoteSaved()
+                ))
+        , Set.of()),
 
-      new PrintCommand("NP-A:"+RobotContainer.photonVisionNoteHuntingSubsystem.getxAngleToNoteSaved()),
+      new DeferredCommand(
+        () -> new TurnToRelativeAngleSoftwarePIDCommand(
+          () -> Rotation2d.fromDegrees(
+            RobotContainer.photonVisionNoteHuntingSubsystem.angleToTurnToNote(
+              RobotContainer.photonVisionNoteHuntingSubsystem.getxAngleToNoteSaved()
+            , 
+              RobotContainer.photonVisionNoteHuntingSubsystem.fromCameraToTarget(
+                RobotContainer.photonVisionNoteHuntingSubsystem.getyAngleToNoteSaved(),
+                RobotContainer.photonVisionNoteHuntingSubsystem.getxAngleToNoteSaved())
+            )
+          )
+        )  
+      , Set.of()),
 
+        /*
       new ConditionalCommand( // only shoot if picked up the note
         (new DeferredCommand(
             () -> new AutonomousTrajectory3Poses( // drive and run intake to pickup 1st note
@@ -59,7 +79,7 @@ public class NotePickupCamera extends SequentialCommandGroup {
     new ShooterStop(), // stop shooter
     new IntakeStop(), // stop intake
     new ControllerRumbleStop(),
-    
+    */
     new PrintCommand("Note Pickup Command Done")
 
     );

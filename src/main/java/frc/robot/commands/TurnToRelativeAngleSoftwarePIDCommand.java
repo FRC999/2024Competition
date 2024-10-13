@@ -8,21 +8,25 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.SwerveChassis;
 
 public class TurnToRelativeAngleSoftwarePIDCommand extends Command {
 
+	private final double MaxAngularRate = 1.5 * Math.PI;
+	private final double maxAngularAcceleration = 37.6992;
+
 	// Software PID turn constants
-	private final double kP = 0.15958;
+	private final double kP = 6.0;//1.5958;
 	private final double kI = 0.02;
 	private final double kD = 0.0;
-	private final double minOmega = 0.37;
+	private final double minOmega = 10.0;
 	Rotation2d angle;
 	Supplier<Rotation2d> angleSupplier;
-	private double kMaxSpeed = SwerveChassis.MAX_ANGULAR_VELOCITY; // radians per second
-	private double kMaxAccel = Math.PI * 16; // radians per second square
+	private double kMaxSpeed = MaxAngularRate*0.5; // radians per second
+	private double kMaxAccel = maxAngularAcceleration*0.5; // radians per second square
 	//private double kMaxSpeed = 360;
 	//private double kMaxAccel = 720;
 	private TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(kMaxSpeed, kMaxAccel);
@@ -30,6 +34,9 @@ public class TurnToRelativeAngleSoftwarePIDCommand extends Command {
 	private double tolerance = 0.5; // degrees of tolerance to end the command
 	private double finalGoal = 0.0;
 
+  private TrapezoidProfile.State m_goal = new TrapezoidProfile.State();
+  private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
+  private final Timer m_timer = new Timer();
 	/**
 	 * This class is used to rotate the robot to RELATIVE dynamic angle using software PID
 	 * using drive() method of the DriveSubsystem
@@ -40,7 +47,7 @@ public class TurnToRelativeAngleSoftwarePIDCommand extends Command {
 		angleSupplier = a;
 		addRequirements(RobotContainer.driveSubsystem);
 		//profiledPID.enableContinuousInput(0, 360);
-		profiledPID.disableContinuousInput();
+		//profiledPID.disableContinuousInput();
 		profiledPID.setTolerance(tolerance);
 	}
 
@@ -50,17 +57,20 @@ public class TurnToRelativeAngleSoftwarePIDCommand extends Command {
 		finalGoal = RobotContainer.imuSubsystem.getYaw()+angle.getDegrees();
 		profiledPID.reset();
 		profiledPID.setSetpoint(finalGoal);
+
+		System.out.println("Angle: " + angle + "  Final Goal: " + finalGoal);
 	}
 
 	@Override
 	public void execute() {
-		double omegaDegPerSec = MathUtil.clamp(profiledPID.calculate(RobotContainer.imuSubsystem.getYaw()),-0.85,0.85);
+		double omegaDegPerSec = MathUtil.clamp(profiledPID.calculate(RobotContainer.imuSubsystem.getYaw()),-100,100);
 		//System.out.println("O1:"+omegaDegPerSec);
 		omegaDegPerSec = (omegaDegPerSec<0)? omegaDegPerSec - minOmega :  omegaDegPerSec + minOmega ;
+		double omegaRadPerSec = Math.toRadians(omegaDegPerSec);
 		//System.out.println("******yaw: " + RobotContainer.imuSubsystem.getYaw() + " a: " + angle.getDegrees() + " g: " +finalGoal + " o: " + Units.degreesToRadians(omegaDegPerSec)/ SwerveChassis.MAX_ANGULAR_VELOCITY);
-		RobotContainer.driveSubsystem.drive(0, 0, omegaDegPerSec, true);
+		RobotContainer.driveSubsystem.drive(0, 0, omegaRadPerSec, true);
 		//profiledPID.setGoal(RobotContainer.imuSubsystem.getYaw()+angle.getDegrees());  // get new YAW
-		//System.out.println("O2:"+omegaDegPerSec);
+		System.out.println("O2:"+omegaRadPerSec);
 	}
 
 	@Override
