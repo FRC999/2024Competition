@@ -1037,13 +1037,18 @@ public final class Constants {
 			RED_MID_POS_OUT(fieldSizeX-BLUE_MID_POS_OUT.getPose().getX(), BLUE_MID_POS_OUT.getPose().getY(), 180),
 			RED_LOWER_POS_OUT(fieldSizeX-BLUE_LOWER_POS_OUT.getPose().getX(), BLUE_LOWER_POS_OUT.getPose().getY(), 180),
 
-			BLUE_HIGHER_RING(2.896,7.015,0),
-			BLUE_MID_RING(2.896,5.5535,0),
-			BLUE_LOWER_RING(2.896,4.0055,0),
+			//BLUE_HIGHER_RING(2.896,7.015,0),
+			//BLUE_MID_RING(2.896,5.5535,0),
+			//BLUE_LOWER_RING(2.896,4.0055,0),
 
-			RED_HIGHER_RING(fieldSizeX-BLUE_HIGHER_RING.getPose().getX(), BLUE_HIGHER_RING.getPose().getY(),180),
-			RED_MID_RING(fieldSizeX-BLUE_MID_RING.getPose().getX(), BLUE_MID_RING.getPose().getY(),180),
-			RED_LOWER_RING(fieldSizeX-BLUE_LOWER_RING.getPose().getX(), BLUE_LOWER_RING.getPose().getY(),180),
+			BLUE_HIGHER_RING(2.896 + 0.2,7.015,0),
+			BLUE_MID_RING(2.896 + 0.2,5.5535,0),
+			BLUE_LOWER_RING(2.896 + 0.2,4.0055,0),
+
+
+			RED_HIGHER_RING(fieldSizeX-BLUE_HIGHER_RING.getPose().getX() - 0.2, BLUE_HIGHER_RING.getPose().getY(),180),
+			RED_MID_RING(fieldSizeX-BLUE_MID_RING.getPose().getX() - 0.2, BLUE_MID_RING.getPose().getY(),180),
+			RED_LOWER_RING(fieldSizeX-BLUE_LOWER_RING.getPose().getX() - 0.2, BLUE_LOWER_RING.getPose().getY(),180),
 
 			BLUE_HIGHER_RING_TAKE_START(1.909,7.0115,0),
 			BLUE_MID_RING_TAKE_START(1.909,5.5535,0),
